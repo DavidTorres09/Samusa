@@ -1,0 +1,6 @@
+@Samusa_Back_HostAddress = http://localhost:5146
+
+GET {{Samusa_Back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
