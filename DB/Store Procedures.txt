@@ -1,0 +1,171 @@
+--- PROCEDURES ---
+USE SAMUSADB;
+
+------------------------------------------------------------------------------------------
+
+-- Add Client
+CREATE PROCEDURE usp_addClient (
+    @dni INT,
+    @nombre VARCHAR(25),
+    @primerApellido VARCHAR(25),
+    @segundoApellido VARCHAR(25) = NULL,
+    @telefono VARCHAR(20) = NULL,
+    @email VARCHAR(40) = NULL,
+    @esNacional BIT = 0,
+    @usuario VARCHAR(25),
+    @password VARCHAR(100),
+    @direccion VARCHAR(80)
+)
+AS
+BEGIN
+    -- Insertar en Persona
+    INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password)
+    VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password);
+
+    -- Insertar en Cliente
+    INSERT INTO Cliente (DNI, Direccion)
+    VALUES (@dni, @direccion);
+END;
+
+-- to call from db:
+EXEC usp_addClient
+    @dni = 1234567890,
+    @nombre = 'Nuevo',
+    @primerApellido = 'Cliente',
+	@segundoApellido = 'Test',
+    @telefono = '1234567890',
+	@email = 'test@gmail.com',
+	@esNacional = 0,
+    @usuario = 'nuevoCliente123',
+    @password = 'hashed_password',
+    @direccion = 'Calle X #456';
+
+------------------------------------------------------------------------------------------
+
+-- ModifyClient
+CREATE PROCEDURE usp_modifyClient (
+    @dni INT,
+    @newDireccion VARCHAR(80),
+    @newNombre VARCHAR(25),
+    @newPrimerApellido VARCHAR(25),
+    @newSegundoApellido VARCHAR(25),
+    @newTelefono VARCHAR(20),
+    @newEmail VARCHAR(40),
+    @newEsNacional BIT,
+    @newUsuario VARCHAR(25),
+    @newPassword VARCHAR(100)
+)
+AS
+BEGIN
+    -- Update Cliente
+    UPDATE Cliente
+    SET Direccion = @newDireccion
+    WHERE DNI = @dni;
+
+    -- Update Persona
+    UPDATE Persona
+    SET Nombre = @newNombre,
+        PrimerApellido = @newPrimerApellido,
+        SegundoApellido = @newSegundoApellido,
+        Telefono = @newTelefono,
+        Email = @newEmail,
+        EsNacional = @newEsNacional,
+        Usuario = @newUsuario,
+        Password = @newPassword
+    WHERE DNI = @dni;
+END;
+
+--to call from db
+EXEC usp_modifyClient
+    @dni = 1234567890,
+    @newDireccion = 'New Address',
+    @newNombre = 'New Name',
+    @newPrimerApellido = 'New First Lastname',
+    @newSegundoApellido = 'New Second Lastname',
+    @newTelefono = 'New Phone',
+    @newEmail = 'new.email@example.com',
+    @newEsNacional = 1, -- 1 for true, 0 for false
+    @newUsuario = 'NewUsername',
+    @newPassword = 'new_hashed_password';
+
+------------------------------------------------------------------------------------------
+
+-- GetClient --
+CREATE PROCEDURE usp_getClients
+AS
+BEGIN
+    SELECT
+        P.DNI,
+        P.Nombre,
+        P.PrimerApellido,
+        P.SegundoApellido,
+        P.Telefono,
+        P.Email,
+        P.EsNacional,
+        P.Usuario,
+		P.Password,
+        C.Direccion
+    FROM
+        Persona P
+    JOIN
+        Cliente C ON P.DNI = C.DNI
+END;
+
+-- to call from db
+EXEC usp_getClients;
+
+------------------------------------------------------------------------------------------
+
+-- To get only one client --
+CREATE PROCEDURE usp_getSingleClient (
+    @dni INT
+)
+AS
+BEGIN
+    SELECT
+        P.DNI,
+        P.Nombre,
+        P.PrimerApellido,
+        P.SegundoApellido,
+        P.Telefono,
+        P.Email,
+        P.EsNacional,
+        P.Usuario,
+		P.Password,
+        C.Direccion
+    FROM
+        Persona P
+    INNER JOIN
+        Cliente C ON P.DNI = C.DNI
+    WHERE
+        P.DNI = @dni;
+END;
+
+-- to call from db
+EXEC usp_getSingleClient @dni = 1234567890;
+
+------------------------------------------------------------------------------------------
+
+-- Delete Client
+CREATE PROCEDURE usp_deleteClients (
+    @dni INT
+)
+AS
+BEGIN
+    -- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    -- Eliminar en Cliente
+    DELETE FROM Cliente
+    WHERE DNI = @dni;
+
+    -- Eliminar en Persona
+    DELETE FROM Persona
+    WHERE DNI = @dni;
+END;
+
+-- to call from db
+EXEC usp_deleteClients @dni = 1234567890;

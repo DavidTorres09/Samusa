@@ -1,0 +1,22 @@
+----- Some inserts -----
+
+-- Paso 1: Insertar en Persona
+INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password)
+VALUES 
+(123456789, 'Juan', 'Perez', 'Gonzalez', '1234567890', 'juan@example.com', 1, 'juanito123', 'hashed_password');
+
+-- Paso 2: Insertar en Cliente utilizando el DNI generado en el Paso 1
+INSERT INTO Cliente (DNI, Direccion)
+VALUES 
+(123456789, 'Calle A #123');
+
+
+-- Paso 1: Insertar en Persona
+INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password)
+VALUES 
+(555555555, 'Carlos', 'Gomez', 'Rodriguez', '5555555555', 'carlos@example.com', 1, 'carlitos', 'hashed_password');
+
+-- Paso 2: Insertar en Colaborador utilizando el DNI generado en el Paso 1
+INSERT INTO Colaborador (DNI_Persona, Direccion)
+VALUES 
+(555555555, 'Oficina Z, Edificio A');
