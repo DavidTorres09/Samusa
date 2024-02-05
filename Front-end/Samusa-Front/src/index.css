@@ -37,6 +37,21 @@ Principal rgb(231, 174, 17);
   h1, h2, h3, h4, h5, h6 {
     font-size: 100%;
   }
+  #servicios .container {
+   margin-top: 0vh;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    margin-top: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+
+  .text-content h1 {
+    font-size: 3vh;
+  }
+
   }
   
   html {

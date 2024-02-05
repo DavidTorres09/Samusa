@@ -1,8 +1,9 @@
 /* Seccion de inicio' */
 
+
 .split-screen {
     display: flex;
-    height: 65vh;
+    height: 100vh;
     overflow: hidden; 
 }
 
@@ -32,6 +33,7 @@
 }
 
 .text-content h1 {
+    font-size: 5vh;
     color: #5fc9f3;
 }
 
@@ -65,11 +67,16 @@
     background-color: #1b1b1b;
     color: #ffffff;
     padding: 50px 0;
+
+    height: 100vh;
 }
 
 #quienes-somos .container {
     width: 80%;
     margin: 0 auto;
+
+    margin-top: 30.5vh;
+
     text-align: center;
     animation: fadeInUp 1.5s ease-out;
 }
@@ -104,12 +111,16 @@
     background: #081f37;
     color: #fff;
     padding: 60px 0;
+
+    height: 100vh;
 }
 
 #servicios .container {
     width: 80%;
     margin: auto;
     text-align: center;
+
+    margin-top: 25.5vh;
 }
 
 #servicios h2 {
@@ -189,12 +200,16 @@
     background: #212121; 
     color: #ffffff;
     padding: 60px 0;
+
+    height: 100vh;
 }
 
 #qa .container {
     width: 80%;
     margin: auto;
     text-align: left;
+
+    margin-top: 1.5vh;
 }
 
 #qa h2 {
