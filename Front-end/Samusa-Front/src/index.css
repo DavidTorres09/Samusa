@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* GENERAL */
+/* colores
+
+Azules claros
+Principal background: #5dacbd; 
+oscuro background: #24527a; 
+Claro background: #a7bcb9;
+muy claro background: #e0ebeb;
+
+Azules oscuros
+Principal background: #1e549f; 
+oscuro background: #081f37; 
+Claro background: #2e79ba;
+muy claro background: #5fc9f3;
+
+
+Dorado 
+Principal rgb(231, 174, 17);
+*/
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+  }
+  
+  @media (max-width: 576px) {
+  body {
+    font-size: 100%;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+  }
+  }
+  
+  html {
+  scroll-behavior: smooth;
+  }
+
+  body{
+    background-color: #212121;
+    color: #081f37;
+  }
