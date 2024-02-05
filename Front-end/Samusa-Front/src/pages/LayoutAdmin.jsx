@@ -13,7 +13,8 @@ const navigation = [
   { name: 'Tickets', href: '#', current: false },
   { name: 'Paqueteria', href: '#', current: false },
   { name: 'Importaciones', href: '#', current: false },
-  { name: 'Exportaciones', href: '#', current: false }
+  { name: 'Exportaciones', href: '#', current: false },
+  { name: 'Clientes', href: '#', current: false }
 ]
 
 const userNavigation = [
