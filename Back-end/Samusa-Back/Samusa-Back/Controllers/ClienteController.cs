@@ -6,7 +6,7 @@ using System.Data.SqlTypes;
 namespace Samusa_Back.Controllers
 {
     [ApiController]
-    [Route("api/samusa/persona")]
+    [Route("api/samusa/cliente")]
     public class ClienteController : ControllerBase
     {
 
