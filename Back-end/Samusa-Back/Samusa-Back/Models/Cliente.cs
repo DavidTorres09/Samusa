@@ -5,11 +5,11 @@ namespace Samusa_Back.Models;
 
 public partial class Cliente
 {
-    public decimal Idcliente { get; set; }
+    public int Idcliente { get; set; }
 
     public string Direccion { get; set; } = null!;
 
-    public decimal DniPersona { get; set; }
+    public int DniPersona { get; set; }
 
     public virtual Persona DniPersonaNavigation { get; set; } = null!;
 }

@@ -7,13 +7,13 @@ public partial class Soporte
 {
     public int Idformulario { get; set; }
 
-    public decimal IdDni { get; set; }
+    public int IdDni { get; set; }
 
     public DateTime FechaInicio { get; set; }
 
-    public DateOnly FechaFinalizacion { get; set; }
+    public DateTime FechaFinalizacion { get; set; }
 
-    public DateOnly? FechaEsperada { get; set; }
+    public DateTime? FechaEsperada { get; set; }
 
     public string Prioridad { get; set; } = null!;
 

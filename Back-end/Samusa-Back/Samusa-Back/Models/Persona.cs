@@ -5,7 +5,7 @@ namespace Samusa_Back.Models;
 
 public partial class Persona
 {
-    public decimal Dni { get; set; }
+    public int Dni { get; set; }
 
     public string Nombre { get; set; } = null!;
 
@@ -13,11 +13,17 @@ public partial class Persona
 
     public string? SegundoApellido { get; set; }
 
-    public decimal? Telefono { get; set; }
+    public string? Telefono { get; set; }
 
     public string Email { get; set; } = null!;
 
     public bool EsNacional { get; set; }
+
+    public string Usuario { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
+
+    public string Rol { get; set; } = null!;
 
     public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
 

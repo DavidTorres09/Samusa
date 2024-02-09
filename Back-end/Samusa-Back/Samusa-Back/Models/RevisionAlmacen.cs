@@ -17,11 +17,11 @@ public partial class RevisionAlmacen
 
     public decimal CostoVehiculo { get; set; }
 
-    public decimal AnioVehiculo { get; set; }
+    public int AnioVehiculo { get; set; }
 
-    public decimal DniDueno { get; set; }
+    public int DniDueno { get; set; }
 
-    public decimal? Placa { get; set; }
+    public int? Placa { get; set; }
 
     public string EstadoOp { get; set; } = null!;
 }

@@ -48,14 +48,12 @@ public partial class SamusadbContext : DbContext
             entity.ToTable("Cliente");
 
             entity.Property(e => e.Idcliente)
-                .HasColumnType("numeric(9, 0)")
+                .ValueGeneratedNever()
                 .HasColumnName("IDCliente");
             entity.Property(e => e.Direccion)
                 .HasMaxLength(80)
                 .IsUnicode(false);
-            entity.Property(e => e.DniPersona)
-                .HasColumnType("numeric(12, 0)")
-                .HasColumnName("DNI_Persona");
+            entity.Property(e => e.DniPersona).HasColumnName("DNI_Persona");
 
             entity.HasOne(d => d.DniPersonaNavigation).WithMany(p => p.Clientes)
                 .HasForeignKey(d => d.DniPersona)
@@ -70,14 +68,9 @@ public partial class SamusadbContext : DbContext
             entity.ToTable("Colaborador");
 
             entity.Property(e => e.Idcolaborador)
-                .HasColumnType("numeric(9, 0)")
+                .ValueGeneratedNever()
                 .HasColumnName("IDColaborador");
-            entity.Property(e => e.DniPersona)
-                .HasColumnType("numeric(12, 0)")
-                .HasColumnName("DNI_Persona");
-            entity.Property(e => e.Puesto)
-                .HasMaxLength(80)
-                .IsUnicode(false);
+            entity.Property(e => e.DniPersona).HasColumnName("DNI_Persona");
 
             entity.HasOne(d => d.DniPersonaNavigation).WithMany(p => p.Colaboradors)
                 .HasForeignKey(d => d.DniPersona)
@@ -94,16 +87,9 @@ public partial class SamusadbContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
-            entity.Property(e => e.IdDni)
-                .HasColumnType("numeric(12, 0)")
-                .HasColumnName("ID_DNI");
-            entity.Property(e => e.Idcolaborador)
-                .HasColumnType("numeric(9, 0)")
-                .HasColumnName("IDColaborador");
-            entity.Property(e => e.PorcentajeImp)
-                .HasMaxLength(35)
-                .IsUnicode(false)
-                .HasColumnName("PorcentajeIMP");
+            entity.Property(e => e.IdDni).HasColumnName("ID_DNI");
+            entity.Property(e => e.Idcolaborador).HasColumnName("IDColaborador");
+            entity.Property(e => e.PorcentajeImp).HasColumnName("PorcentajeIMP");
             entity.Property(e => e.Producto)
                 .HasMaxLength(20)
                 .IsUnicode(false);
@@ -127,10 +113,10 @@ public partial class SamusadbContext : DbContext
             entity.HasKey(e => e.IdexpSeguimiento).HasName("PK_IDExpSeguimiento");
 
             entity.Property(e => e.IdexpSeguimiento).HasColumnName("IDExpSeguimiento");
+            entity.Property(e => e.FechaEsperada).HasColumnType("datetime");
+            entity.Property(e => e.FechaFinalizacion).HasColumnType("datetime");
             entity.Property(e => e.FechaInicio).HasColumnType("datetime");
-            entity.Property(e => e.IdDni)
-                .HasColumnType("numeric(12, 0)")
-                .HasColumnName("ID_DNI");
+            entity.Property(e => e.IdDni).HasColumnName("ID_DNI");
             entity.Property(e => e.Prioridad)
                 .HasMaxLength(80)
                 .IsUnicode(false);
@@ -166,10 +152,10 @@ public partial class SamusadbContext : DbContext
             entity.HasKey(e => e.IdimpSeguimiento).HasName("PK_IDImpSeguimiento");
 
             entity.Property(e => e.IdimpSeguimiento).HasColumnName("IDImpSeguimiento");
+            entity.Property(e => e.FechaEsperada).HasColumnType("datetime");
+            entity.Property(e => e.FechaFinalizacion).HasColumnType("datetime");
             entity.Property(e => e.FechaInicio).HasColumnType("datetime");
-            entity.Property(e => e.IdDni)
-                .HasColumnType("numeric(12, 0)")
-                .HasColumnName("ID_DNI");
+            entity.Property(e => e.IdDni).HasColumnName("ID_DNI");
             entity.Property(e => e.Prioridad)
                 .HasMaxLength(80)
                 .IsUnicode(false);
@@ -191,9 +177,9 @@ public partial class SamusadbContext : DbContext
             entity.Property(e => e.DirectOrigen)
                 .HasMaxLength(200)
                 .IsUnicode(false);
-            entity.Property(e => e.IdDni)
-                .HasColumnType("numeric(12, 0)")
-                .HasColumnName("ID_DNI");
+            entity.Property(e => e.FechaEsperada).HasColumnType("datetime");
+            entity.Property(e => e.FechaRegistro).HasColumnType("datetime");
+            entity.Property(e => e.IdDni).HasColumnName("ID_DNI");
             entity.Property(e => e.NumCasillero)
                 .HasMaxLength(80)
                 .IsUnicode(false);
@@ -217,7 +203,7 @@ public partial class SamusadbContext : DbContext
             entity.ToTable("Persona");
 
             entity.Property(e => e.Dni)
-                .HasColumnType("numeric(12, 0)")
+                .ValueGeneratedNever()
                 .HasColumnName("DNI");
             entity.Property(e => e.Email)
                 .HasMaxLength(40)
@@ -225,13 +211,24 @@ public partial class SamusadbContext : DbContext
             entity.Property(e => e.Nombre)
                 .HasMaxLength(25)
                 .IsUnicode(false);
+            entity.Property(e => e.Password)
+                .HasMaxLength(250)
+                .IsUnicode(false);
             entity.Property(e => e.PrimerApellido)
                 .HasMaxLength(25)
+                .IsUnicode(false);
+            entity.Property(e => e.Rol)
+                .HasMaxLength(75)
                 .IsUnicode(false);
             entity.Property(e => e.SegundoApellido)
                 .HasMaxLength(25)
                 .IsUnicode(false);
-            entity.Property(e => e.Telefono).HasColumnType("numeric(8, 0)");
+            entity.Property(e => e.Telefono)
+                .HasMaxLength(25)
+                .IsUnicode(false);
+            entity.Property(e => e.Usuario)
+                .HasMaxLength(250)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<RevisionAlmacen>(entity =>
@@ -244,14 +241,11 @@ public partial class SamusadbContext : DbContext
                 .HasMaxLength(35)
                 .IsUnicode(false)
                 .HasColumnName("VIN");
-            entity.Property(e => e.AnioVehiculo).HasColumnType("numeric(9, 0)");
             entity.Property(e => e.Color)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.CostoVehiculo).HasColumnType("numeric(9, 0)");
-            entity.Property(e => e.DniDueno)
-                .HasColumnType("numeric(12, 0)")
-                .HasColumnName("DNI_Dueno");
+            entity.Property(e => e.CostoVehiculo).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.DniDueno).HasColumnName("DNI_Dueno");
             entity.Property(e => e.EstadoOp)
                 .HasMaxLength(20)
                 .IsUnicode(false)
@@ -265,7 +259,6 @@ public partial class SamusadbContext : DbContext
             entity.Property(e => e.Modelo)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.Placa).HasColumnType("numeric(9, 0)");
         });
 
         modelBuilder.Entity<Soporte>(entity =>
@@ -275,10 +268,10 @@ public partial class SamusadbContext : DbContext
             entity.ToTable("Soporte");
 
             entity.Property(e => e.Idformulario).HasColumnName("IDFormulario");
+            entity.Property(e => e.FechaEsperada).HasColumnType("datetime");
+            entity.Property(e => e.FechaFinalizacion).HasColumnType("datetime");
             entity.Property(e => e.FechaInicio).HasColumnType("datetime");
-            entity.Property(e => e.IdDni)
-                .HasColumnType("numeric(12, 0)")
-                .HasColumnName("ID_DNI");
+            entity.Property(e => e.IdDni).HasColumnName("ID_DNI");
             entity.Property(e => e.Prioridad)
                 .HasMaxLength(80)
                 .IsUnicode(false);
