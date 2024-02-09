@@ -2,13 +2,13 @@ import Layout from "../Layout";
 import Footer from "../../components/Footer";
 import "../../css/user/Index.css";
 
+
 function IndexUser () {
 
     return (
         <div style={{ marginBottom: '1%' }}>
 
         <Layout></Layout>
-
         <section id="inicio" class="split-screen">
         <div class="left-half" id="image-side">
             
@@ -77,7 +77,7 @@ function IndexUser () {
         </div>
     );
 }
-document.querySelectorAll('.qa-item').forEach(item => { // Interruptor estilo para QA
+/*document.querySelectorAll('.qa-item').forEach(item => { // Interruptor estilo para QA
     item.addEventListener('click', () => {
         const answer = item.querySelector('.respuesta');
         answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
@@ -92,5 +92,5 @@ document.addEventListener('DOMContentLoaded', function() { // Animacion del inic
         textSide.style.width = '50%';
     }, 500);
 });
-
+*/
 export default IndexUser;

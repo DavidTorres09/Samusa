@@ -155,15 +155,5 @@ namespace Samusa_Back.Controllers
 
         }
 
-
-
-
-
-
-
-
-
-
-
     }
 }

@@ -6,15 +6,20 @@ import Layout from './pages/Layout'
 import LayoutAdmin from './pages/LayoutAdmin'
 import Login from './pages/Login'
 import IndexUser from './pages/User/IndexUser'
+import RecuperarPass from './pages/RecuperarPass'
 
 function App() {
+  
   const [count, setCount] = useState(0)
 
   return (
     <>
       <IndexUser/>
+      <Login/>
+      
+      
     </>
   )
 }
-
+//
 export default App
