@@ -1,22 +1,17 @@
------ Some inserts -----
-
--- Paso 1: Insertar en Persona
-INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password)
+INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password, Rol)
 VALUES 
-(123456789, 'Juan', 'Perez', 'Gonzalez', '1234567890', 'juan@example.com', 1, 'juanito123', 'hashed_password');
+(123456789, 'Juan', 'García', 'López', '123456789', 'juan@example.com', 1, 'juang', 'contraseña123', 'Cliente'),
+(234567890, 'María', 'Martínez', 'Fernández', '234567890', 'maria@example.com', 1, 'mariam', 'password456', 'Cliente'),
+(345678901, 'Pedro', 'Sánchez', 'Gómez', '345678901', 'pedro@example.com', 1, 'pedros', 'clave789', 'Colaborador'),
+(456789012, 'Laura', 'González', 'Rodríguez', '456789012', 'laura@example.com', 1, 'laurag', 'securepassword', 'Colaborador');
 
--- Paso 2: Insertar en Cliente utilizando el DNI generado en el Paso 1
-INSERT INTO Cliente (DNI, Direccion)
+
+INSERT INTO Cliente (IDCliente, Direccion, DNI_Persona)
 VALUES 
-(123456789, 'Calle A #123');
+(1, 'Calle Principal 123', 123456789),
+(2, 'Avenida Central 456', 234567890);
 
-
--- Paso 1: Insertar en Persona
-INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password)
+INSERT INTO Colaborador (IDColaborador, FechaIngreso, DNI_Persona)
 VALUES 
-(555555555, 'Carlos', 'Gomez', 'Rodriguez', '5555555555', 'carlos@example.com', 1, 'carlitos', 'hashed_password');
-
--- Paso 2: Insertar en Colaborador utilizando el DNI generado en el Paso 1
-INSERT INTO Colaborador (DNI_Persona, Direccion)
-VALUES 
-(555555555, 'Oficina Z, Edificio A');
+(1, '2023-01-15', 345678901),
+(2, '2022-05-20', 456789012);

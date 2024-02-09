@@ -22,6 +22,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@usuario", cliente.Usuario);
                 cmd.Parameters.AddWithValue("@password", cliente.Password);
                 cmd.Parameters.AddWithValue("@direccion", cliente.Direccion);
+                cmd.Parameters.AddWithValue("@rol", cliente.Rol);
 
                 try
                 {
@@ -53,6 +54,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@newEsNacional", cliente.EsNacional);
                 cmd.Parameters.AddWithValue("@newUsuario", cliente.Usuario);
                 cmd.Parameters.AddWithValue("@newPassword", cliente.Password);
+                cmd.Parameters.AddWithValue("@newRol", cliente.Rol);
 
                 try
                 {
@@ -96,7 +98,8 @@ namespace Samusa_Back.Data
                                 EsNacional = Convert.ToBoolean(dr["EsNacional"]),
                                 Usuario = dr["Usuario"].ToString(),
                                 Password = dr["Password"].ToString(),
-                                Direccion = dr["Direccion"].ToString()
+                                Direccion = dr["Direccion"].ToString(),
+                                Rol = dr["Rol"].ToString()
                             });
                         }
                     }
@@ -138,7 +141,8 @@ namespace Samusa_Back.Data
                                 EsNacional = Convert.ToBoolean(dr["EsNacional"]),
                                 Usuario = dr["Usuario"].ToString(),
                                 Password = dr["Password"].ToString(),
-                                Direccion = dr["Direccion"].ToString()
+                                Direccion = dr["Direccion"].ToString(),
+                                Rol = dr["Rol"].ToString()
                             };
                         }
                     }
@@ -163,13 +167,22 @@ namespace Samusa_Back.Data
                 {
                     connection.Open();
                     cmd.ExecuteNonQuery();
-                    return true;
+                    return true; // Devuelve true si la eliminación tiene éxito
                 }
-                catch (Exception e)
+                catch (SqlException sqlEx)
                 {
-                    return false;
+                    // Captura excepciones específicas de SQL y registra el mensaje de error
+                    Console.WriteLine("Error de SQL al intentar eliminar el cliente: " + sqlEx.Message);
+                    return false; // Devuelve false en caso de error
+                }
+                catch (Exception ex)
+                {
+                    // Captura cualquier otra excepción y registra el mensaje de error
+                    Console.WriteLine("Error al intentar eliminar el cliente: " + ex.Message);
+                    return false; // Devuelve false en caso de error
                 }
             }
         }
+
     }
 }

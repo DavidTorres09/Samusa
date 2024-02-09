@@ -6,13 +6,14 @@ import Layout from './pages/Layout'
 import LayoutAdmin from './pages/LayoutAdmin'
 import Login from './pages/Login'
 import IndexUser from './pages/User/IndexUser'
+import ClientsTable from './components/ClientsTable'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <IndexUser/>
+      <ClientsTable/>
     </>
   )
 }
