@@ -7,15 +7,21 @@ import LayoutAdmin from './pages/LayoutAdmin'
 import Login from './pages/Login'
 import IndexUser from './pages/User/IndexUser'
 import ClientsTable from './components/ClientsTable'
+import RecuperarPass from './pages/RecuperarPass'
 
 function App() {
+  
   const [count, setCount] = useState(0)
 
   return (
     <>
       <ClientsTable/>
+      <IndexUser/>
+      <Login/>
+      
+      
     </>
   )
 }
-
+//
 export default App

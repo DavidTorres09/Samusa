@@ -2,6 +2,9 @@
 using Samusa_Back.Data;
 using Samusa_Back.Models;
 using System.Data.SqlTypes;
+using System.Text;
+using System.Net.Mail;
+using System.Configuration;
 
 namespace Samusa_Back.Controllers
 {
@@ -88,5 +91,69 @@ namespace Samusa_Back.Controllers
                 return BadRequest(new { Status = 400, Message = "Error al modificar el cliente." });
             }
         }
+
+        [HttpPost]
+        [Route("RecuperarClave")]
+
+        public async Task<IActionResult> RecuperarPassCliente([FromBody] ClientePersona cliente)
+        
+        {
+            var confirmation = await ClienteData.Update(cliente);
+            
+            {
+            
+                if (cliente != null)
+                {
+                    string pass = CreatePassword();
+                    string mensaje = "Estimado(a)" + cliente.Nombre + ". Se ha generado la siguiente contraseña temporal: " + pass;
+                    SendEmail(cliente.Email, "Recuperar Contraseña", mensaje);
+
+
+                    cliente.Password = pass;
+                }
+
+
+                return BadRequest(new { Status = 400, Message = "Error al recuperar password." }); ;
+
+            }
+        }
+
+        private string CreatePassword()
+        {
+            int lenght = 10;
+            const string valid = "abcdefjhijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < lenght--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            return res.ToString();
+        }
+
+        private void SendEmail(string destinatario, string asunto, string mensaje)
+        {
+            SmtpClient mySmtpClient = new SmtpClient("outlook.office365.com");
+            string CuentaEmail = "ProyectoLN@hotmail.com";
+            string PasswordEmail = "LN292929!";
+
+            MailMessage msg = new MailMessage();
+            msg.To.Add(new MailAddress(destinatario));
+            msg.From = new MailAddress(CuentaEmail);
+            msg.Subject = asunto;
+            msg.Body = mensaje;
+            msg.IsBodyHtml = true;
+
+            SmtpClient client = new SmtpClient();
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(CuentaEmail, PasswordEmail);
+            client.Port = 587;
+            client.Host = "smtp.office365.com";
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Send(msg);
+
+        }
+
     }
 }

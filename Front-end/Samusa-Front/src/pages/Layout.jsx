@@ -1,7 +1,9 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import App from '../App'
+import { useState } from 'react'
+import { FormPerfilUser } from '../FormPerfilUser'
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -12,13 +14,16 @@ const navigation = [
   { name: 'Inicio', href: '#', current: true },
   { name: 'Tickets', href: '#', current: false },
   { name: 'Cotizaciones', href: '#', current: false },
-  { name: 'Tracking', href: '#', current: false }
+  { name: 'Tracking', href: '#', current: false },
+  { name: 'Iniciar sesión', href: '/pages/Login.jsx', current: false }
+  
 ]
 
 const userNavigation = [
   { name: 'Mi perfil', href: '#' },
   { name: 'Ajustes', href: '#' },
   { name: 'Salir', href: '#' },
+  
 ]
 
 function classNames(...classes) {
@@ -26,8 +31,23 @@ function classNames(...classes) {
 }
 
 export default function Layout() {
+    const [isOpen, setOpenState] = useState(0); //regresa array de dos posiciones [valor][funcion que permite actilizar estado ]
+    const handelClick = ()=>{
+      setOpenState(!isOpen)
+    }
+  
   return (
+    
     <>
+    <FormPerfilUser isOpen={isOpen} toggle={setOpenState}>        
+            <input class="inputs"type="text" name="nombre"  id="nombre" placeholder="Ingrese su nombre" />
+            <input class="inputs" type="text" name="apellido"  id="apellido" placeholder="Ingrese su primer apellido" />
+            <input class="inputs" type="text" name="apellido2"  id="apellido" placeholder="Ingrese su segundo apellido" />
+            <input class="inputs" type="text" name="numero"  id="numero" placeholder="Ingrese su Numero de Teléfono" />
+            <input class="inputs" type="email" name="correo"  id="correo" placeholder="Ingrese su correo" />
+
+            <input class="buttons" type="submit" value="Guardar Cambios"/> 
+    </FormPerfilUser>
       {/*
         This example requires updating your template:
 
@@ -103,17 +123,18 @@ export default function Layout() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <a
-                                    href={item.href}
+                                  <button onClick={handelClick}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
                                     {item.name}
-                                  </a>
+                                  </button>
                                 )}
                               </Menu.Item>
+                              
+
                             ))}
                           </Menu.Items>
                         </Transition>
@@ -187,6 +208,8 @@ export default function Layout() {
             </>
           )}
         </Disclosure>
+                      
+        
 
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
