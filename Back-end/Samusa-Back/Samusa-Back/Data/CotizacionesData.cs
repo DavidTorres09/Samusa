@@ -11,7 +11,30 @@ namespace Samusa_Back.Data
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
-                return true;
+                SqlCommand cmd = new SqlCommand("usp_addCotizaciones", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                
+                cmd.Parameters.AddWithValue("@IdCotizacion", cotizacione.Idcotizacion);
+                cmd.Parameters.AddWithValue("@dni", cotizacione.IdDni);
+                cmd.Parameters.AddWithValue("@Idcolaborador", cotizacione.Idcolaborador);
+                cmd.Parameters.AddWithValue("@TipoProducto", cotizacione.TipoProducto);
+                cmd.Parameters.AddWithValue("@Producto", cotizacione.Producto);
+                cmd.Parameters.AddWithValue("@PorcentajeImp", cotizacione.PorcentajeImp);
+                cmd.Parameters.AddWithValue("@EnlaceRef", cotizacione.EnlaceRef);
+                cmd.Parameters.AddWithValue("@fechaCrea", cotizacione.FechaCreacion);
+
+                try
+                {
+                    await connection.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                    return false;
+                }
             }
         }
 
