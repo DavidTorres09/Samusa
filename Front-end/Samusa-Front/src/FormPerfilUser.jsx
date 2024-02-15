@@ -9,11 +9,11 @@ export function FormPerfilUser ({children, isOpen, toggle}) {
         return(
             <>
             {isOpen &&
-                <div class="backGroundModal">
+                <div className="backGroundModal">
                     
-                    <section class = "form-regi">
-                    <button class = "close" onClick={handleClick}>X</button>
-                    <h1 class="title">Perfil de Usuario</h1>
+                    <section className = "form-regi">
+                    <button className = "close" onClick={handleClick}>X</button>
+                    <h1 className="title">Perfil de Usuario</h1>
                         {children}
                         
                     </section>
