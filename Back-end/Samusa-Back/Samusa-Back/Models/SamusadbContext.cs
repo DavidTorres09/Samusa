@@ -198,11 +198,11 @@ public partial class SamusadbContext : DbContext
 
         modelBuilder.Entity<Persona>(entity =>
         {
-            entity.HasKey(e => e.Dni);
+            entity.HasKey(e => e.DNI);
 
             entity.ToTable("Persona");
 
-            entity.Property(e => e.Dni)
+            entity.Property(e => e.DNI)
                 .ValueGeneratedNever()
                 .HasColumnName("DNI");
             entity.Property(e => e.Email)
