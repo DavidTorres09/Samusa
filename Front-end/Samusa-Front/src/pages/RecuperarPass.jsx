@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Login = () => {
+const RecuperarPass = () => {
   const [Email, setEmail] = useState('');
 
   return (
@@ -39,4 +40,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RecuperarPass;
