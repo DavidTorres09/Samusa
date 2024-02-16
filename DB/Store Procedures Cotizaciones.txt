@@ -1,14 +1,13 @@
 USE SAMUSADB;
 -- Add Cotizaciones
 CREATE PROCEDURE usp_addCotizaciones (
-		@IdCotizacion INT,
                 @dni DECIMAL,
                 @Idcolaborador DECIMAL,
                 @TipoProducto VARCHAR(35),
                 @Producto VARCHAR(20),
                 @PorcentajeImp INT,
                 @EnlaceRef VARCHAR(500),
-                @fechaCrea DATE
+                @fechaCrea DATETIME 
 	)
 	AS
 	BEGIN
@@ -19,20 +18,17 @@ CREATE PROCEDURE usp_addCotizaciones (
         RAISERROR ('Id de Colaborador no existe', 16, 1)
 
     -- Insertar la nueva cotización
-    INSERT INTO Cotizaciones (IDCotizacion, ID_DNI, IDColaborador, TipoProducto, Producto, PorcentajeImp, EnlaceRef,FechaCreacion)
-    VALUES (@IdCotizacion, @dni, @Idcolaborador, @TipoProducto, @Producto, @PorcentajeImp, @EnlaceRef,@fechaCrea)
+    INSERT INTO Cotizaciones (ID_DNI, IDColaborador, TipoProducto, Producto, PorcentajeImp, EnlaceRef,FechaCreacion)
+    VALUES (@dni, @Idcolaborador, @TipoProducto, @Producto, @PorcentajeImp, @EnlaceRef,@fechaCrea)
 END
 ---------------------------------------------------------
 -- Modify Cotizaciones
 CREATE PROCEDURE usp_modifyCotizaciones (
 		@IdCotizacion INT,
-                @dni DECIMAL,
-                @Idcolaborador DECIMAL,
                 @newTipoProducto VARCHAR(35),
                 @newProducto VARCHAR(20),
                 @newPorcentajeImp INT,
-                @newEnlaceRef VARCHAR(500),
-                @newfechaCrea DATE
+                @newEnlaceRef VARCHAR(500)
 	)
 	AS
 	BEGIN
@@ -41,8 +37,7 @@ CREATE PROCEDURE usp_modifyCotizaciones (
 		SET TipoProducto = @newTipoProducto,
                     Producto = @newProducto,
                     PorcentajeImp = @newPorcentajeImp,
-                    EnlaceRef = @newEnlaceRef,
-                    FechaCreacion = @newfechaCrea
+                    EnlaceRef = @newEnlaceRef
 		WHERE IDCotizacion = @IdCotizacion;
 
 	END;
@@ -52,6 +47,7 @@ CREATE PROCEDURE usp_getCotizaciones
 	AS
 	BEGIN
 		SELECT
+		    COT.IDCotizacion,
 			COT.TipoProducto,
 			COT.Producto,
 			COT.PorcentajeImp,
@@ -68,7 +64,8 @@ CREATE PROCEDURE usp_getSingleCotizaciones (
 AS
 BEGIN
     SELECT
-        COT.TipoProducto,
+        COT.IDCotizacion,
+			COT.TipoProducto,
 			COT.Producto,
 			COT.PorcentajeImp,
 			COT.EnlaceRef,

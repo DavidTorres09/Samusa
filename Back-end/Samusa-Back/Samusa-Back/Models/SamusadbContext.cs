@@ -97,15 +97,6 @@ public partial class SamusadbContext : DbContext
                 .HasMaxLength(35)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.IdDniNavigation).WithMany(p => p.Cotizaciones)
-                .HasForeignKey(d => d.IdDni)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cotizacion_Cliente");
-
-            entity.HasOne(d => d.IdcolaboradorNavigation).WithMany(p => p.Cotizaciones)
-                .HasForeignKey(d => d.Idcolaborador)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Colaborador_Cotizacion");
         });
 
         modelBuilder.Entity<Exportacione>(entity =>
