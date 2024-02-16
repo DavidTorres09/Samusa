@@ -4,6 +4,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import App from '../App'
 import { useState } from 'react'
 import { FormPerfilUser } from '../FormPerfilUser'
+import { Link } from 'react-router-dom'
+
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -15,7 +17,7 @@ const navigation = [
   { name: 'Tickets', href: '#', current: false },
   { name: 'Cotizaciones', href: '#', current: false },
   { name: 'Tracking', href: '#', current: false },
-  { name: 'Iniciar sesión', href: '/pages/Login.jsx', current: false }
+  { name: 'Iniciar sesión', href: '/Login', current: false }
   
 ]
 
@@ -73,9 +75,9 @@ export default function Layout() {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <a
+                          <Link
                             key={item.name}
-                            href={item.href}
+                            to={item.href}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -85,7 +87,7 @@ export default function Layout() {
                             aria-current={item.current ? 'page' : undefined}
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
