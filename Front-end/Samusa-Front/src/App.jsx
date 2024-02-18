@@ -19,7 +19,7 @@ function App() {
     <Router>
      
      <Routes>
-
+      
       <Route exact path="" element={<IndexUser />}>  </Route>
       <Route exact path="/Login" element={<Login />}> </Route>
       <Route exact path="/RecuperarPass" element={<RecuperarPass />}> </Route>
