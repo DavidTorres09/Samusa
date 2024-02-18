@@ -8,8 +8,9 @@ import IndexUser from './pages/User/IndexUser'
 import Login from './pages/User/Login'
 import ClientsTable from './components/ClientsTable'
 import RecuperarPass from './pages/RecuperarPass'
-
+import AdminClientes from './pages/Admin/AdminClientes'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 function App() {
   
@@ -20,7 +21,8 @@ function App() {
      
      <Routes>
 
-      <Route exact path="" element={<IndexUser />}>  </Route>
+      <Route exact path="Index" element={<IndexUser />}>  </Route>
+      <Route exact path="/Admin/Clientes" element={<AdminClientes/>}> </Route>
       <Route exact path="/Login" element={<Login />}> </Route>
       <Route exact path="/RecuperarPass" element={<RecuperarPass />}> </Route>
       
