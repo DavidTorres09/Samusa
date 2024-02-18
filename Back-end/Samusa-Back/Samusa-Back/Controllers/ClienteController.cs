@@ -41,7 +41,7 @@ namespace Samusa_Back.Controllers
             }
             else
             {
-                return BadRequest(new { Status = 400, Message = "Error al obtener el cliente." });
+                return NotFound(new { Status = 404, Message = "Cliente no encontrado" });
             }
         }
 
@@ -57,7 +57,7 @@ namespace Samusa_Back.Controllers
             }
             else
             {
-                return BadRequest(new { Status = 400, Message = "Error al guardar el cliente." });
+                return NotFound(new { Status = 400, Message = "Error al guardar el cliente." });
             }
         }
 
