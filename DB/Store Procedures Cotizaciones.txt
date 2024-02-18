@@ -1,0 +1,94 @@
+USE SAMUSADB;
+-- Add Cotizaciones
+CREATE PROCEDURE usp_addCotizaciones (
+                @dni DECIMAL,
+                @Idcolaborador DECIMAL,
+                @TipoProducto VARCHAR(35),
+                @Producto VARCHAR(20),
+                @PorcentajeImp INT,
+                @EnlaceRef VARCHAR(500),
+                @fechaCrea DATETIME 
+	)
+	AS
+	BEGIN
+    -- Verificar si los Ids de DNI y Colaborador existen
+    IF NOT EXISTS (SELECT * FROM Persona WHERE DNI = @dni)
+        RAISERROR ('DNI de Persona no existe', 16, 1)
+    IF NOT EXISTS (SELECT * FROM Colaborador WHERE IDColaborador = @Idcolaborador)
+        RAISERROR ('Id de Colaborador no existe', 16, 1)
+
+    -- Insertar la nueva cotización
+    INSERT INTO Cotizaciones (ID_DNI, IDColaborador, TipoProducto, Producto, PorcentajeImp, EnlaceRef,FechaCreacion)
+    VALUES (@dni, @Idcolaborador, @TipoProducto, @Producto, @PorcentajeImp, @EnlaceRef,@fechaCrea)
+END
+---------------------------------------------------------
+-- Modify Cotizaciones
+CREATE PROCEDURE usp_modifyCotizaciones (
+		@IdCotizacion INT,
+                @newTipoProducto VARCHAR(35),
+                @newProducto VARCHAR(20),
+                @newPorcentajeImp INT,
+                @newEnlaceRef VARCHAR(500)
+	)
+	AS
+	BEGIN
+		-- Update Cotizaciones
+		UPDATE Cotizaciones
+		SET TipoProducto = @newTipoProducto,
+                    Producto = @newProducto,
+                    PorcentajeImp = @newPorcentajeImp,
+                    EnlaceRef = @newEnlaceRef
+		WHERE IDCotizacion = @IdCotizacion;
+
+	END;
+------------------------------------------------------------------------------------------
+--Get Cotizaciones
+CREATE PROCEDURE usp_getCotizaciones
+	AS
+	BEGIN
+		SELECT
+		    COT.IDCotizacion,
+			COT.TipoProducto,
+			COT.Producto,
+			COT.PorcentajeImp,
+			COT.EnlaceRef,
+			COT.FechaCreacion
+    FROM
+        Cotizaciones COT
+END;
+-----------------
+--only one Cotizaciones
+CREATE PROCEDURE usp_getSingleCotizaciones (
+    @IdCotizacion INT
+)
+AS
+BEGIN
+    SELECT
+        COT.IDCotizacion,
+			COT.TipoProducto,
+			COT.Producto,
+			COT.PorcentajeImp,
+			COT.EnlaceRef,
+			COT.FechaCreacion
+    FROM
+        Cotizaciones COT
+    WHERE
+        COT.IDCotizacion = @IdCotizacion;
+END;
+------------------------------------------------------------------------------------------
+-- Delete Cotizaciones
+CREATE PROCEDURE usp_deleteCotizaciones (
+    @IdCotizacion INT
+)
+AS
+BEGIN
+    -- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    -- Eliminar en Cotizaciones
+    DELETE FROM Cotizaciones
+    WHERE IDCotizacion = @IdCotizacion;
+END;

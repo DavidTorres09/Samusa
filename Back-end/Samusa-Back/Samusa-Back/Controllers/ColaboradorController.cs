@@ -42,7 +42,7 @@ namespace Samusa_Back.Controllers
 
         [HttpPost]
         [Route("guardar")]
-        public async Task<IActionResult> SaveColaborador([FromBody] Colaborador colaborador)
+        public async Task<IActionResult> SaveColaborador([FromBody] ColaboradorPersona colaborador)
         {
             var confirmation = await ColaboradoresData.Create(colaborador);
             if (confirmation)
@@ -72,7 +72,7 @@ namespace Samusa_Back.Controllers
 
         [HttpPut]
         [Route("modificar")]
-        public async Task<IActionResult> ModifyColaborador([FromBody] Colaborador colaborador)
+        public async Task<IActionResult> ModifyColaborador([FromBody] ColaboradorPersona colaborador)
         {
             var confirmation = await ColaboradoresData.Update(colaborador);
             if (confirmation)

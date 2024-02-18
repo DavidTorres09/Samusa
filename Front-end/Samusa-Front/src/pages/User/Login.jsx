@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -76,11 +77,11 @@ const Login = () => {
           </button>
           <p className="text-center mt-4">
             ¿Aún no estás registrado? 
-            <a href="#" className="text-blue-500 hover:underline"> Haz clic aquí</a>
+            <Link to="#" className="text-blue-500 hover:underline"> Haz clic aquí</Link>
           </p>
           <p className="text-center mt-4">
             Olvidé mi contraseña 
-            <a href="/pages/RecuperarPass.jsx" className="text-blue-500 hover:underline"> Recuperar</a>
+            <Link to="/RecuperarPass" className="text-blue-500 hover:underline"> Recuperar</Link>
           </p>
         </form>
       </div>

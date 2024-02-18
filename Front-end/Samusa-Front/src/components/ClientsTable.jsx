@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LayoutAdmin from '../pages/LayoutAdmin';
 import ClientModal from './ClientModal'; // Importa el componente del modal
+import "../css/Tables.css";
 
 const ClientsTable = () => {
   const [tableData, setTableData] = useState([]);
@@ -52,12 +53,13 @@ const ClientsTable = () => {
   return (
     <>
       <LayoutAdmin></LayoutAdmin>
-      <div className="container mx-auto px-4">
+      <section className='data-table-section'>
+      <div className="table-container">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Usuarios</h1>
-        <div className="bg-white shadow-md rounded my-6 overflow-x-auto">
-          <table className="w-full table-auto border-collapse">
+        <div className="">
+          <table className="Cliente-table w-full table-auto border-collapse rounded">
             <thead>
-              <tr className="bg-blue-500 text-white">
+              <tr className="">
                 <th className="py-4 px-6">DNI</th>
                 <th className="py-4 px-6">Nombre</th>
                 <th className="py-4 px-6">Primer Apellido</th>
@@ -73,7 +75,7 @@ const ClientsTable = () => {
             </thead>
             <tbody>
               {tableData.map((item, index) => (
-                <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
+                <tr key={index} className="border-b border-gray-200">
                   <td className="py-4 px-6">{item.dni}</td>
                   <td className="py-4 px-6">{item.nombre}</td>
                   <td className="py-4 px-6">{item.primerApellido}</td>
@@ -94,6 +96,7 @@ const ClientsTable = () => {
           </table>
         </div>
       </div>
+      </section>
       {showEditModal && (
         <ClientModal user={selectedClient} onClose={handleCloseModal} />
       )}
