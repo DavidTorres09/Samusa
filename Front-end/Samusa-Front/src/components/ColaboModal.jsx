@@ -1,35 +1,87 @@
 import React, { useState } from 'react';
 
-const ColaboModal = ({ user, onClose, onUpdate }) => {
-  const [editedColabo, setEditedColabo] = useState(user);
+const ColaboModal = ({ user, onClose, isEditing }) => {
+  const [editedColabo, setEditedColabo] = useState(
+    user || {
+      dni: "",
+      nombre: "",
+      primerApellido: "",
+      segundoApellido: "",
+      telefono: "",
+      email: "",
+      esNacional: false,
+      usuario: "",
+      password: "",
+      fechaIngreso: "",
+      rol: "Colaborador",
+  });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedColabo({
-      ...editedColabo,
-      [name]: value
-    });
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    setEditedColabo({ ...editedColabo, [name]: newValue });
   };
+
 
   const handleCancel = () => {
     onClose();
   };
 
   const handleSave = async () => {
-    let updatedColabo = { ...editedColabo };
-  
-    if (typeof updatedColabo.fechaIngreso === 'string') {
-      // Se pone la fecha en formato "DD/MM/YYYY HH:mm:ss"
-      const parts = updatedColabo.fechaIngreso.split(/\/|\s|:/);
-      updatedColabo.fechaIngreso = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]).toISOString();
+    try {
+      if (isEditing===false) {
+        editedColabo.fechaIngreso = new Date().toISOString();
+        editedColabo.rol = 'Colaborador';
+        console.log(editedColabo)
+        const responseVerificacion = await fetch(
+          `https://localhost:7293/api/samusa/colaborador/listarUnico?dni=${editedColabo.dni}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+          const addColabo = await fetch(
+            `https://localhost:7293/api/samusa/colaborador/guardar`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(editedColabo),
+            }
+          );
+          if (addColabo.ok) {
+            alert("Usuario guardado exitosamente");
+            window.location.reload();
+          } else {
+            throw new Error("No se pudo agregar el usuario");
+          }
+      }
+      else {
+        const updateColabo = await fetch(
+          `https://localhost:7293/api/samusa/colaborador/modificar`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(editedColabo),
+          }
+        );
+
+        if (updateColabo.ok) {
+          alert("Usuario actualizado exitosamente");
+          window.location.reload();
+        } else {
+          throw new Error("No se pudo actualizar el usuario");
+        }
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
     }
-    console.log('Datos finales enviados para actualización:', updatedColabo);
-    await onUpdate(updatedColabo);
-    onClose();
   };
-  
-  
-  
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -46,6 +98,10 @@ const ColaboModal = ({ user, onClose, onUpdate }) => {
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Editar Colaborador</h3>
+                <div className="mb-4">
+                  <label htmlFor="dni" className="block text-sm font-medium text-gray-700">DNI</label>
+                  <input type="text" name="dni" id="dni" value={editedColabo.dni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                </div>
                 <div className="mb-4">
                   <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
                   <input type="text" name="nombre" id="nombre" value={editedColabo.nombre} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />

@@ -3,6 +3,7 @@ import CotizaModal from './CotizaModal'; // Importa el componente del modal
 import "../css/Tables.css";
 
 const CotizaTable = () => {
+  const [isEditing, setIsEditing] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedCotiza, setSelectedCotiza] = useState(null);
@@ -40,8 +41,15 @@ const CotizaTable = () => {
     });
   };
 
+  const handleSave = () => {
+    setSelectedCotiza(null);
+    setIsEditing(false);
+    setShowEditModal(true);
+  };
+
   const handleEdit = (Cotiza) => {
     setSelectedCotiza(Cotiza);
+    setIsEditing(true);
     setShowEditModal(true);
   };
 
@@ -49,32 +57,17 @@ const CotizaTable = () => {
     setShowEditModal(false);
   };
 
-  const updateCotizacion = async (updatedCotizacion) => {
-    try {
-      const response = await fetch(`https://localhost:7293/api/samusa/cotizacion/modificar`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedCotizacion),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Error al actualizar la cotización');
-      }
-  
-      console.log('Cotización actualizada exitosamente');
-    } catch (error) {
-      console.error('Error al actualizar la cotización:', error.message);
-    }
-  };
-  
-
   return (
     <>
       <section className='data-table-section'>
       <div className="table-container">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de cotizacion</h1>
+        <button
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleSave}
+          >
+            Agregar Cotizacion
+          </button>
         <div className="">
           <table className="Cliente-table w-full table-auto border-collapse rounded">
             <thead>
@@ -108,8 +101,7 @@ const CotizaTable = () => {
         </div>
       </div>
       </section>
-
-      {showEditModal && (<CotizaModal user={SelectedCotiza} onClose={handleCloseModal} onUpdate={updateCotizacion} />)}
+      {showEditModal && (<CotizaModal user={SelectedCotiza} onClose={handleCloseModal} isEditing={isEditing}/>      )}
 
     </>
   );

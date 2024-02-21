@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 
-const CotizaModal = ({ user, onClose, onUpdate }) => {
-  const [editedCotiza, seteditedCotiza] = useState(user);
+const CotizaModal = ({ user, onClose, isEditing  }) => {
+  const [editedCotiza, seteditedCotiza] = useState(user || {
+    idDni: "",
+    idcolaborador: "",
+    tipoProducto: "",
+    producto: "",
+    porcentajeImp: "",
+    enlaceRef: "",
+    fechaCreacion: "",
+  });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    seteditedCotiza({
-      ...editedCotiza,
-      [name]: value
-    });
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    seteditedCotiza({ ...editedCotiza, [name]: newValue });
   };
 
   const handleCancel = () => {
@@ -16,28 +22,52 @@ const CotizaModal = ({ user, onClose, onUpdate }) => {
   };
 
   const handleSave = async () => {
-    let updateCotiza = { ...editedCotiza };
-  
     try {
-      if (typeof updateCotiza.fechaCreacion === 'string') {
-        const parts = updateCotiza.fechaCreacion.split(/\/|\s|:/);
-        if (parts.length === 6) {
-          const date = new Date(parts[2], parts[1] - 1, parts[0], parts[3], parts[4], parts[5]);
-          if (!isNaN(date)) {
-            updateCotiza.fechaCreacion = date.toISOString();
-          } else {
-            throw new Error('Fecha inválida');
+      if (isEditing===false) {
+        editedCotiza.fechaCreacion = new Date().toISOString();
+        
+
+      // Lógica para agregar una nueva cotización directamente sin verificar su existencia
+      const response = await fetch('https://localhost:7293/api/samusa/cotizacion/guardar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedCotiza),
+      });
+
+      if (response.ok) {
+        alert("Cotización guardada exitosamente");
+        window.location.reload(); // O actualizar el estado para reflejar los cambios sin recargar la página
+      } else {
+        const errorData = await response.json();
+        throw new Error(`Error al agregar la cotización: ${errorData.message}`);
+      }
+      }
+      else {
+        const updateCotiza = await fetch(
+          `https://localhost:7293/api/samusa/cotizacion/modificar`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(editedCotiza),
           }
+        );
+
+        if (updateCotiza.ok) {
+          alert("Usuario actualizado exitosamente");
+          window.location.reload();
+        } else {
+          throw new Error("No se pudo actualizar el usuario");
         }
       }
-      console.log('Datos finales enviados para actualización:', updateCotiza);
-      await onUpdate(updateCotiza);
-      onClose();
     } catch (error) {
-      console.error('Error al convertir la fecha:', error);
+      console.error("Error:", error.message);
     }
   };
-  
+
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -55,8 +85,8 @@ const CotizaModal = ({ user, onClose, onUpdate }) => {
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Editar Cotizacion</h3>
                 <div className="mb-4">
-                  <label htmlFor="dni" className="block text-sm font-medium text-gray-700">Id Cotizacion</label>
-                  <input type="text" name="idcotizacion" id="idcotizacion" value={editedCotiza.idcotizacion} readOnly className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="idDni" className="block text-sm font-medium text-gray-700">Dni</label>
+                  <input type="text" name="idDni" id="idDni" value={editedCotiza.idDni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="idcolaborador" className="block text-sm font-medium text-gray-700">Dni Colaborador</label>
@@ -73,6 +103,10 @@ const CotizaModal = ({ user, onClose, onUpdate }) => {
                 <div className="mb-4">
                   <label htmlFor="porcentajeImp" className="block text-sm font-medium text-gray-700">Porcentaje Imp</label>
                   <input type="text" name="porcentajeImp" id="porcentajeImp" value={editedCotiza.porcentajeImp} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="enlaceRef" className="block text-sm font-medium text-gray-700">Enlace de referencia</label>
+                  <input type="text" name="enlaceRef" id="enlaceRef" value={editedCotiza.enlaceRef} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
               </div>
             </div>

@@ -4,6 +4,7 @@ import ColaboModal from './ColaboModal'; /* Aqui va el modal de colanoradores */
 import "../css/Tables.css";
 
 const ColaboTable = () => {
+  const [isEditing, setIsEditing] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedColabo, setSelectedColabo] = useState(null);
@@ -41,35 +42,20 @@ const ColaboTable = () => {
     });
   };
 
+  const handleSave = () => {
+    setSelectedColabo(null);
+    setIsEditing(false);
+    setShowEditModal(true);
+  };
+  
   const handleEdit = (Colab) => {
     setSelectedColabo(Colab);
+    setIsEditing(true);
     setShowEditModal(true);
   };
 
   const handleCloseModal = () => {
     setShowEditModal(false);
-  };
-
-  const updateColaborador = async (updatedColabo) => {
-    try {
-      const response = await fetch(`https://localhost:7293/api/samusa/colaborador/modificar`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedColabo),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Error al actualizar el colaborador');
-      }
-  
-      console.log('Colaborador actualizado exitosamente');
-      setTableData(tableData.map(colabo => colabo.dni === updatedColabo.dni ? updatedColabo : colabo));
-      // Aquí no necesitas llamar a handleCloseModal porque se llama en handleSave después de onUpdate
-    } catch (error) {
-      console.error('Error al actualizar el colaborador:', error.message);
-    }
   };
   
 
@@ -78,6 +64,12 @@ const ColaboTable = () => {
       <section className='data-table-section'>
       <div className="table-container">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Colaboradores</h1>
+        <button
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleSave}
+          >
+            Agregar Usuario
+          </button>
         <div className="">
           <table className="Cliente-table w-full table-auto border-collapse rounded">
             <thead>
@@ -120,7 +112,7 @@ const ColaboTable = () => {
       </div>
       </section>
 
-      {showEditModal && (<ColaboModal user={selectedColabo} onClose={handleCloseModal} onUpdate={updateColaborador} />)}
+      {showEditModal && (<ColaboModal user={selectedColabo} onClose={handleCloseModal} isEditing={isEditing} />)}
 
     </>
   );
