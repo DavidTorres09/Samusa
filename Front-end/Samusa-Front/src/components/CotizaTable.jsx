@@ -7,6 +7,9 @@ const CotizaTable = () => {
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedCotiza, setSelectedCotiza] = useState(null);
+  const [query, SetQuery] = useState("");
+  console.log(query);
+  console.log(tableData.filter(item => item.producto.toLowerCase().includes("a")));
 
   useEffect(() => {
     fetch('https://localhost:7293/api/samusa/cotizacion/listar')
@@ -68,6 +71,12 @@ const CotizaTable = () => {
           >
             Agregar Cotizacion
           </button>
+
+          <br />
+          <br />
+
+          <input type="text" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
+
         <div className="">
           <table className="Cliente-table w-full table-auto border-collapse rounded">
             <thead>
@@ -82,7 +91,7 @@ const CotizaTable = () => {
               </tr>
             </thead>
             <tbody>
-              {tableData.map((item, index) => (
+              {tableData.filter(item => item.producto.toLowerCase().includes(query)).map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
                   <td className="py-4 px-6">{item.idcotizacion}</td>
                   <td className="py-4 px-6">{item.idcolaborador}</td>

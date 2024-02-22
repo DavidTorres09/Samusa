@@ -8,6 +8,9 @@ const ColaboTable = () => {
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedColabo, setSelectedColabo] = useState(null);
+  const [query, SetQuery] = useState("");
+  console.log(query);
+  console.log(tableData.filter(item => item.nombre.toLowerCase().includes("a")));
 
   useEffect(() => {
     fetch('https://localhost:7293/api/samusa/colaborador/listar')
@@ -70,6 +73,12 @@ const ColaboTable = () => {
           >
             Agregar Usuario
           </button>
+
+          <br />
+          <br />
+          
+          <input type="text" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
+
         <div className="">
           <table className="Cliente-table w-full table-auto border-collapse rounded">
             <thead>
@@ -88,7 +97,7 @@ const ColaboTable = () => {
               </tr>
             </thead>
             <tbody>
-              {tableData.map((item, index) => (
+              {tableData.filter(item => item.nombre.toLowerCase().includes(query)).map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
                   <td className="py-4 px-6">{item.dni}</td>
                   <td className="py-4 px-6">{item.nombre}</td>
