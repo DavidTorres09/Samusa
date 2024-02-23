@@ -18,9 +18,9 @@ const navigation = [
 ]
 
 const userNavigation = [
-  { name: 'Mi perfil', href: '#' },
-  { name: 'Ajustes', href: '#' },
-  { name: 'Salir', href: '#' },
+  { name: 'Mi perfil', to: '/Perfil' },
+  { name: 'Ajustes', to: '/Ajustes' },
+  { name: 'Salir', to: '/Login' },
 ]
 
 function classNames(...classes) {

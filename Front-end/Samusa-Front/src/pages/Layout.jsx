@@ -22,9 +22,9 @@ const navigation = [
 ]
 
 const userNavigation = [
-  { name: 'Mi perfil', href: '#' },
-  { name: 'Ajustes', href: '#' },
-  { name: 'Salir', href: '#' },
+  { name: 'Mi perfil', to: '/Perfil' },
+  { name: 'Ajustes', to: '/Ajustes' },
+  { name: 'Salir', to: '/Login' },
   
 ]
 
@@ -33,10 +33,7 @@ function classNames(...classes) {
 }
 
 export default function Layout() {
-    const [isOpen, setOpenState] = useState(0); //regresa array de dos posiciones [valor][funcion que permite actilizar estado ]
-    const handelClick = ()=>{
-      setOpenState(!isOpen)
-    }
+    
   
   return (
     
@@ -117,14 +114,14 @@ export default function Layout() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <button onClick={handelClick}
+                                  <Link to = {item.to}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
                                     {item.name}
-                                  </button>
+                                  </Link>
                                 )}
                               </Menu.Item>
                               
