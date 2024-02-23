@@ -8,7 +8,7 @@ function IndexUser () {
     return (
         <div style={{ marginBottom: '1%' }}>
 
-        <Layout></Layout>
+            <Layout></Layout>
         <section id="inicio" class="split-screen">
         <div class="left-half" id="image-side">
             

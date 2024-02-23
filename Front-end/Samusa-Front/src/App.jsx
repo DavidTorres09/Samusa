@@ -8,7 +8,8 @@ import IndexUser from './pages/User/IndexUser'
 import Login from './pages/User/Login'
 import ClientsTable from './components/ClientsTable'
 import RecuperarPass from './pages/RecuperarPass'
-
+import ClientModal from './components/ClientModal'
+import Perfil from './pages/User/Perfil'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -16,19 +17,25 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
+    
+    
     <Router>
      
      <Routes>
-
+    
       <Route exact path="" element={<IndexUser />}>  </Route>
       <Route exact path="/Login" element={<Login />}> </Route>
-      <Route exact path="/RecuperarPass" element={<RecuperarPass />}> </Route>
-      
-      
-      </Routes>
+      <Route exact path="/RecuperarPass" element={<RecuperarPass />}></Route>
+      <Route exact path="/Perfil" element={<ClientModal/>}> </Route>
+
+    </Routes>
 
 
     </Router>
+
+
+
+
   )
 }
 //
