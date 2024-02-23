@@ -20,7 +20,7 @@ namespace Samusa_Back.Controllers
             }
             else
             {
-                return BadRequest(new { Status = 400, Message = "Error al obtener la lista de colaboradores." });
+                return NotFound(new { Status = 404, Message = "colaborador no encontrado" });
             }
         }
 
@@ -36,7 +36,7 @@ namespace Samusa_Back.Controllers
             }
             else
             {
-                return BadRequest(new { Status = 400, Message = "Error al obtener el colaborador." });
+                return NotFound(new { Status = 404, Message = "colaborador no encontrado" });
             }
         }
 

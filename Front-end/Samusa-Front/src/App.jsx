@@ -20,9 +20,10 @@ function App() {
     <Router>
      
      <Routes>
-
-      <Route exact path="Index" element={<IndexUser />}>  </Route>
+      //TODO: fix the routes
       <Route exact path="/Admin/Clientes" element={<AdminClientes/>}> </Route>
+      
+      <Route exact path="" element={<IndexUser />}>  </Route>
       <Route exact path="/Login" element={<Login />}> </Route>
       <Route exact path="/RecuperarPass" element={<RecuperarPass />}> </Route>
       
