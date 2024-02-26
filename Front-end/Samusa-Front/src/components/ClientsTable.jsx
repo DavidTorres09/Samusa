@@ -7,6 +7,8 @@ const ClientsTable = () => {
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [query, SetQuery] = useState("");
+  console.log(query);
 
   useEffect(() => {
     fetch("https://localhost:7293/api/samusa/cliente/listar")
@@ -70,6 +72,13 @@ const ClientsTable = () => {
           >
             Agregar Usuario
           </button>
+
+          <br />
+          <br />
+          
+          <input type="text" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
+
+          
           <div className="">
             <table className="Cliente-table w-full table-auto border-collapse rounded">
               <thead>
@@ -89,7 +98,7 @@ const ClientsTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {tableData.map((cliente, index) => (
+                {tableData.filter(item => item.nombre.toLowerCase().includes(query)).map((cliente, index) => (
                   <tr key={index} className="border-b border-gray-200">
                     <td className="py-4 px-6">{cliente.dni}</td>
                     <td className="py-4 px-6">{cliente.nombre}</td>

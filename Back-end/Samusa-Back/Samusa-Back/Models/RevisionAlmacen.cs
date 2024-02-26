@@ -15,7 +15,7 @@ public partial class RevisionAlmacen
 
     public string Color { get; set; } = null!;
 
-    public decimal CostoVehiculo { get; set; }
+    public int CostoVehiculo { get; set; }
 
     public int AnioVehiculo { get; set; }
 

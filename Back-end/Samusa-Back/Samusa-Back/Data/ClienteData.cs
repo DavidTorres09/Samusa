@@ -115,7 +115,7 @@ namespace Samusa_Back.Data
 
         public static async Task<ClientePersona> ReadOne(int dni)
         {
-            ClientePersona client = new ClientePersona();
+            ClientePersona client = null; // Inicializamos como null
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
                 SqlCommand cmd = new SqlCommand("usp_getSingleClient", connection);
@@ -146,13 +146,13 @@ namespace Samusa_Back.Data
                             };
                         }
                     }
-                    return client;
                 }
                 catch (Exception e)
                 {
-                    return client;
+                    Console.WriteLine("Error al leer cliente: " + e.Message);
                 }
             }
+            return client;
         }
 
         public static async Task<bool> Delete(int dni)

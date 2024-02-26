@@ -4,7 +4,9 @@ import LayoutAdmin from "../LayoutAdmin";
 const AdminClientes = () => {
   return (
     <>
-      <LayoutAdmin/>
+    <LayoutAdmin/>
+    <div>
+    </div>
       <ClientsTable/>
     </>
   );

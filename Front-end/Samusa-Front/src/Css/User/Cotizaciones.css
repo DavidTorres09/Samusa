@@ -1,0 +1,76 @@
+.body{
+    background-color: #081f37;
+}
+.title{
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+#Tax-calculator {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+#result {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-radius: 5px;
+    color: #e7ae11;
+    transform: skew(-10deg);
+    background-color: #fff;
+    padding: 5px 10px;
+    max-width: 155px;
+}
+
+.form-group label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    transform: skew(-10deg); /* Inclinación */
+    background-color: #e7ae11;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 10px;
+}
+
+.form-group select {
+    font-size: 1.2rem;
+    padding: 10px;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-group select:hover, .form-group select:focus {
+    box-shadow: 0 0 10px #fdd835;
+}
+.form-group select option{
+    background-color: #e7ae11;
+}
+
+/* Aplica estilos específicos para los items dentro de los select */
+.form-group select option:hover {
+    background-color: #e7ae11; /* Fondo amarillo al hacer hover sobre los items */
+}
+
+.btn-form{
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transform: skew(-10deg);
+    padding: 5, 10px;
+    border-radius: 5px;
+
+    transition: 0.5s;
+}
+.btn-form:hover{
+    font-size: 1.9rem;
+    color: #fff;
+    background-color: #e7ae11;
+}
+
+

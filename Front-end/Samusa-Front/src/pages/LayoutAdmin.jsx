@@ -183,6 +183,10 @@ export default function LayoutAdmin() {
         </Disclosure>
 
         <header className="bg-white shadow">
+          <link href="https://cdn.jsdelivr.net/npm/hover.css/css/hover-min.css" rel="stylesheet"></link>
+          <script src="https://code.highcharts.com/highcharts.js"></script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css/animate.min.css"></link>
+          <link href="https://cdn.jsdelivr.net/npm/hover.css/css/hover-min.css" rel="stylesheet"></link>
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div class="flex items-center">
           <h1 class="text-3xl font-bold tracking-tight text-gray-900 ml-2">S A M U S A  -</h1>
