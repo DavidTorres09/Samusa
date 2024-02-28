@@ -5,6 +5,8 @@ import "../../css/user/Index.css";
 import ColaboTable from "../../components/ColaboTable";
 import CotizaTable from "../../components/CotizaTable";
 import CotizacionesUser from "./CotizacionesUser";
+import RevVehiculosTable from "../../components/RevVehiculosTable";
+import RevVehiculosChart from "../../components/RevVehiculosChart";
 
 
 function IndexUser () {
@@ -16,7 +18,9 @@ function IndexUser () {
         <ClientsTable/>
         <ColaboTable/>
         <CotizaTable/>
+        <RevVehiculosTable/>
         <CotizacionesUser/>
+        <RevVehiculosChart/>
         <section id="inicio" class="split-screen">
         <div class="left-half" id="image-side">
             
