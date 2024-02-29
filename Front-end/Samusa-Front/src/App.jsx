@@ -9,6 +9,9 @@ import Login from './pages/User/Login'
 import ClientsTable from './components/ClientsTable'
 import RecuperarPass from './pages/RecuperarPass'
 import AdminClientes from './pages/Admin/AdminClientes'
+import ClientModal from './components/ClientModal'
+import Perfil from './pages/User/Perfil'
+import PerfilFrom from './components/PerfilFrom.jsx'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
@@ -17,6 +20,8 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
+    
+    
     <Router>
      
      <Routes>
@@ -25,13 +30,17 @@ function App() {
       
       <Route exact path="" element={<IndexUser />}>  </Route>
       <Route exact path="/Login" element={<Login />}> </Route>
-      <Route exact path="/RecuperarPass" element={<RecuperarPass />}> </Route>
-      
-      
-      </Routes>
+      <Route exact path="/RecuperarPass" element={<RecuperarPass />}></Route>
+      <Route exact path="/Perfil" element={<PerfilFrom/>}> </Route>
+
+    </Routes>
 
 
     </Router>
+
+
+
+
   )
 }
 //

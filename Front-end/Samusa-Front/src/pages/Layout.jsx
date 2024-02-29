@@ -3,7 +3,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import App from '../App'
 import { useState } from 'react'
-import { FormPerfilUser } from '../FormPerfilUser'
 import { Link } from 'react-router-dom'
 
 const user = {
@@ -22,9 +21,9 @@ const navigation = [
 ]
 
 const userNavigation = [
-  { name: 'Mi perfil', href: '#' },
-  { name: 'Ajustes', href: '#' },
-  { name: 'Salir', href: '#' },
+  { name: 'Mi perfil', to: '/Perfil' },
+  { name: 'Ajustes', to: '/Ajustes' },
+  { name: 'Salir', to: '/Login' },
   
 ]
 
@@ -33,23 +32,11 @@ function classNames(...classes) {
 }
 
 export default function Layout() {
-    const [isOpen, setOpenState] = useState(0); //regresa array de dos posiciones [valor][funcion que permite actilizar estado ]
-    const handelClick = ()=>{
-      setOpenState(!isOpen)
-    }
+    
   
   return (
     
     <>
-    <FormPerfilUser isOpen={isOpen} toggle={setOpenState}>        
-            <input className="inputs"type="text" name="nombre"  id="nombre" placeholder="Ingrese su nombre" />
-            <input className="inputs" type="text" name="apellido"  id="apellido" placeholder="Ingrese su primer apellido" />
-            <input className="inputs" type="text" name="apellido2"  id="apellido" placeholder="Ingrese su segundo apellido" />
-            <input className="inputs" type="text" name="numero"  id="numero" placeholder="Ingrese su Numero de Teléfono" />
-            <input className="inputs" type="email" name="correo"  id="correo" placeholder="Ingrese su correo" />
-
-            <input className="buttons" type="submit" value="Guardar Cambios"/> 
-    </FormPerfilUser>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
@@ -117,14 +104,14 @@ export default function Layout() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <button onClick={handelClick}
+                                  <Link to = {item.to}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
                                     {item.name}
-                                  </button>
+                                  </Link>
                                 )}
                               </Menu.Item>
                               
