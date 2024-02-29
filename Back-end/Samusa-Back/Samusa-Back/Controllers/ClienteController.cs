@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using System.Text;
 using System.Net.Mail;
 using System.Configuration;
+using System.Net;
 
 namespace Samusa_Back.Controllers
 {
@@ -154,6 +155,8 @@ namespace Samusa_Back.Controllers
             client.Send(msg);
 
         }
+
+        
 
     }
 }

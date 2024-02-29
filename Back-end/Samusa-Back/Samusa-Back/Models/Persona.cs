@@ -24,6 +24,7 @@ public partial class Persona
     public string Password { get; set; } = null!;
 
     public string Rol { get; set; } = null!;
+    public int IdRol { get; set; }
 
     public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
 
