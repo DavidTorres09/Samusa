@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
-import Layout from '../pages/Layout';
+import Layout from './Layout';
 import Footer from './Footer';
 
-const PerfilFrom = () => {
+const PerfilForm = () => {
 
 //     const modeloPerfil = {
 //   dni: "",
@@ -139,4 +139,4 @@ const PerfilFrom = () => {
   );
 }
 
-export default PerfilFrom;
+export default PerfilForm;

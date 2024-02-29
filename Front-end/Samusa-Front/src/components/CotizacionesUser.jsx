@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Layout from "../Layout";
-import Footer from "../../components/Footer";
-import "../../css/user/Cotizaciones.css";
+import "../Css/User/Cotizaciones.css";
 
 function CotizacionesUser() {
     //manejo datos
@@ -32,7 +30,6 @@ function CotizacionesUser() {
 
     return (
         <div className='body'>
-            <Layout />
             <section id="Tax-calculator">
                 <div className="animate__animated animate__flipInX">
                     <h1 className='title text-3xl font-bold my-4'>Porcentajes de impuestos</h1>
@@ -59,8 +56,6 @@ function CotizacionesUser() {
                     <div id="result"></div>
                 </div>
             </section>
-
-            <Footer />
         </div>
     );
 }

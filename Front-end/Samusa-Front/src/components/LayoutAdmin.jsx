@@ -1,8 +1,6 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import App from '../App'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const user = {
@@ -12,30 +10,29 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-  { name: 'Inicio', href: '#', current: true },
-  { name: 'Tickets', href: '#', current: false },
-  { name: 'Cotizaciones', href: '#', current: false },
-  { name: 'Tracking', href: '#', current: false },
-  { name: 'Iniciar sesión', href: '/Login', current: false }
-  
+  { name: 'Inicio', to: '/', current: true },
+  { name: 'Tickets', to: '/Admin/Tickets', current: false },
+  { name: 'Paqueteria', to: '/Admin/Paqueteria', current: false },
+  { name: 'Imps.', to: '/Admin/Importaciones', current: false },
+  { name: 'Exps.', to: '/Admin/Exportaciones', current: false },
+  { name: 'Clientes', to: '/Admin/Clientes', current: false },
+  { name: 'Colaboradores', to: '/Admin/Colaboradores', current: false },
+  { name: 'Cotizaciones', to: '/Admin/Cotizaciones', current: false },
+  { name: 'Rev. Vehiculo', to: '/Admin/RevisionVehiculo', current: false },
+  { name: 'Rev. Container', to: '/Admin/RevisionContainer', current: false },
 ]
 
 const userNavigation = [
-  { name: 'Mi perfil', to: '/Perfil' },
-  { name: 'Ajustes', to: '/Ajustes' },
-  { name: 'Salir', to: '/Login' },
-  
+  { name: 'Mi perfil', to: '/Admin/Perfil' },
+  { name: 'Salir', to: '/' },
 ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Layout() {
-    
-  
+export default function LayoutAdmin() {
   return (
-    
     <>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
@@ -45,7 +42,7 @@ export default function Layout() {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <img
+                    <img
                         className="h-12 w-11"
                         src="https://i.postimg.cc/0yr9d941/LOGOsinsombra.png"
                         alt="samusa"
@@ -56,7 +53,7 @@ export default function Layout() {
                         {navigation.map((item) => (
                           <Link
                             key={item.name}
-                            to={item.href}
+                            to={item.to}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -104,7 +101,8 @@ export default function Layout() {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
-                                  <Link to = {item.to}
+                                  <Link
+                                    to={item.to}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700'
@@ -114,8 +112,6 @@ export default function Layout() {
                                   </Link>
                                 )}
                               </Menu.Item>
-                              
-
                             ))}
                           </Menu.Items>
                         </Transition>
@@ -189,8 +185,6 @@ export default function Layout() {
             </>
           )}
         </Disclosure>
-                      
-        
 
         <header className="bg-white shadow">
           <link href="https://cdn.jsdelivr.net/npm/hover.css/css/hover-min.css" rel="stylesheet"></link>
@@ -200,19 +194,12 @@ export default function Layout() {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex items-center">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 ml-2">S A M U S A  -</h1>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 27 24" strokeWidth="1.5" stroke="currentColor" class="w-21 h-10">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 27 24" strokeWidth="1.5" stroke="currentColor" className="w-21 h-10">
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
     </svg>
 </div>
-
           </div>
         </header>
-
-        {/*
-         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8"></div>
-        </main>
-      */}
       </div>
     </>
   )
