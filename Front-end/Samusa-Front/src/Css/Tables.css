@@ -1,0 +1,67 @@
+.data-table-section {
+    background: #ffffff;
+    color: #030000;
+    padding: 20px;
+    text-align: center;
+}
+
+.Cliente-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.Cliente-table th, .Cliente-table td {
+    border: 1px solid #5fc9f3; /* Color bordes */
+    padding: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.Cliente-table th {
+    background-color: #00BCD4;/* Color encabezado */
+    color: #FFFFFF;
+}
+
+.Cliente-table td:hover {
+    background-color: rgb(0, 147, 206);
+    transform: scale(1.1);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+.Cliente-table td::before, .Cliente-table td::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+/* Color fondo secundario */
+.Cliente-table td::before {
+    background-color: rgba(30, 84, 159, 0.781); /* Color fondo más suave*/
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+/* Color fondo principal */
+.Cliente-table td::after {
+    background-color: rgba(46, 121, 186, 0.5); /* Color fondo principal*/
+    transform: scaleX(0);
+    transform-origin: right;
+}
+
+.Cliente-table td:hover::before, .Cliente-table td:hover::after {
+    transform: scaleX(1.02);
+}
+.Cliente-table td {
+    z-index: 1;
+    position: relative;
+}
+

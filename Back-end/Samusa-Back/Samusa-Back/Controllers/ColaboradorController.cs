@@ -20,7 +20,7 @@ namespace Samusa_Back.Controllers
             }
             else
             {
-                return BadRequest(new { Status = 400, Message = "Error al obtener la lista de colaboradores." });
+                return NotFound(new { Status = 404, Message = "colaborador no encontrado" });
             }
         }
 
@@ -36,13 +36,13 @@ namespace Samusa_Back.Controllers
             }
             else
             {
-                return BadRequest(new { Status = 400, Message = "Error al obtener el colaborador." });
+                return NotFound(new { Status = 404, Message = "colaborador no encontrado" });
             }
         }
 
         [HttpPost]
         [Route("guardar")]
-        public async Task<IActionResult> SaveColaborador([FromBody] Colaborador colaborador)
+        public async Task<IActionResult> SaveColaborador([FromBody] ColaboradorPersona colaborador)
         {
             var confirmation = await ColaboradoresData.Create(colaborador);
             if (confirmation)
@@ -72,7 +72,7 @@ namespace Samusa_Back.Controllers
 
         [HttpPut]
         [Route("modificar")]
-        public async Task<IActionResult> ModifyColaborador([FromBody] Colaborador colaborador)
+        public async Task<IActionResult> ModifyColaborador([FromBody] ColaboradorPersona colaborador)
         {
             var confirmation = await ColaboradoresData.Update(colaborador);
             if (confirmation)

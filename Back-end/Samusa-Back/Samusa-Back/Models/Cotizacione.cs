@@ -20,8 +20,4 @@ public partial class Cotizacione
     public string EnlaceRef { get; set; } = null!;
 
     public DateTime FechaCreacion { get; set; }
-
-    public virtual Persona IdDniNavigation { get; set; } = null!;
-
-    public virtual Colaborador IdcolaboradorNavigation { get; set; } = null!;
 }

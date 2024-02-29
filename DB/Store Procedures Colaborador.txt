@@ -1,0 +1,134 @@
+USE SAMUSADB;
+-- Add Colaborador
+CREATE PROCEDURE usp_addColaborador (
+		@dni INT,
+		@nombre VARCHAR(25),
+		@primerApellido VARCHAR(25),
+		@segundoApellido VARCHAR(25) = NULL,
+		@telefono VARCHAR(25) = NULL,
+		@email VARCHAR(40),
+		@esNacional BIT = 0,
+		@usuario VARCHAR(250),
+		@password VARCHAR(250),
+		@fechaIng DATE,
+		@rol VARCHAR(75)
+	)
+	AS
+	BEGIN
+		-- Insertar en Persona
+		INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password, Rol)
+		VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password, @rol);
+
+		-- Obtener el IDColaborador siguiente
+		DECLARE @ColaboradorID INT;
+		SELECT @ColaboradorID = ISNULL(MAX(IDColaborador), 0) + 1 FROM Colaborador;
+
+		-- Insertar en Colaborador
+		INSERT INTO Colaborador (IDColaborador, FechaIngreso, DNI_Persona)
+		VALUES (@ColaboradorID, @fechaIng, @dni);
+	END;
+---------------------------------------------------------
+-- Modify Colaborador
+CREATE PROCEDURE usp_modifyColaborador (
+		@dni INT,
+		@newfechaIng VARCHAR(80),
+		@newNombre VARCHAR(25),
+		@newPrimerApellido VARCHAR(25),
+		@newSegundoApellido VARCHAR(25),
+		@newTelefono VARCHAR(25),
+		@newEmail VARCHAR(40),
+		@newEsNacional BIT,
+		@newUsuario VARCHAR(25),
+		@newPassword VARCHAR(100),
+		@newRol VARCHAR (100)
+	)
+	AS
+	BEGIN
+		-- Update Colaborador
+		UPDATE Colaborador
+		SET FechaIngreso = @newfechaIng
+		WHERE DNI_Persona = @dni;
+
+		-- Update Persona
+		UPDATE Persona
+		SET Nombre = @newNombre,
+			PrimerApellido = @newPrimerApellido,
+			SegundoApellido = @newSegundoApellido,
+			Telefono = @newTelefono,
+			Email = @newEmail,
+			EsNacional = @newEsNacional,
+			Usuario = @newUsuario,
+			Password = @newPassword,
+			Rol = @newRol
+
+		WHERE DNI = @dni;
+	END;
+------------------------------------------------------------------------------------------
+--Get Colaborador
+CREATE PROCEDURE usp_getColaborador
+	AS
+	BEGIN
+		SELECT
+			P.DNI,
+			P.Nombre,
+			P.PrimerApellido,
+			P.SegundoApellido,
+			P.Telefono,
+			P.Email,
+			P.EsNacional,
+			P.Usuario,
+		P.Password,
+		p.Rol,
+        CO.FechaIngreso
+    FROM
+        Persona P
+    JOIN
+        Colaborador CO ON P.DNI = CO.DNI_Persona
+END;
+------------------------------------------------------------------------------------------
+--Get only one Colaborador
+CREATE PROCEDURE usp_getSingleColaborador (
+    @dni INT
+)
+AS
+BEGIN
+    SELECT
+        P.DNI,
+        P.Nombre,
+        P.PrimerApellido,
+        P.SegundoApellido,
+        P.Telefono,
+        P.Email,
+        P.EsNacional,
+        P.Usuario,
+		P.Password,
+		P.Rol,
+        CO.FechaIngreso
+    FROM
+        Persona P
+    INNER JOIN
+        Colaborador CO ON P.DNI = CO.DNI_Persona
+    WHERE
+        P.DNI = @dni;
+END;
+------------------------------------------------------------------------------------------
+-- Delete Colaborador
+CREATE PROCEDURE usp_deleteColaborador (
+    @dni INT
+)
+AS
+BEGIN
+    -- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    -- Eliminar en Cliente
+    DELETE FROM Colaborador
+    WHERE DNI_Persona = @dni;
+
+    -- Eliminar en Persona
+    DELETE FROM Persona
+    WHERE DNI = @dni;
+END;
