@@ -11,6 +11,7 @@ import RecuperarPass from './pages/RecuperarPass'
 import AdminClientes from './pages/Admin/AdminClientes'
 import ClientModal from './components/ClientModal'
 import Perfil from './pages/User/Perfil'
+import PerfilFrom from './components/PerfilFrom.jsx'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
@@ -30,7 +31,7 @@ function App() {
       <Route exact path="" element={<IndexUser />}>  </Route>
       <Route exact path="/Login" element={<Login />}> </Route>
       <Route exact path="/RecuperarPass" element={<RecuperarPass />}></Route>
-      <Route exact path="/Perfil" element={<ClientModal/>}> </Route>
+      <Route exact path="/Perfil" element={<PerfilFrom/>}> </Route>
 
     </Routes>
 

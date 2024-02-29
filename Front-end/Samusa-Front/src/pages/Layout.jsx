@@ -3,7 +3,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import App from '../App'
 import { useState } from 'react'
-import { FormPerfilUser } from '../FormPerfilUser'
 import { Link } from 'react-router-dom'
 
 const user = {
@@ -38,15 +37,6 @@ export default function Layout() {
   return (
     
     <>
-    <FormPerfilUser isOpen={isOpen} toggle={setOpenState}>        
-            <input className="inputs"type="text" name="nombre"  id="nombre" placeholder="Ingrese su nombre" />
-            <input className="inputs" type="text" name="apellido"  id="apellido" placeholder="Ingrese su primer apellido" />
-            <input className="inputs" type="text" name="apellido2"  id="apellido" placeholder="Ingrese su segundo apellido" />
-            <input className="inputs" type="text" name="numero"  id="numero" placeholder="Ingrese su Numero de Teléfono" />
-            <input className="inputs" type="email" name="correo"  id="correo" placeholder="Ingrese su correo" />
-
-            <input className="buttons" type="submit" value="Guardar Cambios"/> 
-    </FormPerfilUser>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
