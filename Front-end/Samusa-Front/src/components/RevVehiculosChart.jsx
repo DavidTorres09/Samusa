@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import "../Css/User/Dashboardcard.css";
 
 function RevVehiculosChart() {
   const [chartData, setChartData] = useState([]);
@@ -14,7 +15,7 @@ function RevVehiculosChart() {
           return acc;
         }, {}); 
         //Se pasa al formato que dice higsharts que usemos
-        const transformedData = Object.entries(counts).map(([name, y]) => ({ name, y }));
+        const transformedData = Object.entries(counts).map(([name, y]) => ({ name, y })); //Aca como vemos pasa el nombre del esatdo y la cantidad
   
         setChartData(transformedData);
       });
@@ -54,8 +55,17 @@ function RevVehiculosChart() {
   
 
   return (
+
+    
     <div>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <section id="dashboard">
+      <br/>
+            <div className="cards-container">
+              <div className='card Center-card hvr-bubble-float-left'>
+              <HighchartsReact highcharts={Highcharts} options={options} />
+              </div>
+            </div>
+        </section> 
     </div>
   );
 }
