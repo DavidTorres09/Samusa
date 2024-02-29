@@ -115,7 +115,7 @@ namespace Samusa_Back.Data
 
         public static async Task<ClientePersona> ReadOne(int dni)
         {
-            ClientePersona client = new ClientePersona();
+            ClientePersona client = null; // Inicializamos como null
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
                 SqlCommand cmd = new SqlCommand("usp_getSingleClient", connection);
@@ -146,13 +146,13 @@ namespace Samusa_Back.Data
                             };
                         }
                     }
-                    return client;
                 }
                 catch (Exception e)
                 {
-                    return client;
+                    Console.WriteLine("Error al leer cliente: " + e.Message);
                 }
             }
+            return client;
         }
 
         public static async Task<bool> Delete(int dni)
@@ -180,6 +180,32 @@ namespace Samusa_Back.Data
                     // Captura cualquier otra excepción y registra el mensaje de error
                     Console.WriteLine("Error al intentar eliminar el cliente: " + ex.Message);
                     return false; // Devuelve false en caso de error
+                }
+            }
+        }
+
+
+        public static async Task<bool> Login(ClientePersona usuario)
+        {
+            usuario.IdRol = 0;
+            
+            using (SqlConnection connection = new SqlConnection(Connection.connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("usp_Login", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@usuario", usuario.Usuario);
+                cmd.Parameters.AddWithValue("@password", usuario.Password);
+
+                try
+                {   connection.Open();
+                    cmd.ExecuteScalar();
+                    usuario.IdRol = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                    return false;
                 }
             }
         }
