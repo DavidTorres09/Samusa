@@ -184,5 +184,31 @@ namespace Samusa_Back.Data
             }
         }
 
+
+        public static async Task<bool> Login(ClientePersona usuario)
+        {
+            usuario.IdRol = 0;
+            
+            using (SqlConnection connection = new SqlConnection(Connection.connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("usp_Login", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@usuario", usuario.Usuario);
+                cmd.Parameters.AddWithValue("@password", usuario.Password);
+
+                try
+                {   connection.Open();
+                    cmd.ExecuteScalar();
+                    usuario.IdRol = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error: {e.Message}");
+                    return false;
+                }
+            }
+        }
+
     }
 }

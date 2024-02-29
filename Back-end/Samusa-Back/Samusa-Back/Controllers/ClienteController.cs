@@ -5,6 +5,8 @@ using System.Data.SqlTypes;
 using System.Text;
 using System.Net.Mail;
 using System.Configuration;
+using System.Net;
+using Microsoft.Data.SqlClient;
 
 namespace Samusa_Back.Controllers
 {
@@ -154,6 +156,29 @@ namespace Samusa_Back.Controllers
             client.Send(msg);
 
         }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] ClientePersona persona)
+
+        {
+            string msg = string.Empty;
+
+            var confirmation = await ClienteData.Login(persona);
+
+
+
+            if (confirmation)
+            {
+                return Ok(new { Status = 200 });
+            }
+            else
+            {
+                return NotFound(new { Status = 400, Message = "No se puede ingresar" });
+            }
+
+        }
+
 
     }
 }
