@@ -1,15 +1,14 @@
-import ClientsTable from "../../components/ClientsTable";
 import Footer from "../../components/Footer";
 import LayoutAdmin from "../../components/LayoutAdmin";
 
-const AdminClientes = () => {
+const AdminPAqueteria = () => {
   return (
     <>
     <LayoutAdmin/>
-    <ClientsTable/>
+      <h1>AdminPaqueteria</h1>
     <Footer/>
     </>
   );
-};
+}
 
-export default AdminClientes;
+export default AdminPAqueteria;

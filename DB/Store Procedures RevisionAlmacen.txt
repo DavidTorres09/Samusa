@@ -1,0 +1,102 @@
+USE SAMUSADB;
+-- Add REVA
+CREATE PROCEDURE usp_addRevisionAlmacen (
+    @Vin VARCHAR(35),
+    @Marca VARCHAR(20),
+    @Modelo VARCHAR(20),
+    @Color VARCHAR(20),
+    @CostoVehiculo DECIMAL,
+    @AnioVehiculo INT,
+    @DniDueno INT,
+    @Placa INT = NULL,
+    @EstadoOp VARCHAR(20)
+)
+AS
+BEGIN
+    INSERT INTO RevisionAlmacen (VIN, Marca, Modelo, Color, CostoVehiculo, AnioVehiculo, DNI_Dueno, Placa, EstadoOp)
+    VALUES (@Vin, @Marca, @Modelo, @Color, @CostoVehiculo, @AnioVehiculo, @DniDueno, @Placa, @EstadoOp)
+END
+---------------------------------------------------------
+-- Modify REVA
+CREATE PROCEDURE usp_modifyRevisionAlmacen (
+    @IdformAlmacen INT,
+    @newVin VARCHAR(35),
+    @newMarca VARCHAR(20),
+    @newModelo VARCHAR(20),
+    @newColor VARCHAR(20),
+    @newCostoVehiculo DECIMAL,
+    @newAnioVehiculo INT,
+    @newDniDueno INT,
+    @newPlaca INT,
+    @newEstadoOp VARCHAR(20)
+)
+AS
+BEGIN
+    UPDATE RevisionAlmacen
+    SET Vin = @newVin,
+        Marca = @newMarca,
+        Modelo = @newModelo,
+        Color = @newColor,
+        CostoVehiculo = @newCostoVehiculo,
+        AnioVehiculo = @newAnioVehiculo,
+        Placa = @newPlaca,
+        EstadoOp = @newEstadoOp
+    WHERE IDFormAlmacen = @IdformAlmacen
+END
+------------------------------------------------------------------------------------------
+--Get REVA
+CREATE PROCEDURE usp_getRevisionAlmacen
+AS
+BEGIN
+    SELECT
+		  REVA.IDFormAlmacen,
+			REVA.VIN,
+			REVA.Marca,
+			REVA.Modelo,
+			REVA.Color,
+			REVA.CostoVehiculo,
+                        REVA.AnioVehiculo,
+                        REVA.DNI_Dueno,
+                        REVA.Placa,
+                        REVA.EstadoOp
+    FROM
+        RevisionAlmacen REVA
+END
+-----------------
+--only one REVA
+CREATE PROCEDURE usp_getSingleRevisionAlmacen (
+    @IdformAlmacen INT
+)
+AS
+BEGIN
+SELECT
+    REVA.IDFormAlmacen,
+			REVA.VIN,
+			REVA.Marca,
+			REVA.Modelo,
+			REVA.Color,
+			REVA.CostoVehiculo,
+                        REVA.AnioVehiculo,
+                        REVA.DNI_Dueno,
+                        REVA.Placa,
+                        REVA.EstadoOp
+    FROM
+        RevisionAlmacen REVA
+    WHERE REVA.IDFormAlmacen = @IdformAlmacen
+END
+------------------------------------------------------------------------------------------
+-- Delete REVA
+CREATE PROCEDURE usp_deleteRevisionAlmacen (
+    @IdformAlmacen INT
+)
+AS
+BEGIN
+-- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    DELETE FROM RevisionAlmacen
+    WHERE IDFormAlmacen = @IdformAlmacen
+END

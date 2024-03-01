@@ -1,0 +1,42 @@
+.card {
+    background-color: #303f9f;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card {
+    background-color: #303f9f;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(50% - 10px); 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.right-card {
+    width: calc(50% - 10px);
+    align-self: stretch;
+    margin-left: 25%;
+}
+
+.Center-card {
+    width: calc(50% - 10px);
+    align-self: stretch;
+    margin-left: 25%;
+}
+
+.card{-webkit-animation:shadow-pop-br .3s cubic-bezier(.47,0.000,.745,.715) both;animation:shadow-pop-br .3s cubic-bezier(.47,0.000,.745,.715) both}
+@-webkit-keyframes shadow-pop-br{0%{-webkit-box-shadow:0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11;box-shadow:0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11;-webkit-transform:translateX(0) translateY(0);transform:translateX(0) translateY(0)}100%{-webkit-box-shadow:1px 1px #e7ae11,2px 2px #e7ae11,3px 3px #e7ae11,4px 4px #e7ae11,5px 5px #e7ae11,6px 6px #e7ae11,7px 7px #e7ae11,8px 8px #e7ae11;box-shadow:1px 1px #e7ae11,2px 2px #e7ae11,3px 3px #e7ae11,4px 4px #e7ae11,5px 5px #e7ae11,6px 6px #e7ae11,7px 7px #e7ae11,8px 8px #e7ae11;-webkit-transform:translateX(-8px) translateY(-8px);transform:translateX(-8px) translateY(-8px)}}@keyframes shadow-pop-br{0%{-webkit-box-shadow:0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11;box-shadow:0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11,0 0 #e7ae11;-webkit-transform:translateX(0) translateY(0);transform:translateX(0) translateY(0)}100%{-webkit-box-shadow:1px 1px #e7ae11,2px 2px #e7ae11,3px 3px #e7ae11,4px 4px #e7ae11,5px 5px #e7ae11,6px 6px #e7ae11,7px 7px #e7ae11,8px 8px #e7ae11;box-shadow:1px 1px #e7ae11,2px 2px #e7ae11,3px 3px #e7ae11,4px 4px #e7ae11,5px 5px #e7ae11,6px 6px #e7ae11,7px 7px #e7ae11,8px 8px #e7ae11;-webkit-transform:translateX(-8px) translateY(-8px);transform:translateX(-8px) translateY(-8px)}}

@@ -60,7 +60,9 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
           }
       }
       else {
-        const updateColabo = await fetch(
+        editedColabo.fechaIngreso = new Date().toISOString();
+        console.log(editedColabo)
+        const updateColabo = await fetch(          
           `https://localhost:7293/api/samusa/colaborador/modificar`,
           {
             method: "PUT",

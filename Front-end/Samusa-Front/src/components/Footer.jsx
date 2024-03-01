@@ -5,7 +5,7 @@ const Footer = () => {
     return(
         <footer>
             <div className="footer-section" id="footer-branding">
-            <img src="https://i.postimg.cc/0yr9d941/LOGOsinsombra.png" alt="" srcset="" />
+            <img src="https://i.postimg.cc/0yr9d941/LOGOsinsombra.png" alt="" srcSet="" />
         </div>
         <div className="footer-section" id="footer-contact">
             <h3>Contacto</h3>

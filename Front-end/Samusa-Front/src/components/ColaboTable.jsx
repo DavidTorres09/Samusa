@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import LayoutAdmin from '../pages/LayoutAdmin';
+import LayoutAdmin from './LayoutAdmin';
 import ColaboModal from './ColaboModal'; /* Aqui va el modal de colanoradores */
 import "../css/Tables.css";
 
