@@ -8,7 +8,21 @@ function UserCotizaciones () {
     return (
         <>
         <Layout></Layout>
+        <div className="fondo">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <CotizacionesUser/>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        </div>
         <Footer></Footer>
         </>
     );
