@@ -63,20 +63,19 @@ const RevVehiculosTable = () => {
       <section className='data-table-section'>
       <div className="table-container">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de revisiones de vehiculos</h1>
-        <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+
+        <div class="table-controls">
+          <button
+            className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar revision de vehiculo
+            Agregar Usuario
           </button>
-
-          <br />
-          <br />
-
-          <input type="text" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
+          <input type="text" id="searchBox" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
+          </div>
 
         <div className="">
-          <table className="Cliente-table w-full table-auto border-collapse rounded">
+          <table className="Cliente-table w-full table-auto border-collapse rounded Tablebg">
             <thead>
               <tr className="">
                 <th className="py-4 px-6">Id de formulario</th>

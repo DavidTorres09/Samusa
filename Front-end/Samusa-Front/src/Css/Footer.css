@@ -5,6 +5,7 @@ footer {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    bottom: 0;
 }
 
 .footer-section h2, .footer-section h3 {
