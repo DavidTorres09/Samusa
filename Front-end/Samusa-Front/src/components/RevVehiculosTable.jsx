@@ -69,7 +69,7 @@ const RevVehiculosTable = () => {
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar Usuario
+            Agregar Vehiculo
           </button>
           <input type="text" id="searchBox" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
           </div>
