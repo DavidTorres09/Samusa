@@ -11,16 +11,16 @@ namespace Samusa_Back.Data
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
-                SqlCommand cmd = new SqlCommand("", connection);
+                SqlCommand cmd = new SqlCommand("usp_addRevisionContenedor", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
 
-                cmd.Parameters.AddWithValue("@Vin", revisionC.PuertoOrigen);
-                cmd.Parameters.AddWithValue("@Marca", revisionC.PuertoDestino);
-                cmd.Parameters.AddWithValue("@Modelo", revisionC.Naviera);
-                cmd.Parameters.AddWithValue("@Color", revisionC.Transportista);
+                cmd.Parameters.AddWithValue("@PuertoOrigen", revisionC.PuertoOrigen);
+                cmd.Parameters.AddWithValue("@PuertoDestino", revisionC.PuertoDestino);
+                cmd.Parameters.AddWithValue("@Naviera", revisionC.Naviera);
+                cmd.Parameters.AddWithValue("@Transportista", revisionC.Transportista);
                 cmd.Parameters.AddWithValue("@DniDueno", revisionC.DniDueno);
-                cmd.Parameters.AddWithValue("@AnioVehiculo", revisionC.Estado);
+                cmd.Parameters.AddWithValue("@Estado", revisionC.Estado);
 
                 try
                 {
@@ -41,16 +41,16 @@ namespace Samusa_Back.Data
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
-                SqlCommand cmd = new SqlCommand("", connection);
+                SqlCommand cmd = new SqlCommand("usp_modifyRevisionContenedor", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@IdformAlmacen", revisionC.IdrevCont);
-                cmd.Parameters.AddWithValue("@newVin", revisionC.PuertoOrigen);
-                cmd.Parameters.AddWithValue("@newMarca", revisionC.PuertoDestino);
-                cmd.Parameters.AddWithValue("@newModelo", revisionC.Naviera);
-                cmd.Parameters.AddWithValue("@newColor", revisionC.Transportista);
+                cmd.Parameters.AddWithValue("@IdrevCont", revisionC.IdrevCont);
+                cmd.Parameters.AddWithValue("@newPuertoOrigen", revisionC.PuertoOrigen);
+                cmd.Parameters.AddWithValue("@newPuertoDestino", revisionC.PuertoDestino);
+                cmd.Parameters.AddWithValue("@newNaviera", revisionC.Naviera);
+                cmd.Parameters.AddWithValue("@newTransportista", revisionC.Transportista);
                 cmd.Parameters.AddWithValue("@newDniDueno", revisionC.DniDueno);
-                cmd.Parameters.AddWithValue("@newAnioVehiculo", revisionC.Estado);
+                cmd.Parameters.AddWithValue("@newEstado", revisionC.Estado);
 
                 try
                 {
@@ -71,7 +71,7 @@ namespace Samusa_Back.Data
             List<RevisionContenedor> RevsCont = new List<RevisionContenedor>();
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
-                SqlCommand cmd = new SqlCommand("", connection);
+                SqlCommand cmd = new SqlCommand("usp_getRevisionContenedor", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 try
@@ -109,7 +109,7 @@ namespace Samusa_Back.Data
             RevisionContenedor RevCont = new RevisionContenedor();
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
-                SqlCommand cmd = new SqlCommand(" ", connection);
+                SqlCommand cmd = new SqlCommand("usp_getSingleRevisionContenedor", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdrevCont", IdrevCont);
 
@@ -146,7 +146,7 @@ namespace Samusa_Back.Data
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
-                SqlCommand cmd = new SqlCommand("", connection);
+                SqlCommand cmd = new SqlCommand("usp_deleteRevisionContenedor", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdrevCont", IdrevCont);
 

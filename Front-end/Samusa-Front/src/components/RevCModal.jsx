@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 
-const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
+const RevCModal = ({ user, onClose, isEditing  }) => {
   const [editedRevVeh, seteditedRevVeh] = useState(user || {
-    idformAlmacen: "",
-    vin: "",
-    marca: "",
-    modelo: "",
-    color: "",
-    costoVehiculo: "",
-    anioVehiculo: "",
+    idrevCont: "",
+    puertoOrigen: "",
+    puertoDestino: "",
+    naviera: "",
+    transportista: "",
     dniDueno: "",
-    placa: "",
-    estadoOp: "",
+    estado: "",
   });
 
   const handleInputChange = (event) => {
@@ -27,9 +24,9 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
   const handleSave = async () => {
     try {
       if (isEditing===false) {   
-        editedRevVeh.idformAlmacen = 0;
+        editedRevVeh.idrevCont = 0;
         console.log(editedRevVeh)   
-      const response = await fetch('https://localhost:7293/api/samusa/revisionAlmacen/guardar', {
+      const response = await fetch('https://localhost:7293/api/samusa/revisionContenedor/guardar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +44,7 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
       }
       else {
         const updateCotiza = await fetch(
-          `https://localhost:7293/api/samusa/revisionAlmacen/modificar`,
+          `https://localhost:7293/api/samusa/revisionContenedor/modificar`,
           {
             method: "PUT",
             headers: {
@@ -87,43 +84,34 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
               {isEditing ? <h3 className="text-lg font-medium leading-6 text-black">Editar Revision</h3> : <h3 className="text-lg font-medium leading-6 text-black">Agregar Revision</h3>}
               <br />
                 <div className="mb-4">
-                  <label htmlFor="vin" className="block text-sm font-medium text-gray-700">VIN</label>
-                  <input type="text" name="vin" id="vin" value={editedRevVeh.vin} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="puertoOrigen" className="block text-sm font-medium text-gray-700">Puerto Origen</label>
+                  <input type="text" name="puertoOrigen" id="puertoOrigen" value={editedRevVeh.puertoOrigen} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="marca" className="block text-sm font-medium text-gray-700">Marca</label>
-                  <input type="text" name="marca" id="marca" value={editedRevVeh.marca} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="puertoDestino" className="block text-sm font-medium text-gray-700">Puerto Destino</label>
+                  <input type="text" name="puertoDestino" id="puertoDestino" value={editedRevVeh.puertoDestino} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="modelo" className="block text-sm font-medium text-gray-700">Modelo</label>
-                  <input type="text" name="modelo" id="modelo" value={editedRevVeh.modelo} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="naviera" className="block text-sm font-medium text-gray-700">Naviera</label>
+                  <input type="text" name="naviera" id="naviera" value={editedRevVeh.naviera} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color</label>
-                  <input type="text" name="color" id="color" value={editedRevVeh.color} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="costoVehiculo" className="block text-sm font-medium text-gray-700">Costo</label>
-                  <input type="text" name="costoVehiculo" id="costoVehiculo" value={editedRevVeh.costoVehiculo} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="anioVehiculo" className="block text-sm font-medium text-gray-700">Año del vehiculo</label>
-                  <input type="text" name="anioVehiculo" id="anioVehiculo" value={editedRevVeh.anioVehiculo} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="transportista" className="block text-sm font-medium text-gray-700">Transportista</label>
+                  <input type="text" name="transportista" id="transportista" value={editedRevVeh.transportista} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="dniDueno" className="block text-sm font-medium text-gray-700">DNI del dueño</label>
                   <input type="text" name="dniDueno" id="dniDueno" value={editedRevVeh.dniDueno} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="placa" className="block text-sm font-medium text-gray-700">Placa</label>
-                  <input type="text" name="placa" id="placa" value={editedRevVeh.placa} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="estadoOp" className="block text-sm font-medium text-gray-700"> Estado </label>
-                    <select name="estadoOp" id="estadoOp" value={editedRevVeh.estadoOp} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                    <label htmlFor="estado" className="block text-sm font-medium text-gray-700"> Estado </label>
+                    <select name="estado" id="estado" value={editedRevVeh.estado} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
                       <option value="Documentacion">Documentacion</option>
-                      <option value="Pendiente de cita">Pendiente de cita</option>
-                      <option value="En revisión">En revisión</option>
+                      <option value="En puerto">En puerto</option>
+                      <option value="En espera de descarga">En espera de descarga</option>
+                      <option value="En descarga">En descarga</option>
+                      <option value="Ruta a almacen">Ruta a almacen</option>
+                      <option value="En Almacen">En Almacen</option>
                       <option value="Revisado">Revisado</option>
                     </select>
                   </div>
@@ -144,4 +132,4 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
   );
 };
 
-export default RevVehiculosModal;
+export default RevCModal;
