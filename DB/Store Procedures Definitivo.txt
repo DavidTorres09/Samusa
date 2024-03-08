@@ -1,0 +1,547 @@
+USE SAMUSADB;
+-- Add Client
+	CREATE PROCEDURE usp_addClient (
+		@dni INT,
+		@nombre VARCHAR(25),
+		@primerApellido VARCHAR(25),
+		@segundoApellido VARCHAR(25) = NULL,
+		@telefono VARCHAR(25) = NULL,
+		@email VARCHAR(40),
+		@esNacional BIT = 0,
+		@usuario VARCHAR(250),
+		@password VARCHAR(250),
+		@direccion VARCHAR(80),
+		@IdRol INT
+	)
+	AS
+	BEGIN
+		-- Insertar en Persona
+		INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password, IdRol)
+		VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password, @IdRol);
+
+		-- Obtener el IDCliente siguiente
+		DECLARE @ClienteID INT;
+		SELECT @ClienteID = ISNULL(MAX(IDCliente), 0) + 1 FROM Cliente;
+
+		-- Insertar en Cliente
+		INSERT INTO Cliente (IDCliente, Direccion, DNI_Persona)
+		VALUES (@ClienteID, @direccion, @dni);
+	END;
+-- ModifyClient
+	CREATE PROCEDURE usp_modifyClient (
+		@dni INT,
+		@newDireccion VARCHAR(80),
+		@newNombre VARCHAR(25),
+		@newPrimerApellido VARCHAR(25),
+		@newSegundoApellido VARCHAR(25),
+		@newTelefono VARCHAR(25),
+		@newEmail VARCHAR(40),
+		@newEsNacional BIT,
+		@newUsuario VARCHAR(25),
+		@newPassword VARCHAR(100),
+		@newIdRol INT
+	)
+	AS
+	BEGIN
+		-- Update Cliente
+		UPDATE Cliente
+		SET Direccion = @newDireccion
+		WHERE DNI_Persona = @dni;
+
+		-- Update Persona
+		UPDATE Persona
+		SET Nombre = @newNombre,
+			PrimerApellido = @newPrimerApellido,
+			SegundoApellido = @newSegundoApellido,
+			Telefono = @newTelefono,
+			Email = @newEmail,
+			EsNacional = @newEsNacional,
+			Usuario = @newUsuario,
+			Password = @newPassword,
+			IdRol = @newIdRol
+
+		WHERE DNI = @dni;
+	END;
+-- GetClient --
+	CREATE PROCEDURE usp_getClients
+	AS
+	BEGIN
+		SELECT
+			P.DNI,
+			P.Nombre,
+			P.PrimerApellido,
+			P.SegundoApellido,
+			P.Telefono,
+			P.Email,
+			P.EsNacional,
+			P.Usuario,
+		P.Password,
+		p.IdRol,
+        C.Direccion
+    FROM
+        Persona P
+    JOIN
+        Cliente C ON P.DNI = C.DNI_Persona
+END;
+-- To get only one client --
+CREATE PROCEDURE usp_getSingleClient (
+    @dni INT
+)
+AS
+BEGIN
+    SELECT
+        P.DNI,
+        P.Nombre,
+        P.PrimerApellido,
+        P.SegundoApellido,
+        P.Telefono,
+        P.Email,
+        P.EsNacional,
+        P.Usuario,
+		P.Password,
+		P.IdRol,
+        C.Direccion
+    FROM
+        Persona P
+    INNER JOIN
+        Cliente C ON P.DNI = C.DNI_Persona
+    WHERE
+        P.DNI = @dni;
+END;
+-- Delete Client
+CREATE PROCEDURE usp_deleteClients (
+    @dni INT
+)
+AS
+BEGIN
+    -- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    -- Eliminar en Cliente
+    DELETE FROM Cliente
+    WHERE DNI_Persona = @dni;
+
+    -- Eliminar en Persona
+    DELETE FROM Persona
+    WHERE DNI = @dni;
+END;
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+-- Add Colaborador
+CREATE PROCEDURE usp_addColaborador (
+		@dni INT,
+		@nombre VARCHAR(25),
+		@primerApellido VARCHAR(25),
+		@segundoApellido VARCHAR(25) = NULL,
+		@telefono VARCHAR(25) = NULL,
+		@email VARCHAR(40),
+		@esNacional BIT = 0,
+		@usuario VARCHAR(250),
+		@password VARCHAR(250),
+		@fechaIng DATE,
+		@IdRol INT
+	)
+	AS
+	BEGIN
+		-- Insertar en Persona
+		INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password, IdRol)
+		VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password, @IdRol);
+
+		-- Obtener el IDColaborador siguiente
+		DECLARE @ColaboradorID INT;
+		SELECT @ColaboradorID = ISNULL(MAX(IDColaborador), 0) + 1 FROM Colaborador;
+
+		-- Insertar en Colaborador
+		INSERT INTO Colaborador (IDColaborador, FechaIngreso, DNI_Persona)
+		VALUES (@ColaboradorID, @fechaIng, @dni);
+	END;
+-------------------
+-- Modify Colaborador
+CREATE PROCEDURE usp_modifyColaborador (
+		@dni INT,
+		@newfechaIng VARCHAR(80),
+		@newNombre VARCHAR(25),
+		@newPrimerApellido VARCHAR(25),
+		@newSegundoApellido VARCHAR(25),
+		@newTelefono VARCHAR(25),
+		@newEmail VARCHAR(40),
+		@newEsNacional BIT,
+		@newUsuario VARCHAR(25),
+		@newPassword VARCHAR(100),
+		@newIdRol INT
+	)
+	AS
+	BEGIN
+		-- Update Colaborador
+		UPDATE Colaborador
+		SET FechaIngreso = @newfechaIng
+		WHERE DNI_Persona = @dni;
+
+		-- Update Persona
+		UPDATE Persona
+		SET Nombre = @newNombre,
+			PrimerApellido = @newPrimerApellido,
+			SegundoApellido = @newSegundoApellido,
+			Telefono = @newTelefono,
+			Email = @newEmail,
+			EsNacional = @newEsNacional,
+			Usuario = @newUsuario,
+			Password = @newPassword,
+			IdRol  = @newIdRol 
+
+		WHERE DNI = @dni;
+	END;
+--Get Colaborador
+CREATE PROCEDURE usp_getColaborador
+	AS
+	BEGIN
+		SELECT
+			P.DNI,
+			P.Nombre,
+			P.PrimerApellido,
+			P.SegundoApellido,
+			P.Telefono,
+			P.Email,
+			P.EsNacional,
+			P.Usuario,
+		P.Password,
+		p.IdRol ,
+        CO.FechaIngreso
+    FROM
+        Persona P
+    JOIN
+        Colaborador CO ON P.DNI = CO.DNI_Persona
+END;
+--Get only one Colaborador
+CREATE PROCEDURE usp_getSingleColaborador (
+    @dni INT
+)
+AS
+BEGIN
+    SELECT
+        P.DNI,
+        P.Nombre,
+        P.PrimerApellido,
+        P.SegundoApellido,
+        P.Telefono,
+        P.Email,
+        P.EsNacional,
+        P.Usuario,
+		P.Password,
+		P.IdRol ,
+        CO.FechaIngreso
+    FROM
+        Persona P
+    INNER JOIN
+        Colaborador CO ON P.DNI = CO.DNI_Persona
+    WHERE
+        P.DNI = @dni;
+END;
+-- Delete Colaborador
+CREATE PROCEDURE usp_deleteColaborador (
+    @dni INT
+)
+AS
+BEGIN
+    -- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    -- Eliminar en Cliente
+    DELETE FROM Colaborador
+    WHERE DNI_Persona = @dni;
+
+    -- Eliminar en Persona
+    DELETE FROM Persona
+    WHERE DNI = @dni;
+END;
+-- Add Cotizaciones
+CREATE PROCEDURE usp_addCotizaciones (
+                @dni DECIMAL,
+                @Idcolaborador DECIMAL,
+                @TipoProducto VARCHAR(35),
+                @Producto VARCHAR(20),
+                @PorcentajeImp INT,
+                @EnlaceRef VARCHAR(500),
+                @fechaCrea DATETIME 
+	)
+	AS
+	BEGIN
+    -- Verificar si los Ids de DNI y Colaborador existen
+    IF NOT EXISTS (SELECT * FROM Persona WHERE DNI = @dni)
+        RAISERROR ('DNI de Persona no existe', 16, 1)
+    IF NOT EXISTS (SELECT * FROM Colaborador WHERE IDColaborador = @Idcolaborador)
+        RAISERROR ('Id de Colaborador no existe', 16, 1)
+
+    -- Insertar la nueva cotización
+    INSERT INTO Cotizaciones (ID_DNI, IDColaborador, TipoProducto, Producto, PorcentajeImp, EnlaceRef,FechaCreacion)
+    VALUES (@dni, @Idcolaborador, @TipoProducto, @Producto, @PorcentajeImp, @EnlaceRef,@fechaCrea)
+END
+---------------------------------------------------------
+-- Modify Cotizaciones
+CREATE PROCEDURE usp_modifyCotizaciones (
+		@IdCotizacion INT,
+                @newTipoProducto VARCHAR(35),
+                @newProducto VARCHAR(20),
+                @newPorcentajeImp INT,
+                @newEnlaceRef VARCHAR(500)
+	)
+	AS
+	BEGIN
+		-- Update Cotizaciones
+		UPDATE Cotizaciones
+		SET TipoProducto = @newTipoProducto,
+                    Producto = @newProducto,
+                    PorcentajeImp = @newPorcentajeImp,
+                    EnlaceRef = @newEnlaceRef
+		WHERE IDCotizacion = @IdCotizacion;
+
+	END;
+------------------------------------------------------------------------------------------
+--Get Cotizaciones
+CREATE PROCEDURE usp_getCotizaciones
+	AS
+	BEGIN
+		SELECT
+		    COT.IDCotizacion,
+			COT.TipoProducto,
+			COT.Producto,
+			COT.PorcentajeImp,
+			COT.EnlaceRef,
+			COT.FechaCreacion
+    FROM
+        Cotizaciones COT
+END;
+-----------------
+--only one Cotizaciones
+CREATE PROCEDURE usp_getSingleCotizaciones (
+    @IdCotizacion INT
+)
+AS
+BEGIN
+    SELECT
+        COT.IDCotizacion,
+			COT.TipoProducto,
+			COT.Producto,
+			COT.PorcentajeImp,
+			COT.EnlaceRef,
+			COT.FechaCreacion
+    FROM
+        Cotizaciones COT
+    WHERE
+        COT.IDCotizacion = @IdCotizacion;
+END;
+------------------------------------------------------------------------------------------
+-- Delete Cotizaciones
+CREATE PROCEDURE usp_deleteCotizaciones (
+    @IdCotizacion INT
+)
+AS
+BEGIN
+    -- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    -- Eliminar en Cotizaciones
+    DELETE FROM Cotizaciones
+    WHERE IDCotizacion = @IdCotizacion;
+END;
+-- Add REVA
+CREATE PROCEDURE usp_addRevisionAlmacen (
+    @Vin VARCHAR(35),
+    @Marca VARCHAR(20),
+    @Modelo VARCHAR(20),
+    @Extras VARCHAR(20),
+    @Color VARCHAR(20),
+    @CostoVehiculo DECIMAL,
+    @AnioVehiculo INT,
+    @DniDueno INT,
+    @Placa INT = NULL,
+    @EstadoOp VARCHAR(20)
+)
+AS
+BEGIN
+    INSERT INTO RevisionAlmacen (VIN, Marca, Modelo,Extras, Color, CostoVehiculo, AnioVehiculo, DNI_Dueno, Placa, EstadoOp)
+    VALUES (@Vin, @Marca, @Modelo,@Extras, @Color, @CostoVehiculo, @AnioVehiculo, @DniDueno, @Placa, @EstadoOp)
+END
+---------------------------------------------------------
+-- Modify REVA
+CREATE PROCEDURE usp_modifyRevisionAlmacen (
+    @IdformAlmacen INT,
+    @newVin VARCHAR(35),
+    @newMarca VARCHAR(20),
+    @newModelo VARCHAR(20),
+    @newColor VARCHAR(20),
+    @newExtras VARCHAR(20),
+    @newCostoVehiculo DECIMAL,
+    @newAnioVehiculo INT,
+    @newDniDueno INT,
+    @newPlaca INT,
+    @newEstadoOp VARCHAR(20)
+)
+AS
+BEGIN
+    UPDATE RevisionAlmacen
+    SET Vin = @newVin,
+        Marca = @newMarca,
+        Modelo = @newModelo,
+        Color = @newColor,
+        Extras = @newExtras,
+        CostoVehiculo = @newCostoVehiculo,
+        AnioVehiculo = @newAnioVehiculo,
+        Placa = @newPlaca,
+        EstadoOp = @newEstadoOp
+    WHERE IDFormAlmacen = @IdformAlmacen
+END
+------------------------------------------------------------------------------------------
+--Get REVA
+CREATE PROCEDURE usp_getRevisionAlmacen
+AS
+BEGIN
+    SELECT
+		  REVA.IDFormAlmacen,
+			REVA.VIN,
+			REVA.Marca,
+			REVA.Modelo,
+                        REVA.Extras,
+			REVA.Color,
+			REVA.CostoVehiculo,
+                        REVA.AnioVehiculo,
+                        REVA.DNI_Dueno,
+                        REVA.Placa,
+                        REVA.EstadoOp
+    FROM
+        RevisionAlmacen REVA
+END
+-----------------
+--only one REVA
+CREATE PROCEDURE usp_getSingleRevisionAlmacen (
+    @IdformAlmacen INT
+)
+AS
+BEGIN
+SELECT
+    REVA.IDFormAlmacen,
+			REVA.VIN,
+			REVA.Marca,
+			REVA.Modelo,
+			REVA.Color,
+                        REVA.Extras,
+			REVA.CostoVehiculo,
+                        REVA.AnioVehiculo,
+                        REVA.DNI_Dueno,
+                        REVA.Placa,
+                        REVA.EstadoOp
+    FROM
+        RevisionAlmacen REVA
+    WHERE REVA.IDFormAlmacen = @IdformAlmacen
+END
+------------------------------------------------------------------------------------------
+-- Delete REVA
+CREATE PROCEDURE usp_deleteRevisionAlmacen (
+    @IdformAlmacen INT
+)
+AS
+BEGIN
+-- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    DELETE FROM RevisionAlmacen
+    WHERE IDFormAlmacen = @IdformAlmacen
+END
+-- Add REVC
+CREATE PROCEDURE usp_addRevisionContenedor (
+    @PuertoOrigen VARCHAR(20),
+    @PuertoDestino VARCHAR(20),
+    @Naviera VARCHAR(20),
+    @Transportista VARCHAR(20),
+    @DniDueno INT,
+    @Estado VARCHAR(20)
+)
+AS
+BEGIN
+    INSERT INTO RevisionContenedor (PuertoOrigen, PuertoDestino, Naviera, Transportista, DNI_Dueno, Estado)
+    VALUES (@PuertoOrigen, @PuertoDestino, @Naviera, @Transportista, @DniDueno, @Estado)
+END
+---------------------------------------------------------
+-- Modify REVC
+CREATE PROCEDURE usp_modifyRevisionContenedor (
+    @IdrevCont INT,
+    @newPuertoOrigen VARCHAR(20),
+    @newPuertoDestino VARCHAR(20),
+    @newNaviera VARCHAR(20),
+    @newTransportista VARCHAR(20),
+    @newDniDueno INT,
+    @newEstado VARCHAR(20)
+)
+AS
+BEGIN
+    UPDATE RevisionContenedor
+    SET PuertoOrigen = @newPuertoOrigen,
+        PuertoDestino = @newPuertoDestino,
+        Naviera = @newNaviera,
+        Transportista = @newTransportista,
+        DNI_Dueno = @newDniDueno,
+        Estado = @newEstado
+    WHERE IDRevCont = @IdrevCont
+END
+------------------------------------------------------------------------------------------
+--Get REVC
+CREATE PROCEDURE usp_getRevisionContenedor
+AS
+BEGIN
+    SELECT
+		  REVC.IDRevCont,
+			REVC.PuertoOrigen,
+			REVC.PuertoDestino,
+			REVC.Naviera,
+			REVC.Transportista,
+                        REVC.DNI_Dueno,
+			REVC.Estado
+    FROM
+        RevisionContenedor REVC
+END
+-----------------
+--only one REVC
+CREATE PROCEDURE usp_getSingleRevisionContenedor (
+    @IdrevCont INT
+)
+AS
+BEGIN
+SELECT
+    REVC.IDRevCont,
+			REVC.PuertoOrigen,
+			REVC.PuertoDestino,
+			REVC.Naviera,
+			REVC.Transportista,
+                        REVC.DNI_Dueno,
+			REVC.Estado
+    FROM
+        RevisionContenedor REVC
+    WHERE REVC.IDRevCont = @IdrevCont
+END
+------------------------------------------------------------------------------------------
+-- Delete REVC
+CREATE PROCEDURE usp_deleteRevisionContenedor (
+    @IdrevCont INT
+)
+AS
+BEGIN
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    DELETE FROM RevisionContenedor
+    WHERE IDRevCont = @IdrevCont
+END
