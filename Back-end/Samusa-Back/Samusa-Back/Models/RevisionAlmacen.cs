@@ -12,6 +12,7 @@ public partial class RevisionAlmacen
     public string Marca { get; set; } = null!;
 
     public string Modelo { get; set; } = null!;
+    public string Extras { get; set; } = null!;
 
     public string Color { get; set; } = null!;
 

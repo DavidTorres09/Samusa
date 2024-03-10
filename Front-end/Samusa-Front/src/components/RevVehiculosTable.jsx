@@ -82,6 +82,7 @@ const RevVehiculosTable = () => {
                 <th className="py-4 px-6">VIN</th>
                 <th className="py-4 px-6">Marca</th>
                 <th className="py-4 px-6">Modelo</th>
+                <th className="py-4 px-6">Extras</th>
                 <th className="py-4 px-6">Color</th>
                 <th className="py-4 px-6">Costo de vehiculo</th>
                 <th className="py-4 px-6">Año de vehiculo</th>
@@ -98,6 +99,7 @@ const RevVehiculosTable = () => {
                   <td className="py-4 px-6">{item.vin}</td>
                   <td className="py-4 px-6">{item.marca}</td>
                   <td className="py-4 px-6">{item.modelo}</td>
+                  <td className="py-4 px-6">{item.extras}</td>
                   <td className="py-4 px-6">{item.color}</td>
                   <td className="py-4 px-6">{item.costoVehiculo}</td>
                   <td className="py-4 px-6">{item.anioVehiculo}</td>
