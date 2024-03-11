@@ -111,7 +111,7 @@ const ClientsTable = () => {
                     <td className="py-4 px-6">{cliente.usuario}</td>
                     <td className="py-4 px-6">{cliente.password}</td>
                     <td className="py-4 px-6">{cliente.direccion}</td>
-                    <td className="py-4 px-6">{cliente.rol}</td>
+                    <td className="py-4 px-6">{cliente.idRol}</td>
                     <td className="py-4 px-6">
                       <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(cliente.dni)}  >
                         Eliminar

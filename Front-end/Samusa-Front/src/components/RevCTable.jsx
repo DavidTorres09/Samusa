@@ -62,7 +62,7 @@ const RevCTable = () => {
     <>
       <section className='data-table-section'>
       <div className="table-container">
-        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de revisiones de cotenedores</h1>
+        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de revisiones de contenedores</h1>
 
         <div class="table-controls">
           <button

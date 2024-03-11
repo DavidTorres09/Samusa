@@ -93,7 +93,7 @@ const CotizaTable = () => {
               {tableData.filter(item => item.producto.toLowerCase().includes(query)).map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
                   <td className="py-4 px-6">{item.idcotizacion}</td>
-                  <td className="py-4 px-6">{item.idcolaborador}</td>
+                  <td className="py-4 px-6">{item.idDni}</td>
                   <td className="py-4 px-6">{item.tipoProducto}</td>
                   <td className="py-4 px-6">{item.producto}</td>
                   <td className="py-4 px-6">{item.porcentajeImp}</td>

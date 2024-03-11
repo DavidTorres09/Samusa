@@ -84,6 +84,7 @@ namespace Samusa_Back.Data
                             quotations.Add(new Cotizacione()
                             {
                                 Idcotizacion = Convert.ToInt32(dr["IdCotizacion"]),
+                                IdDni = Convert.ToInt32(dr["ID_DNI"]),
                                 TipoProducto = dr["TipoProducto"].ToString(),
                                 Producto = dr["Producto"].ToString(),
                                 PorcentajeImp = Convert.ToInt32(dr["PorcentajeImp"]),

@@ -1,5 +1,6 @@
-USE Prueba;
+CREATE DATABASE [SAMUSADB]
 
+USE SAMUSADB
 
 CREATE TABLE Persona (
 	DNI INT NOT NULL,
@@ -25,7 +26,7 @@ CREATE TABLE Cliente (
 
 CREATE TABLE Colaborador (
 	IDColaborador INT NOT NULL IDENTITY(1,1),
-	FechaIngreso DATE NOT NULL,
+	FechaIngreso DATETIME NOT NULL,
     	DNI_Persona INT NOT NULL,
     	CONSTRAINT PK_Colaborador PRIMARY KEY (IDColaborador),
     	CONSTRAINT FK_Colaborador_Persona FOREIGN KEY (DNI_Persona) REFERENCES Persona(DNI) 
@@ -64,7 +65,7 @@ CREATE TABLE Importaciones (
     IDRevVehiculo INT NULL,
     IDRevContenedor INT NULL,
 	FechaInicio DATETIME NOT NULL,
-	FechaFinalizacion DATETIME NOT NULL,
+	FechaFinalizacion DATETIME NULL,
 	FechaEsperada DATETIME NULL,
 	Prioridad VARCHAR (80) NOT NULL,
     Descripcion VARCHAR (250) NULL,
@@ -270,7 +271,7 @@ CREATE PROCEDURE usp_addColaborador (
 		@esNacional BIT = 0,
 		@usuario VARCHAR(250),
 		@password VARCHAR(250),
-		@fechaIng DATE,
+		@fechaIng DATETIME,
 		@IdRol INT
 	)
 	AS
@@ -280,7 +281,7 @@ CREATE PROCEDURE usp_addColaborador (
 		VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password, @IdRol);
 
 		-- Insertar en Colaborador
-		INSERT INTO Colaborador ( FechaIngreso, DNI_Persona)
+		INSERT INTO Colaborador (FechaIngreso, DNI_Persona)
 		VALUES (@fechaIng, @dni);
 	END;
 -------------------
@@ -434,6 +435,7 @@ CREATE PROCEDURE usp_getCotizaciones
 	BEGIN
 		SELECT
 		    COT.IDCotizacion,
+			COT.ID_DNI,
 			COT.TipoProducto,
 			COT.Producto,
 			COT.PorcentajeImp,
@@ -670,3 +672,114 @@ BEGIN
     DELETE FROM RevisionContenedor
     WHERE IDRevCont = @IdrevCont
 END;
+--------------------------------
+CREATE PROC [dbo].[usp_Login] (
+@Usuario VARCHAR(250),
+@Password VARCHAR(250)
+) AS
+BEGIN
+if (exists(select * from Persona where Usuario = @Usuario and Password = @Password))
+			select IdRol from Persona where Usuario = @Usuario and Password = @Password
+	else
+	select '0'
+
+END
+GO
+------------------------
+-- Add Importaciones 
+CREATE PROCEDURE usp_addImportacion (
+    @IDImpSeguimiento INT,
+    @ID_DNI INT,
+    @IDRevVehiculo INT = NULL,
+    @IDRevContenedor INT = NULL,
+    @FechaInicio DATETIME,
+    @FechaFinalizacion DATETIME = NULL,
+    @FechaEsperada DATETIME = NULL,
+    @Prioridad VARCHAR(80),
+    @Descripcion VARCHAR(250) = NULL
+)
+AS
+BEGIN
+    INSERT INTO Importaciones (IDImpSeguimiento, ID_DNI, IDRevVehiculo, IDRevContenedor, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion)
+    VALUES (@IDImpSeguimiento, @ID_DNI, @IDRevVehiculo, @IDRevContenedor, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion)
+END
+------------------
+-- Modify Importaciones 
+CREATE PROCEDURE usp_modifyImportacion (
+    @IDImpSeguimiento INT,
+    @newID_DNI INT,
+    @newIDRevVehiculo INT = NULL,
+    @newIDRevContenedor INT = NULL,
+    @newFechaInicio DATETIME,
+    @newFechaFinalizacion DATETIME = NULL,
+    @newFechaEsperada DATETIME = NULL,
+    @newPrioridad VARCHAR(80),
+    @newDescripcion VARCHAR(250) = NULL
+)
+AS
+BEGIN
+    UPDATE Importaciones
+    SET ID_DNI = @newID_DNI,
+        IDRevVehiculo = @newIDRevVehiculo,
+        IDRevContenedor = @newIDRevContenedor,
+        FechaInicio = @newFechaInicio,
+        FechaFinalizacion = @newFechaFinalizacion,
+        FechaEsperada = @newFechaEsperada,
+        Prioridad = @newPrioridad,
+        Descripcion = @newDescripcion
+    WHERE IDImpSeguimiento = @IDImpSeguimiento;
+END;
+--------------
+--Get Importaciones 
+CREATE PROCEDURE usp_getImportaciones
+AS
+BEGIN
+    SELECT
+		    IMP.IDImpSeguimiento,
+                        IMP.ID_DNI,
+			IMP.IDRevVehiculo,
+			IMP.IDRevContenedor,
+			IMP.FechaInicio,
+			IMP.FechaFinalizacion,
+			IMP.FechaEsperada,
+                        IMP.Prioridad,
+                        IMP.Descripcion
+    FROM
+        Importaciones IMP
+END;
+--------------------------
+--only one Importaciones 
+CREATE PROCEDURE usp_getSingleImportacion (
+    @IDImpSeguimiento INT
+)
+AS
+BEGIN
+    SELECT
+		    IMP.IDImpSeguimiento,
+			IMP.IDRevVehiculo,
+			IMP.IDRevContenedor,
+			IMP.FechaInicio,
+			IMP.FechaFinalizacion,
+			IMP.FechaEsperada,
+                        IMP.Prioridad,
+                        IMP.Descripcion
+    FROM
+        Importaciones IMP
+    WHERE IMP.IDImpSeguimiento = @IDImpSeguimiento
+END;
+------------------------------------
+CREATE PROCEDURE usp_deleteImportacion (
+    @IDImpSeguimiento INT
+)
+AS
+BEGIN
+    -- Verificar si ya se ha ejecutado en este nivel
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    DELETE FROM Importaciones
+    WHERE IDImpSeguimiento = @IDImpSeguimiento
+END
+----------------------------------
