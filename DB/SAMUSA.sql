@@ -670,3 +670,84 @@ BEGIN
     DELETE FROM RevisionContenedor
     WHERE IDRevCont = @IdrevCont
 END;
+
+------------------------------------------------------------------------------------------
+--Get Tickets
+CREATE PROCEDURE ViewTickets
+AS
+BEGIN
+	SELECT Ticket.TicketID, Ticket.Estado, Ticket.Prioridad, Ticket.Descripcion,
+		   Cliente.DNI_PERSONA AS DNI_CLIENTE, Colaborador.DNI_PERSONA AS DNI_COLABORADOR
+	FROM Ticket
+	INNER JOIN Cliente ON Ticket.IDCliente = Cliente.IDCliente
+	INNER JOIN Colaborador ON Ticket.IDColaborador = Colaborador.IDColaborador;
+END;
+
+EXEC ViewTickets;
+
+------------------------------------------------------------------------------------------
+--POST Tickets
+CREATE PROCEDURE InsertTicket
+    @Estado VARCHAR(50),
+    @Prioridad VARCHAR(50),
+    @Descripcion VARCHAR(500),
+    @IDCliente INT,
+    @IDColaborador INT
+AS
+BEGIN
+    -- Verificar si el Cliente y el Colaborador existen
+    IF EXISTS (SELECT 1 FROM Cliente WHERE IDCliente = @IDCliente)
+       AND EXISTS (SELECT 1 FROM Colaborador WHERE IDColaborador = @IDColaborador)
+    BEGIN
+        INSERT INTO Ticket (Estado, Prioridad, Descripcion, IDCliente, IDColaborador)
+        VALUES (@Estado, @Prioridad, @Descripcion, @IDCliente, @IDColaborador)
+    END
+END
+
+------------------------------------------------------------------------------------------
+--Get TicketsByClient
+CREATE PROCEDURE ViewTicketsByClient
+    @IDCliente INT
+AS
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Cliente WHERE IDCliente = @IDCliente)
+    BEGIN
+        RETURN
+    END
+    SELECT Ticket.TicketID, Ticket.Estado, Ticket.Prioridad, Ticket.Descripcion,
+           Colaborador.DNI_PERSONA AS dniColaborador
+    FROM Ticket
+    INNER JOIN Colaborador ON Ticket.IDColaborador = Colaborador.IDColaborador
+    WHERE Ticket.IDCliente = @IDCliente;
+END;
+
+------------------------------------------------------------------------------------------
+--PUT Tickets
+CREATE PROCEDURE EditTicket
+    @TicketID INT,
+    @Estado VARCHAR(50),
+    @Prioridad VARCHAR(50),
+    @Descripcion VARCHAR(500)
+AS
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Ticket WHERE TicketID = @TicketID)
+    BEGIN
+        RETURN
+    END
+    UPDATE Ticket
+    SET Estado = @Estado,
+        Prioridad = @Prioridad,
+        Descripcion = @Descripcion
+    WHERE TicketID = @TicketID;
+END
+
+------------------------------------------------------------------------------------------
+--DELETE Tickets
+CREATE PROCEDURE DeleteTicket (
+    @TicketID INT
+)
+AS
+BEGIN
+    DELETE FROM Ticket
+    WHERE TicketID = @TicketID;
+END;
