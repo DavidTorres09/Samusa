@@ -6,7 +6,20 @@ const AdminClientes = () => {
   return (
     <>
     <LayoutAdmin/>
+    <br />
+    <br />
+    <br />
+    <section className="Background">
     <ClientsTable/>
+    </section>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <Footer/>
     </>
   );

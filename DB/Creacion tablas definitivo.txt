@@ -2,12 +2,6 @@ CREATE DATABASE [SAMUSADB]
 
 USE SAMUSADB
 
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [SAMUSADB].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
-
 CREATE TABLE Persona (
 	DNI INT NOT NULL,
 	Nombre VARCHAR(25) NOT NULL, 
@@ -18,12 +12,12 @@ CREATE TABLE Persona (
 	EsNacional BIT NOT NULL,
 	Usuario VARCHAR(250) NOT NULL,
 	Password VARCHAR(250) NOT NULL,
-	Rol VARCHAR(75) NOT NULL,
+	IdRol INT NOT NULL,
 	CONSTRAINT PK_Persona PRIMARY KEY (DNI)
 )
 
 CREATE TABLE Cliente (
-	IDCliente INT NOT NULL,
+	IDCliente INT NOT NULL IDENTITY(1,1),
     	Direccion VARCHAR (80) NOT NULL,
     	DNI_Persona INT NOT NULL,
    	CONSTRAINT PK_Cliente PRIMARY KEY (IDCliente),
@@ -31,33 +25,70 @@ CREATE TABLE Cliente (
 )
 
 CREATE TABLE Colaborador (
-	IDColaborador INT NOT NULL,
+	IDColaborador INT NOT NULL IDENTITY(1,1),
 	FechaIngreso DATE NOT NULL,
     	DNI_Persona INT NOT NULL,
     	CONSTRAINT PK_Colaborador PRIMARY KEY (IDColaborador),
     	CONSTRAINT FK_Colaborador_Persona FOREIGN KEY (DNI_Persona) REFERENCES Persona(DNI) 
 )
 
+CREATE TABLE RevisionAlmacen(
+	IDFormAlmacen INT NOT NULL IDENTITY(1,1),
+	VIN VARCHAR(35) NOT NULL,
+	Marca VARCHAR(20) NOT NULL,
+    	Modelo VARCHAR(20) NOT NULL,
+        Extras VARCHAR(20) NOT NULL,
+    	Color VARCHAR(20) NOT NULL,
+    	CostoVehiculo DECIMAL(10,2) DEFAULT 0 NOT NULL,
+    	AnioVehiculo INT NOT NULL,
+	DNI_Dueno INT NOT NULL,
+    	Placa INT NULL, -- El vehículo puede aún no tener placa
+    	EstadoOP VARCHAR(20) NOT NULL,
+	CONSTRAINT PK_Vehiculo PRIMARY KEY (VIN)
+)
+
+
+CREATE TABLE RevisionContenedor (
+	IDRevCont INT NOT NULL IDENTITY(1,1),
+	PuertoOrigen VARCHAR(20) NOT NULL,
+	PuertoDestino VARCHAR(20) NOT NULL,
+    	Naviera VARCHAR(20) NOT NULL,
+    	Transportista VARCHAR(20) NOT NULL,
+	DNI_Dueno INT NOT NULL,
+    	Estado VARCHAR(20) NOT NULL,
+	CONSTRAINT PK_Contenedor PRIMARY KEY (IDRevCont)
+);
+
 CREATE TABLE Importaciones (
-	IDImpSeguimiento INT NOT NULL IDENTITY(1,1),
+	IDImpSeguimiento INT NOT NULL,
 	ID_DNI INT NOT NULL,
+        IDRevVehiculo INT NULL,
+        IDRevContenedor INT NULL,
 	FechaInicio DATETIME NOT NULL,
 	FechaFinalizacion DATETIME NOT NULL,
 	FechaEsperada DATETIME NULL,
 	Prioridad VARCHAR (80) NOT NULL,
+        Descripcion VARCHAR (250) NULL,
 	CONSTRAINT PK_IDImpSeguimiento PRIMARY KEY (IDImpSeguimiento),
-    	CONSTRAINT FK_Importaciones_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI)
+    	CONSTRAINT FK_Importaciones_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
+        CONSTRAINT FK_Importaciones_RevA FOREIGN KEY (IDRevVehiculo) REFERENCES RevisionAlmacen(IDFormAlmacen),
+        CONSTRAINT FK_Importaciones_RevC FOREIGN KEY (IDRevContenedor) REFERENCES RevisionContenedor(IDRevCont)
 )
 
 CREATE TABLE Exportaciones (
-	IDExpSeguimiento INT NOT NULL IDENTITY(1,1),
+	IDExpSeguimiento INT NOT NULL,
 	ID_DNI INT NOT NULL,
+        IDRevVehiculo INT NULL,
+        IDRevContenedor INT NULL,
 	FechaInicio DATETIME NOT NULL,
 	FechaFinalizacion DATETIME NOT NULL,
 	FechaEsperada DATETIME NULL,
 	Prioridad VARCHAR (80) NOT NULL,
+        Descripcion VARCHAR (250) NULL
 	CONSTRAINT PK_IDExpSeguimiento PRIMARY KEY (IDExpSeguimiento),
-    	CONSTRAINT FK_Exportaciones_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI)
+    	CONSTRAINT FK_Exportaciones_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
+        CONSTRAINT FK_Exportaciones_RevA FOREIGN KEY (IDRevVehiculo) REFERENCES RevisionAlmacen(IDFormAlmacen),
+        CONSTRAINT FK_Exportaciones_RevC FOREIGN KEY (IDRevContenedor) REFERENCES RevisionContenedor(IDRevCont)
 )
 
 CREATE TABLE Paqueteria (
@@ -74,40 +105,6 @@ CREATE TABLE Paqueteria (
     	CONSTRAINT FK_Paqueteria_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI)
 )
 
-CREATE TABLE Soporte (
-	IDFormulario INT NOT NULL IDENTITY(1,1),
-	ID_DNI INT NOT NULL,
-	FechaInicio DATETIME NOT NULL,
-	FechaFinalizacion DATETIME NOT NULL,
-	FechaEsperada DATETIME NULL,
-	Prioridad VARCHAR (80) NOT NULL,
-	CONSTRAINT PK_IDFormulario PRIMARY KEY (IDFormulario),
-    	CONSTRAINT FK_Soporte_Cliente FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI)
-)
-
-CREATE TABLE FormularioAtencion (
-	IDFormularioAtencion INT NOT NULL IDENTITY(1,1),
-	IDFormulario INT NOT NULL,
-    	VINVehiculo VARCHAR(35) NOT NULL,
-	EstadoAtencion VARCHAR(35) NOT NULL,
-	Detalle VARCHAR(300) NOT NULL,
-    	CONSTRAINT PK_IDFormularioAtencion PRIMARY KEY (IDFormularioAtencion)
-)
-
-CREATE TABLE RevisionAlmacen (
-	IDFormAlmacen INT NOT NULL IDENTITY(1,1),
-	VIN VARCHAR(35) NOT NULL,
-	Marca VARCHAR(20) NOT NULL,
-    	Modelo VARCHAR(20) NOT NULL,
-    	Color VARCHAR(20) NOT NULL,
-    	CostoVehiculo DECIMAL(10,2) DEFAULT 0 NOT NULL,
-    	AnioVehiculo INT NOT NULL,
-	DNI_Dueno INT NOT NULL,
-    	Placa INT NULL, -- El vehículo puede aún no tener placa
-    	EstadoOP VARCHAR(20) NOT NULL,
-	CONSTRAINT PK_Vehiculo PRIMARY KEY (VIN)
-)
-
 CREATE TABLE Cotizaciones (
 	IDCotizacion INT NOT NULL IDENTITY(1,1),
 	ID_DNI INT NOT NULL,
@@ -122,13 +119,13 @@ CREATE TABLE Cotizaciones (
 	CONSTRAINT FK_Colaborador_Cotizacion FOREIGN KEY (IDColaborador) REFERENCES Colaborador(IDColaborador)
 )
 
-CREATE TABLE RevisionContenedor (
-	IDRevCont INT NOT NULL IDENTITY(1,1),
-	PuertoOrigen VARCHAR(20) NOT NULL,
-	PuertoDestino VARCHAR(20) NOT NULL,
-    	Naviera VARCHAR(20) NOT NULL,
-    	Transportista VARCHAR(20) NOT NULL,
-	DNI_Dueno INT NOT NULL,
-    	Estado VARCHAR(20) NOT NULL,
-	CONSTRAINT PK_Contenedor PRIMARY KEY (IDRevCont)
+CREATE TABLE Ticket (
+    TicketID INT IDENTITY(1,1) PRIMARY KEY,
+    Estado VARCHAR(50),
+    Prioridad VARCHAR(50),
+    Descripcion VARCHAR(500),
+    IDCliente INT,
+    IDColaborador INT,
+    FOREIGN KEY (IDCliente) REFERENCES Cliente(IDCliente),
+    FOREIGN KEY (IDColaborador) REFERENCES Colaborador(IDColaborador)
 );

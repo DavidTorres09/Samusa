@@ -33,10 +33,12 @@ public partial class SamusadbContext : DbContext
 
     public virtual DbSet<RevisionAlmacen> RevisionAlmacens { get; set; }
 
+    public virtual DbSet<RevisionContenedor> RevisionContenedors { get; set; }
+
     public virtual DbSet<Soporte> Soportes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source= DESKTOP-ITEJBTN\\SQLEXPRESS; Initial Catalog=SAMUSADB; Persist Security Info=False; Trusted_Connection=True; Encrypt=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -71,6 +73,7 @@ public partial class SamusadbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("IDColaborador");
             entity.Property(e => e.DniPersona).HasColumnName("DNI_Persona");
+            entity.Property(e => e.FechaIngreso).HasColumnType("date");
 
             entity.HasOne(d => d.DniPersonaNavigation).WithMany(p => p.Colaboradors)
                 .HasForeignKey(d => d.DniPersona)
@@ -248,6 +251,31 @@ public partial class SamusadbContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Modelo)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<RevisionContenedor>(entity =>
+        {
+            entity.HasKey(e => e.IdrevCont).HasName("PK_Contenedor");
+
+            entity.ToTable("RevisionContenedor");
+
+            entity.Property(e => e.IdrevCont).HasColumnName("IDRevCont");
+            entity.Property(e => e.DniDueno).HasColumnName("DNI_Dueno");
+            entity.Property(e => e.Estado)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Naviera)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.PuertoDestino)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.PuertoOrigen)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Transportista)
                 .HasMaxLength(20)
                 .IsUnicode(false);
         });

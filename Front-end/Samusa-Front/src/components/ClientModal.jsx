@@ -104,8 +104,8 @@ const ClientModal = ({ user, onClose }) => {
           &#8203;
         </span>
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-blue-600 px-4 py-4 sm:px-6">
-          {isEditing ? <h3 className="text-lg font-medium leading-6 text-white">Editar Usuario</h3> : <h3 className="text-lg font-medium leading-6 text-white">Agregar Usuario</h3>}
+          <div className="bg-blue-600 px-4 py-2 sm:px-6 rounded">
+          {isEditing ? <h3 className="titleform">Editar Usuario</h3> : <h3 className="titleform">Agregar Usuario</h3>}
           </div>
           <div className="bg-white px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start">

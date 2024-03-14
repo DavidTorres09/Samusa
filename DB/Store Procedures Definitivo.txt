@@ -1,136 +1,4 @@
-CREATE DATABASE [SAMUSADB]
-
-USE SAMUSADB
-
-CREATE TABLE Persona (
-	DNI INT NOT NULL,
-	Nombre VARCHAR(25) NOT NULL, 
-	PrimerApellido VARCHAR(25) NOT NULL, 
-	SegundoApellido VARCHAR(25) NULL,
-	Telefono VARCHAR(25) NULL,
-	Email VARCHAR(40) NOT NULL, 
-	EsNacional BIT NOT NULL,
-	Usuario VARCHAR(250) NOT NULL,
-	Password VARCHAR(250) NOT NULL,
-	IdRol INT NOT NULL,
-	CONSTRAINT PK_Persona PRIMARY KEY (DNI)
-)
-
-CREATE TABLE Cliente (
-	IDCliente INT NOT NULL IDENTITY(1,1),
-    	Direccion VARCHAR (80) NOT NULL,
-    	DNI_Persona INT NOT NULL,
-   	CONSTRAINT PK_Cliente PRIMARY KEY (IDCliente),
-    	CONSTRAINT FK_Cliente_Persona FOREIGN KEY (DNI_Persona) REFERENCES Persona(DNI) 
-)
-
-CREATE TABLE Colaborador (
-	IDColaborador INT NOT NULL IDENTITY(1,1),
-	FechaIngreso DATETIME NOT NULL,
-    	DNI_Persona INT NOT NULL,
-    	CONSTRAINT PK_Colaborador PRIMARY KEY (IDColaborador),
-    	CONSTRAINT FK_Colaborador_Persona FOREIGN KEY (DNI_Persona) REFERENCES Persona(DNI) 
-)
-
-CREATE TABLE RevisionAlmacen(
-	IDFormAlmacen INT NOT NULL IDENTITY(1,1),
-	VIN VARCHAR(35) NOT NULL,
-	Marca VARCHAR(20) NOT NULL,
-    Modelo VARCHAR(20) NOT NULL,
-    Extras VARCHAR(20) NOT NULL,
-    Color VARCHAR(20) NOT NULL,
-    CostoVehiculo DECIMAL(10,2) DEFAULT 0 NOT NULL,
-    AnioVehiculo INT NOT NULL,
-	DNI_Dueno INT NOT NULL,
-    Placa INT NULL, -- El veh�culo puede a�n no tener placa
-    EstadoOP VARCHAR(20) NOT NULL,
-	CONSTRAINT PK_RevisionAlmacen PRIMARY KEY (IDFormAlmacen)
-)
-
-
-CREATE TABLE RevisionContenedor (
-	IDRevCont INT NOT NULL IDENTITY(1,1),
-	PuertoOrigen VARCHAR(20) NOT NULL,
-	PuertoDestino VARCHAR(20) NOT NULL,
-    	Naviera VARCHAR(20) NOT NULL,
-    	Transportista VARCHAR(20) NOT NULL,
-	DNI_Dueno INT NOT NULL,
-    	Estado VARCHAR(20) NOT NULL,
-	CONSTRAINT PK_Contenedor PRIMARY KEY (IDRevCont)
-)
-
-CREATE TABLE Importaciones (
-	IDImpSeguimiento INT NOT NULL,
-	ID_DNI INT NOT NULL,
-    IDRevVehiculo INT NULL,
-    IDRevContenedor INT NULL,
-	FechaInicio DATETIME NOT NULL,
-	FechaFinalizacion DATETIME NULL,
-	FechaEsperada DATETIME NULL,
-	Prioridad VARCHAR (80) NOT NULL,
-    Descripcion VARCHAR (250) NULL,
-	CONSTRAINT PK_IDImpSeguimiento PRIMARY KEY (IDImpSeguimiento),
-    CONSTRAINT FK_Importaciones_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
-    CONSTRAINT FK_Importaciones_RevA FOREIGN KEY (IDRevVehiculo) REFERENCES RevisionAlmacen(IDFormAlmacen),
-    CONSTRAINT FK_Importaciones_RevC FOREIGN KEY (IDRevContenedor) REFERENCES RevisionContenedor(IDRevCont)
-)
-
-CREATE TABLE Exportaciones (
-	IDExpSeguimiento INT NOT NULL,
-	ID_DNI INT NOT NULL,
-        IDRevVehiculo INT NULL,
-        IDRevContenedor INT NULL,
-	FechaInicio DATETIME NOT NULL,
-	FechaFinalizacion DATETIME NOT NULL,
-	FechaEsperada DATETIME NULL,
-	Prioridad VARCHAR (80) NOT NULL,
-        Descripcion VARCHAR (250) NULL
-	CONSTRAINT PK_IDExpSeguimiento PRIMARY KEY (IDExpSeguimiento),
-    	CONSTRAINT FK_Exportaciones_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
-        CONSTRAINT FK_Exportaciones_RevA FOREIGN KEY (IDRevVehiculo) REFERENCES RevisionAlmacen(IDFormAlmacen),
-        CONSTRAINT FK_Exportaciones_RevC FOREIGN KEY (IDRevContenedor) REFERENCES RevisionContenedor(IDRevCont)
-)
-
-CREATE TABLE Paqueteria (
-	IDPaqSeguimiento INT NOT NULL IDENTITY(1,1),
-	ID_DNI INT NOT NULL,
-	NumCasillero VARCHAR (80) NOT NULL,
-	NumTracking VARCHAR (80) NOT NULL,
-	TipoProducto VARCHAR (80) NOT NULL,
-	DirectOrigen VARCHAR (200) NOT NULL,
-	DirectDestino VARCHAR (200) NOT NULL,
-	FechaRegistro DATETIME NOT NULL,
-	FechaEsperada DATETIME NULL,
-	CONSTRAINT PK_IDPaqSeguimiento PRIMARY KEY (IDPaqSeguimiento),
-    CONSTRAINT FK_Paqueteria_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI)
-)
-
-CREATE TABLE Cotizaciones (
-	IDCotizacion INT NOT NULL IDENTITY(1,1),
-	ID_DNI INT NOT NULL,
-	IDColaborador INT NOT NULL,
-	TipoProducto VARCHAR(35) NOT NULL,
-	Producto VARCHAR(20) NOT NULL,
-	PorcentajeIMP INT NOT NULL,
-	EnlaceRef VARCHAR(500) NOT NULL,
-	FechaCreacion DATETIME NOT NULL,
-	CONSTRAINT PK_IDCotizacion PRIMARY KEY (IDCotizacion), 
-	CONSTRAINT FK_Cotizacion_Cliente FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
-	CONSTRAINT FK_Colaborador_Cotizacion FOREIGN KEY (IDColaborador) REFERENCES Colaborador(IDColaborador)
-)
-
-CREATE TABLE Ticket (
-    TicketID INT IDENTITY(1,1) PRIMARY KEY,
-    Estado VARCHAR(50),
-    Prioridad VARCHAR(50),
-    Descripcion VARCHAR(500),
-    IDCliente INT,
-    IDColaborador INT,
-    FOREIGN KEY (IDCliente) REFERENCES Cliente(IDCliente),
-    FOREIGN KEY (IDColaborador) REFERENCES Colaborador(IDColaborador)
-);
-
-
+USE SAMUSADB;
 -- Add Client
 	CREATE PROCEDURE usp_addClient (
 		@dni INT,
@@ -151,9 +19,13 @@ CREATE TABLE Ticket (
 		INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password, IdRol)
 		VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password, @IdRol);
 
+		-- Obtener el IDCliente siguiente
+		DECLARE @ClienteID INT;
+		SELECT @ClienteID = ISNULL(MAX(IDCliente), 0) + 1 FROM Cliente;
+
 		-- Insertar en Cliente
-		INSERT INTO Cliente ( Direccion, DNI_Persona)
-		VALUES ( @direccion, @dni);
+		INSERT INTO Cliente (IDCliente, Direccion, DNI_Persona)
+		VALUES (@ClienteID, @direccion, @dni);
 	END;
 -- ModifyClient
 	CREATE PROCEDURE usp_modifyClient (
@@ -190,8 +62,6 @@ CREATE TABLE Ticket (
 
 		WHERE DNI = @dni;
 	END;
-
-select * from Cliente;
 -- GetClient --
 	CREATE PROCEDURE usp_getClients
 	AS
@@ -271,7 +141,7 @@ CREATE PROCEDURE usp_addColaborador (
 		@esNacional BIT = 0,
 		@usuario VARCHAR(250),
 		@password VARCHAR(250),
-		@fechaIng DATETIME,
+		@fechaIng DATE,
 		@IdRol INT
 	)
 	AS
@@ -280,9 +150,13 @@ CREATE PROCEDURE usp_addColaborador (
 		INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password, IdRol)
 		VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password, @IdRol);
 
+		-- Obtener el IDColaborador siguiente
+		DECLARE @ColaboradorID INT;
+		SELECT @ColaboradorID = ISNULL(MAX(IDColaborador), 0) + 1 FROM Colaborador;
+
 		-- Insertar en Colaborador
-		INSERT INTO Colaborador (FechaIngreso, DNI_Persona)
-		VALUES (@fechaIng, @dni);
+		INSERT INTO Colaborador (IDColaborador, FechaIngreso, DNI_Persona)
+		VALUES (@ColaboradorID, @fechaIng, @dni);
 	END;
 -------------------
 -- Modify Colaborador
@@ -404,10 +278,10 @@ CREATE PROCEDURE usp_addCotizaciones (
     IF NOT EXISTS (SELECT * FROM Colaborador WHERE IDColaborador = @Idcolaborador)
         RAISERROR ('Id de Colaborador no existe', 16, 1)
 
-    -- Insertar la nueva cotizaci�n
+    -- Insertar la nueva cotización
     INSERT INTO Cotizaciones (ID_DNI, IDColaborador, TipoProducto, Producto, PorcentajeImp, EnlaceRef,FechaCreacion)
     VALUES (@dni, @Idcolaborador, @TipoProducto, @Producto, @PorcentajeImp, @EnlaceRef,@fechaCrea)
-END;
+END
 ---------------------------------------------------------
 -- Modify Cotizaciones
 CREATE PROCEDURE usp_modifyCotizaciones (
@@ -435,7 +309,6 @@ CREATE PROCEDURE usp_getCotizaciones
 	BEGIN
 		SELECT
 		    COT.IDCotizacion,
-			COT.ID_DNI,
 			COT.TipoProducto,
 			COT.Producto,
 			COT.PorcentajeImp,
@@ -526,7 +399,7 @@ BEGIN
         Placa = @newPlaca,
         EstadoOp = @newEstadoOp
     WHERE IDFormAlmacen = @IdformAlmacen
-END;
+END
 ------------------------------------------------------------------------------------------
 --Get REVA
 CREATE PROCEDURE usp_getRevisionAlmacen
@@ -546,7 +419,7 @@ BEGIN
                         REVA.EstadoOp
     FROM
         RevisionAlmacen REVA
-END;
+END
 -----------------
 --only one REVA
 CREATE PROCEDURE usp_getSingleRevisionAlmacen (
@@ -569,7 +442,7 @@ SELECT
     FROM
         RevisionAlmacen REVA
     WHERE REVA.IDFormAlmacen = @IdformAlmacen
-END;
+END
 ------------------------------------------------------------------------------------------
 -- Delete REVA
 CREATE PROCEDURE usp_deleteRevisionAlmacen (
@@ -585,7 +458,7 @@ BEGIN
 
     DELETE FROM RevisionAlmacen
     WHERE IDFormAlmacen = @IdformAlmacen
-END;
+END
 -- Add REVC
 CREATE PROCEDURE usp_addRevisionContenedor (
     @PuertoOrigen VARCHAR(20),
@@ -599,7 +472,7 @@ AS
 BEGIN
     INSERT INTO RevisionContenedor (PuertoOrigen, PuertoDestino, Naviera, Transportista, DNI_Dueno, Estado)
     VALUES (@PuertoOrigen, @PuertoDestino, @Naviera, @Transportista, @DniDueno, @Estado)
-END;
+END
 ---------------------------------------------------------
 -- Modify REVC
 CREATE PROCEDURE usp_modifyRevisionContenedor (
@@ -621,7 +494,7 @@ BEGIN
         DNI_Dueno = @newDniDueno,
         Estado = @newEstado
     WHERE IDRevCont = @IdrevCont
-END;
+END
 ------------------------------------------------------------------------------------------
 --Get REVC
 CREATE PROCEDURE usp_getRevisionContenedor
@@ -637,7 +510,7 @@ BEGIN
 			REVC.Estado
     FROM
         RevisionContenedor REVC
-END;
+END
 -----------------
 --only one REVC
 CREATE PROCEDURE usp_getSingleRevisionContenedor (
@@ -656,7 +529,7 @@ SELECT
     FROM
         RevisionContenedor REVC
     WHERE REVC.IDRevCont = @IdrevCont
-END;
+END
 ------------------------------------------------------------------------------------------
 -- Delete REVC
 CREATE PROCEDURE usp_deleteRevisionContenedor (
@@ -671,196 +544,4 @@ BEGIN
 
     DELETE FROM RevisionContenedor
     WHERE IDRevCont = @IdrevCont
-END;
-
-------------------------------------------------------------------------------------------
---Get Tickets
-CREATE PROCEDURE ViewTickets
-AS
-BEGIN
-	SELECT Ticket.TicketID, Ticket.Estado, Ticket.Prioridad, Ticket.Descripcion,
-		   Cliente.DNI_PERSONA AS DNI_CLIENTE, Colaborador.DNI_PERSONA AS DNI_COLABORADOR
-	FROM Ticket
-	INNER JOIN Cliente ON Ticket.IDCliente = Cliente.IDCliente
-	INNER JOIN Colaborador ON Ticket.IDColaborador = Colaborador.IDColaborador;
-END;
-
-EXEC ViewTickets;
-
-------------------------------------------------------------------------------------------
---POST Tickets
-CREATE PROCEDURE InsertTicket
-    @Estado VARCHAR(50),
-    @Prioridad VARCHAR(50),
-    @Descripcion VARCHAR(500),
-    @IDCliente INT,
-    @IDColaborador INT
-AS
-BEGIN
-    -- Verificar si el Cliente y el Colaborador existen
-    IF EXISTS (SELECT 1 FROM Cliente WHERE IDCliente = @IDCliente)
-       AND EXISTS (SELECT 1 FROM Colaborador WHERE IDColaborador = @IDColaborador)
-    BEGIN
-        INSERT INTO Ticket (Estado, Prioridad, Descripcion, IDCliente, IDColaborador)
-        VALUES (@Estado, @Prioridad, @Descripcion, @IDCliente, @IDColaborador)
-    END
 END
-
-------------------------------------------------------------------------------------------
---Get TicketsByClient
-CREATE PROCEDURE ViewTicketsByClient
-    @IDCliente INT
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Cliente WHERE IDCliente = @IDCliente)
-    BEGIN
-        RETURN
-    END
-    SELECT Ticket.TicketID, Ticket.Estado, Ticket.Prioridad, Ticket.Descripcion,
-           Colaborador.DNI_PERSONA AS dniColaborador
-    FROM Ticket
-    INNER JOIN Colaborador ON Ticket.IDColaborador = Colaborador.IDColaborador
-    WHERE Ticket.IDCliente = @IDCliente;
-END;
-
-------------------------------------------------------------------------------------------
---PUT Tickets
-CREATE PROCEDURE EditTicket
-    @TicketID INT,
-    @Estado VARCHAR(50),
-    @Prioridad VARCHAR(50),
-    @Descripcion VARCHAR(500)
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Ticket WHERE TicketID = @TicketID)
-    BEGIN
-        RETURN
-    END
-    UPDATE Ticket
-    SET Estado = @Estado,
-        Prioridad = @Prioridad,
-        Descripcion = @Descripcion
-    WHERE TicketID = @TicketID;
-END
-
-------------------------------------------------------------------------------------------
---DELETE Tickets
-CREATE PROCEDURE DeleteTicket (
-    @TicketID INT
-)
-AS
-BEGIN
-    DELETE FROM Ticket
-    WHERE TicketID = @TicketID;
-END;
---------------------------------
-CREATE PROC [dbo].[usp_Login] (
-@Usuario VARCHAR(250),
-@Password VARCHAR(250)
-) AS
-BEGIN
-if (exists(select * from Persona where Usuario = @Usuario and Password = @Password))
-			select IdRol from Persona where Usuario = @Usuario and Password = @Password
-	else
-	select '0'
-
-END
-GO
-------------------------
--- Add Importaciones 
-CREATE PROCEDURE usp_addImportacion (
-    @IDImpSeguimiento INT,
-    @ID_DNI INT,
-    @IDRevVehiculo INT = NULL,
-    @IDRevContenedor INT = NULL,
-    @FechaInicio DATETIME,
-    @FechaFinalizacion DATETIME = NULL,
-    @FechaEsperada DATETIME = NULL,
-    @Prioridad VARCHAR(80),
-    @Descripcion VARCHAR(250) = NULL
-)
-AS
-BEGIN
-    INSERT INTO Importaciones (IDImpSeguimiento, ID_DNI, IDRevVehiculo, IDRevContenedor, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion)
-    VALUES (@IDImpSeguimiento, @ID_DNI, @IDRevVehiculo, @IDRevContenedor, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion)
-END
-------------------
--- Modify Importaciones 
-CREATE PROCEDURE usp_modifyImportacion (
-    @IDImpSeguimiento INT,
-    @newID_DNI INT,
-    @newIDRevVehiculo INT = NULL,
-    @newIDRevContenedor INT = NULL,
-    @newFechaInicio DATETIME,
-    @newFechaFinalizacion DATETIME = NULL,
-    @newFechaEsperada DATETIME = NULL,
-    @newPrioridad VARCHAR(80),
-    @newDescripcion VARCHAR(250) = NULL
-)
-AS
-BEGIN
-    UPDATE Importaciones
-    SET ID_DNI = @newID_DNI,
-        IDRevVehiculo = @newIDRevVehiculo,
-        IDRevContenedor = @newIDRevContenedor,
-        FechaInicio = @newFechaInicio,
-        FechaFinalizacion = @newFechaFinalizacion,
-        FechaEsperada = @newFechaEsperada,
-        Prioridad = @newPrioridad,
-        Descripcion = @newDescripcion
-    WHERE IDImpSeguimiento = @IDImpSeguimiento;
-END;
---------------
---Get Importaciones 
-CREATE PROCEDURE usp_getImportaciones
-AS
-BEGIN
-    SELECT
-		    IMP.IDImpSeguimiento,
-                        IMP.ID_DNI,
-			IMP.IDRevVehiculo,
-			IMP.IDRevContenedor,
-			IMP.FechaInicio,
-			IMP.FechaFinalizacion,
-			IMP.FechaEsperada,
-                        IMP.Prioridad,
-                        IMP.Descripcion
-    FROM
-        Importaciones IMP
-END;
---------------------------
---only one Importaciones 
-CREATE PROCEDURE usp_getSingleImportacion (
-    @IDImpSeguimiento INT
-)
-AS
-BEGIN
-    SELECT
-		    IMP.IDImpSeguimiento,
-			IMP.IDRevVehiculo,
-			IMP.IDRevContenedor,
-			IMP.FechaInicio,
-			IMP.FechaFinalizacion,
-			IMP.FechaEsperada,
-                        IMP.Prioridad,
-                        IMP.Descripcion
-    FROM
-        Importaciones IMP
-    WHERE IMP.IDImpSeguimiento = @IDImpSeguimiento
-END;
-------------------------------------
-CREATE PROCEDURE usp_deleteImportacion (
-    @IDImpSeguimiento INT
-)
-AS
-BEGIN
-    -- Verificar si ya se ha ejecutado en este nivel
-    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
-    BEGIN
-        RETURN; -- Evitar llamadas recursivas
-    END
-
-    DELETE FROM Importaciones
-    WHERE IDImpSeguimiento = @IDImpSeguimiento
-END
-----------------------------------

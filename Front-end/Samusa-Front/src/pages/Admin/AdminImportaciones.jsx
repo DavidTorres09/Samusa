@@ -1,11 +1,14 @@
 import Footer from "../../components/Footer";
 import LayoutAdmin from "../../components/LayoutAdmin";
+import ImportaTable from "../../components/ImportaTable";
+import ImportaChart from "../../components/ImportaChart";
 
 const AdminImportaciones = () => {
     return (
         <>
         <LayoutAdmin/>
-        <h1>AdminImportaciones</h1>
+        <ImportaTable/>
+        <ImportaChart/>
         <Footer/>
         </>
     );

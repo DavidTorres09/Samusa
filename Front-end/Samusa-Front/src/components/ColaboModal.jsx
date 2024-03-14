@@ -31,7 +31,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
     try {
       if (isEditing===false) {
         editedColabo.fechaIngreso = new Date().toISOString();
-        editedColabo.IdRol = 1;
+       
         console.log(editedColabo)
         const responseVerificacion = await fetch(
           `https://localhost:7293/api/samusa/colaborador/listarUnico?dni=${editedColabo.dni}`,
@@ -99,7 +99,10 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Editar Colaborador</h3>
+              <div className="bg-blue-600 px-4 py-2 sm:px-6 rounded">
+          {isEditing ? <h3 className="titleform">Editar Colaborador</h3> : <h3 className="titleform">Agregar Colaborador</h3>}
+          </div>
+          <br />
                 <div className="mb-4">
                   <label htmlFor="dni" className="block text-sm font-medium text-gray-700">DNI</label>
                   <input type="text" name="dni" id="dni" value={editedColabo.dni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />

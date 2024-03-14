@@ -83,7 +83,10 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">                
-                <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Editar Cotizacion</h3>
+              <div className="bg-blue-600 px-4 py-2 sm:px-6 rounded">
+          {isEditing ? <h3 className="titleform">Editar Cotizacion</h3> : <h3 className="titleform">Agregar Cotizacion</h3>}
+          </div>
+          <br />
                 <div className="mb-4">
                   <label htmlFor="idDni" className="block text-sm font-medium text-gray-700">Dni</label>
                   <input type="text" name="idDni" id="idDni" value={editedCotiza.idDni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />

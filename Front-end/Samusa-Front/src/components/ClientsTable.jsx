@@ -67,21 +67,19 @@ const ClientsTable = () => {
           <h1 className="text-3xl font-bold my-4 text-gray-800">
             Tabla de Usuarios
           </h1>
+
+          <div class="table-controls">
           <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar Usuario
+            Agregar Cliente
           </button>
-
-          <br />
-          <br />
-          
-          <input type="text" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
-
+          <input type="text" id="searchBox" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
+          </div>
           
           <div className="">
-            <table className="Cliente-table w-full table-auto border-collapse rounded">
+            <table className="Cliente-table w-full table-auto border-collapse rounded Tablebg">
               <thead>
                 <tr className="">
                   <th className="py-4 px-6">DNI</th>
@@ -113,7 +111,7 @@ const ClientsTable = () => {
                     <td className="py-4 px-6">{cliente.usuario}</td>
                     <td className="py-4 px-6">{cliente.password}</td>
                     <td className="py-4 px-6">{cliente.direccion}</td>
-                    <td className="py-4 px-6">{cliente.rol}</td>
+                    <td className="py-4 px-6">{cliente.idRol}</td>
                     <td className="py-4 px-6">
                       <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(cliente.dni)}  >
                         Eliminar
