@@ -117,10 +117,10 @@ namespace Samusa_Back.Data
 
         public static RevisionAlmacen ReadOne(int IdformAlmacen)
         {
-            RevisionAlmacen RevAlmacen = new RevisionAlmacen();
+            RevisionAlmacen RevAlmacen = null; // Inicializar como nulo en caso de excepción
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
-                SqlCommand cmd = new SqlCommand("usp_getSingleRevisionAlmacen ", connection);
+                SqlCommand cmd = new SqlCommand("usp_getSingleRevisionAlmacen", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdformAlmacen", IdformAlmacen);
 
@@ -148,14 +148,15 @@ namespace Samusa_Back.Data
                             };
                         }
                     }
-                    return RevAlmacen;
                 }
                 catch (Exception e)
                 {
-                    return e;
+                    Console.WriteLine("Error al leer la revisión del almacén: " + e.Message);
                 }
             }
+            return RevAlmacen;
         }
+
 
         public static bool Delete(int IdformAlmacen)
         {
@@ -190,4 +191,4 @@ namespace Samusa_Back.Data
 }
 
 
-//TODO: Make this methods async
+//TODO: Make this methods 

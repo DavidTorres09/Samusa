@@ -24,7 +24,7 @@ namespace Samusa_Back.Controllers
         [Route("listarUnico")]
         public async Task<IActionResult> ViewTicketsByClient(int clientID)
         {
-            var tickets = await TicketData.GetOne(clientID);
+            var tickets = await TicketData.GetByClient(clientID);
 
             if (tickets != null)
                 return Ok(tickets);

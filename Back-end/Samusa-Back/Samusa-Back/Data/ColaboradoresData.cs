@@ -154,7 +154,7 @@ namespace Samusa_Back.Data
                 }
                 catch (Exception e)
                 {
-                    return employee;
+                    return null;
                 }
             }
         }

@@ -33,7 +33,7 @@ namespace Samusa_Back.Data
             }
         }
 
-        public static async Task<List<TicketColaborador>> GetOne(int clientID)
+        public static async Task<List<TicketColaborador>> GetByClient(int clientID)
         {
             List<TicketColaborador> tickets = new List<TicketColaborador>();
 
@@ -41,37 +41,35 @@ namespace Samusa_Back.Data
             {
                 SqlCommand cmd = new SqlCommand("ViewTicketsByClient", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-
                 cmd.Parameters.AddWithValue("@IDCliente", clientID);
 
                 try
                 {
                     await connection.OpenAsync();
-                    SqlDataReader reader = await cmd.ExecuteReaderAsync();
-
-                    while (reader.Read())
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
-                        TicketColaborador ticket = new TicketColaborador
+                        while (reader.Read())
                         {
-                            TicketId = reader.GetInt32(0),
-                            Estado = reader.GetString(1),
-                            Prioridad = reader.GetString(2),
-                            Descripcion = reader.GetString(3),
-                            DNI_COLABORADOR = reader.GetString(4)
-                        };
-                        tickets.Add(ticket);
+                            TicketColaborador ticket = new TicketColaborador
+                            {
+                                TicketID = reader.GetInt32(0),
+                                Estado = reader.GetString(1),
+                                Prioridad = reader.GetString(2),
+                                Descripcion = reader.GetString(3),
+                                dniColaborador = reader.GetInt32(4)
+                            };
+                            tickets.Add(ticket);
+                        }
                     }
-
-                    reader.Close();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"Error: {e.Message}");
                 }
             }
-
             return tickets;
         }
+
 
 
         public static async Task<List<ViewTicket>> Read()
@@ -86,29 +84,29 @@ namespace Samusa_Back.Data
                 try
                 {
                     await connection.OpenAsync();
-                    SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
-                    while (reader.Read())
-                    {
-                        ViewTicket ticket = new ViewTicket
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync()) {
+                        
+                        while (reader.Read())
                         {
-                            TicketId = reader.GetInt32(0),
-                            Estado = reader.IsDBNull(1) ? null : reader.GetString(1),
-                            Prioridad = reader.IsDBNull(2) ? null : reader.GetString(2),
-                            DNI_CLIENTE = reader.IsDBNull(3) ? null : reader.GetString(3),
-                            DNI_COLABORADOR = reader.IsDBNull(4) ? null : reader.GetString(4)
-                        };
-                        tickets.Add(ticket);
-                    }
-
-                    reader.Close();
+                            tickets.Add( new ViewTicket()
+                            {
+                                ticketID = Convert.ToInt32(reader["TicketID"]),
+                                estado = reader["Estado"].ToString(),
+                                prioridad = reader["Prioridad"].ToString(),
+                                descripcion = reader["Descripcion"].ToString(),
+                                dniCliente = reader["DNI_CLIENTE"].ToString(),
+                                dniColaborador = reader["DNI_COLABORADOR"].ToString()
+                            });
+                        }
+                    } 
+                    return tickets;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"Error: {e.Message}");
                 }
             }
-
             return tickets;
         }
 
