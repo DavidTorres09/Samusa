@@ -29,11 +29,16 @@ function CotizacionesUser() {
     };
 
     return (
+        
         <div className='body'>
             <section id="Tax-calculator">
                 <div className="animate__animated animate__flipInX">
+            <br></br>
+            <br></br>
+            <br></br>
                     <h1 className='title text-3xl font-bold my-4'>Porcentajes de impuestos</h1>
                     <br/>
+            
                     <div className="form-group">
                         <label htmlFor="tipoProducto">Tipo de producto</label>
                         <select id="tipoProducto" onChange={(e) => setSelectedType(e.target.value)}>
@@ -56,7 +61,16 @@ function CotizacionesUser() {
                     <div id="result"></div>
                 </div>
             </section>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+
+           
         </div>
+        
     );
 }
 

@@ -166,8 +166,6 @@ namespace Samusa_Back.Controllers
 
             var confirmation = await ClienteData.Login(persona);
 
-
-
             if (confirmation)
             {
                 return Ok(new { Status = 200 });

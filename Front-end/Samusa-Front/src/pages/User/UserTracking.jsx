@@ -8,9 +8,38 @@ function UserTracking () {
     return (
         <>
         <Layout></Layout>
+        
+        <div className='body'>
         <h1>UserTracking</h1>
+        <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+
+
+        </div>
         <Footer></Footer>
         </>
+        
     );
 }
 
