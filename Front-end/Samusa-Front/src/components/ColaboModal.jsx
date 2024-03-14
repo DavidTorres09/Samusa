@@ -13,7 +13,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
       usuario: "",
       password: "",
       fechaIngreso: "",
-      rol: "Colaborador",
+      IdRol: 1,
   });
 
   const handleInputChange = (event) => {
@@ -31,7 +31,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
     try {
       if (isEditing===false) {
         editedColabo.fechaIngreso = new Date().toISOString();
-        editedColabo.rol = 'Colaborador';
+        editedColabo.IdRol = 1;
         console.log(editedColabo)
         const responseVerificacion = await fetch(
           `https://localhost:7293/api/samusa/colaborador/listarUnico?dni=${editedColabo.dni}`,

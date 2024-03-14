@@ -59,6 +59,7 @@ const ClientsTable = () => {
     setShowEditModal(false);
   };
 
+
   return (
     <>
       <section className="data-table-section">

@@ -18,6 +18,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@Vin", revision.Vin);
                 cmd.Parameters.AddWithValue("@Marca", revision.Marca);
                 cmd.Parameters.AddWithValue("@Modelo", revision.Modelo);
+                cmd.Parameters.AddWithValue("@Extras", revision.Extras);
                 cmd.Parameters.AddWithValue("@Color", revision.Color);
                 cmd.Parameters.AddWithValue("@CostoVehiculo", revision.CostoVehiculo);
                 cmd.Parameters.AddWithValue("@AnioVehiculo", revision.AnioVehiculo);
@@ -50,6 +51,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@newVin", revision.Vin);
                 cmd.Parameters.AddWithValue("@newMarca", revision.Marca);
                 cmd.Parameters.AddWithValue("@newModelo", revision.Modelo);
+                cmd.Parameters.AddWithValue("@newExtras", revision.Extras);
                 cmd.Parameters.AddWithValue("@newColor", revision.Color);
                 cmd.Parameters.AddWithValue("@newCostoVehiculo", revision.CostoVehiculo);
                 cmd.Parameters.AddWithValue("@newAnioVehiculo", revision.AnioVehiculo);
@@ -93,6 +95,7 @@ namespace Samusa_Back.Data
                                 Vin = dr["Vin"].ToString(),
                                 Marca = dr["Marca"].ToString(),
                                 Modelo = dr["Modelo"].ToString(),
+                                Extras = dr["Extras"].ToString(),
                                 Color = dr["Color"].ToString(),
                                 CostoVehiculo = Convert.ToInt32(dr["CostoVehiculo"]),
                                 AnioVehiculo = Convert.ToInt32(dr["AnioVehiculo"]),
@@ -135,6 +138,7 @@ namespace Samusa_Back.Data
                                 Vin = dr["Vin"].ToString(),
                                 Marca = dr["Marca"].ToString(),
                                 Modelo = dr["Modelo"].ToString(),
+                                Extras = dr["Extras"].ToString(),
                                 Color = dr["Color"].ToString(),
                                 CostoVehiculo = Convert.ToInt32(dr["CostoVehiculo"]),
                                 AnioVehiculo = Convert.ToInt32(dr["AnioVehiculo"]),

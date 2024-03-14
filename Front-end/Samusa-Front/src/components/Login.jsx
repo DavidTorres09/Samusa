@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate} from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [IsLoged, setIsLogged] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
    try{
-    const response = await fetch('https://localhost:5000/api/samusa/login', {
+    const response = await fetch('https://localhost:7293/api/samusa/cliente/Login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-            username, 
-            password, 
+          username, 
+          password, 
         }),
     });
-
+    console.log(username);
+    console.log(password);
     if(response.ok){
         console.log('Usuario Logueado');
+        setIsLogged(true); 
+
     } else {
         const errorMsg = await response.text();
         console.error('Error al intentar loguarse: ${errorMsg}');
@@ -29,6 +34,10 @@ const Login = () => {
      console.error(error)
    }
   };
+
+  if(IsLoged){
+    navigate('/Admin');
+  }
 
   return (
     <div className="bg-gradient-to-r from-indigo-800 to-teal-600 min-h-screen flex flex-col items-center justify-center"> 

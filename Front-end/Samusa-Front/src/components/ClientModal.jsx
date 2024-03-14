@@ -14,7 +14,7 @@ const ClientModal = ({ user, onClose, isEditing }) => {
       usuario: "",
       password: "",
       direccion: "",
-      rol: "Cliente",
+      IdRol: 2,
     }
   );
 
@@ -287,15 +287,15 @@ const ClientModal = ({ user, onClose }) => {
                   </div>
                   <div className="mb-4">
                     <label
-                      htmlFor="rol"
+                      htmlFor="IdRol"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Rol
+                      IdRol
                     </label>
                     <select
-                      name="rol"
-                      id="rol"
-                      value={editedUser.rol}
+                      name="IdRol"
+                      id="IdRol"
+                      value={editedUser.IdIdRol}
                       onChange={handleInputChange}
                       className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     >

@@ -10,6 +10,14 @@ using Microsoft.Data.SqlClient;
 
 namespace Samusa_Back.Controllers
 {
+    
+
+    public class Login
+    {
+        public string username { get; set; }
+        public string password { get; set; }
+    }
+
     [ApiController]
     [Route("api/samusa/cliente")]
     public class ClienteController : ControllerBase
@@ -159,12 +167,12 @@ namespace Samusa_Back.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] ClientePersona persona)
+        public async Task<IActionResult> Login([FromBody] Login login)
 
         {
             string msg = string.Empty;
 
-            var confirmation = await ClienteData.Login(persona);
+            var confirmation = await ClienteData.Login(login.username, login.password);
 
 
 
@@ -178,6 +186,7 @@ namespace Samusa_Back.Controllers
             }
 
         }
+
 
 
     }

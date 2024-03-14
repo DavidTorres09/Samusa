@@ -22,7 +22,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@usuario", cliente.Usuario);
                 cmd.Parameters.AddWithValue("@password", cliente.Password);
                 cmd.Parameters.AddWithValue("@direccion", cliente.Direccion);
-                cmd.Parameters.AddWithValue("@rol", cliente.Rol);
+                cmd.Parameters.AddWithValue("@IdRol", cliente.IdRol);
 
                 try
                 {
@@ -54,7 +54,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@newEsNacional", cliente.EsNacional);
                 cmd.Parameters.AddWithValue("@newUsuario", cliente.Usuario);
                 cmd.Parameters.AddWithValue("@newPassword", cliente.Password);
-                cmd.Parameters.AddWithValue("@newRol", cliente.Rol);
+                cmd.Parameters.AddWithValue("@newRol", cliente.IdRol);
 
                 try
                 {
@@ -99,7 +99,7 @@ namespace Samusa_Back.Data
                                 Usuario = dr["Usuario"].ToString(),
                                 Password = dr["Password"].ToString(),
                                 Direccion = dr["Direccion"].ToString(),
-                                Rol = dr["Rol"].ToString()
+                                IdRol = Convert.ToInt32(dr["IdRol"])
                             });
                         }
                     }
@@ -142,7 +142,7 @@ namespace Samusa_Back.Data
                                 Usuario = dr["Usuario"].ToString(),
                                 Password = dr["Password"].ToString(),
                                 Direccion = dr["Direccion"].ToString(),
-                                Rol = dr["Rol"].ToString()
+                                IdRol = Convert.ToInt32(dr["IdRol"])
                             };
                         }
                     }
@@ -185,21 +185,21 @@ namespace Samusa_Back.Data
         }
 
 
-        public static async Task<bool> Login(ClientePersona usuario)
+        public static async Task<bool> Login(string username, string password)
         {
-            usuario.IdRol = 0;
+            //usuario.IdRol = 0;
             
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
                 SqlCommand cmd = new SqlCommand("usp_Login", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@usuario", usuario.Usuario);
-                cmd.Parameters.AddWithValue("@password", usuario.Password);
+                cmd.Parameters.AddWithValue("@usuario", username);
+                cmd.Parameters.AddWithValue("@password", password);
 
                 try
                 {   connection.Open();
                     cmd.ExecuteScalar();
-                    usuario.IdRol = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                    //usuario.IdRol = Convert.ToInt32(cmd.ExecuteScalar().ToString());
                     return true;
                 }
                 catch (Exception e)
