@@ -51,6 +51,19 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
         editedImporta.fechaInicio = new Date().toISOString();
 
         console.log(editedImporta);
+
+        if (editedImporta.fechaFinalizacion) {
+          editedImporta.fechaFinalizacion = new Date(editedImporta.fechaFinalizacion).toISOString();
+        }else{
+          editedImporta.fechaFinalizacion = null;
+        }
+      
+        if (editedImporta.fechaEsperada) {
+          editedImporta.fechaEsperada = new Date(editedImporta.fechaEsperada).toISOString();
+        }else{
+          editedImporta.fechaEsperada = null;
+        }
+
         const updateCotiza = await fetch(
           `https://localhost:7293/api/samusa/importacion/modificar`,
           {
@@ -89,7 +102,10 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">                
-                <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Editar importacion</h3>
+              <div className="bg-blue-600 px-4 py-4 sm:px-6 rounded">
+          {isEditing ? <h3 className="titleform">Editar Importacion</h3> : <h3 className="titleform">Agregar Importacion</h3>}
+          </div>
+          <br />
                 <div className="mb-4">
                   <label htmlFor="idimpSeguimiento" className="block text-sm font-medium text-gray-700">Numero de registro</label>
                   <input type="text" name="idimpSeguimiento" id="idimpSeguimiento" value={editedImporta.idimpSeguimiento} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
@@ -106,14 +122,33 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                   <label htmlFor="idRevContenedor" className="block text-sm font-medium text-gray-700">Revision de contenedor asociada</label>
                   <input type="text" name="idRevContenedor" id="idRevContenedor" value={editedImporta.idRevContenedor} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
-                <div className="mb-4">
+
+                {isEditing ? 
+                
+                <div>
+                  <p>Fecha esperada actual: {editedImporta.fechaEsperada}</p>
+                  <div className="mb-4">
                   <label htmlFor="fechaEsperada" className="block text-sm font-medium text-gray-700">Fecha esperada</label>
-                  <input type="text" name="fechaEsperada" id="fechaEsperada" value={editedImporta.fechaEsperada} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <input type="date" name="fechaEsperada" id="fechaEsperada" value={editedImporta.fechaEsperada} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
-                <div className="mb-4">
+                </div>
+                
+                 : 
+                 <div></div>
+                 }
+                 
+                 
+                 {isEditing ? 
+                 <div>
+                  <p>Fecha de finalizacion actual: {editedImporta.fechaFinalizacion}</p>
+                  <div className="mb-4">
                   <label htmlFor="fechaFinalizacion" className="block text-sm font-medium text-gray-700">Fecha de finalziacion</label>
-                  <input type="text" name="fechaFinalizacion" id="fechaFinalizacion" value={editedImporta.fechaFinalizacion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <input type="date" name="fechaFinalizacion" id="fechaFinalizacion" value={editedImporta.fechaFinalizacion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
+                 </div>
+                 : 
+                 <div></div>
+                 }
                 
                 <div className="mb-4">
                     <label htmlFor="prioridad" className="block text-sm font-medium text-gray-700"> Estado </label>

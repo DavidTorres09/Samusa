@@ -86,7 +86,7 @@ const ImportaTable = () => {
                 <th className="py-4 px-6">Fecha Inicio</th>
                 <th className="py-4 px-6">Fecha Finalizacion</th>
                 <th className="py-4 px-6">FechaEsperada</th>
-                <th className="py-4 px-6">Prioridad</th>
+                <th className="py-4 px-6">Estado</th>
                 <th className="py-4 px-6">Descripcion</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>
@@ -96,8 +96,16 @@ const ImportaTable = () => {
                 <tr key={index} className="border-b border-gray-200">
                   <td className="py-4 px-6">{item.idimpSeguimiento}</td>
                   <td className="py-4 px-6">{item.idDni}</td>
-                  <td className="py-4 px-6">{item.idRevVehiculo}</td>
-                  <td className="py-4 px-6">{item.idRevContenedor}</td>
+
+                  <td className="py-4 px-6">{ item.idRevVehiculo ?
+                  item.idRevVehiculo
+                :
+                "Campo no aplica"}</td>
+                
+                <td className="py-4 px-6">{ item.idRevContenedor ?
+                  item.idRevContenedor
+                :
+                "Campo no aplica"}</td>          
                   <td className="py-4 px-6">{item.fechaInicio}</td>
                   <td className="py-4 px-6">{item.fechaFinalizacion}</td>
                   <td className="py-4 px-6">{item.fechaEsperada}</td>
