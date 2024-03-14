@@ -12,7 +12,7 @@ namespace Samusa_Back.Controllers
         [Route("listar")]
         public async Task<IActionResult> ViewRevisionesAlmacen()
         {
-            var revisiones = await RevisionAlmacenesData.Read();
+            var revisiones = RevisionAlmacenesData.Read();
 
             if (revisiones != null)
             {
@@ -28,7 +28,7 @@ namespace Samusa_Back.Controllers
         [Route("listarUnico")]
         public async Task<IActionResult> ViewRevisionAlmacenById(int idformAlmacen)
         {
-            var revision = await RevisionAlmacenesData.ReadOne(idformAlmacen);
+            var revision = RevisionAlmacenesData.ReadOne(idformAlmacen);
 
             if (revision != null)
             {
@@ -59,7 +59,7 @@ namespace Samusa_Back.Controllers
         [Route("eliminar")]
         public async Task<IActionResult> DeleteRevisionAlmacen(int idformAlmacen)
         {
-            var confirmation = await RevisionAlmacenesData.Delete(idformAlmacen);
+            var confirmation = RevisionAlmacenesData.Delete(idformAlmacen);
             if (confirmation)
             {
                 return Ok(new { Status = 200, Message = "Revisión de almacen eliminada con éxito." });

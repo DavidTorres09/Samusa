@@ -15,13 +15,9 @@ namespace Samusa_Back.Controllers
             var tickets = await TicketData.Read();
 
             if (tickets != null)
-            {
                 return Ok(tickets);
-            }
             else
-            {
                 return BadRequest(new { Status = 400, Message = "Error al obtener la lista de tickets." });
-            }
         }
 
         [HttpGet]
@@ -31,13 +27,9 @@ namespace Samusa_Back.Controllers
             var tickets = await TicketData.GetOne(clientID);
 
             if (tickets != null)
-            {
                 return Ok(tickets);
-            }
             else
-            {
                 return NotFound(new { Status = 404, Message = "No se encontraron tickets para el cliente especificado." });
-            }
         }
 
         [HttpPost]
@@ -46,13 +38,9 @@ namespace Samusa_Back.Controllers
         {
             var confirmation = await TicketData.Create(ticket);
             if (confirmation)
-            {
                 return Ok(new { Status = 200 });
-            }
             else
-            {
                 return BadRequest(new { Status = 400, Message = "Error al guardar el ticket." });
-            }
         }
 
         [HttpDelete]
@@ -61,13 +49,9 @@ namespace Samusa_Back.Controllers
         {
             var confirmation = await TicketData.Delete(ticketID);
             if (confirmation)
-            {
                 return Ok(new { Status = 200 });
-            }
             else
-            {
                 return BadRequest(new { Status = 400, Message = "Error al eliminar el ticket." });
-            }
         }
 
         [HttpPut]
@@ -76,13 +60,9 @@ namespace Samusa_Back.Controllers
         {
             var confirmation = await TicketData.Update(ticket);
             if (confirmation)
-            {
                 return Ok(new { Status = 200 });
-            }
             else
-            {
                 return BadRequest(new { Status = 400, Message = "Error al modificar el ticket." });
-            }
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Samusa_Back.Data
             }
         }
 
-        public static async Task<List<RevisionAlmacen>> Read()
+        public static List<RevisionAlmacen> Read()
         {
             List<RevisionAlmacen> RevsAlmacen = new List<RevisionAlmacen>();
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
@@ -92,16 +92,16 @@ namespace Samusa_Back.Data
                             RevsAlmacen.Add(new RevisionAlmacen()
                             {
                                 IdformAlmacen = Convert.ToInt32(dr["IdformAlmacen"]),
-                                Vin = dr["Vin"].ToString(),
-                                Marca = dr["Marca"].ToString(),
-                                Modelo = dr["Modelo"].ToString(),
-                                Extras = dr["Extras"].ToString(),
-                                Color = dr["Color"].ToString(),
+                                Vin = dr["Vin"].ToString() ?? "",
+                                Marca = dr["Marca"].ToString() ?? "",
+                                Modelo = dr["Modelo"].ToString() ?? "",
+                                Extras = dr["Extras"].ToString() ?? "",
+                                Color = dr["Color"].ToString() ?? "",
                                 CostoVehiculo = Convert.ToInt32(dr["CostoVehiculo"]),
                                 AnioVehiculo = Convert.ToInt32(dr["AnioVehiculo"]),
                                 DniDueno = Convert.ToInt32(dr["Dni_Dueno"]),
                                 Placa = Convert.ToInt32(dr["Placa"]),
-                                EstadoOp = dr["EstadoOp"].ToString(),
+                                EstadoOp = dr["EstadoOp"].ToString() ?? "",
                             });
                         }
                     }
@@ -115,7 +115,7 @@ namespace Samusa_Back.Data
             }
         }
 
-        public static async Task<RevisionAlmacen> ReadOne(int IdformAlmacen)
+        public static RevisionAlmacen ReadOne(int IdformAlmacen)
         {
             RevisionAlmacen RevAlmacen = new RevisionAlmacen();
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
@@ -135,16 +135,16 @@ namespace Samusa_Back.Data
                             RevAlmacen = new RevisionAlmacen()
                             {
                                 IdformAlmacen = Convert.ToInt32(dr["IdformAlmacen"]),
-                                Vin = dr["Vin"].ToString(),
-                                Marca = dr["Marca"].ToString(),
-                                Modelo = dr["Modelo"].ToString(),
-                                Extras = dr["Extras"].ToString(),
-                                Color = dr["Color"].ToString(),
+                                Vin = dr["Vin"].ToString() ?? "",
+                                Marca = dr["Marca"].ToString() ?? "",
+                                Modelo = dr["Modelo"].ToString() ?? "",
+                                Extras = dr["Extras"].ToString() ?? "",
+                                Color = dr["Color"].ToString() ?? "",
                                 CostoVehiculo = Convert.ToInt32(dr["CostoVehiculo"]),
                                 AnioVehiculo = Convert.ToInt32(dr["AnioVehiculo"]),
                                 DniDueno = Convert.ToInt32(dr["Dni_Dueno"]),
                                 Placa = Convert.ToInt32(dr["Placa"]),
-                                EstadoOp = dr["EstadoOp"].ToString(),
+                                EstadoOp = dr["EstadoOp"].ToString() ?? "",
                             };
                         }
                     }
@@ -152,12 +152,12 @@ namespace Samusa_Back.Data
                 }
                 catch (Exception e)
                 {
-                    return RevAlmacen;
+                    return e;
                 }
             }
         }
 
-        public static async Task<bool> Delete(int IdformAlmacen)
+        public static bool Delete(int IdformAlmacen)
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
@@ -188,3 +188,6 @@ namespace Samusa_Back.Data
 
     }
 }
+
+
+//TODO: Make this methods async
