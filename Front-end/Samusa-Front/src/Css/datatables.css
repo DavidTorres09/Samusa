@@ -641,8 +641,9 @@ div.dt-container .dt-paging {
   color: inherit;
 }
 div.dt-container .dt-search{
+
   color: inherit;
-  margin-left: 960px;
+  margin-left: 1625px;
 }
 
 div.dt-container .dataTables_scroll {
@@ -688,6 +689,7 @@ div.dt-container.dt-empty-footer .dt-scroll-body tbody > tr:last-child > * {
   .dt-container .dt-search {
     float: none;
     text-align: center;
+    margin-left: 1px !important;
   }
   .dt-container .dt-search {
     margin-top: 0.5em;

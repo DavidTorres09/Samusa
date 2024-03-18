@@ -108,14 +108,14 @@ const CotizaTable = () => {
     <>
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
-        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de cotizacion</h1>
+        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Cotización</h1>
 
         <div class="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar Cotizacion
+            Agregar Cotización
           </button>
           </div>
           
@@ -124,7 +124,7 @@ const CotizaTable = () => {
           <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
-                <th className="py-4 px-6">Id Cotizacion</th>
+                <th className="py-4 px-6">Id Cotización</th>
                 <th className="py-4 px-6">Dni Colaborador</th>
                 <th className="py-4 px-6">tipoProducto</th>
                 <th className="py-4 px-6">producto</th>
