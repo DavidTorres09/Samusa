@@ -33,7 +33,7 @@ const AdminCotizaciones = () => {
         <>
         <body className="skin-dark">
         <LayoutAdmin/>
-        <div class="content-body">
+        <div className="content-body">
         <CotizaTable/>
         
 

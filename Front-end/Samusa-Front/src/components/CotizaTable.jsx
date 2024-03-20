@@ -38,12 +38,12 @@ const CotizaTable = () => {
       .then(response => response.json())
       .then(data => {
         setTableData(data);
-        // Asegúrate de que la tabla se inicialice solo después de que los datos estén listos
+        // Asegúra de que la tabla se inicialice
         setTimeout(() => {
           $(document).ready(function() {
             $('#example').DataTable({
               dom: 'Bfrtip',
-              destroy: true, // Agrega esta opción aquí
+              destroy: true,
               buttons: [
                 'copy', 'csv', 'excel', 'print'
               ]
@@ -53,8 +53,6 @@ const CotizaTable = () => {
       })
       .catch(error => console.error('Error fetching data:', error));
 
-    // Esta parte de limpieza probablemente ya no sea necesaria con `destroy: true`
-    // pero depende de tu implementación específica y si tienes problemas de memoria
     return () => {
       if ($.fn.DataTable.isDataTable('#example')) {
         $('#example').DataTable().destroy();

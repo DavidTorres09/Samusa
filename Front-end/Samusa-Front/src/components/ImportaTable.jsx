@@ -1,6 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import ImportaModal from './ImportaModal';
 import "../css/Tables.css";
+import "../Css/datatables.min.css"
+import "../Css/datatables.css"
+
+import $ from 'jquery';
+import jszip from 'jszip';
+import DataTable from 'datatables.net-dt';
+import 'datatables.net-autofill-dt';
+import 'datatables.net-buttons-dt';
+import 'datatables.net-buttons/js/buttons.colVis.mjs';
+import 'datatables.net-buttons/js/buttons.html5.mjs';
+import 'datatables.net-buttons/js/buttons.print.mjs';
+import 'datatables.net-colreorder-dt';
+import 'datatables.net-fixedcolumns-dt';
+import 'datatables.net-fixedheader-dt';
+import 'datatables.net-keytable-dt';
+import 'datatables.net-responsive-dt';
+import 'datatables.net-rowgroup-dt';
+import 'datatables.net-rowreorder-dt';
+import 'datatables.net-scroller-dt';
+import 'datatables.net-select-dt';
+window.JSZip = jszip;     
+
 
 const ImportaTable = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -13,9 +35,29 @@ const ImportaTable = () => {
   useEffect(() => {
     fetch('https://localhost:7293/api/samusa/importacion/listar')
       .then(response => response.json())
-      .then(data => setTableData(data))
+      .then(data => {
+        setTableData(data);
+
+        setTimeout(() => {
+          $(document).ready(function() {
+            $('#example').DataTable({
+              dom: 'Bfrtip',
+              destroy: true,
+              buttons: [
+                'copy', 'csv', 'excel', 'print'
+              ]
+            });
+          });
+        }, 0);
+      })
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
+
+    return () => {
+      if ($.fn.DataTable.isDataTable('#example')) {
+        $('#example').DataTable().destroy();
+      }
+    };
+}, []);
 
   const handleDelete = (idimpSeguimiento) => {
     fetch(`https://localhost:7293/api/samusa/importacion/eliminar?IdimpSeguimiento=${idimpSeguimiento}`, {
@@ -62,7 +104,7 @@ const ImportaTable = () => {
   return (
     <>
       <section className='data-table-section'>
-      <div className="table-container">
+      <div className="table-container col-12 mb-30">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Importacion</h1>
 
         <div class="table-controls">
@@ -72,11 +114,11 @@ const ImportaTable = () => {
           >
             Agregar Importacion
           </button>
-          <input type="text" id="searchBox" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
           </div>
 
         <div className="">
-          <table className="Cliente-table w-full table-auto border-collapse rounded Tablebg">
+          <div className="box-body">
+          <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
                 <th className="py-4 px-6">Id impSeguimiento</th>
@@ -92,7 +134,7 @@ const ImportaTable = () => {
               </tr>
             </thead>
             <tbody>
-              {tableData.filter(item => item.prioridad.toLowerCase().includes(query)).map((item, index) => (
+              {tableData.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
                   <td className="py-4 px-6">{item.idimpSeguimiento}</td>
                   <td className="py-4 px-6">{item.idDni}</td>
@@ -119,6 +161,7 @@ const ImportaTable = () => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       </section>
