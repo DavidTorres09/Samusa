@@ -25,6 +25,9 @@ function RevCChart() {
   const options = { //Esta es ya la estructura de highsharts
     chart: {
       type: 'column', //Grafico de columnas
+      style: {
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", //Tipo letra
+      }
     },
     title: {
       text: 'Estado de contenedores',
@@ -45,6 +48,7 @@ function RevCChart() {
       {
         name: 'Cantidad',
         data: chartData, //Se agarran los datos que se setearon aca = setChartData(transformedData);
+        color: '#0D47A1',
         dataLabels: {
           enabled: true,
           format: '{point.y}',

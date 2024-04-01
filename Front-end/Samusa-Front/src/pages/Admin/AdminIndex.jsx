@@ -2,6 +2,9 @@ import LayoutAdmin from "../../components/LayoutAdmin";
 import Footer from "../../components/Footer";
 import ImportaChart from "../../components/ImportaChart";
 import AdminInfoCards from "../../components/AdminIndexInfocards";
+import AdminIndexCharts from "../../components/AdminIndexCharts";
+import AdminAlertsandbuttons from "../../components/AdminIndexAlarmasybotones";
+import Calendar from "../../components/Calendar";
 import "../../Css/Template.css"
 
 const AdminIndex = () => {
@@ -21,6 +24,18 @@ const AdminIndex = () => {
 
         <div>
         <AdminInfoCards/>
+        </div>
+        <br />
+        <div>
+        <AdminIndexCharts/>
+        </div>
+        <br />
+        <div>
+        <AdminAlertsandbuttons/>
+        </div>
+
+        <div>
+        <Calendar/>
         </div>
 
         </div>
