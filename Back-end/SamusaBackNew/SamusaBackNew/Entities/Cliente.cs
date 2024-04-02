@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Samusa_Back.Models
+﻿namespace SamusaBackNew.Entities
 {
     public class Cliente
     {

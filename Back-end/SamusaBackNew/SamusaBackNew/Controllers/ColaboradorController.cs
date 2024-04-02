@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SamusaBackNew.Entities;
 using SamusaBackNew.Interfaces;
-using Samusa_Back.Models;
 
 namespace SamusaBackNew.Controllers
 {
