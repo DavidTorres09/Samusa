@@ -1,5 +1,6 @@
 import Layout from "../../components/Layout";
 import Footer from "../../components/Footer";
+import TrackingPage from "../../components/UserTrackingPage";
 import "../../css/user/Index.css";
 
 
@@ -22,6 +23,9 @@ function UserTracking () {
             <br></br>
             <br></br>
             <br></br>
+            <div>
+            <TrackingPage/>
+            </div>
             <br></br>
             <br></br>
             <br></br>
