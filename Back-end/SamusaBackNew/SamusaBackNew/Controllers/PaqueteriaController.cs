@@ -7,14 +7,14 @@ namespace SamusaBackNew.Controllers
 {
     [ApiController]
     [Route("api/samusa/paqueteria")]
-    public class PaqueteriaController(IRepository<Paqueteria> _repositoryPaqueteria ) : Controller
+    public class PaqueteriaController(IRepository<Paqueteria> _repositoryPaqueteria, IRepository<PaqueteriaVista> _repositoryPaqueteriaVista ) : Controller
     {
         [AllowAnonymous]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerPaqueterias()
         {
-            return await _repositoryPaqueteria.ObtenerTodos("ObtenerPaqueterias");
+            return await _repositoryPaqueteriaVista.ObtenerTodos("ObtenerPaqueterias");
         }
 
         [AllowAnonymous]
@@ -22,7 +22,7 @@ namespace SamusaBackNew.Controllers
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerPaqueteria(int id)
         {
-            return await _repositoryPaqueteria.ObtenerUno("ObtenerPaqueteria", id);
+            return await _repositoryPaqueteriaVista.ObtenerUno("ObtenerPaqueteria", id);
         }
 
         [AllowAnonymous]

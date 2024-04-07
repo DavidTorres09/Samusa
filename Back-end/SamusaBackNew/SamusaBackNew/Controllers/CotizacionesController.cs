@@ -7,7 +7,7 @@ namespace SamusaBackNew.Controllers
 {
     [ApiController]
     [Route("api/samusa/cotizaciones")]
-    public class CotizacionesController(IRepository<Cotizaciones> _repositoryCotizaciones) : Controller
+    public class CotizacionesController(IRepository<Cotizaciones> _repositoryCotizaciones, IRepository<VistaCotizaciones> _repositoryVistaCotizaciones) : Controller
     {
 
         [AllowAnonymous]
@@ -15,7 +15,7 @@ namespace SamusaBackNew.Controllers
         [Route("listar")]
         public async Task<IActionResult> ObtenerCotizaciones()
         {
-            return await _repositoryCotizaciones.ObtenerTodos("ObtenerCotizaciones");
+            return await _repositoryVistaCotizaciones.ObtenerTodos("ObtenerCotizaciones");
         }
 
         [AllowAnonymous]
@@ -23,7 +23,7 @@ namespace SamusaBackNew.Controllers
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerCotizacion(int id)
         {
-            return await _repositoryCotizaciones.ObtenerUno("ObtenerCotizacion", id);
+            return await _repositoryVistaCotizaciones.ObtenerUno("ObtenerCotizacion", id);
         }
 
         [AllowAnonymous]

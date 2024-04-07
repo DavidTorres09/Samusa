@@ -1,509 +1,489 @@
-USE SamusaDBNew
+CREATE DATABASE SamusaV2	
 GO
 
-CREATE TABLE Roles(
-	ID INT IDENTITY(1,1) NOT NULL,
-	Rol VARCHAR(50) NOT NULL,
-	CONSTRAINT PK_Rol PRIMARY KEY(ID)
-)
+USE SamusaV2
 GO
 
-CREATE TABLE Persona (
-	DNI INT NOT NULL,
-	Nombre VARCHAR(25) NOT NULL, 
-	PrimerApellido VARCHAR(25) NOT NULL, 
-	SegundoApellido VARCHAR(25) NULL,
-	Telefono VARCHAR(25) NULL,
-	Email VARCHAR(40) NOT NULL, 
-	EsNacional BIT NOT NULL,
-	Usuario VARCHAR(250) NOT NULL,
-	Password VARCHAR(250) NOT NULL,
-	IdRol INT NOT NULL,
-	Foto VARBINARY(MAX),
-	CONSTRAINT PK_Persona PRIMARY KEY (DNI),
-	CONSTRAINT FK_Persona_Rol FOREIGN KEY (IdRol) REFERENCES Roles(ID)
-)
-GO
-
-CREATE TABLE Cliente (
-	IDCliente INT NOT NULL IDENTITY(1,1),
-    Direccion VARCHAR (80) NOT NULL,
-    DNI_Persona INT NOT NULL,
-   	CONSTRAINT PK_Cliente PRIMARY KEY (IDCliente),
-    CONSTRAINT FK_Cliente_Persona FOREIGN KEY (DNI_Persona) REFERENCES Persona(DNI) 
+CREATE TABLE Rol(
+	Id		INT  NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	Rol		VARCHAR(50) NOT NULL
 )
 GO
 
 CREATE TABLE Colaborador (
-	IDColaborador INT NOT NULL IDENTITY(1,1),
-	Direccion VARCHAR (80) NOT NULL,
-    DNI_Persona INT NOT NULL,
-    CONSTRAINT PK_Colaborador PRIMARY KEY (IDColaborador),
-    CONSTRAINT FK_Colaborador_Persona FOREIGN KEY (DNI_Persona) REFERENCES Persona(DNI) 
+	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	Direccion			VARCHAR (250) NOT NULL,
+    Dni					VARCHAR(250) NOT NULL,
+	Nombre				VARCHAR(250) NOT NULL, 
+	Telefono			VARCHAR(25) NULL,
+	Email				VARCHAR(250) NOT NULL, 
+	EsNacional			BIT NOT NULL,
+	Usuario				VARCHAR(250) NOT NULL,
+	Contrasenna			VARCHAR(500) NOT NULL,
+	RolId				INT NOT NULL,
+	Foto				VARCHAR(500),
+	Estado				BIT NOT NULL,
+	EsTemporal			BIT NOT NULL
 )
 GO
 
-CREATE TABLE RevisionAlmacen(
-	IDFormAlmacen INT NOT NULL IDENTITY(1,1),
-	VIN VARCHAR(35) NOT NULL,
-	Marca VARCHAR(20) NOT NULL,
-    Modelo VARCHAR(20) NOT NULL,
-    Extras VARCHAR(20) NOT NULL,
-    Color VARCHAR(20) NOT NULL,
-    CostoVehiculo DECIMAL(10,2) DEFAULT 0 NOT NULL,
-    AnioVehiculo INT NOT NULL,
-	DNI_Dueno INT NOT NULL,
-    Placa INT NULL,
-    EstadoOP VARCHAR(20) NOT NULL,
-	CONSTRAINT PK_RevisionAlmacen PRIMARY KEY (IDFormAlmacen)
+CREATE TABLE Cliente (
+	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	Direccion			VARCHAR (250) NOT NULL,
+    Dni					VARCHAR(250) NOT NULL,
+	Nombre				VARCHAR(250) NOT NULL, 
+	Telefono			VARCHAR(25) NULL,
+	Email				VARCHAR(250) NOT NULL, 
+	EsNacional			BIT NOT NULL,
+	Usuario				VARCHAR(250) NOT NULL,
+	Contrasenna			VARCHAR(500) NOT NULL,
+	RolId				INT NOT NULL,
+	Foto				VARCHAR(500),
+	Estado				BIT NOT NULL,
+	EsTemporal			BIT NOT NULL
 )
 GO
 
+CREATE TABLE RevisionVehiculo(
+	Id				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	VIN				VARCHAR(35) NOT NULL,
+	Marca			VARCHAR(50) NOT NULL,
+    Modelo			VARCHAR(50) NOT NULL,
+    Extras			VARCHAR(250) NOT NULL,
+    Color			VARCHAR(50) NOT NULL,
+    CostoVehiculo	DECIMAL(10,2) DEFAULT 0 NOT NULL,
+    AnnoVehiculo	INT NOT NULL,
+	DniDuenno		VARCHAR(250) NOT NULL,
+    Placa			INT NULL,
+    EstadoOP		VARCHAR(50) NOT NULL
+)
+GO
 
 CREATE TABLE RevisionContenedor (
-	IDRevCont INT NOT NULL IDENTITY(1,1),
-	PuertoOrigen VARCHAR(20) NOT NULL,
-	PuertoDestino VARCHAR(20) NOT NULL,
-    	Naviera VARCHAR(20) NOT NULL,
-    	Transportista VARCHAR(20) NOT NULL,
-	DNI_Dueno INT NOT NULL,
-    	Estado VARCHAR(20) NOT NULL,
-	CONSTRAINT PK_Contenedor PRIMARY KEY (IDRevCont)
+	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	PuertoOrigen		VARCHAR(80) NOT NULL,
+	PuertoDestino		VARCHAR(80) NOT NULL,
+    Naviera				VARCHAR(80) NOT NULL,
+    Transportista		VARCHAR(80) NOT NULL,
+	DniDuenno			VARCHAR(250) NOT NULL,
+    Estado				VARCHAR(20) NOT NULL
 )
 GO
 
-CREATE TABLE Importaciones (
-	IDImpSeguimiento INT NOT NULL,
-	ID_DNI INT NOT NULL,
-    IDRevVehiculo INT NULL,
-    IDRevContenedor INT NULL,
-	FechaInicio DATETIME NOT NULL,
-	FechaFinalizacion DATETIME NULL,
-	FechaEsperada DATETIME NULL,
-	Prioridad VARCHAR (80) NOT NULL,
-    Descripcion VARCHAR (250) NULL,
-	CONSTRAINT PK_IDImpSeguimiento PRIMARY KEY (IDImpSeguimiento),
-    CONSTRAINT FK_Importaciones_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
-    CONSTRAINT FK_Importaciones_RevA FOREIGN KEY (IDRevVehiculo) REFERENCES RevisionAlmacen(IDFormAlmacen),
-    CONSTRAINT FK_Importaciones_RevC FOREIGN KEY (IDRevContenedor) REFERENCES RevisionContenedor(IDRevCont)
+CREATE TABLE Importacion (
+	Id						INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	ImpSeguimientoId		INT NOT NULL,
+	ClienteId				INT NOT NULL,
+    RevVehiculoId			INT NULL,
+    RevContenedorId			INT NULL,
+	FechaInicio				DATETIME NOT NULL,
+	FechaFinalizacion		DATETIME NULL,
+	FechaEsperada			DATETIME NULL,
+	Prioridad				VARCHAR (80) NOT NULL,
+    Descripcion				VARCHAR (250) NULL,
 )
 GO
 
-CREATE TABLE Exportaciones (
-	IDExpSeguimiento INT NOT NULL,
-	ID_DNI INT NOT NULL,
-    IDRevVehiculo INT NULL,
-    IDRevContenedor INT NULL,
-	FechaInicio DATETIME NOT NULL,
-	FechaFinalizacion DATETIME NOT NULL,
-	FechaEsperada DATETIME NULL,
-	Prioridad VARCHAR (80) NOT NULL,
-    Descripcion VARCHAR (250) NULL
-	CONSTRAINT PK_IDExpSeguimiento PRIMARY KEY (IDExpSeguimiento),
-    CONSTRAINT FK_Exportaciones_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
-    CONSTRAINT FK_Exportaciones_RevA FOREIGN KEY (IDRevVehiculo) REFERENCES RevisionAlmacen(IDFormAlmacen),
-    CONSTRAINT FK_Exportaciones_RevC FOREIGN KEY (IDRevContenedor) REFERENCES RevisionContenedor(IDRevCont)
+CREATE TABLE Exportacion (
+	Id						INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	ExpSeguimientoId		INT NOT NULL,
+	ClienteId				INT NOT NULL,
+    RevVehiculoId			INT NULL,
+    RevContenedorId			INT NULL,
+	FechaInicio				DATETIME NOT NULL,
+	FechaFinalizacion		DATETIME NOT NULL,
+	FechaEsperada			DATETIME NULL,
+	Prioridad				VARCHAR (80) NOT NULL,
+    Descripcion				VARCHAR (250) NULL
 )
 GO
 
 CREATE TABLE Paqueteria (
-	IDPaqSeguimiento INT NOT NULL IDENTITY(1,1),
-	ID_DNI INT NOT NULL,
-	NumCasillero VARCHAR (80) NOT NULL,
-	NumTracking VARCHAR (80) NOT NULL,
-	TipoProducto VARCHAR (80) NOT NULL,
-	DirectOrigen VARCHAR (200) NOT NULL,
-	DirectDestino VARCHAR (200) NOT NULL,
-	FechaRegistro DATETIME NOT NULL,
-	FechaEsperada DATETIME NULL,
-	CONSTRAINT PK_IDPaqSeguimiento PRIMARY KEY (IDPaqSeguimiento),
-    CONSTRAINT FK_Paqueteria_Persona FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI)
+	Id				INT	NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	ClienteId		INT NOT NULL,
+	NumCasillero	VARCHAR (80) NOT NULL,
+	NumTracking		VARCHAR (80) NOT NULL,
+	TipoProducto	VARCHAR (80) NOT NULL,
+	DirectOrigen	VARCHAR (200) NOT NULL,
+	DirectDestino	VARCHAR (200) NOT NULL,
+	FechaRegistro	DATETIME NOT NULL,
+	FechaEsperada	DATETIME NULL,
 )
 GO
 
-CREATE TABLE Cotizaciones (
-	IDCotizacion INT NOT NULL IDENTITY(1,1),
-	ID_DNI INT NOT NULL,
-	IDColaborador INT NOT NULL,
-	TipoProducto VARCHAR(35) NOT NULL,
-	Producto VARCHAR(20) NOT NULL,
-	PorcentajeIMP INT NOT NULL,
-	EnlaceRef VARCHAR(500) NOT NULL,
-	FechaCreacion DATETIME NOT NULL,
-	CONSTRAINT PK_IDCotizacion PRIMARY KEY (IDCotizacion), 
-	CONSTRAINT FK_Cotizacion_Cliente FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
-	CONSTRAINT FK_Colaborador_Cotizacion FOREIGN KEY (IDColaborador) REFERENCES Colaborador(IDColaborador)
+CREATE TABLE Cotizacion (
+	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	ColaboradorId		INT NOT NULL,
+	ClienteId			INT,
+	DniCliente			VARCHAR(200) NOT NULL,
+	TipoProducto		VARCHAR(50) NOT NULL,
+	Producto			VARCHAR(80) NOT NULL,
+	PorcentajeIMP		INT NOT NULL,
+	EnlaceRef			VARCHAR(500) NOT NULL,
+	FechaCreacion		DATETIME NOT NULL,
 )
 GO
 
 CREATE TABLE Ticket (
-    TicketID INT IDENTITY(1,1) PRIMARY KEY,
-    Estado VARCHAR(50),
-    Prioridad VARCHAR(50),
-    Descripcion VARCHAR(500),
-    IDCliente INT,
-    IDColaborador INT,
-    FOREIGN KEY (IDCliente) REFERENCES Cliente(IDCliente),
-    FOREIGN KEY (IDColaborador) REFERENCES Colaborador(IDColaborador)
+    Id				INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    Estado			VARCHAR(50),
+    Prioridad		VARCHAR(50),
+    Descripcion		VARCHAR(500),
+    ClienteId		INT,
+    ColaboradorId	INT,
 )
 GO
 
+CREATE TABLE Alarma (
+	Id			INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	Descripcion VARCHAR(300) NOT NULL
+)
+GO
 
---------------------
---STORE PROCEDURES--
---------------------
+CREATE TABLE Documento(
+	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	ImportacionId		INT NULL,
+	ExportacionId		INT NULL,
+	Url					VARCHAR(500)
+)
+GO
 
---***********
---**CLIENTE**
---***********
+ALTER TABLE Colaborador
+ADD CONSTRAINT FK_Colaborador_Rol FOREIGN KEY (RolId) REFERENCES Rol(Id)
+GO
+
+ALTER TABLE Cliente
+ADD CONSTRAINT FK_Cliente_Rol FOREIGN KEY (RolId) REFERENCES Rol(Id)
+GO
+
+ALTER TABLE Paqueteria
+ADD CONSTRAINT FK_Paqueteria_Persona FOREIGN KEY (ClienteId) REFERENCES Cliente(Id)
+GO
+
+ALTER TABLE Importacion
+ADD CONSTRAINT FK_Importaciones_Persona FOREIGN KEY (ClienteId) REFERENCES Cliente(Id),
+	CONSTRAINT FK_Importaciones_RevA FOREIGN KEY (RevVehiculoId) REFERENCES RevisionVehiculo(Id),
+	CONSTRAINT FK_Importaciones_RevC FOREIGN KEY (RevContenedorId) REFERENCES RevisionContenedor(Id)
+GO
+
+ALTER TABLE Exportacion
+ADD CONSTRAINT FK_Exportaciones_Persona FOREIGN KEY (ClienteId) REFERENCES Cliente(Id),
+	CONSTRAINT FK_Exportaciones_RevA FOREIGN KEY (RevVehiculoId) REFERENCES RevisionVehiculo(Id),
+	CONSTRAINT FK_Exportaciones_RevC FOREIGN KEY (RevContenedorId) REFERENCES RevisionContenedor(Id)
+GO
+
+ALTER TABLE Cotizacion
+ADD	CONSTRAINT FK_Cotizacion_Cliente FOREIGN KEY (ClienteId) REFERENCES Cliente(Id),
+	CONSTRAINT FK_Cotizacion_Colaborador FOREIGN KEY (ColaboradorId) REFERENCES Colaborador(Id);
+GO
+
+ALTER TABLE Ticket
+ADD CONSTRAINT FK_Ticket_Cliente FOREIGN KEY (ClienteId) REFERENCES Cliente(Id),
+	CONSTRAINT FK_Ticket_Colaborador FOREIGN KEY (ColaboradorId) REFERENCES Colaborador(Id)
+GO
+
+ALTER TABLE Documento
+ADD CONSTRAINT FK_Documentos_Importaciones FOREIGN KEY (ImportacionId) REFERENCES Importacion(Id),
+	CONSTRAINT FK_Documentos_Exportaciones FOREIGN KEY (ExportacionId) REFERENCES Exportacion(Id)
+GO
+
+INSERT INTO Rol (Rol)
+VALUES ('Usuario'), ('Administrador'), ('Supervisor'), ('Gerente')
+GO
+
 CREATE PROCEDURE AgregarCliente (
-		@dni INT,
-		@nombre VARCHAR(25),
-		@primerApellido VARCHAR(25),
-		@segundoApellido VARCHAR(25) = NULL,
-		@telefono VARCHAR(25) = NULL,
-		@email VARCHAR(40),
-		@esNacional BIT = 0,
-		@usuario VARCHAR(250),
-		@password VARCHAR(250),
-		@direccion VARCHAR(80),
-		@IdRol INT,
-		@foto VARBINARY(max)
-	)
-	AS
-	IF NOT EXISTS (SELECT 1 FROM Persona WHERE DNI = @dni)
-	BEGIN
-		IF NOT EXISTS(SELECT 1 FROM Persona WHERE Email = @email)
+	@Direccion		VARCHAR(250),
+    @Dni			INT,
+    @Nombre			VARCHAR(250),
+    @Telefono		VARCHAR(25) = NULL,
+    @Email			VARCHAR(250),
+    @EsNacional		BIT,
+    @Usuario		VARCHAR(250),
+    @Contrasenna	VARCHAR(250),
+    @RolId			INT,
+    @Foto			VARCHAR(500)
+)
+AS
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Usuario = @Usuario)
+    BEGIN
+		IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Dni = @Dni)
 		BEGIN
-			IF NOT EXISTS(SELECT 1 FROM Persona WHERE Usuario = @usuario)
+			IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Email = @Email)
 			BEGIN
-				INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password, IdRol, Foto)
-				VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password, @IdRol, @Foto);
-				INSERT INTO Cliente (Direccion, DNI_Persona)
-				VALUES (@direccion, @dni);
+				INSERT INTO Cliente (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal)
+				VALUES (@Direccion, @Dni, @Nombre, @Telefono, @Email, @EsNacional, @Usuario, @Contrasenna, @RolId, @Foto, 1, 0);
 			END
 		END
 	END
+END
 GO
 
 CREATE PROCEDURE ModificarCliente(
-    @dni INT,
-	@nombre VARCHAR(25),
-	@primerApellido VARCHAR(25),
-	@segundoApellido VARCHAR(25) = NULL,
-	@telefono VARCHAR(25) = NULL,
-	@email VARCHAR(40),
-	@esNacional BIT = 0,
-	@usuario VARCHAR(250),
-	@password VARCHAR(250),
-	@direccion VARCHAR(80),
-	@IdRol INT,
-	@foto VARBINARY(max)
+	@Id				INT,
+	@Direccion		VARCHAR(250),
+    @Dni			INT,
+    @Nombre			VARCHAR(250),
+    @Telefono		VARCHAR(25),
+    @Email			VARCHAR(40),
+    @EsNacional		BIT = 0,
+    @Usuario		VARCHAR(250),
+    @Contrasenna	VARCHAR(250),
+    @RolId			INT,
+    @Foto			VARCHAR(500)
 	)
 AS
 BEGIN
-     IF EXISTS (SELECT 1 FROM Persona WHERE DNI = @dni)
+     IF EXISTS (SELECT 1 FROM Cliente WHERE id = @Id)
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM Persona WHERE Email = @email AND DNI <> @dni)
+        IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Email = @Email  AND DNI <> @Dni)
         BEGIN
-            IF NOT EXISTS (SELECT 1 FROM Persona WHERE Usuario = @usuario AND DNI <> @dni)
+            IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Usuario = @Usuario AND DNI <> @Dni)
             BEGIN
                 UPDATE Cliente
-                SET Direccion = @direccion
-                WHERE DNI_Persona = @dni;
-
-                UPDATE Persona
-                SET Nombre = @nombre,
-                    PrimerApellido = @primerApellido,
-                    SegundoApellido = @segundoApellido,
-                    Telefono = @telefono,
-                    Email = @email,
-                    EsNacional = @esNacional,
-                    Usuario = @usuario,
-                    Password = @password,
-                    IdRol = @idRol,
-                    Foto = @foto
-                WHERE DNI = @dni;
+                SET Direccion = @direccion,
+					Nombre = @Nombre,
+                    Telefono = @Telefono,
+                    Email = @Email,
+                    EsNacional = @EsNacional,
+                    Usuario = @Usuario,
+                    Contrasenna = @Contrasenna,
+                    RolId = @RolId,
+                    Foto = @Foto
+                WHERE id = @Id;
             END
         END
     END
 END
 GO
-
 
 CREATE PROCEDURE ObtenerClientes
 AS
 BEGIN
 	SELECT
-		C.IDCliente,
-		P.DNI,
-		P.Nombre,
-		P.PrimerApellido,
-		P.SegundoApellido,
-		P.Telefono,
-		P.Email,
-		P.EsNacional,
-		P.Usuario,
-		P.Password,
+		C.Id,
+		C.Dni,
+		C.Nombre,
+		C.Telefono,
+		C.Email,
+		C.EsNacional,
+		C.Usuario,
+		C.Contrasenna,
 		C.Direccion,
-		R.Rol,
-		P.Foto
+		R.Rol AS 'NombreRol',
+		C.Foto
 	FROM
-		Persona P
-	JOIN
-		Cliente C ON P.DNI = C.DNI_Persona
-	JOIN Roles R ON P.IdRol = R.ID
+		Cliente C
+	JOIN Roles R ON C.RolId = R.Id
 END
 GO
 
 CREATE PROCEDURE ObtenerCliente (
-    @id INT
+    @Id INT
 )
 AS
 BEGIN
 	SELECT
-		C.IDCliente,
-		P.DNI,
-		P.Nombre,
-		P.PrimerApellido,
-		P.SegundoApellido,
-		P.Telefono,
-		P.Email,
-		P.EsNacional,
-		P.Usuario,
-		P.Password,
+		C.Id,
+		C.DNI,
+		C.Nombre,
+		C.Telefono,
+		C.Email,
+		C.EsNacional,
+		C.Usuario,
+		C.Contrasenna,
 		C.Direccion,
-		R.Rol,
-		P.Foto
+		R.Rol AS 'NombreRol',
+		C.Foto
 	FROM
-		Persona P
-	JOIN
-		Cliente C ON P.DNI = C.DNI_Persona
+		Cliente C
 	JOIN 
-		Roles R ON P.IdRol = R.ID
+		Roles R ON C.RolId = R.Id
 	WHERE
-		C.IDCliente = @id;
+		C.Id = @Id;
 END
 GO
 
 CREATE PROCEDURE EliminarCliente (
-    @id INT
+    @Id INT
 )
 AS
 BEGIN
-    DECLARE @dni INT;
-    
-    SELECT @dni = DNI_Persona
-    FROM Cliente
-    WHERE IDCliente = @id;
-
     DELETE FROM Cliente
-    WHERE IDCliente = @id;
-
-    DELETE FROM Persona
-    WHERE DNI = @dni;
+    WHERE Id = @Id;
 END
 GO
 
-
---***************
---**COLABORADOR**
---***************
 CREATE PROCEDURE AgregarColaborador (
-		@dni INT,
-		@nombre VARCHAR(25),
-		@primerApellido VARCHAR(25),
-		@segundoApellido VARCHAR(25) = NULL,
-		@telefono VARCHAR(25) = NULL,
-		@email VARCHAR(40),
-		@esNacional BIT = 0,
-		@usuario VARCHAR(250),
-		@password VARCHAR(250),
-		@direccion VARCHAR(80),
-		@IdRol INT,
-		@foto VARBINARY(max)
-	)
-	AS
-	IF NOT EXISTS (SELECT 1 FROM Persona WHERE DNI = @dni)
-	BEGIN
-		IF NOT EXISTS(SELECT 1 FROM Persona WHERE Email = @email)
+    @Id				INT,
+	@Direccion		VARCHAR(250),
+    @Dni			INT,
+    @Nombre			VARCHAR(250),
+    @Telefono		VARCHAR(25) = NULL,
+    @Email			VARCHAR(250),
+    @EsNacional		BIT,
+    @Usuario		VARCHAR(250),
+    @Contrasenna	VARCHAR(250),
+    @RolId			INT,
+    @Foto			VARCHAR(500)
+)
+AS
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Usuario = @Usuario)
+    BEGIN
+		IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Dni = @Dni)
 		BEGIN
-			IF NOT EXISTS(SELECT 1 FROM Persona WHERE Usuario = @usuario)
+			IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Email = @Email)
 			BEGIN
-				INSERT INTO Persona (DNI, Nombre, PrimerApellido, SegundoApellido, Telefono, Email, EsNacional, Usuario, Password, IdRol, Foto)
-				VALUES (@dni, @nombre, @primerApellido, @segundoApellido, @telefono, @email, @esNacional, @usuario, @password, @IdRol, @Foto);
-				INSERT INTO Colaborador (Direccion, DNI_Persona)
-				VALUES (@direccion, @dni);
+				INSERT INTO Colaborador (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal)
+				VALUES (@Direccion, @Dni, @Nombre, @Telefono, @Email, @EsNacional, @Usuario, @Contrasenna, @RolId, @Foto, 1, 0);
 			END
 		END
 	END
+END
 GO
 
 CREATE PROCEDURE ModificarColaborador(
-    @dni INT,
-	@nombre VARCHAR(25),
-	@primerApellido VARCHAR(25),
-	@segundoApellido VARCHAR(25) = NULL,
-	@telefono VARCHAR(25) = NULL,
-	@email VARCHAR(40),
-	@esNacional BIT = 0,
-	@usuario VARCHAR(250),
-	@password VARCHAR(250),
-	@direccion VARCHAR(80),
-	@IdRol INT,
-	@foto VARBINARY(max)
+	@Id				INT,
+	@Direccion		VARCHAR(250),
+    @Dni			INT,
+    @Nombre			VARCHAR(250),
+    @Telefono		VARCHAR(25),
+    @Email			VARCHAR(40),
+    @EsNacional		BIT = 0,
+    @Usuario		VARCHAR(250),
+    @Contrasenna	VARCHAR(250),
+    @RolId			INT,
+    @Foto			VARCHAR(500)
 	)
 AS
 BEGIN
-     IF EXISTS (SELECT 1 FROM Persona WHERE DNI = @dni)
+     IF EXISTS (SELECT 1 FROM Colaborador WHERE id = @Id)
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM Persona WHERE Email = @email AND DNI <> @dni)
+        IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Email = @Email  AND DNI <> @Dni)
         BEGIN
-            IF NOT EXISTS (SELECT 1 FROM Persona WHERE Usuario = @usuario AND DNI <> @dni)
+            IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Usuario = @Usuario AND DNI <> @Dni)
             BEGIN
-                UPDATE Colaborador
-                SET Direccion = @direccion
-                WHERE DNI_Persona = @dni;
-
-                UPDATE Persona
-                SET Nombre = @nombre,
-                    PrimerApellido = @primerApellido,
-                    SegundoApellido = @segundoApellido,
-                    Telefono = @telefono,
-                    Email = @email,
-                    EsNacional = @esNacional,
-                    Usuario = @usuario,
-                    Password = @password,
-                    IdRol = @idRol,
-                    Foto = @foto
-                WHERE DNI = @dni;
+                UPDATE Cliente
+                SET Direccion = @direccion,
+					Nombre = @Nombre,
+                    Telefono = @Telefono,
+                    Email = @Email,
+                    EsNacional = @EsNacional,
+                    Usuario = @Usuario,
+                    Contrasenna = @Contrasenna,
+                    RolId = @RolId,
+                    Foto = @Foto
+                WHERE id = @Id;
             END
         END
     END
 END
 GO
 
-
 CREATE PROCEDURE ObtenerColaboradores
 AS
 BEGIN
 	SELECT
-		C.IDColaborador,
-		P.DNI,
-		P.Nombre,
-		P.PrimerApellido,
-		P.SegundoApellido,
-		P.Telefono,
-		P.Email,
-		P.EsNacional,
-		P.Usuario,
-		P.Password,
+		C.Id,
+		C.Dni,
+		C.Nombre,
+		C.Telefono,
+		C.Email,
+		C.EsNacional,
+		C.Usuario,
+		C.Contrasenna,
 		C.Direccion,
 		R.Rol,
-		P.Foto
+		C.Foto
 	FROM
-		Persona P
-	JOIN
-		Colaborador C ON P.DNI = C.DNI_Persona
-	JOIN Roles R ON P.IdRol = R.ID
+		Colaborador C
+	JOIN Roles R ON C.RolId = R.Id
 END
 GO
 
-CREATE PROCEDURE ObtenerColaborador(
-    @id INT
+CREATE PROCEDURE ObtenerColaborador (
+    @Id INT
 )
 AS
 BEGIN
 	SELECT
-		C.IDColaborador,
-		P.DNI,
-		P.Nombre,
-		P.PrimerApellido,
-		P.SegundoApellido,
-		P.Telefono,
-		P.Email,
-		P.EsNacional,
-		P.Usuario,
-		P.Password,
+		C.Id,
+		C.DNI,
+		C.Nombre,
+		C.Telefono,
+		C.Email,
+		C.EsNacional,
+		C.Usuario,
+		C.Contrasenna,
 		C.Direccion,
 		R.Rol,
-		P.Foto
+		C.Foto
 	FROM
-		Persona P
-	JOIN
-		Colaborador C ON P.DNI = C.DNI_Persona
+		Colaborador C
 	JOIN 
-		Roles R ON P.IdRol = R.ID
+		Roles R ON C.RolId = R.Id
 	WHERE
-		C.IDColaborador = @id;
+		C.Id = @Id;
 END
 GO
 
 CREATE PROCEDURE EliminarColaborador (
-    @id INT
+    @Id INT
 )
 AS
 BEGIN
-    DECLARE @dni INT;
-    
-    SELECT @dni = DNI_Persona
-    FROM Colaborador
-    WHERE IDColaborador = @id;
-
     DELETE FROM Colaborador
-    WHERE IDColaborador = @id;
-
-    DELETE FROM Persona
-    WHERE DNI = @dni;
+    WHERE Id = @Id;
 END
 GO
 
---*****************
---**EXPORTACIONES**
---*****************
 CREATE PROCEDURE AgregarExportacion (
-		@IDExpSeguimiento INT,
-		@ID_DNI INT,
-		@IDRevVehiculo INT,
-		@IDRevContenedor INT,
-		@FechaInicio DATETIME,
-		@FechaFinalizacion DATETIME,
-		@FechaEsperada DATETIME,
-		@Prioridad VARCHAR(80),
-		@Descripcion VARCHAR(250)
-	)
+	@Id					INT,
+	@ExpSeguimientoId	INT,
+	@ClienteId			INT,
+	@RevVehiculoId		INT,
+	@RevContenedorId	INT,
+	@FechaInicio		DATETIME,
+	@FechaFinalizacion	DATETIME,
+	@FechaEsperada		DATETIME,
+	@Prioridad			VARCHAR(80),
+	@Descripcion		VARCHAR(250)
+)
 AS
-IF NOT EXISTS (SELECT 1 FROM Exportaciones WHERE IDExpSeguimiento = @IDExpSeguimiento)
+IF NOT EXISTS (SELECT 1 FROM Exportacion WHERE ExpSeguimientoId = @ExpSeguimientoId)
 BEGIN
-	INSERT INTO Exportaciones (IDExpSeguimiento, ID_DNI, IDRevVehiculo, IDRevContenedor, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion)
-	VALUES (@IDExpSeguimiento, @ID_DNI, @IDRevVehiculo, @IDRevContenedor, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion);
+	INSERT INTO Exportacion (ExpSeguimientoId, ClienteId, RevVehiculoId, RevContenedorId, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion)
+	VALUES (@ExpSeguimientoId, @ClienteId, @RevVehiculoId, @RevContenedorId, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion);
 END
 GO
 
 CREATE PROCEDURE ModificarExportacion (
-		@IDExpSeguimiento INT,
-		@ID_DNI INT,
-		@IDRevVehiculo INT,
-		@IDRevContenedor INT,
-		@FechaInicio DATETIME,
-		@FechaFinalizacion DATETIME,
-		@FechaEsperada DATETIME,
-		@Prioridad VARCHAR(80),
-		@Descripcion VARCHAR(250)
-	)
+	@Id					INT,
+	@ExpSeguimientoId	INT,
+	@ClienteId			INT,
+	@RevVehiculoId		INT,
+	@RevContenedorId	INT,
+	@FechaInicio		DATETIME,
+	@FechaFinalizacion	DATETIME,
+	@FechaEsperada		DATETIME,
+	@Prioridad			VARCHAR(80),
+	@Descripcion		VARCHAR(250)
+)
 AS
-IF EXISTS (SELECT 1 FROM Exportaciones WHERE IDExpSeguimiento = @IDExpSeguimiento)
+IF EXISTS (SELECT 1 FROM Exportacion WHERE ExpSeguimientoId = @ExpSeguimientoId)
 BEGIN
-	UPDATE Exportaciones
-	SET ID_DNI = @ID_DNI,
-		IDRevVehiculo = @IDRevVehiculo,
-		IDRevContenedor = @IDRevContenedor,
+	UPDATE Exportacion
+	SET ExpSeguimientoId = @ExpSeguimientoId,
+		ClienteId = @ClienteId,
+		RevVehiculoId = @RevVehiculoId,
+		RevContenedorId = @RevContenedorId,
 		FechaInicio = @FechaInicio,
 		FechaFinalizacion = @FechaFinalizacion,
 		FechaEsperada = @FechaEsperada,
 		Prioridad = @Prioridad,
 		Descripcion = @Descripcion
-	WHERE IDExpSeguimiento = @IDExpSeguimiento;
+	WHERE ExpSeguimientoId = @ExpSeguimientoId;
 END
 GO
 
@@ -511,102 +491,101 @@ CREATE PROCEDURE ObtenerExportaciones
 AS
 BEGIN
 	SELECT
-		E.IDExpSeguimiento,
-		P.DNI,
-		E.IDRevVehiculo,
-		E.IDRevContenedor,
+		E.ExpSeguimientoId,
+		C.Dni,
+		E.RevVehiculoId,
+		E.RevContenedorId,
 		E.FechaInicio,
 		E.FechaFinalizacion,
 		E.FechaEsperada,
 		E.Prioridad,
 		E.Descripcion
 	FROM
-		Exportaciones E
+		Exportacion E
 	JOIN
-		Persona P ON E.ID_DNI = P.DNI
+		Cliente C ON E.ClienteId =C.Dni
 END
 GO
 
 CREATE PROCEDURE ObtenerExportacion (
-	@id INT
+	@Id INT
 )
 AS
 BEGIN
 	SELECT
-		E.IDExpSeguimiento,
-		P.DNI,
-		E.IDRevVehiculo,
-		E.IDRevContenedor,
+		E.ExpSeguimientoId,
+		C.Dni,
+		E.RevVehiculoId,
+		E.RevContenedorId,
 		E.FechaInicio,
 		E.FechaFinalizacion,
 		E.FechaEsperada,
 		E.Prioridad,
 		E.Descripcion
 	FROM
-		Exportaciones E
+		Exportacion E
 	JOIN
-		Persona P ON E.ID_DNI = P.DNI
+		CLiente C ON E.ClienteId = C.Dni
 	WHERE
-		E.IDExpSeguimiento = @id;
+		E.ExpSeguimientoId = @Id;
 END
 GO
 
 CREATE PROCEDURE EliminarExportacion (
-	@id INT
+	@Id INT
 )
 AS
 BEGIN
-	DELETE FROM Exportaciones
-	WHERE IDExpSeguimiento = @id;
+	DELETE FROM Exportacion
+	WHERE ExpSeguimientoId = @Id;
 END
 GO
 
---*****************
---**IMPORTACIONES**
---*****************
 CREATE PROCEDURE AgregarImportacion (
-		@IDImpSeguimiento INT,
-		@ID_DNI INT,
-		@IDRevVehiculo INT,
-		@IDRevContenedor INT,
-		@FechaInicio DATETIME,
-		@FechaFinalizacion DATETIME,
-		@FechaEsperada DATETIME,
-		@Prioridad VARCHAR(80),
-		@Descripcion VARCHAR(250)
-	)
+	@Id					INT,
+	@ImpSeguimientoId	INT,
+	@ClienteId			INT,
+	@RevVehiculoId		INT,
+	@RevContenedorId	INT,
+	@FechaInicio		DATETIME,
+	@FechaFinalizacion	DATETIME,
+	@FechaEsperada		DATETIME,
+	@Prioridad			VARCHAR(80),
+	@Descripcion		VARCHAR(250)
+)
 AS
-IF NOT EXISTS (SELECT 1 FROM Importaciones WHERE IDImpSeguimiento = @IDImpSeguimiento)
+IF NOT EXISTS (SELECT 1 FROM Importacion WHERE ImpSeguimientoId = @ImpSeguimientoId)
 BEGIN
-	INSERT INTO Importaciones (IDImpSeguimiento, ID_DNI, IDRevVehiculo, IDRevContenedor, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion)
-	VALUES (@IDImpSeguimiento, @ID_DNI, @IDRevVehiculo, @IDRevContenedor, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion);
+	INSERT INTO Importacion (ImpSeguimientoId, ClienteId ,RevVehiculoId ,RevContenedorId, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion)
+	VALUES (@ImpSeguimientoId, @ClienteId, @RevVehiculoId, @RevContenedorId, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion);
 END
 GO
 
 CREATE PROCEDURE ModificarImportacion (
-		@IDImpSeguimiento INT,
-		@ID_DNI INT,
-		@IDRevVehiculo INT,
-		@IDRevContenedor INT,
-		@FechaInicio DATETIME,
-		@FechaFinalizacion DATETIME,
-		@FechaEsperada DATETIME,
-		@Prioridad VARCHAR(80),
-		@Descripcion VARCHAR(250)
-	)
+	@Id					INT,
+	@ImpSeguimientoId	INT,
+	@ClienteId			INT,
+	@RevVehiculoId		INT,
+	@RevContenedorId	INT,
+	@FechaInicio		DATETIME,
+	@FechaFinalizacion	DATETIME,
+	@FechaEsperada		DATETIME,
+	@Prioridad			VARCHAR(80),
+	@Descripcion		VARCHAR(250)
+)
 AS
-IF EXISTS (SELECT 1 FROM Importaciones WHERE IDImpSeguimiento = @IDImpSeguimiento)
+IF EXISTS (SELECT 1 FROM Importacion WHERE ImpSeguimientoId = @ImpSeguimientoId)
 BEGIN
-	UPDATE Importaciones
-	SET ID_DNI = @ID_DNI,
-		IDRevVehiculo = @IDRevVehiculo,
-		IDRevContenedor = @IDRevContenedor,
+	UPDATE Importacion
+	SET ImpSeguimientoId = @ImpSeguimientoId,
+		RevVehiculoId = @RevVehiculoId,
+		RevContenedorId = @RevContenedorId,
 		FechaInicio = @FechaInicio,
 		FechaFinalizacion = @FechaFinalizacion,
 		FechaEsperada = @FechaEsperada,
 		Prioridad = @Prioridad,
 		Descripcion = @Descripcion
-	WHERE IDImpSeguimiento = @IDImpSeguimiento;
+	WHERE Id = @Id
 END
 GO
 
@@ -614,19 +593,19 @@ CREATE PROCEDURE ObtenerImportaciones
 AS
 BEGIN
 	SELECT
-		I.IDImpSeguimiento,
-		P.DNI,
-		I.IDRevVehiculo,
-		I.IDRevContenedor,
+		I.ImpSeguimientoId,
+		C.Dni,
+		I.RevVehiculoId,
+		I.RevContenedorId,
 		I.FechaInicio,
 		I.FechaFinalizacion,
 		I.FechaEsperada,
 		I.Prioridad,
 		I.Descripcion
 	FROM
-		Importaciones I
+		Importacion I
 	JOIN
-		Persona P ON I.ID_DNI = P.DNI
+		Cliente C ON I.ClienteId = C.Dni
 END
 GO
 
@@ -636,21 +615,21 @@ CREATE PROCEDURE ObtenerImportacion (
 AS
 BEGIN
 	SELECT
-		I.IDImpSeguimiento,
-		P.DNI,
-		I.IDRevVehiculo,
-		I.IDRevContenedor,
+		I.ImpSeguimientoId,
+		C.Dni,
+		I.RevVehiculoId,
+		I.RevContenedorId,
 		I.FechaInicio,
 		I.FechaFinalizacion,
 		I.FechaEsperada,
 		I.Prioridad,
 		I.Descripcion
 	FROM
-		Importaciones I
+		Importacion I
 	JOIN
-		Persona P ON I.ID_DNI = P.DNI
+		Cliente C ON I.ClienteId = C.Dni
 	WHERE
-		I.IDImpSeguimiento = @id;
+		I.ImpSeguimientoId = @id;
 END
 GO
 
@@ -659,49 +638,42 @@ CREATE PROCEDURE EliminarImportacion (
 )
 AS
 BEGIN
-	DELETE FROM Importaciones
-	WHERE IDImpSeguimiento = @id;
+	DELETE FROM Importacion
+	WHERE ImpSeguimientoId = @id;
 END
 GO
 
---***************
---**PAQUETERIA**
---***************
 CREATE PROCEDURE AgregarPaqueteria (
-		@IDPaqSeguimiento INT,
-		@ID_DNI INT,
-		@NumCasillero VARCHAR(80),
-		@NumTracking VARCHAR(80),
-		@TipoProducto VARCHAR(80),
-		@DirectOrigen VARCHAR(200),
-		@DirectDestino VARCHAR(200),
-		@FechaRegistro DATETIME,
-		@FechaEsperada DATETIME
+		@ClienteId		INT,
+		@NumCasillero	VARCHAR(80),
+		@NumTracking	VARCHAR(80),
+		@TipoProducto	VARCHAR(80),
+		@DirectOrigen	VARCHAR(200),
+		@DirectDestino	VARCHAR(200),
+		@FechaRegistro	DATETIME,
+		@FechaEsperada	DATETIME
 	)
 AS
-IF NOT EXISTS (SELECT 1 FROM Paqueteria WHERE IDPaqSeguimiento = @IDPaqSeguimiento)
-BEGIN
-	INSERT INTO Paqueteria (IDPaqSeguimiento, ID_DNI, NumCasillero, NumTracking, TipoProducto, DirectOrigen, DirectDestino, FechaRegistro, FechaEsperada)
-	VALUES (@IDPaqSeguimiento, @ID_DNI, @NumCasillero, @NumTracking, @TipoProducto, @DirectOrigen, @DirectDestino, @FechaRegistro, @FechaEsperada);
-END
+	INSERT INTO Paqueteria (ClienteId, NumCasillero, NumTracking, TipoProducto, DirectOrigen, DirectDestino, FechaRegistro, FechaEsperada)
+	VALUES (@ClienteId, @NumCasillero, @NumTracking, @TipoProducto, @DirectOrigen, @DirectDestino, @FechaRegistro, @FechaEsperada);
 GO
 
 CREATE PROCEDURE ModificarPaqueteria (
-		@IDPaqSeguimiento INT,
-		@ID_DNI INT,
-		@NumCasillero VARCHAR(80),
-		@NumTracking VARCHAR(80),
-		@TipoProducto VARCHAR(80),
-		@DirectOrigen VARCHAR(200),
-		@DirectDestino VARCHAR(200),
-		@FechaRegistro DATETIME,
-		@FechaEsperada DATETIME
+		@Id				INT,
+		@ClienteId		INT,
+		@NumCasillero	VARCHAR(80),
+		@NumTracking	VARCHAR(80),
+		@TipoProducto	VARCHAR(80),
+		@DirectOrigen	VARCHAR(200),
+		@DirectDestino	VARCHAR(200),
+		@FechaRegistro	DATETIME,
+		@FechaEsperada	DATETIME
 	)
 AS
-IF EXISTS (SELECT 1 FROM Paqueteria WHERE IDPaqSeguimiento = @IDPaqSeguimiento)
+IF EXISTS (SELECT 1 FROM Paqueteria WHERE Id = @Id)
 BEGIN
 	UPDATE Paqueteria
-	SET ID_DNI = @ID_DNI,
+	SET ClienteId = @ClienteId,
 		NumCasillero = @NumCasillero,
 		NumTracking = @NumTracking,
 		TipoProducto = @TipoProducto,
@@ -709,7 +681,7 @@ BEGIN
 		DirectDestino = @DirectDestino,
 		FechaRegistro = @FechaRegistro,
 		FechaEsperada = @FechaEsperada
-	WHERE IDPaqSeguimiento = @IDPaqSeguimiento;
+	WHERE Id = @Id;
 END
 GO
 
@@ -717,8 +689,8 @@ CREATE PROCEDURE ObtenerPaqueterias
 AS
 BEGIN
 	SELECT
-		P.IDPaqSeguimiento,
-		P.ID_DNI,
+		P.Id,
+		P.ClienteId,
 		P.NumCasillero,
 		P.NumTracking,
 		P.TipoProducto,
@@ -729,18 +701,18 @@ BEGIN
 	FROM
 		Paqueteria P
 	JOIN
-		Persona Pe ON P.ID_DNI = PE.DNI
+		Cliente Pe ON P.ClienteId = P.Id
 END
 GO
 
 CREATE PROCEDURE ObtenerPaqueteria (
-	@id INT
+	@Id INT
 )
 AS
 BEGIN
 	SELECT
-		P.IDPaqSeguimiento,
-		P.ID_DNI,
+		P.Id,
+		P.ClienteId,
 		P.NumCasillero,
 		P.NumTracking,
 		P.TipoProducto,
@@ -751,83 +723,76 @@ BEGIN
 	FROM
 		Paqueteria P
 	WHERE
-		P.IDPaqSeguimiento = @id;
+		P.Id = @Id;
 END
 GO
 
 CREATE PROCEDURE EliminarPaqueteria (
-	@id INT
+	@Id INT
 )
 AS
 BEGIN
 	DELETE FROM Paqueteria
-	WHERE IDPaqSeguimiento = @id;
+	WHERE Id = @Id;
 END
 GO
 
---***************
---**COTIZACIONES**
---***************
-
 CREATE PROCEDURE AgregarCotizacion (
-		@IDCotizacion INT,
-		@ID_DNI INT,
-		@IDColaborador INT,
-		@TipoProducto VARCHAR(35),
-		@Producto VARCHAR(20),
-		@PorcentajeIMP INT,
-		@EnlaceRef VARCHAR(500),
-		@FechaCreacion DATETIME
-	)
+	@ColaboradorId	INT,
+	@ClienteId		INT,
+	@DniCliente		VARCHAR(25),
+	@TipoProducto	VARCHAR(50),
+	@Producto		VARCHAR(20),
+	@PorcentajeIMP	INT,
+	@EnlaceRef		VARCHAR(500),
+	@FechaCreacion	DATETIME
+)
 AS
-IF NOT EXISTS (SELECT 1 FROM Cotizaciones WHERE IDCotizacion = @IDCotizacion)
-BEGIN
-	INSERT INTO Cotizaciones (IDCotizacion, ID_DNI, IDColaborador, TipoProducto, Producto, PorcentajeIMP, EnlaceRef, FechaCreacion)
-	VALUES (@IDCotizacion, @ID_DNI, @IDColaborador, @TipoProducto, @Producto, @PorcentajeIMP, @EnlaceRef, @FechaCreacion);
-END
+	INSERT INTO Cotizacion (ColaboradorId, ClienteId, DniCliente, TipoProducto, Producto, PorcentajeIMP, EnlaceRef, FechaCreacion)
+	VALUES ( @ColaboradorId, @ClienteId,@DniCliente, @TipoProducto, @Producto, @PorcentajeIMP, @EnlaceRef, @FechaCreacion);
 GO
 
 CREATE PROCEDURE ModificarCotizacion (
-		@IDCotizacion INT,
-		@ID_DNI INT,
-		@IDColaborador INT,
-		@TipoProducto VARCHAR(35),
-		@Producto VARCHAR(20),
-		@PorcentajeIMP INT,
-		@EnlaceRef VARCHAR(500),
-		@FechaCreacion DATETIME
+		@Id				INT,
+		@ColaboradorId	INT,
+		@ClienteId		INT,
+		@DniCliente		VARCHAR(25),
+		@TipoProducto	VARCHAR(50),
+		@Producto		VARCHAR(20),
+		@PorcentajeIMP	INT,
+		@EnlaceRef		VARCHAR(500),
+		@FechaCreacion	DATETIME
 	)
 AS
-IF EXISTS (SELECT 1 FROM Cotizaciones WHERE IDCotizacion = @IDCotizacion)
-BEGIN
-	UPDATE Cotizaciones
-	SET ID_DNI = @ID_DNI,
-		IDColaborador = @IDColaborador,
+	UPDATE Cotizacion
+	SET ColaboradorId = @ColaboradorId,
+		ClienteId = @ClienteId,
+		DniCliente = @DniCliente,
 		TipoProducto = @TipoProducto,
 		Producto = @Producto,
 		PorcentajeIMP = @PorcentajeIMP,
 		EnlaceRef = @EnlaceRef,
 		FechaCreacion = @FechaCreacion
-	WHERE IDCotizacion = @IDCotizacion;
-END
+	WHERE Id = @Id;
 GO
 
 CREATE PROCEDURE ObtenerCotizaciones
 AS
 BEGIN
 	SELECT
-		C.IDCotizacion,
-		P.DNI,
-		C.IDColaborador,
+		C.Id,
+		C.ColaboradorId,
+		C.ClienteId,
+		C.DniCliente,
 		C.TipoProducto,
 		C.Producto,
 		C.PorcentajeIMP,
 		C.EnlaceRef,
 		C.FechaCreacion
 	FROM
-		Cotizaciones C
+		Cotizacion C
 	JOIN
-		Persona P ON C.ID_DNI = P.DNI
+		Cliente Ce ON C.ClienteId = Ce.Id
 END
 GO
 
@@ -837,20 +802,21 @@ CREATE PROCEDURE ObtenerCotizacion (
 AS
 BEGIN
 	SELECT
-		C.IDCotizacion,
-		P.DNI,
-		C.IDColaborador,
+		C.Id,
+		C.ColaboradorId,
+		C.ClienteId,
+		C.DniCliente,
 		C.TipoProducto,
 		C.Producto,
 		C.PorcentajeIMP,
 		C.EnlaceRef,
 		C.FechaCreacion
 	FROM
-		Cotizaciones C
+		Cotizacion C
 	JOIN
-		Persona P ON C.ID_DNI = P.DNI
+		Cliente Ce ON C.ClienteId = CE.Id
 	WHERE
-		C.IDCotizacion = @id;
+		C.Id = @Id;
 END
 GO
 
@@ -859,51 +825,45 @@ CREATE PROCEDURE EliminarCotizacion (
 )
 AS
 BEGIN
-	DELETE FROM Cotizaciones
-	WHERE IDCotizacion = @id;
+	DELETE FROM Cotizacion
+	WHERE Id = @Id;
 END
 GO
 
---************************
---**REVISION CONTENERDOR**
---************************
 CREATE PROCEDURE AgregarRevisionContenedor (
-		@IDRevCont INT,
-		@PuertoOrigen VARCHAR(20),
-		@PuertoDestino VARCHAR(20),
-		@Naviera VARCHAR(20),
-		@Transportista VARCHAR(20),
-		@DNI_Dueno INT,
-		@Estado VARCHAR(20)
+	@PuertoOrigen	VARCHAR(80),
+	@PuertoDestino	VARCHAR(80),
+	@Naviera		VARCHAR(80),
+	@Transportista	VARCHAR(80),
+	@DniDuenno		VARCHAR(250),
+	@Estado			VARCHAR(20)
 )
 AS
-IF NOT EXISTS (SELECT 1 FROM RevisionContenedor WHERE IDRevCont = @IDRevCont)
 BEGIN
-	INSERT INTO RevisionContenedor (IDRevCont, PuertoOrigen, PuertoDestino, Naviera, Transportista, DNI_Dueno, Estado)
-	VALUES (@IDRevCont, @PuertoOrigen, @PuertoDestino, @Naviera, @Transportista, @DNI_Dueno, @Estado);
+	INSERT INTO RevisionContenedor (PuertoOrigen, PuertoDestino, Naviera, Transportista, DniDuenno, Estado)
+	VALUES ( @PuertoOrigen, @PuertoDestino, @Naviera, @Transportista, @DniDuenno, @Estado);
 END
 GO
 
 CREATE PROCEDURE ModificarRevisionContenedor (
-	@IDRevCont INT,
-	@PuertoOrigen VARCHAR(20),
-	@PuertoDestino VARCHAR(20),
-	@Naviera VARCHAR(20),
-	@Transportista VARCHAR(20),
-	@DNI_Dueno INT,
-	@Estado VARCHAR(20)
+	@Id				INT,		
+	@PuertoOrigen	VARCHAR(80),
+	@PuertoDestino	VARCHAR(80),
+	@Naviera		VARCHAR(80),
+	@Transportista	VARCHAR(80),
+	@DniDuenno		VARCHAR(250),
+	@Estado			VARCHAR(20)
 )
 AS
-IF EXISTS (SELECT 1 FROM RevisionContenedor WHERE IDRevCont = @IDRevCont)
 BEGIN
 	UPDATE RevisionContenedor
 	SET PuertoOrigen = @PuertoOrigen,
 		PuertoDestino = @PuertoDestino,
 		Naviera = @Naviera,
 		Transportista = @Transportista,
-		DNI_Dueno = @DNI_Dueno,
+		DniDuenno = @DniDuenno,
 		Estado = @Estado
-	WHERE IDRevCont = @IDRevCont;
+	WHERE Id = @Id;
 END
 GO
 
@@ -911,17 +871,15 @@ CREATE PROCEDURE ObtenerRevisionContenedores
 AS
 BEGIN
 	SELECT
-		RC.IDRevCont,
-		RC.PuertoOrigen,
-		RC.PuertoDestino,
-		RC.Naviera,
-		RC.Transportista,
-		RC.DNI_Dueno,
-		RC.Estado
+		Id,
+		PuertoOrigen,
+		PuertoDestino,
+		Naviera,
+		Transportista,
+		DniDuenno,
+		Estado
 	FROM
-		RevisionContenedor RC
-	JOIN
-		Persona P ON RC.DNI_Dueno = P.DNI
+		RevisionContenedor 
 END
 GO
 
@@ -931,19 +889,17 @@ CREATE PROCEDURE ObtenerRevisionContenedor (
 AS
 BEGIN
 	SELECT
-		RC.IDRevCont,
-		RC.PuertoOrigen,
-		RC.PuertoDestino,
-		RC.Naviera,
-		RC.Transportista,
-		RC.DNI_Dueno,
-		RC.Estado
+		Id,
+		PuertoOrigen,
+		PuertoDestino,
+		Naviera,
+		Transportista,
+		DniDuenno,
+		Estado
 	FROM
-		RevisionContenedor RC
-	JOIN
-		Persona P ON RC.DNI_Dueno = P.DNI
+		RevisionContenedor 
 	WHERE
-		RC.IDRevCont = @id;
+		Id = @id;
 END
 GO
 
@@ -953,63 +909,57 @@ CREATE PROCEDURE EliminarRevisionContenedor (
 AS
 BEGIN
 	DELETE FROM RevisionContenedor
-	WHERE IDRevCont = @id;
+	WHERE Id = @id;
 END
 GO
 
---*********************
---**REVISION VEHICULO**
---*********************
-
 CREATE PROCEDURE AgregarRevisionVehiculo (
-	@IDFormAlmacen INT,
-	@VIN VARCHAR(35),
-	@Marca VARCHAR(20),
-	@Modelo VARCHAR(20),
-	@Extras VARCHAR(20),
-	@Color VARCHAR(20),
-	@CostoVehiculo DECIMAL(10,2),
-	@AnioVehiculo INT,
-	@DNI_Dueno INT,
-	@Placa INT,
-	@EstadoOP VARCHAR(20)
+	@VIN			VARCHAR(35),
+	@Marca			VARCHAR(50),
+	@Modelo			VARCHAR(50),
+	@Extras			VARCHAR(250),
+	@Color			VARCHAR(50),
+	@CostoVehiculo	DECIMAL(10,2),
+	@AnnoVehiculo	INT,
+	@DniDuenno		INT,
+	@Placa			INT,
+	@EstadoOP		VARCHAR(20)
 )
 AS
-IF NOT EXISTS (SELECT 1 FROM RevisionAlmacen WHERE IDFormAlmacen = @IDFormAlmacen)
 BEGIN
-	INSERT INTO RevisionAlmacen (IDFormAlmacen, VIN, Marca, Modelo, Extras, Color, CostoVehiculo, AnioVehiculo, DNI_Dueno, Placa, EstadoOP)
-	VALUES (@IDFormAlmacen, @VIN, @Marca, @Modelo, @Extras, @Color, @CostoVehiculo, @AnioVehiculo, @DNI_Dueno, @Placa, @EstadoOP);
+	INSERT INTO RevisionVehiculo (VIN, Marca, Modelo, Extras, Color, CostoVehiculo, AnnoVehiculo, DniDuenno, Placa, EstadoOP)
+	VALUES (@VIN, @Marca, @Modelo, @Extras, @Color, @CostoVehiculo, @AnnoVehiculo, @DniDuenno, @Placa, @EstadoOP);
 END
 GO
 
 CREATE PROCEDURE ModificarRevisionVehiculo (
-	@IDFormAlmacen INT,
-	@VIN VARCHAR(35),
-	@Marca VARCHAR(20),
-	@Modelo VARCHAR(20),
-	@Extras VARCHAR(20),
-	@Color VARCHAR(20),
-	@CostoVehiculo DECIMAL(10,2),
-	@AnioVehiculo INT,
-	@DNI_Dueno INT,
-	@Placa INT,
-	@EstadoOP VARCHAR(20)
+	@Id				INT,
+	@VIN			VARCHAR(35),
+	@Marca			VARCHAR(50),
+	@Modelo			VARCHAR(50),
+	@Extras			VARCHAR(250),
+	@Color			VARCHAR(50),
+	@CostoVehiculo	DECIMAL(10,2),
+	@AnnoVehiculo	INT,
+	@DniDuenno		INT,
+	@Placa			INT,
+	@EstadoOP		VARCHAR(20)
 )
 AS
-IF EXISTS (SELECT 1 FROM RevisionAlmacen WHERE IDFormAlmacen = @IDFormAlmacen)
+IF EXISTS (SELECT 1 FROM RevisionVehiculo WHERE Id = @Id)
 BEGIN
-	UPDATE RevisionAlmacen
+	UPDATE RevisionVehiculo
 	SET VIN = @VIN,
 		Marca = @Marca,
 		Modelo = @Modelo,
 		Extras = @Extras,
 		Color = @Color,
 		CostoVehiculo = @CostoVehiculo,
-		AnioVehiculo = @AnioVehiculo,
-		DNI_Dueno = @DNI_Dueno,
+		AnnoVehiculo = @AnnoVehiculo,
+		DniDuenno = @DniDuenno,
 		Placa = @Placa,
 		EstadoOP = @EstadoOP
-	WHERE IDFormAlmacen = @IDFormAlmacen;
+	WHERE Id = @Id;
 END
 GO
 
@@ -1017,21 +967,19 @@ CREATE PROCEDURE ObtenerRevisionVehiculos
 AS
 BEGIN
 	SELECT
-		RV.IDFormAlmacen,
-		RV.VIN,
-		RV.Marca,
-		RV.Modelo,
-		RV.Extras,
-		RV.Color,
-		RV.CostoVehiculo,
-		RV.AnioVehiculo,
-		RV.DNI_Dueno,
-		RV.Placa,
-		RV.EstadoOP
+		Id,
+		VIN,
+		Marca,
+		Modelo,
+		Extras,
+		Color,
+		CostoVehiculo,
+		AnnoVehiculo,
+		DniDuenno,
+		Placa,
+		EstadoOP
 	FROM
-		RevisionAlmacen RV
-	JOIN
-		Persona P ON RV.DNI_Dueno = P.DNI
+		RevisionVehiculo 
 END
 GO
 
@@ -1041,58 +989,53 @@ CREATE PROCEDURE ObtenerRevisionVehiculo (
 AS
 BEGIN
 	SELECT
-		RV.IDFormAlmacen,
-		RV.VIN,
-		RV.Marca,
-		RV.Modelo,
-		RV.Extras,
-		RV.Color,
-		RV.CostoVehiculo,
-		RV.AnioVehiculo,
-		RV.DNI_Dueno,
-		RV.Placa,
-		RV.EstadoOP
+		Id,
+		VIN,
+		Marca,
+		Modelo,
+		Extras,
+		Color,
+		CostoVehiculo,
+		AnnoVehiculo,
+		DniDuenno,
+		Placa,
+		EstadoOP
 	FROM
-		RevisionAlmacen RV
-	JOIN
-		Persona P ON RV.DNI_Dueno = P.DNI
+		RevisionVehiculo 
 	WHERE
-		RV.IDFormAlmacen = @id;
+		Id = @id;
 END
 GO
 
 CREATE PROCEDURE EliminarRevisionVehiculo (
-	@id INT
+	@Id INT
 )
 AS
 BEGIN
-	DELETE FROM RevisionAlmacen
-	WHERE IDFormAlmacen = @id;
+	DELETE FROM RevisionVehiculo
+	WHERE Id = @Id;
 END
 GO
 
---**********
---**ROLES**
---**********
 CREATE PROCEDURE AgregarRol (
 	@Rol VARCHAR(50)
 )
 AS
-IF NOT EXISTS (SELECT 1 FROM Roles WHERE Rol = @Rol)
+IF NOT EXISTS (SELECT 1 FROM Rol WHERE Rol = @Rol)
 BEGIN
-	INSERT INTO Roles (Rol)
+	INSERT INTO Rol (Rol)
 	VALUES (@Rol);
 END
 GO
 
 CREATE PROCEDURE ModificarRol (
-	@ID INT,
+	@Id INT,
 	@Rol VARCHAR(50)
 )
 AS
-IF EXISTS (SELECT 1 FROM Roles WHERE ID = @ID)
+IF EXISTS (SELECT 1 FROM Rol WHERE Id = @Id)
 BEGIN
-	UPDATE Roles
+	UPDATE Rol
 	SET Rol = @Rol
 	WHERE ID = @ID;
 END
@@ -1102,10 +1045,10 @@ CREATE PROCEDURE ObtenerRoles
 AS
 BEGIN
 	SELECT
-		ID,
+		Id,
 		Rol
 	FROM
-		Roles
+		Rol
 END
 GO
 
@@ -1115,12 +1058,12 @@ CREATE PROCEDURE ObtenerRol (
 AS
 	BEGIN
 	SELECT
-		ID,
+		Id,
 		Rol
 	FROM
-		Roles
+		Rol
 	WHERE
-		ID = @id;
+		Id = @id;
 END
 GO
 
@@ -1129,48 +1072,44 @@ CREATE PROCEDURE EliminarRol (
 )
 AS
 BEGIN
-	DELETE FROM Roles
-	WHERE ID = @id;
+	DELETE FROM Rol
+	WHERE Id = @id;
 END
 GO
 
---**********
---**TICKET**
---**********
-
 CREATE PROCEDURE AgregarTicket (
-	@Estado VARCHAR(50),
-	@Prioridad VARCHAR(50),
-	@Descripcion VARCHAR(500),
-	@IDCliente INT,
-	@IDColaborador INT
+	@Estado			VARCHAR(50),
+	@Prioridad		VARCHAR(50),
+	@Descripcion	VARCHAR(500),
+	@ClienteId		INT,
+	@ColaboradorId	INT
 )
 AS
-IF NOT EXISTS (SELECT 1 FROM Ticket WHERE Estado = @Estado AND Prioridad = @Prioridad AND Descripcion = @Descripcion AND IDCliente = @IDCliente AND IDColaborador = @IDColaborador)
+IF NOT EXISTS (SELECT 1 FROM Ticket WHERE Estado = @Estado AND Prioridad = @Prioridad AND Descripcion = @Descripcion AND ClienteId = @ClienteId AND ColaboradorId = @ColaboradorId)
 BEGIN
-	INSERT INTO Ticket (Estado, Prioridad, Descripcion, IDCliente, IDColaborador)
-	VALUES (@Estado, @Prioridad, @Descripcion, @IDCliente, @IDColaborador);
+	INSERT INTO Ticket (Estado, Prioridad, Descripcion, ClienteId, ColaboradorId)
+	VALUES (@Estado, @Prioridad, @Descripcion, @ClienteId, @ColaboradorId);
 END
 GO
 
 CREATE PROCEDURE ModificarTicket (
-	@TicketID INT,
-	@Estado VARCHAR(50),
-	@Prioridad VARCHAR(50),
-	@Descripcion VARCHAR(500),
-	@IDCliente INT,
-	@IDColaborador INT
+	@Id				INT,
+	@Estado			VARCHAR(50),
+	@Prioridad		VARCHAR(50),
+	@Descripcion	VARCHAR(500),
+	@ClienteId		INT,
+	@ColaboradorId	INT
 )
 AS
-IF EXISTS (SELECT 1 FROM Ticket WHERE TicketID = @TicketID)
+IF EXISTS (SELECT 1 FROM Ticket WHERE Id = @Id)
 BEGIN
 	UPDATE Ticket
 	SET Estado = @Estado,
 		Prioridad = @Prioridad,
 		Descripcion = @Descripcion,
-		IDCliente = @IDCliente,
-		IDColaborador = @IDColaborador
-	WHERE TicketID = @TicketID;
+		ClienteId = @ClienteId,
+		ColaboradorId = @ColaboradorId
+	WHERE Id = @Id;
 END
 GO
 
@@ -1178,53 +1117,42 @@ CREATE PROCEDURE ObtenerTickets
 AS
 BEGIN
 	SELECT
-		T.TicketID,
-		T.Estado,
-		T.Prioridad,
-		T.Descripcion,
-		T.IDCliente,
-		T.IDColaborador
+		Id,
+		Estado,
+		Prioridad,
+		Descripcion,
+		ClienteId,
+		ColaboradorId
 	FROM
-		Ticket T
-	JOIN
-		Cliente C ON T.IDCliente = C.IDCliente
-	JOIN
-		Colaborador CO ON T.IDColaborador = CO.IDColaborador
+		Ticket
 END
 GO
 
 CREATE PROCEDURE ObtenerTicket (
-	@id INT
+	@Id INT
 )
 AS
 BEGIN
 	SELECT
-		T.TicketID,
-		T.Estado,
-		T.Prioridad,
-		T.Descripcion,
-		T.IDCliente,
-		T.IDColaborador
+		Id,
+		Estado,
+		Prioridad,
+		Descripcion,
+		ClienteId,
+		ColaboradorId
 	FROM
-		Ticket T
-	JOIN
-		Cliente C ON T.IDCliente = C.IDCliente
-	JOIN
-		Colaborador CO ON T.IDColaborador = CO.IDColaborador
+		Ticket
 	WHERE
-		T.TicketID = @id;
+		Id = @Id;
 END
 GO
 
 CREATE PROCEDURE EliminarTicket (
-	@id INT
+	@Id INT
 )
 AS
 BEGIN
 	DELETE FROM Ticket
-	WHERE TicketID = @id;
+	WHERE Id = @Id;
 END
 GO
-
-INSERT INTO Roles (Rol) VALUES ('Usuario'), ('Administrador') GO
- 
