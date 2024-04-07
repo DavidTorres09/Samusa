@@ -200,7 +200,6 @@ CREATE PROCEDURE AgregarCliente (
     @EsNacional		BIT,
     @Usuario		VARCHAR(250),
     @Contrasenna	VARCHAR(250),
-    @RolId			INT,
     @Foto			VARCHAR(500)
 )
 AS
@@ -212,7 +211,7 @@ BEGIN
 			IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Email = @Email)
 			BEGIN
 				INSERT INTO Cliente (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal)
-				VALUES (@Direccion, @Dni, @Nombre, @Telefono, @Email, @EsNacional, @Usuario, @Contrasenna, @RolId, @Foto, 1, 0);
+				VALUES (@Direccion, @Dni, @Nombre, @Telefono, @Email, @EsNacional, @Usuario, @Contrasenna, 1, @Foto, 1, 0);
 			END
 		END
 	END

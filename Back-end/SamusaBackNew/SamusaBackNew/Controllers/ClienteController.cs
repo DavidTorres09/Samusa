@@ -24,7 +24,6 @@ namespace SamusaBackNew.Controllers
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
-                    cliente.RolId = 1;
 
                     var resultado = await db.ExecuteAsync("AgregarCliente",
                         new
