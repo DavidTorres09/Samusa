@@ -2,7 +2,7 @@
 {
     public class Connection
     {
-        //public static string connectionString = "Data Source=Angel;Initial Catalog=SAMUSADB;Integrated Security=True;TrustServerCertificate=True";
+        //public static string connectionString = "Data Source=Angel;Initial Catalog=Prueba;Integrated Security=True;TrustServerCertificate=True";
         public static string connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=SAMUSADB;Integrated Security=True;TrustServerCertificate=True";
     }
 }

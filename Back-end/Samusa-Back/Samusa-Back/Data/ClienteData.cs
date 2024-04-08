@@ -7,7 +7,7 @@ namespace Samusa_Back.Data
 {
     public class ClienteData
     {
-        public static async Task<bool> Create(ClientePersona cliente)
+        public static bool Create(ClientePersona cliente)
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
@@ -23,7 +23,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@usuario", cliente.Usuario);
                 cmd.Parameters.AddWithValue("@password", cliente.Password);
                 cmd.Parameters.AddWithValue("@direccion", cliente.Direccion);
-                cmd.Parameters.AddWithValue("@rol", cliente.Rol);
+                cmd.Parameters.AddWithValue("@IdRol", cliente.IdRol);
 
                 try
                 {
@@ -39,7 +39,7 @@ namespace Samusa_Back.Data
             }
         }
 
-        public static async Task<bool> Update(ClientePersona cliente)
+        public static bool Update(ClientePersona cliente)
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
@@ -54,8 +54,9 @@ namespace Samusa_Back.Data
 
                 SqlCommand cmd = new SqlCommand("usp_modifyClient", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@dni", cliente.DNI);
-                cmd.Parameters.AddWithValue("@newDireccion", cliente.Direccion) ;
+                cmd.Parameters.AddWithValue("@newDireccion", cliente.Direccion);
                 cmd.Parameters.AddWithValue("@newNombre", cliente.Nombre);
                 cmd.Parameters.AddWithValue("@newPrimerApellido", cliente.PrimerApellido);
                 cmd.Parameters.AddWithValue("@newSegundoApellido", cliente.SegundoApellido);
@@ -69,7 +70,6 @@ namespace Samusa_Back.Data
                 try
                 {
                     connection.Open();
-                    cmd.ExecuteNonQuery();
                     int rowsAffected = cmd.ExecuteNonQuery();
                     return rowsAffected > 0;
                 }
@@ -81,7 +81,7 @@ namespace Samusa_Back.Data
             }
         }
 
-        public static async Task<List<ClientePersona>> Read()
+        public static List<ClientePersona> Read()
         {
             List<ClientePersona> clients = new List<ClientePersona>();
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
@@ -100,16 +100,16 @@ namespace Samusa_Back.Data
                             clients.Add(new ClientePersona()
                             {
                                 DNI = Convert.ToInt32(dr["DNI"]),
-                                Nombre = dr["Nombre"].ToString(),
-                                PrimerApellido = dr["PrimerApellido"].ToString(),
-                                SegundoApellido = dr["SegundoApellido"].ToString(),
-                                Telefono = dr["Telefono"].ToString(),
-                                Email = dr["Email"].ToString(),
+                                Nombre = dr["Nombre"].ToString() ?? "",
+                                PrimerApellido = dr["PrimerApellido"].ToString() ?? "",
+                                SegundoApellido = dr["SegundoApellido"].ToString() ?? "",
+                                Telefono = dr["Telefono"].ToString() ?? "",
+                                Email = dr["Email"].ToString() ?? "",
                                 EsNacional = Convert.ToBoolean(dr["EsNacional"]),
-                                Usuario = dr["Usuario"].ToString(),
-                                Password = dr["Password"].ToString(),
-                                Direccion = dr["Direccion"].ToString(),
-                                Rol = dr["Rol"].ToString()
+                                Usuario = dr["Usuario"].ToString() ?? "",
+                                Password = dr["Password"].ToString() ?? "",
+                                Direccion = dr["Direccion"].ToString() ?? "",
+                                IdRol = Convert.ToInt32(dr["IdRol"])
                             });
                         }
                     }
@@ -123,9 +123,9 @@ namespace Samusa_Back.Data
             }
         }
 
-        public static async Task<ClientePersona> ReadOne(int dni)
+        public static ClientePersona ReadOne(int dni)
         {
-            ClientePersona client = null; // Inicializamos como null
+            ClientePersona client = new ClientePersona();
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
                 SqlCommand cmd = new SqlCommand("usp_getSingleClient", connection);
@@ -198,11 +198,11 @@ namespace Samusa_Back.Data
                             client = new ClientePersona()
                             {
                                 DNI = Convert.ToInt32(dr["DNI"]),
-                                Nombre = dr["Nombre"].ToString(),
-                                PrimerApellido = dr["PrimerApellido"].ToString(),
-                                SegundoApellido = dr["SegundoApellido"].ToString(),
-                                Telefono = dr["Telefono"].ToString(),
-                                Email = dr["Email"].ToString(),
+                                Nombre = dr["Nombre"].ToString() ?? "",
+                                PrimerApellido = dr["PrimerApellido"].ToString() ?? "",
+                                SegundoApellido = dr["SegundoApellido"].ToString() ?? "",
+                                Telefono = dr["Telefono"].ToString() ?? "",
+                                Email = dr["Email"].ToString() ?? "",
                                 EsNacional = Convert.ToBoolean(dr["EsNacional"]),
                                 Usuario = dr["Usuario"].ToString(),
                                 Direccion = dr["Direccion"].ToString(),
@@ -248,10 +248,10 @@ namespace Samusa_Back.Data
         }
 
 
-        public static async Task<bool> Login(string username, string password)
+        public static bool Login(string username, string password)
         {
             //usuario.IdRol = 0;
-            
+
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
                 SqlCommand cmd = new SqlCommand("usp_Login", connection);
@@ -260,7 +260,8 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@password", password);
 
                 try
-                {   connection.Open();
+                {
+                    connection.Open();
                     cmd.ExecuteScalar();
                     //usuario.IdRol = Convert.ToInt32(cmd.ExecuteScalar().ToString());
                     return true;
@@ -275,3 +276,5 @@ namespace Samusa_Back.Data
 
     }
 }
+
+//TODO: Make all of this methods async

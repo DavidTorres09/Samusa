@@ -26,7 +26,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@usuario", colaborador.Usuario);
                 cmd.Parameters.AddWithValue("@password", colaborador.Password); 
                 cmd.Parameters.AddWithValue("@fechaIng", colaborador.FechaIngreso);
-                cmd.Parameters.AddWithValue("@rol", colaborador.Rol);
+                cmd.Parameters.AddWithValue("@IdRol", colaborador.IdRol);
 
                 try
                 {
@@ -59,7 +59,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@newEsNacional", colaborador.EsNacional); 
                 cmd.Parameters.AddWithValue("@newUsuario", colaborador.Usuario); 
                 cmd.Parameters.AddWithValue("@newPassword", colaborador.Password); 
-                cmd.Parameters.AddWithValue("@newRol", colaborador.Rol);
+                cmd.Parameters.AddWithValue("@newIdRol", colaborador.IdRol);
 
                 try
                 {
@@ -103,7 +103,7 @@ namespace Samusa_Back.Data
                                 Usuario = dr["Usuario"].ToString(),
                                 Password = dr["Password"].ToString(),
                                 FechaIngreso = dr["FechaIngreso"].ToString(),
-                                Rol = dr["Rol"].ToString()
+                                IdRol = Convert.ToInt32(dr["IdRol"])
                             });
                         }
                     }
@@ -146,7 +146,7 @@ namespace Samusa_Back.Data
                                 Usuario = dr["Usuario"].ToString(),
                                 Password = dr["Password"].ToString(),
                                 FechaIngreso = dr["FechaIngreso"].ToString(),
-                                Rol = dr["Rol"].ToString()
+                                IdRol = Convert.ToInt32(dr["IdRol"])
                             };
                         }
                     }
@@ -154,7 +154,7 @@ namespace Samusa_Back.Data
                 }
                 catch (Exception e)
                 {
-                    return employee;
+                    return null;
                 }
             }
         }

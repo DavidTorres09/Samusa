@@ -27,7 +27,7 @@ namespace Samusa_Back.Controllers
         [Route("listar")]
         public async Task<IActionResult> ViewClientes()
         {
-            var clientes = await ClienteData.Read();
+            var clientes = ClienteData.Read();
 
             if (clientes != null)
             {
@@ -43,7 +43,7 @@ namespace Samusa_Back.Controllers
         [Route("listarUnico")]
         public async Task<IActionResult> viewClienteById(int dni)
         {
-            var cliente =  await ClienteData.ReadOne(dni);
+            var cliente =  ClienteData.ReadOne(dni);
 
             if (cliente != null)
             {
@@ -60,7 +60,7 @@ namespace Samusa_Back.Controllers
         public async Task<IActionResult> saveCliente([FromBody]ClientePersona persona)
         {
         
-            var confirmation =  await ClienteData.Create(persona);
+            var confirmation =  ClienteData.Create(persona);
             if (confirmation)
             {
                 return Ok(new { Status = 200 });
@@ -75,7 +75,7 @@ namespace Samusa_Back.Controllers
         [Route("eliminar")]
         public async Task<IActionResult> deleteCliente(int dni)
         {
-            var confirmation =  await ClienteData.Delete(dni);
+            var confirmation =  ClienteData.Delete(dni);
             if (confirmation)
             {
                 return Ok(new { Status = 200 });
@@ -91,7 +91,7 @@ namespace Samusa_Back.Controllers
         public async Task<IActionResult> modifyCliente([FromBody]ClientePersona cliente)
         {
 
-            var confirmation = await ClienteData.Update(cliente);
+            var confirmation = ClienteData.Update(cliente);
             if (confirmation)
             {
                 return Ok(new { Status = 200 });
@@ -108,7 +108,7 @@ namespace Samusa_Back.Controllers
         public async Task<IActionResult> RecuperarPassCliente([FromBody] ClientePersona cliente)
         
         {
-            var confirmation = await ClienteData.Update(cliente);
+            var confirmation = ClienteData.Update(cliente);
             
             {
             
@@ -172,9 +172,7 @@ namespace Samusa_Back.Controllers
         {
             string msg = string.Empty;
 
-            var confirmation = await ClienteData.Login(login.username, login.password);
-
-
+            var confirmation = ClienteData.Login(login.username, login.password);
 
             if (confirmation)
             {

@@ -12,7 +12,6 @@
         public string Usuario { get; set; }
         public string Password { get; set; }
         public string Direccion { get; set; }
-        public string Rol { get; set; }
         public int IdRol { get; set; }
 
         public  string? imagenPerfil {  get; set; }

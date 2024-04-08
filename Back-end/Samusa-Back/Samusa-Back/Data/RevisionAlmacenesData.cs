@@ -18,6 +18,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@Vin", revision.Vin);
                 cmd.Parameters.AddWithValue("@Marca", revision.Marca);
                 cmd.Parameters.AddWithValue("@Modelo", revision.Modelo);
+                cmd.Parameters.AddWithValue("@Extras", revision.Extras);
                 cmd.Parameters.AddWithValue("@Color", revision.Color);
                 cmd.Parameters.AddWithValue("@CostoVehiculo", revision.CostoVehiculo);
                 cmd.Parameters.AddWithValue("@AnioVehiculo", revision.AnioVehiculo);
@@ -50,6 +51,7 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@newVin", revision.Vin);
                 cmd.Parameters.AddWithValue("@newMarca", revision.Marca);
                 cmd.Parameters.AddWithValue("@newModelo", revision.Modelo);
+                cmd.Parameters.AddWithValue("@newExtras", revision.Extras);
                 cmd.Parameters.AddWithValue("@newColor", revision.Color);
                 cmd.Parameters.AddWithValue("@newCostoVehiculo", revision.CostoVehiculo);
                 cmd.Parameters.AddWithValue("@newAnioVehiculo", revision.AnioVehiculo);
@@ -71,7 +73,7 @@ namespace Samusa_Back.Data
             }
         }
 
-        public static async Task<List<RevisionAlmacen>> Read()
+        public static List<RevisionAlmacen> Read()
         {
             List<RevisionAlmacen> RevsAlmacen = new List<RevisionAlmacen>();
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
@@ -90,15 +92,16 @@ namespace Samusa_Back.Data
                             RevsAlmacen.Add(new RevisionAlmacen()
                             {
                                 IdformAlmacen = Convert.ToInt32(dr["IdformAlmacen"]),
-                                Vin = dr["Vin"].ToString(),
-                                Marca = dr["Marca"].ToString(),
-                                Modelo = dr["Modelo"].ToString(),
-                                Color = dr["Color"].ToString(),
+                                Vin = dr["Vin"].ToString() ?? "",
+                                Marca = dr["Marca"].ToString() ?? "",
+                                Modelo = dr["Modelo"].ToString() ?? "",
+                                Extras = dr["Extras"].ToString() ?? "",
+                                Color = dr["Color"].ToString() ?? "",
                                 CostoVehiculo = Convert.ToInt32(dr["CostoVehiculo"]),
                                 AnioVehiculo = Convert.ToInt32(dr["AnioVehiculo"]),
                                 DniDueno = Convert.ToInt32(dr["Dni_Dueno"]),
                                 Placa = Convert.ToInt32(dr["Placa"]),
-                                EstadoOp = dr["EstadoOp"].ToString(),
+                                EstadoOp = dr["EstadoOp"].ToString() ?? "",
                             });
                         }
                     }
@@ -112,12 +115,12 @@ namespace Samusa_Back.Data
             }
         }
 
-        public static async Task<RevisionAlmacen> ReadOne(int IdformAlmacen)
+        public static RevisionAlmacen ReadOne(int IdformAlmacen)
         {
-            RevisionAlmacen RevAlmacen = new RevisionAlmacen();
+            RevisionAlmacen RevAlmacen = null; // Inicializar como nulo en caso de excepción
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
-                SqlCommand cmd = new SqlCommand("usp_getSingleRevisionAlmacen ", connection);
+                SqlCommand cmd = new SqlCommand("usp_getSingleRevisionAlmacen", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IdformAlmacen", IdformAlmacen);
 
@@ -132,28 +135,30 @@ namespace Samusa_Back.Data
                             RevAlmacen = new RevisionAlmacen()
                             {
                                 IdformAlmacen = Convert.ToInt32(dr["IdformAlmacen"]),
-                                Vin = dr["Vin"].ToString(),
-                                Marca = dr["Marca"].ToString(),
-                                Modelo = dr["Modelo"].ToString(),
-                                Color = dr["Color"].ToString(),
+                                Vin = dr["Vin"].ToString() ?? "",
+                                Marca = dr["Marca"].ToString() ?? "",
+                                Modelo = dr["Modelo"].ToString() ?? "",
+                                Extras = dr["Extras"].ToString() ?? "",
+                                Color = dr["Color"].ToString() ?? "",
                                 CostoVehiculo = Convert.ToInt32(dr["CostoVehiculo"]),
                                 AnioVehiculo = Convert.ToInt32(dr["AnioVehiculo"]),
                                 DniDueno = Convert.ToInt32(dr["Dni_Dueno"]),
                                 Placa = Convert.ToInt32(dr["Placa"]),
-                                EstadoOp = dr["EstadoOp"].ToString(),
+                                EstadoOp = dr["EstadoOp"].ToString() ?? "",
                             };
                         }
                     }
-                    return RevAlmacen;
                 }
                 catch (Exception e)
                 {
-                    return RevAlmacen;
+                    Console.WriteLine("Error al leer la revisión del almacén: " + e.Message);
                 }
             }
+            return RevAlmacen;
         }
 
-        public static async Task<bool> Delete(int IdformAlmacen)
+
+        public static bool Delete(int IdformAlmacen)
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
@@ -184,3 +189,6 @@ namespace Samusa_Back.Data
 
     }
 }
+
+
+//TODO: Make this methods 

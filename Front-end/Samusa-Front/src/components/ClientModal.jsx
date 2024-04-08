@@ -14,7 +14,7 @@ const ClientModal = ({ user, onClose, isEditing }) => {
       usuario: "",
       password: "",
       direccion: "",
-      rol: "Cliente",
+      IdRol: 2,
     }
   );
 
@@ -104,8 +104,8 @@ const ClientModal = ({ user, onClose }) => {
           &#8203;
         </span>
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-blue-600 px-4 py-4 sm:px-6">
-          {isEditing ? <h3 className="text-lg font-medium leading-6 text-white">Editar Usuario</h3> : <h3 className="text-lg font-medium leading-6 text-white">Agregar Usuario</h3>}
+          <div className="bg-blue-600 px-4 py-2 sm:px-6 rounded">
+          {isEditing ? <h3 className="titleform">Editar Usuario</h3> : <h3 className="titleform">Agregar Usuario</h3>}
           </div>
           <div className="bg-white px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start">
@@ -287,15 +287,15 @@ const ClientModal = ({ user, onClose }) => {
                   </div>
                   <div className="mb-4">
                     <label
-                      htmlFor="rol"
+                      htmlFor="IdRol"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Rol
+                      IdRol
                     </label>
                     <select
-                      name="rol"
-                      id="rol"
-                      value={editedUser.rol}
+                      name="IdRol"
+                      id="IdRol"
+                      value={editedUser.IdIdRol}
                       onChange={handleInputChange}
                       className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     >

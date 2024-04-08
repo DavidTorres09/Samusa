@@ -1,0 +1,113 @@
+USE SAMUSADB
+GO
+
+CREATE TABLE Ticket (
+    TicketID INT IDENTITY(1,1) PRIMARY KEY,
+    Estado VARCHAR(50),
+    Prioridad VARCHAR(50),
+    Descripcion VARCHAR(500),
+    IDCliente INT,
+    IDColaborador INT,
+    FOREIGN KEY (IDCliente) REFERENCES Cliente(IDCliente),
+    FOREIGN KEY (IDColaborador) REFERENCES Colaborador(IDColaborador)
+);
+
+
+CREATE PROCEDURE ViewTickets
+AS
+BEGIN
+	SELECT Ticket.TicketID, Ticket.Estado, Ticket.Prioridad, Ticket.Descripcion,
+		   Cliente.DNI_PERSONA AS DNI_CLIENTE, Colaborador.DNI_PERSONA AS DNI_COLABORADOR
+	FROM Ticket
+	INNER JOIN Cliente ON Ticket.IDCliente = Cliente.IDCliente
+	INNER JOIN Colaborador ON Ticket.IDColaborador = Colaborador.IDColaborador;
+END;
+
+EXEC ViewTickets;
+
+
+CREATE PROCEDURE InsertTicket
+    @Estado VARCHAR(50),
+    @Prioridad VARCHAR(50),
+    @Descripcion VARCHAR(500),
+    @IDCliente INT,
+    @IDColaborador INT
+AS
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Cliente WHERE IDCliente = @IDCliente)
+    BEGIN
+        PRINT 'El IDCliente especificado no existe en la tabla Cliente.'
+        RETURN
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE IDColaborador = @IDColaborador)
+    BEGIN
+        PRINT 'El IDColaborador especificado no existe en la tabla Colaborador.'
+        RETURN
+    END
+    INSERT INTO Ticket (Estado, Prioridad, Descripcion, IDCliente, IDColaborador)
+    VALUES (@Estado, @Prioridad, @Descripcion, @IDCliente, @IDColaborador)
+END
+
+EXEC InsertTicket 'Abierto', 'Baja', 'Descripción del ticket de prueba', 2, 1;
+
+
+CREATE PROCEDURE ViewTicketsByClient
+    @IDCliente INT
+AS
+BEGIN
+    -- Verificar si el IDCliente existe en la tabla Cliente
+    IF NOT EXISTS (SELECT 1 FROM Cliente WHERE IDCliente = @IDCliente)
+    BEGIN
+        RETURN
+    END
+    SELECT Ticket.TicketID, Ticket.Estado, Ticket.Prioridad, Ticket.Descripcion,
+           Colaborador.DNI_PERSONA AS DNI_COLABORADOR
+    FROM Ticket
+    INNER JOIN Colaborador ON Ticket.IDColaborador = Colaborador.IDColaborador
+    WHERE Ticket.IDCliente = @IDCliente;
+END
+
+EXEC ViewTicketsByClient @IDCliente = 2;
+
+
+CREATE PROCEDURE EditTicket
+    @TicketID INT,
+    @Estado VARCHAR(50),
+    @Prioridad VARCHAR(50),
+    @Descripcion VARCHAR(500)
+AS
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Ticket WHERE TicketID = @TicketID)
+    BEGIN
+        PRINT 'El TicketID especificado no existe en la tabla Ticket.'
+        RETURN
+    END
+    UPDATE Ticket
+    SET Estado = @Estado,
+        Prioridad = @Prioridad,
+        Descripcion = @Descripcion
+    WHERE TicketID = @TicketID;
+END
+
+EXEC EditTicket @TicketID = 3, @Estado = 'Cerrado', @Prioridad = 'Baja', @Descripcion = 'El ticket ha sido resuelto.';
+
+
+CREATE PROCEDURE DeleteTicket
+    @TicketID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    IF EXISTS (SELECT 1 FROM Ticket WHERE TicketID = @TicketID)
+    BEGIN
+        DELETE FROM Ticket WHERE TicketID = @TicketID;
+        SELECT 1 AS [Success]; 
+    END
+    ELSE
+    BEGIN
+        SELECT 0 AS [Success];
+    END
+END
+
+EXEC DeleteTicket @TicketID = 3;
+

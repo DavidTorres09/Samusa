@@ -43,7 +43,7 @@ namespace Samusa_Back.Controllers
 
         [HttpPost]
         [Route("guardar")]
-        public async Task<IActionResult> SaveImportacion([FromBody] Importacione importacion)
+        public async Task<IActionResult> SaveImportacion([FromBody] ImportacionesPersonaREVS importacion)
         {
             var confirmation = await ImportacionesData.Create(importacion);
             if (confirmation)
@@ -73,7 +73,7 @@ namespace Samusa_Back.Controllers
 
         [HttpPut]
         [Route("modificar")]
-        public async Task<IActionResult> ModifyImportacion([FromBody] Importacione importacion)
+        public async Task<IActionResult> ModifyImportacion([FromBody] ImportacionesPersonaREVS importacion)
         {
             var confirmation = await ImportacionesData.Update(importacion);
             if (confirmation)

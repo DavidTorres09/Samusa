@@ -2,6 +2,27 @@ import React, { useState, useEffect } from 'react';
 import LayoutAdmin from './LayoutAdmin';
 import ColaboModal from './ColaboModal'; /* Aqui va el modal de colanoradores */
 import "../css/Tables.css";
+import "../Css/datatables.min.css"
+import "../Css/datatables.css"
+
+import $ from 'jquery';
+import jszip from 'jszip';
+import DataTable from 'datatables.net-dt';
+import 'datatables.net-autofill-dt';
+import 'datatables.net-buttons-dt';
+import 'datatables.net-buttons/js/buttons.colVis.mjs';
+import 'datatables.net-buttons/js/buttons.html5.mjs';
+import 'datatables.net-buttons/js/buttons.print.mjs';
+import 'datatables.net-colreorder-dt';
+import 'datatables.net-fixedcolumns-dt';
+import 'datatables.net-fixedheader-dt';
+import 'datatables.net-keytable-dt';
+import 'datatables.net-responsive-dt';
+import 'datatables.net-rowgroup-dt';
+import 'datatables.net-rowreorder-dt';
+import 'datatables.net-scroller-dt';
+import 'datatables.net-select-dt';
+window.JSZip = jszip;     
 
 const ColaboTable = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -15,9 +36,29 @@ const ColaboTable = () => {
   useEffect(() => {
     fetch('https://localhost:7293/api/samusa/colaborador/listar')
       .then(response => response.json())
-      .then(data => setTableData(data))
+      .then(data => {
+        setTableData(data);
+
+        setTimeout(() => {
+          $(document).ready(function() {
+            $('#example').DataTable({
+              dom: 'Bfrtip',
+              destroy: true,
+              buttons: [
+                'copy', 'csv', 'excel', 'print'
+              ]
+            });
+          });
+        }, 0);
+      })
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
+
+    return () => {
+      if ($.fn.DataTable.isDataTable('#example')) {
+        $('#example').DataTable().destroy();
+      }
+    };
+}, []);
 
   const handleDelete = (dni) => {
     fetch(`https://localhost:7293/api/samusa/colaborador/eliminar?dni=${dni}`, {
@@ -65,22 +106,21 @@ const ColaboTable = () => {
   return (
     <>
       <section className='data-table-section'>
-      <div className="table-container">
+      <div className="table-container col-12 mb-30">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Colaboradores</h1>
-        <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+
+        <div class="table-controls">
+          <button
+            className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar Usuario
+            Agregar Colaborador
           </button>
-
-          <br />
-          <br />
-          
-          <input type="text" placeholder='Buscar' className='search' onChange={(e) => SetQuery(e.target.value)} />
+          </div>
 
         <div className="">
-          <table className="Cliente-table w-full table-auto border-collapse rounded">
+          <div className="box-body">
+          <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
                 <th className="py-4 px-6">DNI</th>
@@ -117,6 +157,7 @@ const ColaboTable = () => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       </section>
