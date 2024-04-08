@@ -32,7 +32,7 @@ const ClientsTable = () => {
   console.log(query);
 
   useEffect(() => {
-    fetch("https://localhost:7293/api/samusa/cliente/listar")
+    fetch("https://localhost:7189/api/samusa/cliente/listar")
       .then(response => response.json())
       .then(data => {
         setTableData(data);
@@ -58,13 +58,14 @@ const ClientsTable = () => {
     };
 }, []);
 
-  const handleDelete = (dni) => {
-    fetch(`https://localhost:7293/api/samusa/cliente/eliminar?dni=${dni}`, {
+  const handleDelete = (id) => {
+    fetch(`https://localhost:7189/api/samusa/cliente/eliminar/${id}`, {
       method: "DELETE",
     })
       .then((response) => {
+        console.log(id);
         if (response.ok) {
-          if (response.status === 204) {
+          if (response.status === 0) {
             return;
           } else {
             return response.json().catch(() => ({}));
@@ -125,8 +126,6 @@ const ClientsTable = () => {
                 <tr className="">
                   <th className="py-4 px-6">DNI</th>
                   <th className="py-4 px-6">Nombre</th>
-                  <th className="py-4 px-6">Primer Apellido</th>
-                  <th className="py-4 px-6">Segundo Apellido</th>
                   <th className="py-4 px-6">Teléfono</th>
                   <th className="py-4 px-6">Email</th>
                   <th className="py-4 px-6">Es Nacional</th>
@@ -142,19 +141,17 @@ const ClientsTable = () => {
                   <tr key={index} className="border-b border-gray-200">
                     <td className="py-4 px-6">{cliente.dni}</td>
                     <td className="py-4 px-6">{cliente.nombre}</td>
-                    <td className="py-4 px-6">{cliente.primerApellido}</td>
-                    <td className="py-4 px-6">{cliente.segundoApellido}</td>
                     <td className="py-4 px-6">{cliente.telefono}</td>
                     <td className="py-4 px-6">{cliente.email}</td>
                     <td className="py-4 px-6">
                       {cliente.esNacional ? "Sí" : "No"}
                     </td>
                     <td className="py-4 px-6">{cliente.usuario}</td>
-                    <td className="py-4 px-6">{cliente.password}</td>
+                    <td className="py-4 px-6">{cliente.contrasenna}</td>
                     <td className="py-4 px-6">{cliente.direccion}</td>
-                    <td className="py-4 px-6">{cliente.idRol}</td>
+                    <td className="py-4 px-6">{cliente.nombreRol}</td>
                     <td className="py-4 px-6">
-                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(cliente.dni)}  >
+                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(cliente.id)}  >
                         Eliminar
                       </button>
                       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(cliente)}>

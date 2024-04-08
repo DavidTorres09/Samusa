@@ -8,7 +8,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
 
-var app = builder.Build();
 
 builder.Services.AddCors(options =>
 {
@@ -20,6 +19,9 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddCors();
+
+
+var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
