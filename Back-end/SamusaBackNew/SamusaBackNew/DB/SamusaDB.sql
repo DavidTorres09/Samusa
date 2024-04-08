@@ -193,14 +193,13 @@ GO
 
 CREATE PROCEDURE AgregarCliente (
 	@Direccion		VARCHAR(250),
-    @Dni			INT,
+    @Dni			VARCHAR(50),
     @Nombre			VARCHAR(250),
-    @Telefono		VARCHAR(25) = NULL,
+    @Telefono		VARCHAR(25),
     @Email			VARCHAR(250),
     @EsNacional		BIT,
     @Usuario		VARCHAR(250),
     @Contrasenna	VARCHAR(250),
-    @RolId			INT,
     @Foto			VARCHAR(500)
 )
 AS
@@ -212,7 +211,7 @@ BEGIN
 			IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Email = @Email)
 			BEGIN
 				INSERT INTO Cliente (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal)
-				VALUES (@Direccion, @Dni, @Nombre, @Telefono, @Email, @EsNacional, @Usuario, @Contrasenna, @RolId, @Foto, 1, 0);
+				VALUES (@Direccion, @Dni, @Nombre, @Telefono, @Email, @EsNacional, @Usuario, @Contrasenna, 1, @Foto, 1, 0);
 			END
 		END
 	END
@@ -222,11 +221,11 @@ GO
 CREATE PROCEDURE ModificarCliente(
 	@Id				INT,
 	@Direccion		VARCHAR(250),
-    @Dni			INT,
+    @Dni			VARCHAR,
     @Nombre			VARCHAR(250),
     @Telefono		VARCHAR(25),
     @Email			VARCHAR(40),
-    @EsNacional		BIT = 0,
+    @EsNacional		BIT,
     @Usuario		VARCHAR(250),
     @Contrasenna	VARCHAR(250),
     @RolId			INT,
@@ -242,6 +241,7 @@ BEGIN
             BEGIN
                 UPDATE Cliente
                 SET Direccion = @direccion,
+					Dni = @Dni,
 					Nombre = @Nombre,
                     Telefono = @Telefono,
                     Email = @Email,
@@ -270,11 +270,12 @@ BEGIN
 		C.Usuario,
 		C.Contrasenna,
 		C.Direccion,
+		R.Id AS 'RolId',
 		R.Rol AS 'NombreRol',
 		C.Foto
 	FROM
 		Cliente C
-	JOIN Roles R ON C.RolId = R.Id
+	JOIN Rol R ON C.RolId = R.Id
 END
 GO
 
@@ -285,7 +286,7 @@ AS
 BEGIN
 	SELECT
 		C.Id,
-		C.DNI,
+		C.Dni,
 		C.Nombre,
 		C.Telefono,
 		C.Email,
@@ -293,12 +294,13 @@ BEGIN
 		C.Usuario,
 		C.Contrasenna,
 		C.Direccion,
+		R.Id AS 'RolId',
 		R.Rol AS 'NombreRol',
 		C.Foto
 	FROM
 		Cliente C
 	JOIN 
-		Roles R ON C.RolId = R.Id
+		Rol R ON C.RolId = R.Id
 	WHERE
 		C.Id = @Id;
 END
