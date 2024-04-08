@@ -8,13 +8,15 @@ import Footer from "../../components/Footer";
 function IndexUser () {
 
     return (
-        <div style={{ marginBottom: '1%' }}>
-        <Layout></Layout>
-        <AboutUsInformation/>
-        <Services/>
-        <FrequentlyQuestions/>
-        <Footer/>
-        </div>
+        <body>
+            <div style={{ marginBottom: '1%' }}>
+                <Layout></Layout>
+                <AboutUsInformation/>
+                <Services/>
+                <FrequentlyQuestions/>
+                <Footer/>
+            </div>
+        </body>
     );
 }
 

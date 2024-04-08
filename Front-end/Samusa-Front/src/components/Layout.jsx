@@ -193,7 +193,7 @@ export default function Layout() {
                       
         
 
-        <header className="bg-white shadow">
+        <header className="shadow">
           <link href="https://cdn.jsdelivr.net/npm/hover.css/css/hover-min.css" rel="stylesheet"></link>
           <script src="https://code.highcharts.com/highcharts.js"></script>
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css/animate.min.css"></link>
