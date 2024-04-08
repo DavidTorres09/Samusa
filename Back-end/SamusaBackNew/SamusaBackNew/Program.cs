@@ -10,10 +10,21 @@ builder.Services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:5173")
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+builder.Services.AddCors();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader());
 
 app.UseHttpsRedirection();
 

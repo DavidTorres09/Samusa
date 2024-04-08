@@ -221,7 +221,7 @@ GO
 CREATE PROCEDURE ModificarCliente(
 	@Id				INT,
 	@Direccion		VARCHAR(250),
-    @Dni			VARCHAR,
+    @Dni			VARCHAR(50),
     @Nombre			VARCHAR(250),
     @Telefono		VARCHAR(25),
     @Email			VARCHAR(40),
