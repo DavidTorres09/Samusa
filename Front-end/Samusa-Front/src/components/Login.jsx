@@ -2,9 +2,24 @@ import React, { useState } from 'react';
 import { Link, Navigate, useNavigate} from 'react-router-dom';
 
 const Login = () => {
+  // const modeloPerfil = {
+  //   dni: "",
+  //   nombre: "",
+  //   primerApellido: "",
+  //   segundoApellido: "",
+  //   telefono: "",
+  //   email: "",
+  //   esNacional: false,
+  //   usuario: "",
+  //   password: "",
+  //   direccion: "",
+  //   rol: "Colaborador",
+  
+  // }
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [IsLoged, setIsLogged] = useState(false);
+  const [infoPerfil, setInfoPerfil] = useState([]);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -19,6 +34,29 @@ const Login = () => {
           password, 
         }),
     });
+
+
+    const responseVerificacion = await fetch(
+      `https://localhost:7293/api/samusa/cliente/Login?user=${username}&password=${password}`);
+
+    if(responseVerificacion.ok){
+        const data = await responseVerificacion.json();
+        setInfoPerfil(data)
+        console.log(data.direccion)
+        sessionStorage.setItem("Direccion", data.direccion)
+        sessionStorage.setItem("nombre", data.nombre)
+        sessionStorage.setItem("primerApellido", data.primerApellido)
+        sessionStorage.setItem("segundoApellido", data.segundoApellido)
+        sessionStorage.setItem("telefono", data.telefono)
+        sessionStorage.setItem("email", data.email)
+        sessionStorage.setItem("usuario", data.usuario)
+        sessionStorage.setItem("rol", data.rol)
+        sessionStorage.setItem("dni", data.dni)
+        sessionStorage.setItem("esNacional", data.esNacional)
+
+    }
+
+
     console.log(username);
     console.log(password);
     if(response.ok){
@@ -33,6 +71,9 @@ const Login = () => {
    catch(error){
      console.error(error)
    }
+
+   
+
   };
 
   if(IsLoged){
