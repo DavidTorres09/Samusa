@@ -52,9 +52,9 @@ CREATE TABLE RevisionVehiculo(
     Extras			VARCHAR(250) NOT NULL,
     Color			VARCHAR(50) NOT NULL,
     CostoVehiculo	DECIMAL(10,2) DEFAULT 0 NOT NULL,
-    AnnoVehiculo	INT NOT NULL,
+    AnnoVehiculo	VARCHAR(25) NOT NULL,
 	DniDuenno		VARCHAR(250) NOT NULL,
-    Placa			INT NULL,
+    Placa			VARCHAR(25) NULL,
     EstadoOP		VARCHAR(50) NOT NULL
 )
 GO
@@ -191,6 +191,15 @@ INSERT INTO Rol (Rol)
 VALUES ('Usuario'), ('Administrador'), ('Supervisor'), ('Gerente')
 GO
 
+INSERT INTO RevisionVehiculo (VIN, Marca, Modelo, Extras, Color, CostoVehiculo, AnnoVehiculo, DniDuenno, Placa, EstadoOP)
+VALUES 
+    ('S/D', 'S/D', 'S/D', 'S/D', 'S/D', 0.00, 'S/D', 'S/D', 'S/D', 'S/D');
+GO
+
+INSERT INTO RevisionContenedor (PuertoOrigen, PuertoDestino, Naviera, Transportista, DniDuenno, Estado)
+VALUES  ('S/D', 'S/D', 'S/D', 'S/D', 'S/D', 'S/D')
+GO
+
 CREATE PROCEDURE AgregarCliente (
 	@Direccion		VARCHAR(250),
     @Dni			VARCHAR(50),
@@ -221,7 +230,7 @@ GO
 CREATE PROCEDURE ModificarCliente(
 	@Id				INT,
 	@Direccion		VARCHAR(250),
-    @Dni			VARCHAR,
+    @Dni			VARCHAR(50),
     @Nombre			VARCHAR(250),
     @Telefono		VARCHAR(25),
     @Email			VARCHAR(40),
@@ -235,9 +244,9 @@ AS
 BEGIN
      IF EXISTS (SELECT 1 FROM Cliente WHERE id = @Id)
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Email = @Email  AND DNI <> @Dni)
+        IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Email = @Email  AND Dni <> @Dni)
         BEGIN
-            IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Usuario = @Usuario AND DNI <> @Dni)
+            IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Usuario = @Usuario AND Dni <> @Dni)
             BEGIN
                 UPDATE Cliente
                 SET Direccion = @direccion,
@@ -317,11 +326,10 @@ END
 GO
 
 CREATE PROCEDURE AgregarColaborador (
-    @Id				INT,
 	@Direccion		VARCHAR(250),
-    @Dni			INT,
+    @Dni			VARCHAR(250),
     @Nombre			VARCHAR(250),
-    @Telefono		VARCHAR(25) = NULL,
+    @Telefono		VARCHAR(25),
     @Email			VARCHAR(250),
     @EsNacional		BIT,
     @Usuario		VARCHAR(250),
@@ -348,11 +356,11 @@ GO
 CREATE PROCEDURE ModificarColaborador(
 	@Id				INT,
 	@Direccion		VARCHAR(250),
-    @Dni			INT,
+    @Dni			VARCHAR(250),
     @Nombre			VARCHAR(250),
     @Telefono		VARCHAR(25),
     @Email			VARCHAR(40),
-    @EsNacional		BIT = 0,
+    @EsNacional		BIT,
     @Usuario		VARCHAR(250),
     @Contrasenna	VARCHAR(250),
     @RolId			INT,
@@ -362,12 +370,13 @@ AS
 BEGIN
      IF EXISTS (SELECT 1 FROM Colaborador WHERE id = @Id)
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Email = @Email  AND DNI <> @Dni)
+        IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Email = @Email  AND Dni <> @Dni)
         BEGIN
-            IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Usuario = @Usuario AND DNI <> @Dni)
+            IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Usuario = @Usuario AND Dni <> @Dni)
             BEGIN
-                UPDATE Cliente
+                UPDATE Colaborador
                 SET Direccion = @direccion,
+					Dni = @Dni,
 					Nombre = @Nombre,
                     Telefono = @Telefono,
                     Email = @Email,
@@ -396,11 +405,12 @@ BEGIN
 		C.Usuario,
 		C.Contrasenna,
 		C.Direccion,
-		R.Rol,
+		R.Id AS 'RolId',
+		R.Rol AS 'NombreRol',
 		C.Foto
 	FROM
 		Colaborador C
-	JOIN Roles R ON C.RolId = R.Id
+	JOIN Rol R ON C.RolId = R.Id
 END
 GO
 
@@ -419,12 +429,13 @@ BEGIN
 		C.Usuario,
 		C.Contrasenna,
 		C.Direccion,
-		R.Rol,
+		R.Id AS 'RolID',
+		R.Rol AS 'NombreRol',
 		C.Foto
 	FROM
 		Colaborador C
 	JOIN 
-		Roles R ON C.RolId = R.Id
+		Rol R ON C.RolId = R.Id
 	WHERE
 		C.Id = @Id;
 END
@@ -441,7 +452,6 @@ END
 GO
 
 CREATE PROCEDURE AgregarExportacion (
-	@Id					INT,
 	@ExpSeguimientoId	INT,
 	@ClienteId			INT,
 	@RevVehiculoId		INT,
@@ -493,8 +503,9 @@ CREATE PROCEDURE ObtenerExportaciones
 AS
 BEGIN
 	SELECT
+		E.Id,
 		E.ExpSeguimientoId,
-		C.Dni,
+		E.ClienteId,
 		E.RevVehiculoId,
 		E.RevContenedorId,
 		E.FechaInicio,
@@ -504,8 +515,6 @@ BEGIN
 		E.Descripcion
 	FROM
 		Exportacion E
-	JOIN
-		Cliente C ON E.ClienteId =C.Dni
 END
 GO
 
@@ -515,8 +524,9 @@ CREATE PROCEDURE ObtenerExportacion (
 AS
 BEGIN
 	SELECT
+		E.Id,
 		E.ExpSeguimientoId,
-		C.Dni,
+		E.ClienteId,
 		E.RevVehiculoId,
 		E.RevContenedorId,
 		E.FechaInicio,
@@ -526,10 +536,7 @@ BEGIN
 		E.Descripcion
 	FROM
 		Exportacion E
-	JOIN
-		CLiente C ON E.ClienteId = C.Dni
-	WHERE
-		E.ExpSeguimientoId = @Id;
+	WHERE E.Id = @Id
 END
 GO
 
@@ -539,7 +546,7 @@ CREATE PROCEDURE EliminarExportacion (
 AS
 BEGIN
 	DELETE FROM Exportacion
-	WHERE ExpSeguimientoId = @Id;
+	WHERE Id = @Id;
 END
 GO
 
