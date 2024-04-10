@@ -550,8 +550,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE AgregarImportacion (
-	@Id					INT,
+ALTER PROCEDURE AgregarImportacion (
 	@ImpSeguimientoId	INT,
 	@ClienteId			INT,
 	@RevVehiculoId		INT,
@@ -598,47 +597,44 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE ObtenerImportaciones
+ALTER PROCEDURE ObtenerImportaciones
 AS
 BEGIN
 	SELECT
-		I.ImpSeguimientoId,
-		C.Dni,
-		I.RevVehiculoId,
-		I.RevContenedorId,
-		I.FechaInicio,
-		I.FechaFinalizacion,
-		I.FechaEsperada,
-		I.Prioridad,
-		I.Descripcion
+		Id,
+		ImpSeguimientoId,
+		ClienteId,
+		RevVehiculoId,
+		RevContenedorId,
+		FechaInicio,
+		FechaFinalizacion,
+		FechaEsperada,
+		Prioridad,
+		Descripcion
 	FROM
-		Importacion I
-	JOIN
-		Cliente C ON I.ClienteId = C.Dni
+		Importacion 
 END
 GO
 
-CREATE PROCEDURE ObtenerImportacion (
-	@id INT
+ALTER PROCEDURE ObtenerImportacion (
+	@Id INT
 )
 AS
 BEGIN
 	SELECT
-		I.ImpSeguimientoId,
-		C.Dni,
-		I.RevVehiculoId,
-		I.RevContenedorId,
-		I.FechaInicio,
-		I.FechaFinalizacion,
-		I.FechaEsperada,
-		I.Prioridad,
-		I.Descripcion
+		Id,
+		ImpSeguimientoId,
+		ClienteId,
+		RevVehiculoId,
+		RevContenedorId,
+		FechaInicio,
+		FechaFinalizacion,
+		FechaEsperada,
+		Prioridad,
+		Descripcion
 	FROM
-		Importacion I
-	JOIN
-		Cliente C ON I.ClienteId = C.Dni
-	WHERE
-		I.ImpSeguimientoId = @id;
+		Importacion 
+	WHERE Id = @Id
 END
 GO
 
@@ -648,7 +644,7 @@ CREATE PROCEDURE EliminarImportacion (
 AS
 BEGIN
 	DELETE FROM Importacion
-	WHERE ImpSeguimientoId = @id;
+	WHERE Id = @id;
 END
 GO
 

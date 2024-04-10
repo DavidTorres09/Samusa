@@ -8,44 +8,44 @@ using SamusaBackNew.Entities;
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
-    [Route("api/samusa/exportacion")]
-    public class ExportacionController(IConfiguration _configuration) : ControllerBase
+    [Route("api/samusa/importacion")]
+    public class ImportacionController(IConfiguration _configuration) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
         [Route("agregar")]
-        public async Task<IActionResult> AgregarExportacion(Exportacion exportacion)
+        public async Task<IActionResult> AgregarImportacion(Importacion importacion)
         {
-            ExportacionRespuesta respuesta = new ExportacionRespuesta();
+            ImportacionRespuesta respuesta = new ImportacionRespuesta();
 
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
-                    var resultado = await db.ExecuteAsync("AgregarExportacion",
+                    var resultado = await db.ExecuteAsync("AgregarImportacion",
                         new
                         {
-                            exportacion.ExpSeguimientoId,
-                            exportacion.ClienteId,
-                            exportacion.RevVehiculoId,
-                            exportacion.RevContenedorId,
-                            exportacion.FechaInicio,
-                            exportacion.FechaFinalizacion,
-                            exportacion.FechaEsperada,
-                            exportacion.Prioridad,
-                            exportacion.Descripcion
+                            importacion.ImpSeguimientoId,
+                            importacion.ClienteId,
+                            importacion.RevVehiculoId,
+                            importacion.RevContenedorId,
+                            importacion.FechaInicio,
+                            importacion.FechaFinalizacion,
+                            importacion.FechaEsperada,
+                            importacion.Prioridad,
+                            importacion.Descripcion
                         },
                         commandType: System.Data.CommandType.StoredProcedure);
 
                     if (resultado > 0)
                     {
-                        return Ok(new { Codigo = "0", Mensaje = "Exportacion agregada correctamente" });
+                        return Ok(new { Codigo = "0", Mensaje = "Importacion agregada correctamente" });
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se pudo agregar la exportacion";
+                        respuesta.Mensaje = "No se pudo agregar la importacion";
                         return BadRequest(respuesta);
                     }
                 }
@@ -53,7 +53,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al agregar exportacion: " + ex.Message;
+                respuesta.Mensaje = "Error al agregar importacion: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
         }
@@ -62,25 +62,25 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("listar")]
-        public async Task<IActionResult> ObtenerExportaciones()
+        public async Task<IActionResult> ObtenerImportaciones()
         {
-            ExportacionRespuesta respuesta = new ExportacionRespuesta();
+            ImportacionRespuesta respuesta = new ImportacionRespuesta();
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
 
-                    var exportaciones = await db.QueryAsync<Exportacion>("ObtenerExportaciones", commandType: System.Data.CommandType.StoredProcedure);
+                    var importacion = await db.QueryAsync<Importacion>("ObtenerImportaciones", commandType: System.Data.CommandType.StoredProcedure);
 
-                    if (exportaciones != null && exportaciones.Any())
+                    if (importacion != null && importacion.Any())
                     {
-                        return Ok(exportaciones);
+                        return Ok(importacion);
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se encontraron exportaciones.";
+                        respuesta.Mensaje = "No se encontraron importaciones.";
                         return NotFound(respuesta);
                     }
                 }
@@ -88,7 +88,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al obtener exportaciones: " + ex.Message;
+                respuesta.Mensaje = "Error al obtener importaciones: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
         }
@@ -97,27 +97,27 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("listar/{id}")]
-        public async Task<IActionResult> ObtenerExportacion(int id)
+        public async Task<IActionResult> ObtenerImportacion(int id)
         {
-            ExportacionRespuesta respuesta = new ExportacionRespuesta();
+            ImportacionRespuesta respuesta = new ImportacionRespuesta();
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
 
-                    var exportacion = await db.QueryFirstOrDefaultAsync<Exportacion>("ObtenerExportacion",
+                    var importacion = await db.QueryFirstOrDefaultAsync<Importacion>("ObtenerImportacion",
                         new { Id = id },
                         commandType: System.Data.CommandType.StoredProcedure);
 
-                    if (exportacion != null)
+                    if (importacion != null)
                     {
-                        return Ok(exportacion);
+                        return Ok(importacion);
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se encontró la exportacion.";
+                        respuesta.Mensaje = "No se encontró la importacion.";
                         return NotFound(respuesta);
                     }
                 }
@@ -125,7 +125,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al obtener exportacion: " + ex.Message;
+                respuesta.Mensaje = "Error al obtener importacion: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
 
@@ -134,39 +134,40 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpPut]
         [Route("actualizar")]
-        public async Task<IActionResult> ModificarExportacion(Exportacion exportacion)
+        public async Task<IActionResult> ModificarImportacion(Importacion importacion)
         {
-            ExportacionRespuesta respuesta = new ExportacionRespuesta();
+            ImportacionRespuesta respuesta = new ImportacionRespuesta();
+            
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
 
-                    var resultado = await db.ExecuteAsync("ModificarExportacion",
+                    var resultado = await db.ExecuteAsync("ModificarImportacion",
                         new
                         {
-                            exportacion.Id,
-                            exportacion.ExpSeguimientoId,
-                            exportacion.ClienteId,
-                            exportacion.RevVehiculoId,
-                            exportacion.RevContenedorId,
-                            exportacion.FechaInicio,
-                            exportacion.FechaFinalizacion,
-                            exportacion.FechaEsperada,
-                            exportacion.Prioridad,
-                            exportacion.Descripcion
+                            importacion.Id,
+                            importacion.ImpSeguimientoId,
+                            importacion.ClienteId,
+                            importacion.RevVehiculoId,
+                            importacion.RevContenedorId,
+                            importacion.FechaInicio,
+                            importacion.FechaFinalizacion,
+                            importacion.FechaEsperada,
+                            importacion.Prioridad,
+                            importacion.Descripcion
                         },
                     commandType: System.Data.CommandType.StoredProcedure);
 
                     if (resultado > 0)
                     {
-                        return Ok(new { Codigo = "0", Mensaje = "Exportacion modificada correctamente" });
+                        return Ok(new { Codigo = "0", Mensaje = "Importacion modificada correctamente" });
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se pudo modificar la exportacion.";
+                        respuesta.Mensaje = "No se pudo modificar la importacion.";
                         return BadRequest(respuesta);
                     }
                 }
@@ -174,7 +175,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al modificar exportacion: " + ex.Message;
+                respuesta.Mensaje = "Error al modificar importacion: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
 
@@ -183,27 +184,27 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpDelete]
         [Route("eliminar/{id}")]
-        public async Task<IActionResult> EliminarExportacion(int id)
+        public async Task<IActionResult> EliminarImportacion(int id)
         {
-            ExportacionRespuesta respuesta = new ExportacionRespuesta();
+            ImportacionRespuesta respuesta = new ImportacionRespuesta();
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
 
-                    var resultado = await db.ExecuteAsync("EliminarExportacion",
+                    var resultado = await db.ExecuteAsync("EliminarImportacion",
                         new { Id = id },
                         commandType: System.Data.CommandType.StoredProcedure);
 
                     if (resultado > 0)
                     {
-                        return Ok(new { Codigo = "0", Mensaje = "Exportacion eliminada correctamente" });
+                        return Ok(new { Codigo = "0", Mensaje = "Importacion eliminada correctamente" });
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se pudo eliminar la exportacion.";
+                        respuesta.Mensaje = "No se pudo eliminar la importacion.";
                         return BadRequest(respuesta);
                     }
                 }
@@ -211,7 +212,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al eliminar exportacion: " + ex.Message;
+                respuesta.Mensaje = "Error al eliminar importacion: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
         }
