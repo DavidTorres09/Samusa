@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 
 const ImportaModal = ({ user, onClose, isEditing  }) => {
   const [editedImporta, seteditedImporta] = useState(user || {
-    idimpSeguimiento: "",
-    idDni: "",
+    id: 0,
+    impSeguimientoId: 0,
+    clienteId: 0,
+    dni: "",
     idRevVehiculo: null,
     idRevContenedor: null,
     fechaInicio: new Date().toISOString(),
@@ -30,8 +32,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
         console.log(editedImporta);
         
 
-      // Lógica para agregar una nueva cotización directamente sin verificar su existencia
-      const response = await fetch('https://localhost:7293/api/samusa/importacion/guardar', {
+      const response = await fetch('https://localhost:7189/api/samusa/importacion/agregar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
 
       if (response.ok) {
         alert("Cotización guardada exitosamente");
-        window.location.reload(); // O actualizar el estado para reflejar los cambios sin recargar la página
+        window.location.reload(); //actualizar el estado
       } else {
         const errorData = await response.json();
         throw new Error(`Error al agregar la cotización: ${errorData.message}`);
@@ -65,7 +66,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
         }
 
         const updateCotiza = await fetch(
-          `https://localhost:7293/api/samusa/importacion/modificar`,
+          `https://localhost:7189/api/samusa/importacion/actualizar`,
           {
             method: "PUT",
             headers: {
@@ -99,20 +100,25 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className="bg-white px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">                
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">                
               <div className="bg-blue-600 px-4 py-4 sm:px-6 rounded">
           {isEditing ? <h3 className="titleform">Editar Importacion</h3> : <h3 className="titleform">Agregar Importacion</h3>}
           </div>
           <br />
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div className="mb-4">
-                  <label htmlFor="idimpSeguimiento" className="block text-sm font-medium text-gray-700">Numero de registro</label>
-                  <input type="text" name="idimpSeguimiento" id="idimpSeguimiento" value={editedImporta.idimpSeguimiento} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="impSeguimientoId" className="block text-sm font-medium text-gray-700">Numero de registro</label>
+                  <input type="text" name="impSeguimientoId" id="impSeguimientoId" value={editedImporta.impSeguimientoId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="idDni" className="block text-sm font-medium text-gray-700">Dni</label>
-                  <input type="text" name="idDni" id="idDni" value={editedImporta.idDni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Id de clietne</label>
+                  <input type="text" name="clienteId" id="clienteId" value={editedImporta.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="dni" className="block text-sm font-medium text-gray-700">Dni</label>
+                  <input type="text" name="dni" id="dni" value={editedImporta.dni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="idRevVehiculo" className="block text-sm font-medium text-gray-700">Revision de vehiculo asociada</label>
@@ -165,6 +171,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                   <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripcion</label>
                   <input type="text" name="descripcion" id="descripcion" value={editedImporta.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
+              </div>
               </div>
             </div>
           </div>

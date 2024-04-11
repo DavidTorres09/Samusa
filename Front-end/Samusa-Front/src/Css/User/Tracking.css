@@ -1,0 +1,14 @@
+.trackmain{
+    background: #161824;
+    color: #ffffff;
+}
+.badgestatus{
+    border: rgb(255, 255, 255) solid;
+    border-radius: 28px 28px 28px 28px;
+    -moz-border-radius: 28px 28px 28px 28px;
+    -webkit-border-radius: 28px 28px 28px 28px;
+    border: 0px solid #000000;
+}
+.trackmain h4{
+    color: #5fc9f3;
+}

@@ -1,53 +1,51 @@
 ﻿using Dapper;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-
 using SamusaBackNew.Entities;
+
 
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
-    [Route("api/samusa/cliente")]
-    public class ClienteController(IConfiguration _configuration): ControllerBase
+    [Route("api/samusa/exportacion")]
+    public class ExportacionController(IConfiguration _configuration) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
         [Route("agregar")]
-        public async Task<IActionResult> AgregarCliente(Cliente cliente)
+        public async Task<IActionResult> AgregarExportacion(Exportacion exportacion)
         {
-            ClienteRespuesta respuesta = new ClienteRespuesta();
+            ExportacionRespuesta respuesta = new ExportacionRespuesta();
 
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
-
-                    var resultado = await db.ExecuteAsync("AgregarCliente",
+                    var resultado = await db.ExecuteAsync("AgregarExportacion",
                         new
                         {
-                            cliente.Direccion,
-                            cliente.Dni,
-                            cliente.Nombre,
-                            cliente.Telefono,
-                            cliente.Email,
-                            cliente.EsNacional,
-                            cliente.Usuario,
-                            cliente.Contrasenna,
-                            cliente.Foto
+                            exportacion.ExpSeguimientoId,
+                            exportacion.ClienteId,
+                            exportacion.RevVehiculoId,
+                            exportacion.RevContenedorId,
+                            exportacion.FechaInicio,
+                            exportacion.FechaFinalizacion,
+                            exportacion.FechaEsperada,
+                            exportacion.Prioridad,
+                            exportacion.Descripcion
                         },
                         commandType: System.Data.CommandType.StoredProcedure);
 
                     if (resultado > 0)
                     {
-                        return Ok(new { Codigo = "0", Mensaje = "Cliente agregado correctamente" });
+                        return Ok(new { Codigo = "0", Mensaje = "Exportacion agregada correctamente" });
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "Su correo, email o DNI ya se encuentran registrados";
+                        respuesta.Mensaje = "No se pudo agregar la exportacion";
                         return BadRequest(respuesta);
                     }
                 }
@@ -55,7 +53,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al agregar cliente: " + ex.Message;
+                respuesta.Mensaje = "Error al agregar exportacion: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
         }
@@ -64,25 +62,25 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("listar")]
-        public async Task<IActionResult> ObtenerClientes()
+        public async Task<IActionResult> ObtenerExportaciones()
         {
-            ClienteRespuesta respuesta = new ClienteRespuesta();
+            ExportacionRespuesta respuesta = new ExportacionRespuesta();
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
 
-                    var clientes = await db.QueryAsync<Cliente>("ObtenerClientes", commandType: System.Data.CommandType.StoredProcedure);
+                    var exportaciones = await db.QueryAsync<Exportacion>("ObtenerExportaciones", commandType: System.Data.CommandType.StoredProcedure);
 
-                    if (clientes != null && clientes.Any())
+                    if (exportaciones != null && exportaciones.Any())
                     {
-                        return Ok(clientes);
+                        return Ok(exportaciones);
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se encontraron clientes.";
+                        respuesta.Mensaje = "No se encontraron exportaciones.";
                         return NotFound(respuesta);
                     }
                 }
@@ -90,7 +88,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al obtener clientes: " + ex.Message;
+                respuesta.Mensaje = "Error al obtener exportaciones: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
         }
@@ -99,27 +97,27 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("listar/{id}")]
-        public async Task<IActionResult> ObtenerCliente(int id)
+        public async Task<IActionResult> ObtenerExportacion(int id)
         {
-            ClienteRespuesta respuesta = new ClienteRespuesta();
+            ExportacionRespuesta respuesta = new ExportacionRespuesta();
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
 
-                    var cliente = await db.QueryFirstOrDefaultAsync<Cliente>("ObtenerCliente",
+                    var exportacion = await db.QueryFirstOrDefaultAsync<Exportacion>("ObtenerExportacion",
                         new { Id = id },
                         commandType: System.Data.CommandType.StoredProcedure);
 
-                    if (cliente != null)
+                    if (exportacion != null)
                     {
-                        return Ok(cliente);
+                        return Ok(exportacion);
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se encontró el cliente.";
+                        respuesta.Mensaje = "No se encontró la exportacion.";
                         return NotFound(respuesta);
                     }
                 }
@@ -127,7 +125,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al obtener cliente: " + ex.Message;
+                respuesta.Mensaje = "Error al obtener exportacion: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
 
@@ -136,40 +134,39 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpPut]
         [Route("actualizar")]
-        public async Task<IActionResult> ModificarCliente(Cliente cliente)
+        public async Task<IActionResult> ModificarExportacion(Exportacion exportacion)
         {
-            ClienteRespuesta respuesta = new ClienteRespuesta();
+            ExportacionRespuesta respuesta = new ExportacionRespuesta();
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
 
-                    var resultado = await db.ExecuteAsync("ModificarCliente",
+                    var resultado = await db.ExecuteAsync("ModificarExportacion",
                         new
                         {
-                            cliente.Id,
-                            cliente.Direccion,
-                            cliente.Dni,
-                            cliente.Nombre,
-                            cliente.Telefono,
-                            cliente.Email,
-                            cliente.EsNacional,
-                            cliente.Usuario,
-                            cliente.Contrasenna,
-                            cliente.RolId,
-                            cliente.Foto
+                            exportacion.Id,
+                            exportacion.ExpSeguimientoId,
+                            exportacion.ClienteId,
+                            exportacion.RevVehiculoId,
+                            exportacion.RevContenedorId,
+                            exportacion.FechaInicio,
+                            exportacion.FechaFinalizacion,
+                            exportacion.FechaEsperada,
+                            exportacion.Prioridad,
+                            exportacion.Descripcion
                         },
                     commandType: System.Data.CommandType.StoredProcedure);
 
                     if (resultado > 0)
                     {
-                        return Ok(new { Codigo = "0", Mensaje = "Cliente modificado correctamente" });
+                        return Ok(new { Codigo = "0", Mensaje = "Exportacion modificada correctamente" });
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se pudo modificar el cliente.";
+                        respuesta.Mensaje = "No se pudo modificar la exportacion.";
                         return BadRequest(respuesta);
                     }
                 }
@@ -177,7 +174,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al modificar cliente: " + ex.Message;
+                respuesta.Mensaje = "Error al modificar exportacion: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
 
@@ -186,27 +183,27 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpDelete]
         [Route("eliminar/{id}")]
-        public async Task<IActionResult> EliminarCliente(int id)
+        public async Task<IActionResult> EliminarExportacion(int id)
         {
-            ClienteRespuesta respuesta = new ClienteRespuesta();
+            ExportacionRespuesta respuesta = new ExportacionRespuesta();
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
 
-                    var resultado = await db.ExecuteAsync("EliminarCliente",
+                    var resultado = await db.ExecuteAsync("EliminarExportacion",
                         new { Id = id },
                         commandType: System.Data.CommandType.StoredProcedure);
 
                     if (resultado > 0)
                     {
-                        return Ok(new { Codigo = "0", Mensaje = "Cliente eliminado correctamente" });
+                        return Ok(new { Codigo = "0", Mensaje = "Exportacion eliminada correctamente" });
                     }
                     else
                     {
                         respuesta.Codigo = "-1";
-                        respuesta.Mensaje = "No se pudo eliminar el cliente.";
+                        respuesta.Mensaje = "No se pudo eliminar la exportacion.";
                         return BadRequest(respuesta);
                     }
                 }
@@ -214,7 +211,7 @@ namespace SamusaBackNew.Controllers
             catch (Exception ex)
             {
                 respuesta.Codigo = "-1";
-                respuesta.Mensaje = "Error al eliminar cliente: " + ex.Message;
+                respuesta.Mensaje = "Error al eliminar exportacion: " + ex.Message;
                 return StatusCode(500, respuesta);
             }
         }
