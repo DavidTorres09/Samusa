@@ -111,6 +111,7 @@ const ClientModal = ({ user, onClose }) => {
           <div className="bg-blue-600 px-4 py-2 sm:px-6 rounded">
           {isEditing ? <h3 className="titleform">Editar usuario</h3> : <h3 className="titleform">Agregar usuario</h3>}
           </div>
+          
           <div className="bg-white px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">

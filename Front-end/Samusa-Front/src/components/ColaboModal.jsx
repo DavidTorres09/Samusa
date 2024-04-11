@@ -3,17 +3,21 @@ import React, { useState } from 'react';
 const ColaboModal = ({ user, onClose, isEditing }) => {
   const [editedColabo, setEditedColabo] = useState(
     user || {
+      id: 0,
       dni: "",
       nombre: "",
-      primerApellido: "",
-      segundoApellido: "",
       telefono: "",
       email: "",
       esNacional: false,
       usuario: "",
-      password: "",
-      fechaIngreso: "",
-      IdRol: 1,
+      contrasenna: "",
+      direccion: "",
+      rolId: 2,
+      nombreRol: "",
+      foto:"",
+      estado: true,
+      esTEmporal: false,
+      token: "",
   });
 
   const handleInputChange = (event) => {
@@ -34,7 +38,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
        
         console.log(editedColabo)
         const responseVerificacion = await fetch(
-          `https://localhost:7293/api/samusa/colaborador/listarUnico?dni=${editedColabo.dni}`,
+          `https://localhost:7189/api/samusa/colaborador/listarUnico?dni=${editedColabo.id}`,
           {
             method: "GET",
             headers: {
@@ -43,7 +47,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
           }
         );
           const addColabo = await fetch(
-            `https://localhost:7293/api/samusa/colaborador/guardar`,
+            `https://localhost:7189/api/samusa/colaborador/agregar`,
             {
               method: "POST",
               headers: {
@@ -63,7 +67,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
         editedColabo.fechaIngreso = new Date().toISOString();
         console.log(editedColabo)
         const updateColabo = await fetch(          
-          `https://localhost:7293/api/samusa/colaborador/modificar`,
+          `https://localhost:7189/api/samusa/colaborador/actualizar`,
           {
             method: "PUT",
             headers: {
@@ -96,49 +100,179 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className="bg-white px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
               <div className="bg-blue-600 px-4 py-2 sm:px-6 rounded">
           {isEditing ? <h3 className="titleform">Editar Colaborador</h3> : <h3 className="titleform">Agregar Colaborador</h3>}
           </div>
           <br />
-                <div className="mb-4">
-                  <label htmlFor="dni" className="block text-sm font-medium text-gray-700">DNI</label>
-                  <input type="text" name="dni" id="dni" value={editedColabo.dni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
-                  <input type="text" name="nombre" id="nombre" value={editedColabo.nombre} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="primerApellido" className="block text-sm font-medium text-gray-700">Primer Apellido</label>
-                  <input type="text" name="primerApellido" id="primerApellido" value={editedColabo.primerApellido} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="segundoApellido" className="block text-sm font-medium text-gray-700">Segundo Apellido</label>
-                  <input type="text" name="segundoApellido" id="segundoApellido" value={editedColabo.segundoApellido} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">Teléfono</label>
-                  <input type="text" name="telefono" id="telefono" value={editedColabo.telefono} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                  <input type="email" name="email" id="email" value={editedColabo.email} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="esNacional" className="block text-sm font-medium text-gray-700">Es Nacional</label>
-                  <input type="checkbox" name="esNacional" id="esNacional" checked={editedColabo.esNacional} onChange={handleInputChange} className="mt-1" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="usuario" className="block text-sm font-medium text-gray-700">Usuario</label>
-                  <input type="text" name="usuario" id="usuario" value={editedColabo.usuario} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
-                  <input type="password" name="password" id="password" value={editedColabo.password} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          <div className="mb-4">
+                    <label
+                      htmlFor="dni"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      DNI
+                    </label>
+                    <input
+                      type="number"
+                      name="dni"
+                      id="dni"
+                      value={editedColabo.dni}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="mb-4">
+                    <label
+                      htmlFor="nombre"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      NOMBRE
+                    </label>
+                    <input
+                      type="text"
+                      name="nombre"
+                      id="nombre"
+                      value={editedColabo.nombre}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="telefono"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      TELEFONO
+                    </label>
+                    <input
+                      type="text"
+                      name="telefono"
+                      id="telefono"
+                      value={editedColabo.telefono}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      EMAIL
+                    </label>
+                    <input
+                      type="text"
+                      name="email"
+                      id="email"
+                      value={editedColabo.email}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="contrasenna"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      CONTRASEÑA
+                    </label>
+                    <input
+                      type="text"
+                      name="contrasenna"
+                      id="contrasenna"
+                      value={editedColabo.contrasenna}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="usuario"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      USUARIO
+                    </label>
+                    <input
+                      type="usuario"
+                      name="usuario"
+                      id="usuario"
+                      value={editedColabo.usuario}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label
+                      htmlFor="esNacional"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Es Nacional
+                    </label>
+                    <label className="inline-flex items-center mt-1">
+                      <input
+                        type="checkbox"
+                        name="esNacional"
+                        id="esNacional"
+                        defaultChecked={editedColabo.esNacional}
+                        onChange={handleInputChange}
+                        className="form-checkbox h-5 w-5 text-indigo-600"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">
+                        ESTADO
+                      </span>
+                    </label>
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="estado"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      estado
+                    </label>
+                    <label className="inline-flex items-center mt-1">
+                      <input
+                        type="checkbox"
+                        name="estado"
+                        id="estado"
+                        defaultChecked={editedColabo.estado}
+                        onChange={handleInputChange}
+                        className="form-checkbox h-5 w-5 text-indigo-600"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">
+                        Es nacional
+                      </span>
+                    </label>
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="direccion"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Dirección
+                    </label>
+                    <input
+                      type="text"
+                      name="direccion"
+                      id="direccion"
+                      value={editedColabo.direccion}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+              </div>
               </div>
             </div>
           </div>

@@ -29,13 +29,22 @@ const ClientsTable = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
   const [query, SetQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   console.log(query);
 
   useEffect(() => {
     fetch("https://localhost:7189/api/samusa/cliente/listar")
       .then(response => response.json())
       .then(data => {
-        setTableData(data);
+        if (data.codigo && data.codigo === "-1") {
+          setErrorMessage(data.mensaje);
+          setTableData([]); //limpia datos existentes
+        } else if (data.length === 0) {
+          setErrorMessage("No se encontraron clientes en la Base de datos.");
+        } else {
+          setTableData(data);
+          setErrorMessage(""); // Limpia mensaje de error 
+        }
 
         setTimeout(() => {
           $(document).ready(function() {
@@ -57,6 +66,8 @@ const ClientsTable = () => {
       }
     };
 }, []);
+
+console.log(tableData);
 
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/cliente/eliminar/${id}`, {
@@ -109,7 +120,11 @@ const ClientsTable = () => {
           <h1 className="text-3xl font-bold my-4 text-gray-800">
             Tabla de Usuarios
           </h1>
-
+          {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
           <div class="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
