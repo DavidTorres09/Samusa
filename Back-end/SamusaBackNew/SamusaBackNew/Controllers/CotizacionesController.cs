@@ -27,6 +27,7 @@ namespace SamusaBackNew.Controllers
                         new
                         {
                             cotizacion.ColaboradorId,
+                            cotizacion.ClienteId,
                             cotizacion.DniCliente,
                             cotizacion.TipoProducto,
                             cotizacion.Producto,
@@ -69,7 +70,7 @@ namespace SamusaBackNew.Controllers
                 {
                     await db.OpenAsync();
 
-                    var cotizaciones = await db.QueryAsync<Exportacion>("Obtenercotizaciones", commandType: System.Data.CommandType.StoredProcedure);
+                    var cotizaciones = await db.QueryAsync<Cotizacion>("Obtenercotizaciones", commandType: System.Data.CommandType.StoredProcedure);
 
                     if (cotizaciones != null && cotizaciones.Any())
                     {
@@ -104,7 +105,7 @@ namespace SamusaBackNew.Controllers
                 {
                     await db.OpenAsync();
 
-                    var cotizacion = await db.QueryFirstOrDefaultAsync<Exportacion>("ObtenerCotizacion",
+                    var cotizacion = await db.QueryFirstOrDefaultAsync<Cotizacion>("ObtenerCotizacion",
                         new { Id = id },
                         commandType: System.Data.CommandType.StoredProcedure);
 
@@ -146,6 +147,7 @@ namespace SamusaBackNew.Controllers
                         {
                             cotizacion.Id,
                             cotizacion.ColaboradorId,
+                            cotizacion.ClienteId,
                             cotizacion.DniCliente,
                             cotizacion.TipoProducto,
                             cotizacion.Producto,
