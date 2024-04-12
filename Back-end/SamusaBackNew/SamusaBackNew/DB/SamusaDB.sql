@@ -91,7 +91,7 @@ CREATE TABLE Exportacion (
     RevVehiculoId			INT NULL,
     RevContenedorId			INT NULL,
 	FechaInicio				DATETIME NOT NULL,
-	FechaFinalizacion		DATETIME NOT NULL,
+	FechaFinalizacion		DATETIME NULL,
 	FechaEsperada			DATETIME NULL,
 	Prioridad				VARCHAR (80) NOT NULL,
     Descripcion				VARCHAR (250) NULL
@@ -114,7 +114,7 @@ GO
 CREATE TABLE Cotizacion (
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	ColaboradorId		INT NOT NULL,
-	ClienteId			INT,
+	ClienteId			INT NULL,
 	DniCliente			VARCHAR(200) NOT NULL,
 	TipoProducto		VARCHAR(50) NOT NULL,
 	Producto			VARCHAR(80) NOT NULL,
@@ -129,8 +129,8 @@ CREATE TABLE Ticket (
     Estado			VARCHAR(50),
     Prioridad		VARCHAR(50),
     Descripcion		VARCHAR(500),
-    ClienteId		INT,
-    ColaboradorId	INT,
+    ClienteId		INT NOT NULL,
+    ColaboradorId	INT NOT NULL,
 )
 GO
 
@@ -144,7 +144,7 @@ CREATE TABLE Documento(
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	ImportacionId		INT NULL,
 	ExportacionId		INT NULL,
-	Url					VARCHAR(500)
+	Url					VARCHAR(500) NULL,
 )
 GO
 
@@ -550,7 +550,7 @@ BEGIN
 END
 GO
 
-ALTER PROCEDURE AgregarImportacion (
+CREATE PROCEDURE AgregarImportacion (
 	@ImpSeguimientoId	INT,
 	@ClienteId			INT,
 	@RevVehiculoId		INT,
@@ -597,7 +597,7 @@ BEGIN
 END
 GO
 
-ALTER PROCEDURE ObtenerImportaciones
+CREATE PROCEDURE ObtenerImportaciones
 AS
 BEGIN
 	SELECT
@@ -705,8 +705,6 @@ BEGIN
 		P.FechaEsperada
 	FROM
 		Paqueteria P
-	JOIN
-		Cliente Pe ON P.ClienteId = P.Id
 END
 GO
 
@@ -796,8 +794,6 @@ BEGIN
 		C.FechaCreacion
 	FROM
 		Cotizacion C
-	JOIN
-		Cliente Ce ON C.ClienteId = Ce.Id
 END
 GO
 
@@ -818,8 +814,6 @@ BEGIN
 		C.FechaCreacion
 	FROM
 		Cotizacion C
-	JOIN
-		Cliente Ce ON C.ClienteId = CE.Id
 	WHERE
 		C.Id = @Id;
 END
