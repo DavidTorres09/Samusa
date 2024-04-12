@@ -91,7 +91,7 @@ CREATE TABLE Exportacion (
     RevVehiculoId			INT NULL,
     RevContenedorId			INT NULL,
 	FechaInicio				DATETIME NOT NULL,
-	FechaFinalizacion		DATETIME NOT NULL,
+	FechaFinalizacion		DATETIME NULL,
 	FechaEsperada			DATETIME NULL,
 	Prioridad				VARCHAR (80) NOT NULL,
     Descripcion				VARCHAR (250) NULL
@@ -129,8 +129,8 @@ CREATE TABLE Ticket (
     Estado			VARCHAR(50),
     Prioridad		VARCHAR(50),
     Descripcion		VARCHAR(500),
-    ClienteId		INT,
-    ColaboradorId	INT,
+    ClienteId		INT NOT NULL,
+    ColaboradorId	INT NOT NULL,
 )
 GO
 
@@ -144,7 +144,7 @@ CREATE TABLE Documento(
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	ImportacionId		INT NULL,
 	ExportacionId		INT NULL,
-	Url					VARCHAR(500)
+	Url					VARCHAR(500) NULL,
 )
 GO
 
