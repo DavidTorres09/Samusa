@@ -6,11 +6,11 @@
         public int ExpSeguimientoId { get; set; }
         public int ClienteId { get; set; }
         public string? Dni { get; set; } = string.Empty;
-        public int RevVehiculoId { get; set; }
-        public int RevContenedorId { get; set; }
+        public int? RevVehiculoId { get; set; }
+        public int? RevContenedorId { get; set; }
         public DateTime FechaInicio { get; set; }
-        public DateTime FechaFinalizacion { get; set; }
-        public DateTime FechaEsperada { get; set; }
+        public DateTime? FechaFinalizacion { get; set; }
+        public DateTime? FechaEsperada { get; set; }
         public string? Prioridad { get; set; } = string.Empty;
         public string? Descripcion { get; set; } = string.Empty;
     }

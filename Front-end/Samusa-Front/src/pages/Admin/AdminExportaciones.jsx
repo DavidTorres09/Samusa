@@ -1,5 +1,6 @@
 import Footer from "../../components/Footer";
 import LayoutAdmin from "../../components/LayoutAdmin";
+import ExportaTable from "../../components/ExportaTable";
 import "../../Css/Template.css"
 import "../../Css/datatables.min.css"
 import "../../Css/datatables.css"
@@ -30,7 +31,7 @@ const AdminImportaciones = () => {
         <body className="skin-dark">
         <LayoutAdmin/>
             <div className="content-body">
-            <h1>Admin Exportaciones</h1>
+            <ExportaTable/>
             </div>
             <Footer/>
         </body>
