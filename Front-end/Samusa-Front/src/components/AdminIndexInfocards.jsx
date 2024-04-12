@@ -9,13 +9,13 @@ const AdminInfoCards = () => {
   const [totalenDocumentacion, setTotalenDocumentacion] = useState(0);
   const [totalenFinalizado, setTotalenFinalizado] = useState(0);
 
-  const [RevisionesVEh, setRevisionesVEh] = useState([]);
-  const [totalRevisionesVEh, setTotalRevisionesVEh] = useState(0);
-  const [totalenPendienteCitaVEh, setTotalenPendienteCitaVEh] = useState(0);
-  const [totalenFinalizadoVEh, setTotalenFinalizadoVEh] = useState(0);
+  const [Exportaciones, setExportaciones] = useState([]);
+  const [totalExportaciones, setTotalExportaciones] = useState(0);
+  const [totalenPendienteCitaExp, setTotalenPendienteCitaExp] = useState(0);
+  const [totalenFinalizadoExp, setTotalenFinalizadoExp] = useState(0);
 
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/importacion/listar')
+    fetch('https://localhost:7189/api/samusa/importacion/listar')
       .then((response) => response.json())
       .then((data) => {
         setImportaciones(data);
@@ -27,13 +27,13 @@ const AdminInfoCards = () => {
   }, []);
 
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/revisionAlmacen/listar')
+    fetch('https://localhost:7189/api/samusa/exportacion/listar')
       .then((response) => response.json())
       .then((data) => {
-        setRevisionesVEh(data);
-        TotalRevisionesVEh(data);
-        calcularTotalPendienteCitaVEh(data);
-        calcularTotalFinalizadoVEh(data);
+        setExportaciones(data);
+        TotalExportaciones(data);
+        calcularTotalPendienteCitaExp(data);
+        calcularTotalFinalizadoExp(data);
       })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
@@ -60,26 +60,26 @@ const AdminInfoCards = () => {
     setTotalenFinalizado(total);
   };
 
-  const TotalRevisionesVEh = (RevisionesVEh) => {
-    const total = RevisionesVEh.length;
+  const TotalExportaciones = (Exportaciones) => {
+    const total = Exportaciones.length;
 
-    setTotalRevisionesVEh(total);
+    setTotalExportaciones(total);
   };
 
-  const calcularTotalPendienteCitaVEh = (RevisionesVEh) => {
-    const total = RevisionesVEh.filter((RevisionesVEh) => 
-    RevisionesVEh.estadoOp === "Pendiente de cita"
+  const calcularTotalPendienteCitaExp = (Exportaciones) => {
+    const total = Exportaciones.filter((Exportaciones) => 
+    Exportaciones.estadoOp === "Pendiente de cita"
     ).length;
 
-    setTotalenPendienteCitaVEh(total);
+    setTotalenPendienteCitaExp(total);
   };
 
-  const calcularTotalFinalizadoVEh = (RevisionesVEh) => {
-    const total = RevisionesVEh.filter((RevisionesVEh) => 
-    RevisionesVEh.estadoOp === "Revisado"
+  const calcularTotalFinalizadoExp = (Exportaciones) => {
+    const total = Exportaciones.filter((Exportaciones) => 
+    Exportaciones.estadoOp === "Revisado"
     ).length;
 
-    setTotalenFinalizadoVEh(total);
+    setTotalenFinalizadoExp(total);
   };
 
   return (
@@ -113,20 +113,20 @@ const AdminInfoCards = () => {
                 <div className='top-report'>
 
                     <div class="head">
-                        <h4>Revisiones Vehiculos</h4>
+                        <h4>Numero de Exportaciones</h4>
                         <a className='view'><i className='zmdi zmdi-eye'></i></a>
                         </div>
 
                         <div className='content'>
-                        <h5>Total de vehiculos</h5>
-                        <h2>{totalRevisionesVEh}</h2>
+                        <h5>Total de Exportaciones</h5>
+                        <h2>{totalExportaciones}</h2>
                         </div>
 
                         <div className='footer'>
                             <div className='progess'>
                                 <div className='progess-bar'></div>
                                 <div className='content'>
-                                <h5>Pendientes de cita: {totalenPendienteCitaVEh} | Revisados: {totalenFinalizadoVEh} </h5>
+                                <h5>Pendientes de cita: {totalenPendienteCitaExp} | Revisados: {totalenFinalizadoExp} </h5>
                                 </div>                            
                                 </div>
                         </div>

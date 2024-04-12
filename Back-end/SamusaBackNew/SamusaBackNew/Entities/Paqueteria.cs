@@ -10,7 +10,7 @@
         public string? DirectOrigen { get; set; }
         public string? DirectDestino { get; set; }
         public DateTime FechaRegistro { get; set; }
-        public DateTime FechaEsperada { get; set; }
+        public DateTime? FechaEsperada { get; set; }
     }
 
     public class PaqueteriaRespuesta
