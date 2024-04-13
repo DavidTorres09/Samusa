@@ -9,7 +9,7 @@ using SamusaBackNew.Entities;
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
-    [Route("api/samusa/cliente")]
+    [Route("api/samusa/[controller]")]
     public class ClienteController(IConfiguration _configuration): ControllerBase
     {
         [AllowAnonymous]

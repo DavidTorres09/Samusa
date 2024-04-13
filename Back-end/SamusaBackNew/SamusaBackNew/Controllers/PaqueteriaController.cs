@@ -7,7 +7,7 @@ using Dapper;
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
-    [Route("api/samusa/paqueteria")]
+    [Route("api/samusa/[controller]")]
     public class PaqueteriaController(IConfiguration _configuration) : Controller
     {
         [AllowAnonymous]

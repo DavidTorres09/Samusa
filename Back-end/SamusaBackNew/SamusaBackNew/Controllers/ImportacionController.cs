@@ -8,7 +8,7 @@ using SamusaBackNew.Entities;
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
-    [Route("api/samusa/importacion")]
+    [Route("api/samusa/[controller]")]
     public class ImportacionController(IConfiguration _configuration) : ControllerBase
     {
         [AllowAnonymous]

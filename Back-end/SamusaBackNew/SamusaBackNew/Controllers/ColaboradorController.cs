@@ -7,7 +7,7 @@ using SamusaBackNew.Entities;
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
-    [Route("api/samusa/colaborador")]
+    [Route("api/samusa/[controller]")]
     public class ColaboradorController(IConfiguration _configuration) : ControllerBase
     {
         [AllowAnonymous]

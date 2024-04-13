@@ -6,6 +6,8 @@ using SamusaBackNew.Interfaces;
 
 namespace SamusaBackNew.Controllers
 {
+    [ApiController]
+    [Route("api/samusa/[controller]")]
     public class TicketController(IRepository<Ticket> _repositoryTicket) : Controller
     {
         [AllowAnonymous]
