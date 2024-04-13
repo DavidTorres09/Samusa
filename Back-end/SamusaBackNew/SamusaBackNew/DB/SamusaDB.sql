@@ -919,10 +919,10 @@ CREATE PROCEDURE AgregarRevisionVehiculo (
 	@Extras			VARCHAR(250),
 	@Color			VARCHAR(50),
 	@CostoVehiculo	DECIMAL(10,2),
-	@AnnoVehiculo	INT,
-	@DniDuenno		INT,
-	@Placa			INT,
-	@EstadoOP		VARCHAR(20)
+	@AnnoVehiculo	VARCHAR(25),
+	@DniDuenno		VARCHAR(250),
+	@Placa			VARCHAR(25),
+	@EstadoOP		VARCHAR(25)
 )
 AS
 BEGIN
@@ -939,10 +939,10 @@ CREATE PROCEDURE ModificarRevisionVehiculo (
 	@Extras			VARCHAR(250),
 	@Color			VARCHAR(50),
 	@CostoVehiculo	DECIMAL(10,2),
-	@AnnoVehiculo	INT,
-	@DniDuenno		INT,
-	@Placa			INT,
-	@EstadoOP		VARCHAR(20)
+	@AnnoVehiculo	VARCHAR(25),
+	@DniDuenno		VARCHAR(250),
+	@Placa			VARCHAR(25),
+	@EstadoOP		VARCHAR(25)
 )
 AS
 IF EXISTS (SELECT 1 FROM RevisionVehiculo WHERE Id = @Id)
@@ -1005,6 +1005,7 @@ BEGIN
 		Id = @id;
 END
 GO
+Select * FROM RevisionVehiculo
 
 CREATE PROCEDURE EliminarRevisionVehiculo (
 	@Id INT
@@ -1015,6 +1016,8 @@ BEGIN
 	WHERE Id = @Id;
 END
 GO
+
+
 
 CREATE PROCEDURE AgregarRol (
 	@Rol VARCHAR(50)
