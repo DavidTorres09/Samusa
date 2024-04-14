@@ -7,7 +7,7 @@ function RevCChart() {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/revisionContenedor/listar') //Nos conectamos al api
+    fetch('https://localhost:7189/api/samusa/revisionContenedor/listar') //Nos conectamos al api
       .then((response) => response.json())
       .then((data) => {
         const counts = data.reduce((acc, item) => { //Se crea la const counts para contar cuantas veces se repite cada una de las 4 opciones de estado

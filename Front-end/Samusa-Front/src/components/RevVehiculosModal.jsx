@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 
 const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
   const [editedRevVeh, seteditedRevVeh] = useState(user || {
-    idformAlmacen: "",
+    id: "",
     vin: "",
     marca: "",
     modelo: "",
     Extras: "",
     color: "",
     costoVehiculo: "",
-    anioVehiculo: "",
-    dniDueno: "",
+    annoVehiculo: "",
+    dniDuenno: "",
     placa: "",
-    estadoOp: "",
+    estadoOP: "",
   });
 
   const handleInputChange = (event) => {
@@ -28,9 +28,9 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
   const handleSave = async () => {
     try {
       if (isEditing===false) {   
-        editedRevVeh.idformAlmacen = 0;
+        editedRevVeh.id = 0;
         console.log(editedRevVeh)   
-      const response = await fetch('https://localhost:7293/api/samusa/revisionAlmacen/guardar', {
+      const response = await fetch('https://localhost:7189/api/samusa/RevisionVehiculo/agregar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
       }
       else {
         const updateCotiza = await fetch(
-          `https://localhost:7293/api/samusa/revisionAlmacen/modificar`,
+          `https://localhost:7189/api/samusa/RevisionVehiculo/actualizar`,
           {
             method: "PUT",
             headers: {
@@ -82,11 +82,14 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div className="bg-white px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">                
-              {isEditing ? <h3 className="text-lg font-medium leading-6 text-black">Editar Revision</h3> : <h3 className="text-lg font-medium leading-6 text-black">Agregar Revision</h3>}
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">  
+              <div className='bg-blue-600 px-4 py-2 sm:px-6 rounded'>
+              {isEditing ? <h3 className="titleform">Editar Revision</h3> : <h3 className="titleform">Agregar Revision</h3>}
+                </div> 
               <br />
+              <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div className="mb-4">
                   <label htmlFor="vin" className="block text-sm font-medium text-gray-700">VIN</label>
                   <input type="text" name="vin" id="vin" value={editedRevVeh.vin} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
@@ -112,25 +115,26 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
                   <input type="text" name="costoVehiculo" id="costoVehiculo" value={editedRevVeh.costoVehiculo} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="anioVehiculo" className="block text-sm font-medium text-gray-700">Año del vehiculo</label>
-                  <input type="text" name="anioVehiculo" id="anioVehiculo" value={editedRevVeh.anioVehiculo} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="annoVehiculo" className="block text-sm font-medium text-gray-700">Año del vehiculo</label>
+                  <input type="text" name="annoVehiculo" id="annoVehiculo" value={editedRevVeh.annoVehiculo} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="dniDueno" className="block text-sm font-medium text-gray-700">DNI del dueño</label>
-                  <input type="text" name="dniDueno" id="dniDueno" value={editedRevVeh.dniDueno} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="dniDuenno" className="block text-sm font-medium text-gray-700">DNI del dueño</label>
+                  <input type="text" name="dniDuenno" id="dniDuenno" value={editedRevVeh.dniDuenno} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="placa" className="block text-sm font-medium text-gray-700">Placa</label>
                   <input type="text" name="placa" id="placa" value={editedRevVeh.placa} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="estadoOp" className="block text-sm font-medium text-gray-700"> Estado </label>
-                    <select name="estadoOp" id="estadoOp" value={editedRevVeh.estadoOp} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                    <label htmlFor="estadoOP" className="block text-sm font-medium text-gray-700"> Estado </label>
+                    <select name="estadoOP" id="estadoOP" value={editedRevVeh.estadoOP} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
                       <option value="Documentacion">Documentacion</option>
                       <option value="Pendiente de cita">Pendiente de cita</option>
                       <option value="En revisión">En revisión</option>
                       <option value="Revisado">Revisado</option>
                     </select>
+                  </div>
                   </div>
               </div>
             </div>
