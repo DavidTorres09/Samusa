@@ -3,7 +3,7 @@ import LayoutAdmin from "../../components/LayoutAdmin";
 import "../../Css/Template.css"
 import "../../Css/datatables.min.css"
 import "../../Css/datatables.css"
-import PaqueteriaTable from "../../components/PaqueteriaTable";
+import TicketsTable from "../../components/TicketsTable";
 
 import $ from 'jquery';
 import jszip from 'jszip';
@@ -32,7 +32,7 @@ const AdminTickets = () => {
         <body className="skin-dark">
         <LayoutAdmin/>
             <div className="content-body">
-            <PaqueteriaTable/>
+            <TicketsTable/>
             </div>
             <Footer/>
         </body>

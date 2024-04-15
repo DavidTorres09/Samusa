@@ -35,6 +35,8 @@ const AdminRevisionVehiculo = () => {
       <RevVehiculosTable/>
       <RevVehiculosChart/>
       </div>
+      <br />
+      <br />
       <Footer/>
     </body>
     </>

@@ -34,7 +34,7 @@ const CotizaTable = () => {
   console.log(tableData.filter(item => item.producto.toLowerCase().includes("a")));
 
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/cotizacion/listar')
+    fetch('https://localhost:7189/api/samusa/cotizacion/listar')
       .then(response => response.json())
       .then(data => {
         setTableData(data);
@@ -60,8 +60,8 @@ const CotizaTable = () => {
     };
 }, []);
 
-  const handleDelete = (idcotizacion) => {
-    fetch(`https://localhost:7293/api/samusa/cotizacion/eliminar?idcotizacion=${idcotizacion}`, {
+  const handleDelete = (id) => {
+    fetch(`https://localhost:7189/api/samusa/cotizacion/eliminar/${id}`, {
       method: 'DELETE'
     })
     .then(response => {
@@ -127,6 +127,7 @@ const CotizaTable = () => {
                 <th className="py-4 px-6">tipoProducto</th>
                 <th className="py-4 px-6">producto</th>
                 <th className="py-4 px-6">porcentajeImp</th>
+                <th className="py-4 px-6">Enlace</th>
                 <th className="py-4 px-6">fechaCreacion</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>
@@ -134,14 +135,15 @@ const CotizaTable = () => {
             <tbody>
               {tableData.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
-                  <td className="py-4 px-6">{item.idcotizacion}</td>
-                  <td className="py-4 px-6">{item.idDni}</td>
+                  <td className="py-4 px-6">{item.id}</td>
+                  <td className="py-4 px-6">{item.colaboradorId}</td>
                   <td className="py-4 px-6">{item.tipoProducto}</td>
                   <td className="py-4 px-6">{item.producto}</td>
-                  <td className="py-4 px-6">{item.porcentajeImp}</td>
+                  <td className="py-4 px-6">{item.porcentajeIMP}</td>
+                  <td className="py-4 px-6">{item.enlaceRef}</td>
                   <td className="py-4 px-6">{item.fechaCreacion}</td>
                   <td className="py-4 px-6">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.idcotizacion)}>Eliminar</button>
+                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.id)}>Eliminar</button>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(item)}>Editar</button> {/* Pasar el objeto completo del pruducto */}
                   </td>
                 </tr>

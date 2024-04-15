@@ -35,6 +35,8 @@ const AdminImportaciones = () => {
             <ImportaTable/>
             <ImportaChart/>
             </div>
+            <br />
+            <br />
             <Footer/>
         </body>
         </>
