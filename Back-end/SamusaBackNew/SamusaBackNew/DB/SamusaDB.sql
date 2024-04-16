@@ -1155,3 +1155,32 @@ BEGIN
 	WHERE Id = @Id;
 END
 GO
+
+CREATE procedure [dbo].[AutenticaUsuario_cliente](
+@P_Usuario VARCHAR(50),
+@P_Clave VARCHAR(50)
+)
+AS
+BEGIN
+SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+FROM dbo.cliente u
+INNER JOIN Rol r ON u.RolId = r.id
+WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
+END
+
+
+GO
+
+CREATE procedure [dbo].[AutenticaUsuario_colaborador](
+@P_Usuario VARCHAR(50),
+@P_Clave VARCHAR(50)
+)
+AS
+BEGIN
+SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+FROM dbo.colaborador u
+INNER JOIN Rol r ON u.RolId = r.id
+WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
+END
+
+GO
