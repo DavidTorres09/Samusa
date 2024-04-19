@@ -1159,6 +1159,37 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE AgregarAlarma(
+	@Descripcion VARCHAR(500)
+)
+AS
+IF NOT EXISTS (SELECT 1 FROM Alarma WHERE Descripcion = @Descripcion)
+BEGIN
+	INSERT INTO Alarma (Descripcion)
+	VALUES (@Descripcion);
+END
+GO
+
+CREATE PROCEDURE ObtenerAlarmas
+AS
+BEGIN
+	SELECT
+		*
+	FROM
+		Alarma
+END
+GO
+
+CREATE PROCEDURE EliminarAlarma(
+	@Id INT
+)
+AS
+BEGIN
+	DELETE FROM Alarma WHERE Id = @Id
+END
+GO
+
+
 CREATE procedure [dbo].[AutenticaUsuario_cliente](
 @P_Usuario VARCHAR(50),
 @P_Clave VARCHAR(50)
@@ -1170,8 +1201,6 @@ FROM dbo.cliente u
 INNER JOIN Rol r ON u.RolId = r.id
 WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
 END
-
-
 GO
 
 CREATE procedure [dbo].[AutenticaUsuario_colaborador](
@@ -1185,5 +1214,5 @@ FROM dbo.colaborador u
 INNER JOIN Rol r ON u.RolId = r.id
 WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
 END
-
 GO
+
