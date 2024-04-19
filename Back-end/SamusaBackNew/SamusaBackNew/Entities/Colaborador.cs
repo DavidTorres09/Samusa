@@ -11,6 +11,7 @@
         public bool EsNacional { get; set; } = true;
         public string? Usuario { get; set; } = string.Empty;
         public string? Contrasenna { get; set; } = string.Empty;
+        public string? ContrasennaTemporal { get; set; } = string.Empty;
         public int RolId { get; set; }
         public string? NombreRol { get; set; } = string.Empty;
         public string? Foto { get; set; }
@@ -29,9 +30,9 @@
         public string? Codigo { get; set; }
         public string? Mensaje { get; set; }
 
-        public Cliente? Dato { get; set; }
+        public Colaborador? Dato { get; set; }
 
-        public List<Cliente>? Datos { get; set; }
+        public List<Colaborador>? Datos { get; set; }
 
     }
 }

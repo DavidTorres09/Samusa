@@ -1194,3 +1194,120 @@ WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
 END
 GO
 
+CREATE PROCEDURE RecuperarAccesoCliente
+	@Email			VARCHAR(250),
+	@Contrasenna	VARCHAR(500),
+	@EsTemporal		BIT
+AS
+BEGIN
+	DECLARE @Consecutivo BIGINT
+
+	SELECT  @Consecutivo = Id
+	FROM	Cliente
+	WHERE	Email = @Email
+		AND Estado = 1
+
+	IF @Consecutivo IS NOT NULL
+		BEGIN
+			UPDATE Cliente
+			SET Contrasenna = @Contrasenna,
+				EsTemporal = 1
+			WHERE Email = @Email
+		END
+	SELECT	U.Id, U.Email, U.Nombre, U.Email, U.Usuario, U.RolId, R.Rol 'NombreRol',Estado,EsTemporal
+	  FROM	Cliente U
+	  INNER JOIN Rol R ON U.RolId = R.Id
+	  WHERE	Email = @Email
+		AND Estado = 1
+END
+GO
+
+CREATE PROCEDURE RecuperarAccesoColaborador
+	@Email			VARCHAR(250),
+	@Contrasenna	VARCHAR(500),
+	@EsTemporal		BIT
+AS
+BEGIN
+	DECLARE @Consecutivo BIGINT
+
+	SELECT  @Consecutivo = Id
+	FROM	Colaborador
+	WHERE	Email = @Email
+		AND Estado = 1
+
+	IF @Consecutivo IS NOT NULL
+		BEGIN
+			UPDATE Colaborador
+			SET Contrasenna = @Contrasenna,
+				EsTemporal = 1
+			WHERE Email = @Email
+		END
+	SELECT	U.Id, U.Email, U.Nombre, U.Email, U.Usuario, U.RolId, R.Rol 'NombreRol',Estado,EsTemporal
+	  FROM	Colaborador U
+	  INNER JOIN Rol R ON U.RolId = R.Id
+	  WHERE	Email = @Email
+		AND Estado = 1
+END
+GO
+
+
+CREATE PROCEDURE CambiarContrasennaCliente
+	@Email					VARCHAR(200),
+	@Contrasenna			VARCHAR(200),
+	@ContrasennaTemporal	VARCHAR(200),
+	@EsTemporal				BIT
+AS
+BEGIN
+	DECLARE @Consecutivo BIGINT
+	
+	SELECT  @Consecutivo = Id
+	FROM	Cliente
+	WHERE	Email = @Email
+		AND Contrasenna = @ContrasennaTemporal
+		AND Estado = 1
+
+	IF @Consecutivo IS NOT NULL
+	BEGIN
+		UPDATE Cliente
+		SET Contrasenna = @Contrasenna,
+			EsTemporal = @EsTemporal
+		WHERE Email = @Email
+	END
+
+	SELECT	U.Id,Email,U.Nombre,U.RolId,R.Rol 'NombreRol',Estado,EsTemporal
+	  FROM	Cliente U
+	  INNER JOIN Rol R ON U.RolId = R.Id
+	  WHERE	Email = @Email
+		AND Estado = 1
+END
+GO
+
+CREATE PROCEDURE CambiarContrasennaColaborador
+	@Email					VARCHAR(200),
+	@Contrasenna			VARCHAR(200),
+	@ContrasennaTemporal	VARCHAR(200),
+	@EsTemporal				BIT
+AS
+BEGIN
+	DECLARE @Consecutivo BIGINT
+	
+	SELECT  @Consecutivo = Id
+	FROM	Colaborador
+	WHERE	Email = @Email
+		AND Contrasenna = @ContrasennaTemporal
+		AND Estado = 1
+
+	IF @Consecutivo IS NOT NULL
+	BEGIN
+		UPDATE Colaborador
+		SET Contrasenna = @Contrasenna,
+			EsTemporal = @EsTemporal
+		WHERE Email = @Email
+	END
+
+	SELECT	U.Id,Email,U.Nombre,U.RolId,R.Rol 'NombreRol',Estado,EsTemporal
+	  FROM	Colaborador U
+	  INNER JOIN Rol R ON U.RolId = R.Id
+	  WHERE	Email = @Email
+		AND Estado = 1
+END

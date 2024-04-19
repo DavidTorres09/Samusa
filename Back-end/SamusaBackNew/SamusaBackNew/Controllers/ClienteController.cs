@@ -8,12 +8,15 @@ using System.Data.SqlClient;
 using SamusaBackNew.Entities;
 using System.Data;
 using SamusaBackNew.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using SamusaBackNew.Models;
 
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
     [Route("api/samusa/cliente")]
-    public class ClienteController(IConfiguration _configuration, IUtilitariosModel _utilitariosModel): ControllerBase
+    public class ClienteController(IConfiguration _configuration, IUtilitariosModel _utilitariosModel, IHostEnvironment _hostEnvironment) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
@@ -259,12 +262,71 @@ namespace SamusaBackNew.Controllers
                         return Unauthorized(respuesta);
                     }
                 }
-            }
-   
-            
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("RecuperarAccesoCliente")]
+        public IActionResult RecuperarAcceso(Cliente entidad)
+        {
+            using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                ClienteRespuesta respuesta = new ClienteRespuesta();
+                string NuevaContrasenna = _utilitariosModel.GenerarNuevaContrasenna();
+                string Contrasenna = _utilitariosModel.Encriptar(NuevaContrasenna);
+                bool EsTemporal = true;
 
+                var resultado = db.Query<Cliente>("RecuperarAccesoCliente",
+                    new { entidad.Email, Contrasenna, EsTemporal },
+                    commandType: CommandType.StoredProcedure).FirstOrDefault();
 
+                if (resultado == null)
+                {
+                    respuesta.Codigo = "-1";
+                    respuesta.Mensaje = "Verfique su correo y vuelva a intentar";
+                }
+                else
+                {
+                    string ruta = Path.Combine(_hostEnvironment.ContentRootPath, "RecuperarAcceso.html");
+                    string htmlBody = System.IO.File.ReadAllText(ruta);
+                    htmlBody = htmlBody.Replace("@Usuario@", resultado.Usuario);
+                    htmlBody = htmlBody.Replace("@Contrasenna@", NuevaContrasenna);
+
+                    _utilitariosModel.EnviarCorreo(resultado.Email!, "crTickets - Restablecimiento de contraseña   ", htmlBody);
+                    respuesta.Dato = resultado;
+                }
+
+                return Ok(respuesta);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut]
+        [Route("CambiarContrasennaCliente")]
+        public IActionResult CambiarContrasenna(Cliente cliente)
+        {
+            using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                ClienteRespuesta respuesta = new ClienteRespuesta();
+                bool EsTemporal = false;
+
+                var resultado = db.Query<Cliente>("CambiarContrasenna",
+                    new { cliente.Email, cliente.Contrasenna, cliente.ContrasennaTemporal, EsTemporal },
+                    commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                if (resultado == null)
+                {
+                    respuesta.Codigo = "-1";
+                    respuesta.Mensaje = "Sus datos no son correctos";
+                }
+                else
+                {
+                    respuesta.Dato = resultado;
+                }
+
+                return Ok(respuesta);
+            }
+        }
     }
+}
 
