@@ -329,10 +329,5 @@ namespace SamusaBackNew.Controllers
                 return Ok(respuesta);
             }
         }
-
-
-
-
-
     }
 }
