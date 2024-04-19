@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using SamusaBackNew.Entities;
+using System.Data;
+using SamusaBackNew.Interfaces;
 
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
-    [Route("api/samusa/[controller]")]
-    public class ColaboradorController(IConfiguration _configuration) : ControllerBase
+    [Route("api/samusa/colaborador")]
+    public class ColaboradorController(IConfiguration _configuration, IUtilitariosModel _utilitariosModel) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
@@ -222,5 +224,50 @@ namespace SamusaBackNew.Controllers
                 return StatusCode(500, respuesta);
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("autenticar")]
+        public async Task<IActionResult> AutenticarCliente(string usuario, string contrasenna)
+        {
+
+
+            using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                ClienteRespuesta respuesta = new ClienteRespuesta();
+                await db.OpenAsync();
+
+
+                var resultado = await Task.Run(() =>
+                       db.Query<Cliente>("AutenticaUsuario_colaborador",
+                    new
+                    {
+                        P_Usuario = usuario,
+                        P_Clave = contrasenna
+                    }
+                    , commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault());
+
+
+                if (resultado != null)
+                {
+                    respuesta.Dato = resultado;
+                    respuesta.Dato.Token = _utilitariosModel.GenerarToken(resultado.Dni ?? string.Empty);
+                    respuesta.Codigo = "0";
+                    respuesta.Mensaje = "Inicio de sesion exitoso";
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.Codigo = "-1";
+                    respuesta.Mensaje = "Usuario o contrasena incorrectos";
+                    return Unauthorized(respuesta);
+                }
+            }
+        }
+
+
+
+
+
     }
 }
