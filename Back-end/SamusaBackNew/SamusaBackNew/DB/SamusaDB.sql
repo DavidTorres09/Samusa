@@ -114,8 +114,6 @@ GO
 CREATE TABLE Cotizacion (
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	ColaboradorId		INT NOT NULL,
-	ClienteId			INT NULL,
-	DniCliente			VARCHAR(200) NOT NULL,
 	TipoProducto		VARCHAR(50) NOT NULL,
 	Producto			VARCHAR(80) NOT NULL,
 	PorcentajeIMP		INT NOT NULL,
@@ -173,8 +171,7 @@ ADD CONSTRAINT FK_Exportaciones_Persona FOREIGN KEY (ClienteId) REFERENCES Clien
 GO
 
 ALTER TABLE Cotizacion
-ADD	CONSTRAINT FK_Cotizacion_Cliente FOREIGN KEY (ClienteId) REFERENCES Cliente(Id),
-	CONSTRAINT FK_Cotizacion_Colaborador FOREIGN KEY (ColaboradorId) REFERENCES Colaborador(Id);
+ADD CONSTRAINT FK_Cotizacion_Colaborador FOREIGN KEY (ColaboradorId) REFERENCES Colaborador(Id);
 GO
 
 ALTER TABLE Ticket
@@ -476,7 +473,6 @@ CREATE PROCEDURE ModificarExportacion (
 	@ClienteId			INT,
 	@RevVehiculoId		INT,
 	@RevContenedorId	INT,
-	@FechaInicio		DATETIME,
 	@FechaFinalizacion	DATETIME,
 	@FechaEsperada		DATETIME,
 	@Prioridad			VARCHAR(80),
@@ -490,7 +486,6 @@ BEGIN
 		ClienteId = @ClienteId,
 		RevVehiculoId = @RevVehiculoId,
 		RevContenedorId = @RevContenedorId,
-		FechaInicio = @FechaInicio,
 		FechaFinalizacion = @FechaFinalizacion,
 		FechaEsperada = @FechaEsperada,
 		Prioridad = @Prioridad,
@@ -575,7 +570,6 @@ CREATE PROCEDURE ModificarImportacion (
 	@ClienteId			INT,
 	@RevVehiculoId		INT,
 	@RevContenedorId	INT,
-	@FechaInicio		DATETIME,
 	@FechaFinalizacion	DATETIME,
 	@FechaEsperada		DATETIME,
 	@Prioridad			VARCHAR(80),
@@ -588,7 +582,6 @@ BEGIN
 	SET ImpSeguimientoId = @ImpSeguimientoId,
 		RevVehiculoId = @RevVehiculoId,
 		RevContenedorId = @RevContenedorId,
-		FechaInicio = @FechaInicio,
 		FechaFinalizacion = @FechaFinalizacion,
 		FechaEsperada = @FechaEsperada,
 		Prioridad = @Prioridad,
@@ -616,7 +609,7 @@ BEGIN
 END
 GO
 
-ALTER PROCEDURE ObtenerImportacion (
+CREATE PROCEDURE ObtenerImportacion (
 	@Id INT
 )
 AS
@@ -671,7 +664,6 @@ CREATE PROCEDURE ModificarPaqueteria (
 		@TipoProducto	VARCHAR(80),
 		@DirectOrigen	VARCHAR(200),
 		@DirectDestino	VARCHAR(200),
-		@FechaRegistro	DATETIME,
 		@FechaEsperada	DATETIME
 	)
 AS
@@ -684,7 +676,6 @@ BEGIN
 		TipoProducto = @TipoProducto,
 		DirectOrigen = @DirectOrigen,
 		DirectDestino = @DirectDestino,
-		FechaRegistro = @FechaRegistro,
 		FechaEsperada = @FechaEsperada
 	WHERE Id = @Id;
 END
@@ -742,8 +733,6 @@ GO
 
 CREATE PROCEDURE AgregarCotizacion (
 	@ColaboradorId	INT,
-	@ClienteId		INT,
-	@DniCliente		VARCHAR(25),
 	@TipoProducto	VARCHAR(50),
 	@Producto		VARCHAR(20),
 	@PorcentajeIMP	INT,
@@ -751,31 +740,25 @@ CREATE PROCEDURE AgregarCotizacion (
 	@FechaCreacion	DATETIME
 )
 AS
-	INSERT INTO Cotizacion (ColaboradorId, ClienteId, DniCliente, TipoProducto, Producto, PorcentajeIMP, EnlaceRef, FechaCreacion)
-	VALUES ( @ColaboradorId, @ClienteId,@DniCliente, @TipoProducto, @Producto, @PorcentajeIMP, @EnlaceRef, @FechaCreacion);
+	INSERT INTO Cotizacion (ColaboradorId,TipoProducto, Producto, PorcentajeIMP, EnlaceRef, FechaCreacion)
+	VALUES ( @ColaboradorId, @TipoProducto, @Producto, @PorcentajeIMP, @EnlaceRef, @FechaCreacion);
 GO
 
 CREATE PROCEDURE ModificarCotizacion (
 		@Id				INT,
 		@ColaboradorId	INT,
-		@ClienteId		INT,
-		@DniCliente		VARCHAR(25),
 		@TipoProducto	VARCHAR(50),
 		@Producto		VARCHAR(20),
 		@PorcentajeIMP	INT,
-		@EnlaceRef		VARCHAR(500),
-		@FechaCreacion	DATETIME
+		@EnlaceRef		VARCHAR(500)
 	)
 AS
 	UPDATE Cotizacion
 	SET ColaboradorId = @ColaboradorId,
-		ClienteId = @ClienteId,
-		DniCliente = @DniCliente,
 		TipoProducto = @TipoProducto,
 		Producto = @Producto,
 		PorcentajeIMP = @PorcentajeIMP,
-		EnlaceRef = @EnlaceRef,
-		FechaCreacion = @FechaCreacion
+		EnlaceRef = @EnlaceRef
 	WHERE Id = @Id;
 GO
 
@@ -785,8 +768,6 @@ BEGIN
 	SELECT
 		C.Id,
 		C.ColaboradorId,
-		C.ClienteId,
-		C.DniCliente,
 		C.TipoProducto,
 		C.Producto,
 		C.PorcentajeIMP,
@@ -805,8 +786,6 @@ BEGIN
 	SELECT
 		C.Id,
 		C.ColaboradorId,
-		C.ClienteId,
-		C.DniCliente,
 		C.TipoProducto,
 		C.Producto,
 		C.PorcentajeIMP,
@@ -1005,7 +984,6 @@ BEGIN
 		Id = @id;
 END
 GO
-Select * FROM RevisionVehiculo
 
 CREATE PROCEDURE EliminarRevisionVehiculo (
 	@Id INT
