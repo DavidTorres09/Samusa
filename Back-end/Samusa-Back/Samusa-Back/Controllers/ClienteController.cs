@@ -174,8 +174,6 @@ namespace Samusa_Back.Controllers
 
             var confirmation = ClienteData.Login(login.username, login.password);
 
-
-
             if (confirmation)
             {
                 return Ok(new { Status = 200 });

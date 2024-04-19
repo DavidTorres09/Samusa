@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 
 const CotizaModal = ({ user, onClose, isEditing  }) => {
   const [editedCotiza, seteditedCotiza] = useState(user || {
-    idDni: "",
-    idcolaborador: "",
+    id: 0,
+    colaboradorId: "",
+    clienteId: "",
+    dniCliente: "",
     tipoProducto: "",
     producto: "",
-    porcentajeImp: "",
+    porcentajeIMP: 0,
     enlaceRef: "",
-    fechaCreacion: "",
+    fechaCreacion: new Date().toISOString(),
   });
 
   const handleInputChange = (event) => {
@@ -28,13 +30,14 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
         
 
       // Lógica para agregar una nueva cotización directamente sin verificar su existencia
-      const response = await fetch('https://localhost:7293/api/samusa/cotizacion/guardar', {
+      const response = await fetch('https://localhost:7189/api/samusa/cotizacion/agregar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(editedCotiza),
       });
+      console.log(editedCotiza);
 
       if (response.ok) {
         alert("Cotización guardada exitosamente");
@@ -46,7 +49,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
       }
       else {
         const updateCotiza = await fetch(
-          `https://localhost:7293/api/samusa/cotizacion/modificar`,
+          `https://localhost:7189/api/samusa/cotizacion/actualizar`,
           {
             method: "PUT",
             headers: {
@@ -80,17 +83,25 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div className="bg-white px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">                
-                <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Editar Cotizacion</h3>
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">  
+              <div className='bg-blue-600 px-4 py-2 sm:px-6 rounded'>
+          {isEditing ? <h3 className="titleform">Editar Cotizacion</h3> : <h3 className="titleform">Agregar Cotizacion</h3>}
+          </div>
+          <br />
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div className="mb-4">
-                  <label htmlFor="idDni" className="block text-sm font-medium text-gray-700">Dni</label>
-                  <input type="text" name="idDni" id="idDni" value={editedCotiza.idDni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="colaboradorId" className="block text-sm font-medium text-gray-700">Id Colaborador</label>
+                  <input type="text" name="colaboradorId" id="colaboradorId" value={editedCotiza.colaboradorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="idcolaborador" className="block text-sm font-medium text-gray-700">Dni Colaborador</label>
-                  <input type="text" name="idcolaborador" id="idcolaborador" value={editedCotiza.idcolaborador} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Cliente Id</label>
+                  <input type="text" name="clienteId" id="clienteId" value={editedCotiza.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="dniCliente" className="block text-sm font-medium text-gray-700">Dni Cliente</label>
+                  <input type="text" name="dniCliente" id="dniCliente" value={editedCotiza.dniCliente} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="tipoProducto" className="block text-sm font-medium text-gray-700">Tipo Producto</label>
@@ -101,8 +112,8 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
                   <input type="text" name="producto" id="producto" value={editedCotiza.producto} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="porcentajeImp" className="block text-sm font-medium text-gray-700">Porcentaje Imp</label>
-                  <input type="text" name="porcentajeImp" id="porcentajeImp" value={editedCotiza.porcentajeImp} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="porcentajeIMP" className="block text-sm font-medium text-gray-700">Porcentaje Imp</label>
+                  <input type="text" name="porcentajeIMP" id="porcentajeIMP" value={editedCotiza.porcentajeIMP} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="enlaceRef" className="block text-sm font-medium text-gray-700">Enlace de referencia</label>
@@ -118,6 +129,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
             <button onClick={handleCancel} type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
               Cancelar
             </button>
+          </div>
           </div>
         </div>
       </div>

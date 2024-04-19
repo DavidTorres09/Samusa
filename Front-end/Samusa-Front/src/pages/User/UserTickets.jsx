@@ -1,15 +1,18 @@
 import Footer from "../../components/Footer";
 import Layout from "../../components/Layout";
+import TicketCliente from "../../components/TicketsCliente";
 
 const UserTickets = () => {
     return (
         <>
+        <body className="fondo">
         <Layout/>
-        <h1>UserTickets</h1>
-        <Footer/>
-        </>
-        
-        
+            <div className="content-body fondo">
+            <TicketCliente/>
+            </div>
+            <Footer/>
+        </body>
+        </>       
     );
 }
 

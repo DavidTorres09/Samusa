@@ -7,11 +7,11 @@ function RevVehiculosChart() {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/revisionAlmacen/listar') //Nos conectamos al api
+    fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar') //Nos conectamos al api
       .then((response) => response.json())
       .then((data) => {
         const counts = data.reduce((acc, item) => { //Se crea la const counts para contar cuantas veces se repite cada una de las 4 opciones de estado
-          acc[item.estadoOp] = (acc[item.estadoOp] || 0) + 1; //Aca esta gyardando en el array las veces que hay los diferentes estados
+          acc[item.estadoOP] = (acc[item.estadoOP] || 0) + 1; //Aca esta gyardando en el array las veces que hay los diferentes estados
           return acc;
         }, {}); 
         //Se pasa al formato que dice higsharts que usemos
@@ -25,6 +25,9 @@ function RevVehiculosChart() {
   const options = { //Esta es ya la estructura de highsharts
     chart: {
       type: 'column', //Grafico de columnas
+      style: {
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", //Tipo letra
+      }
     },
     title: {
       text: 'Estado de vehiculos',
@@ -45,6 +48,7 @@ function RevVehiculosChart() {
       {
         name: 'Cantidad',
         data: chartData, //Se agarran los datos que se setearon aca = setChartData(transformedData);
+        color: '#0D47A1',
         dataLabels: {
           enabled: true,
           format: '{point.y}',

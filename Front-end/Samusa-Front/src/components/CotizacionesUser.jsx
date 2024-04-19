@@ -9,7 +9,7 @@ function CotizacionesUser() {
 
     //carga datos igual que en la tabla
     useEffect(() => {
-        fetch('https://localhost:7293/api/samusa/cotizacion/listar')
+        fetch('https://localhost:7189/api/samusa/cotizacion/listar')
             .then(response => response.json())
             .then(data => setTableData(data))
             .catch(error => console.error('Error fetching data:', error));
@@ -24,16 +24,21 @@ function CotizacionesUser() {
     //Asigna de acuerdo a lo que se seleciono el impuesto correspondiente con el valor de la tabla porcentajeImp
     const calculateTax = () => {
         const product = tableData.find(item => item.producto === selectedProduct);
-        const tax = product ? product.porcentajeImp : 0;
+        const tax = product ? product.porcentajeIMP : 0;
         document.getElementById('result').innerHTML = `Impuesto Total: ${tax}%`;
     };
 
     return (
+        
         <div className='body'>
             <section id="Tax-calculator">
                 <div className="animate__animated animate__flipInX">
+            <br></br>
+            <br></br>
+            <br></br>
                     <h1 className='title text-3xl font-bold my-4'>Porcentajes de impuestos</h1>
                     <br/>
+            
                     <div className="form-group">
                         <label htmlFor="tipoProducto">Tipo de producto</label>
                         <select id="tipoProducto" onChange={(e) => setSelectedType(e.target.value)}>
@@ -56,7 +61,16 @@ function CotizacionesUser() {
                     <div id="result"></div>
                 </div>
             </section>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+
+           
         </div>
+        
     );
 }
 

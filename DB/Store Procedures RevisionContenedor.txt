@@ -1,0 +1,89 @@
+USE SAMUSADB;
+-- Add REVC
+CREATE PROCEDURE usp_addRevisionContenedor (
+    @PuertoOrigen VARCHAR(20),
+    @PuertoDestino VARCHAR(20),
+    @Naviera VARCHAR(20),
+    @Transportista VARCHAR(20),
+    @DniDueno INT,
+    @Estado VARCHAR(20)
+)
+AS
+BEGIN
+    INSERT INTO RevisionContenedor (PuertoOrigen, PuertoDestino, Naviera, Transportista, DNI_Dueno, Estado)
+    VALUES (@PuertoOrigen, @PuertoDestino, @Naviera, @Transportista, @DniDueno, @Estado)
+END
+---------------------------------------------------------
+-- Modify REVC
+CREATE PROCEDURE usp_modifyRevisionContenedor (
+    @IdrevCont INT,
+    @newPuertoOrigen VARCHAR(20),
+    @newPuertoDestino VARCHAR(20),
+    @newNaviera VARCHAR(20),
+    @newTransportista VARCHAR(20),
+    @newDniDueno INT,
+    @newEstado VARCHAR(20)
+)
+AS
+BEGIN
+    UPDATE RevisionContenedor
+    SET PuertoOrigen = @newPuertoOrigen,
+        PuertoDestino = @newPuertoDestino,
+        Naviera = @newNaviera,
+        Transportista = @newTransportista,
+        DNI_Dueno = @newDniDueno,
+        Estado = @newEstado
+    WHERE IDRevCont = @IdrevCont
+END
+------------------------------------------------------------------------------------------
+--Get REVC
+CREATE PROCEDURE usp_getRevisionContenedor
+AS
+BEGIN
+    SELECT
+		  REVC.IDRevCont,
+			REVC.PuertoOrigen,
+			REVC.PuertoDestino,
+			REVC.Naviera,
+			REVC.Transportista,
+                        REVC.DNI_Dueno,
+			REVC.Estado
+    FROM
+        RevisionContenedor REVC
+END
+-----------------
+--only one REVC
+CREATE PROCEDURE usp_getSingleRevisionContenedor (
+    @IdrevCont INT
+)
+AS
+BEGIN
+SELECT
+    REVC.IDRevCont,
+			REVC.PuertoOrigen,
+			REVC.PuertoDestino,
+			REVC.Naviera,
+			REVC.Transportista,
+                        REVC.DNI_Dueno,
+			REVC.Estado
+    FROM
+        RevisionContenedor REVC
+    WHERE REVC.IDRevCont = @IdrevCont
+END
+------------------------------------------------------------------------------------------
+-- Delete REVC
+CREATE PROCEDURE usp_deleteRevisionContenedor (
+    @IdrevCont INT
+)
+AS
+BEGIN
+    IF (SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE session_id = @@SPID) > 1
+    BEGIN
+        RETURN; -- Evitar llamadas recursivas
+    END
+
+    DELETE FROM RevisionContenedor
+    WHERE IDRevCont = @IdrevCont
+END
+
+

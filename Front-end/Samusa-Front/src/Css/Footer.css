@@ -1,5 +1,15 @@
+body {
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 120px;
+}
+
 footer {
-    background: #1B1B1B;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #333853;
     color: #fff;
     padding: 40px 0;
     display: flex;
@@ -7,12 +17,13 @@ footer {
     align-items: center;
 }
 
-.footer-section h2, .footer-section h3 {
+
+.footer-S h2, .footer-S h3 {
     font-size: 1.2rem;
     color: #5fc9f3;
 }
 
-.footer-section img {
+.footer-img {
     margin-top: 10px;
     width: 100px;
     height: auto;
@@ -30,7 +41,7 @@ footer {
 }
 
 /* Estilos base para los enlaces y texto de contacto */
-.footer-section p, .social-link {
+.footer-S p, .social-link {
     position: relative;
     display: inline-block;
     overflow: hidden;
@@ -38,8 +49,8 @@ footer {
 }
 
 /* Efecto de 'corte' para el texto y enlaces */
-.footer-section p::before, .social-link::before,
-.footer-section p::after, .social-link::after {
+.footer-S p::before, .social-link::before,
+.footer-S p::after, .social-link::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -50,10 +61,10 @@ footer {
     transition: transform 0.3s ease-in-out;
 }
 
-.footer-section p::before, .social-link::before { left: 0; }
-.footer-section p::after, .social-link::after { right: 0; }
+.footer-S p::before, .social-link::before { left: 0; }
+.footer-S p::after, .social-link::after { right: 0; }
 
-.footer-section p:hover::before, .social-link:hover::before,
-.footer-section p:hover::after, .social-link:hover::after {
+.footer-S p:hover::before, .social-link:hover::before,
+.footer-S p:hover::after, .social-link:hover::after {
     transform: scaleX(1);
 }

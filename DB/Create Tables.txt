@@ -120,4 +120,15 @@ CREATE TABLE Cotizaciones (
 	CONSTRAINT PK_IDCotizacion PRIMARY KEY (IDCotizacion), 
 	CONSTRAINT FK_Cotizacion_Cliente FOREIGN KEY (ID_DNI) REFERENCES Persona(DNI),
 	CONSTRAINT FK_Colaborador_Cotizacion FOREIGN KEY (IDColaborador) REFERENCES Colaborador(IDColaborador)
+)
+
+CREATE TABLE RevisionContenedor (
+	IDRevCont INT NOT NULL IDENTITY(1,1),
+	PuertoOrigen VARCHAR(20) NOT NULL,
+	PuertoDestino VARCHAR(20) NOT NULL,
+    	Naviera VARCHAR(20) NOT NULL,
+    	Transportista VARCHAR(20) NOT NULL,
+	DNI_Dueno INT NOT NULL,
+    	Estado VARCHAR(20) NOT NULL,
+	CONSTRAINT PK_Contenedor PRIMARY KEY (IDRevCont)
 );

@@ -21,6 +21,7 @@ import UserServices from './pages/User/UserServices.jsx'
 import USerPreguntasFrecuentes from './pages/User/UserPReguntasFrecuentes.jsx'
 import UserTickets from './pages/User/UserTickets.jsx'
 import UserTracking from './pages/User/UserTracking.jsx'
+import AdminIndex from './pages/Admin/AdminIndex.jsx';
 
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
       <Route exact path="/Recuperar" element={<RecuperarPass />}></Route> //TODO: finish the action
 
       
-      <Route exact path="/Admin" element={<LayoutAdmin />}> </Route> //OK
+      <Route exact path="/Admin" element={<AdminIndex />}> </Route> //OK
       <Route exact path="/Admin/Clientes" element={<AdminClientes/>}> </Route> //OK
       <Route exact path="/Admin/Colaboradores" element={<AdminColaboradores/>}> </Route> //OK
       <Route exact path="/Admin/Cotizaciones" element={<AdminCotizaciones/>}> </Route> //OK
