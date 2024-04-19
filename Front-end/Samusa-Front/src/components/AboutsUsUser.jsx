@@ -5,11 +5,7 @@ const AboutUsUser = () => {
         <>
          <section className="container my-5 Abtitle">
             <div className="row">
-            <div className="col-12 mb-4">
-            <div className="banner-image">
-                <img src="https://images.pexels.com/photos/3057963/pexels-photo-3057963.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Banner" className="img-fluid animate__animated animate__fadeIn" />
-            </div>
-                    
+            <div className="col-12 mb-4">                   
                 </div>
                 <div className="col-md-6">
                     <h1 className="mb-4"> Sobre Nosotros</h1>
@@ -18,7 +14,7 @@ const AboutUsUser = () => {
                     </p>
                 </div>
                 <div class="col-md-6 images">
-                <img src="https://images.pexels.com/photos/3057963/pexels-photo-3057963.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Banner" className="img-fluid animate__animated animate__fadeInRight" />
+                <img src="https://i.postimg.cc/15Ww09G6/Banner.png" alt="Banner" className="img-fluid animate__animated animate__fadeInRight" />
             </div>
             </div>
          </section>
@@ -26,7 +22,7 @@ const AboutUsUser = () => {
          <section className="container my-5 Abtitle">
         <div className="row">
             <div className="col-12">
-                <h2 className="text-center mb-4">Porque elegirnos</h2>
+                <h2 className="text-center mb-4">Porque Elegirnos</h2>
                 <ul className="timeline">
                     <li className="animate__animated animate__fadeInLeft">✮ Brindamos una atención rápida y personalizada.</li>
                     <li className="animate__animated animate__fadeInRight">✮ Te mantenemos contantemente informado de los avances de tu tramite por medio de nuestros mensajes automatizados.</li>
@@ -36,12 +32,15 @@ const AboutUsUser = () => {
         </div>
     </section>
     <br />
-    <section className="container my-5 Abtitle">
+    <section className="container my-10 Abtitle">
         <div className="row">
-            <div className="col-md-6 order-md-2">
+            <div className="col-md-7 order-md-2">
                 <h3 className="mb-4">Contactanos</h3>
-                <div className="card">Numero: </div>
-                <div className="card">Correo: </div>
+                <div className="banner-image">
+                <div className="">
+                <img src="https://i.postimg.cc/vBdfQyxN/contactanos.png" alt="Banner" className="img-fluid animate__animated animate__fadeInRight" />
+                </div>
+                </div>
             </div>
             <br />
         </div>

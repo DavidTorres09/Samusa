@@ -1,16 +1,19 @@
 import Layout from "../../components/Layout";
 import Footer from "../../components/Footer";
 import "../../css/user/Index.css";
-import Services from "../../components/Services";
 
 
 function UserServices () {
 
     return (
         <>
+        <body className="fondo">
         <Layout/>
-        <Services/>
-        <Footer/>
+            <div className="content-body">
+                <p className="text-white">ACA VAN LOS SERVICIOS HAY QUE HACER OTRO COMPONENTE</p>
+            </div>
+            <Footer/>
+        </body>
         </>
     );
 }
