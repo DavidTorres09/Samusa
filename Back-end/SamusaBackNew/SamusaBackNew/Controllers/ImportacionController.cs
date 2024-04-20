@@ -152,7 +152,6 @@ namespace SamusaBackNew.Controllers
                             importacion.ClienteId,
                             importacion.RevVehiculoId,
                             importacion.RevContenedorId,
-                            importacion.FechaInicio,
                             importacion.FechaFinalizacion,
                             importacion.FechaEsperada,
                             importacion.Prioridad,

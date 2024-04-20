@@ -27,8 +27,6 @@ namespace SamusaBackNew.Controllers
                         new
                         {
                             cotizacion.ColaboradorId,
-                            cotizacion.ClienteId,
-                            cotizacion.DniCliente,
                             cotizacion.TipoProducto,
                             cotizacion.Producto,
                             cotizacion.PorcentajeIMP,
@@ -147,8 +145,6 @@ namespace SamusaBackNew.Controllers
                         {
                             cotizacion.Id,
                             cotizacion.ColaboradorId,
-                            cotizacion.ClienteId,
-                            cotizacion.DniCliente,
                             cotizacion.TipoProducto,
                             cotizacion.Producto,
                             cotizacion.PorcentajeIMP,

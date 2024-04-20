@@ -152,13 +152,13 @@ const ExportaTable = () => {
                   <td className="py-4 px-6">{item.expSeguimientoId}</td>
                   <td className="py-4 px-6">{item.clienteId}</td>
 
-                  <td className="py-4 px-6">{ item.idRevVehiculo ?
-                  item.idRevVehiculo
+                  <td className="py-4 px-6">{ item.revVehiculoId ?
+                  item.revVehiculoId
                 :
                 "Campo no aplica"}</td>
                 
-                <td className="py-4 px-6">{ item.idRevContenedor ?
-                  item.idRevContenedor
+                <td className="py-4 px-6">{ item.revContenedorId ?
+                  item.revContenedorId
                 :
                 "Campo no aplica"}</td>          
                   <td className="py-4 px-6">{item.fechaInicio}</td>

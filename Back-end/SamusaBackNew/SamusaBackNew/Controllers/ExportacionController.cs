@@ -151,7 +151,6 @@ namespace SamusaBackNew.Controllers
                             exportacion.ClienteId,
                             exportacion.RevVehiculoId,
                             exportacion.RevContenedorId,
-                            exportacion.FechaInicio,
                             exportacion.FechaFinalizacion,
                             exportacion.FechaEsperada,
                             exportacion.Prioridad,

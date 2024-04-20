@@ -150,7 +150,6 @@ namespace SamusaBackNew.Controllers
                             paqueteria.TipoProducto,
                             paqueteria.DirectOrigen,
                             paqueteria.DirectDestino,
-                            paqueteria.FechaRegistro,
                             paqueteria.FechaEsperada,
                         },
                     commandType: System.Data.CommandType.StoredProcedure);

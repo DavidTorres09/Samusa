@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../css/Template.css";
 import "../css/Admin/Admin.css";
+import AdminAlarmas from './AdminAlarmas';
 const AdminAlertsandbuttons = () => {
 
     return(
@@ -8,37 +9,7 @@ const AdminAlertsandbuttons = () => {
             <div class="row mbn-30">
                     
                     <div class="col-md-8 mb-30">
-                      
-                        <div class="box boxa">
-                            <div class="box-head">
-                                <h4 class="title">Alertas</h4>
-                            </div>
-                            <div class="box-body">
-                               
-                                <div class="news-update-inner">
-                                                    
-                                    <div class="news-item">
-            
-                              
-                                        <div class="content">
-                                  
-                                            <div class="categories">
-                                                <a href="#" class="new">Detalle de la alerta</a>
-                                            </div>
-                                  
-                                            <h4 class="title"><a href="#">Sed do eiusmod typesetting industry. Lorem Ipsum is simplydummy text of the printing and typesetting industry.</a></h4>
-                                     
-                                            <ul class="meta">
-                                                <li><i class="zmdi zmdi-time"></i>31-03-2024</li>
-                                                <li>Status: <a href="#">Inactiva</a></li>
-                                            </ul>
-                                        </div>
-            
-                                    </div>
-            
-                                </div>
-                            </div>
-                        </div>
+                    <AdminAlarmas/>
                     </div>
             
                     

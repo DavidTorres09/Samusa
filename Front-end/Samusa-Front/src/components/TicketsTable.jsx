@@ -30,12 +30,21 @@ const TicketsTable = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedTicket, setSelectedTicket] = useState(null);
   const [query, SetQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetch('https://localhost:7189/api/samusa/Ticket/listar')
       .then(response => response.json())
       .then(data => {
-        setTableData(data);
+        if (data.codigo && data.codigo === "-1") {
+          setErrorMessage(data.mensaje);
+          setTableData([]); //limpia datos existentes
+        } else if (data.length === 0) {
+          setErrorMessage("No se encontraron casos en la Base de datos.");
+        } else {
+          setTableData(data);
+          setErrorMessage(""); // Limpia mensaje de error 
+        }
         // Asegúra de que la tabla se inicialice
         setTimeout(() => {
           $(document).ready(function() {
@@ -105,7 +114,11 @@ const TicketsTable = () => {
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Ticket</h1>
-
+        {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
         <div class="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
