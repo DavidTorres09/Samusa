@@ -19,6 +19,7 @@ const PerfilForm = () => {
   esNacional: false,
   id: 1, //para testear update
   rolId: 1, //para testear update
+  contrasenna: "",
   usuario: sessionStorage.getItem('usuario'),
   direccion: sessionStorage.getItem('Direccion'),
   rol: sessionStorage.getItem('rol'),
@@ -51,6 +52,7 @@ const onCrop = (view) => {
 
 const saveCropImage= async () =>{
   setImgProfile([...imgProfile, {pview}]);
+  console.log(src)
   const value = pview;
   var array = [];
   array = value.split(',')
@@ -86,15 +88,9 @@ catch (error) {
   console.error("Error:", error.message);
 }
 
-  
 setimgCrop(false);
  
 }
-
-
-
-
-
 
 const handleInputChange = (event) => {
   const { name, value, type, checked } = event.target;
@@ -157,10 +153,6 @@ const editarPerfil = async (perfil) => {
 
 
 }
-
-
-
-
 const editar = () =>{
 
   if(perfil.dni != 0){
@@ -169,9 +161,6 @@ const editar = () =>{
   
 
 } 
-
-
-
   return (
   
       <div class="row mbn-50">
@@ -208,9 +197,6 @@ const editar = () =>{
                                                 onClose={onClose}
                                                 src={src}
                                                 />
-                  
-                                     
-                                    
                                                 <Button 
                                                 class="btn btn-primary mt-5"
                                                 onClick={saveCropImage}
@@ -219,16 +205,12 @@ const editar = () =>{
                                                 />
                                       </div>
                                     </Dialog>
-                  
-                                   
-                                       
                                   </div>
                                 </div> 
                               </div>
 
                                 <div class="info">
                                     <h5>Madison Howard</h5>
-                                    <span>UI UX Designer</span>
                                     <a href="#" class="edit"><i class="zmdi zmdi-edit"></i></a>
                                 </div>
                             </div>
@@ -281,12 +263,6 @@ const editar = () =>{
                                                 </div>
                                             </div>
                                         </form>
-
-                
-
-
-
-
                                     </div>
                                 </div>
 

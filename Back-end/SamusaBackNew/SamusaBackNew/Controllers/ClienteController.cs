@@ -24,6 +24,7 @@ namespace SamusaBackNew.Controllers
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     await db.OpenAsync();
+                    
 
                     var resultado = await db.ExecuteAsync("AgregarCliente",
                         new
@@ -139,6 +140,8 @@ namespace SamusaBackNew.Controllers
         public async Task<IActionResult> ModificarCliente(Cliente cliente)
         {
             ClienteRespuesta respuesta = new ClienteRespuesta();
+            
+            
             try
             {
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
@@ -159,6 +162,8 @@ namespace SamusaBackNew.Controllers
                             cliente.Contrasenna,
                             cliente.RolId,
                             cliente.Foto
+
+
                         },
                     commandType: System.Data.CommandType.StoredProcedure);
 

@@ -13,7 +13,7 @@
         public string? Contrasenna { get; set; } = string.Empty;
         public int RolId { get; set; }
         public string? NombreRol { get; set; } = string.Empty;
-        public string? Foto { get; set; }
+        public string? Foto { get; set; } = string.Empty;
         public bool Estado { get; set; } = true;
         public bool EsTEmporal { get; set; }
         public string Token { get; set; } = string.Empty;
