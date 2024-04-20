@@ -2,7 +2,7 @@
 {
     public interface IUtilitariosModel
     {
-        public string GenerarToken(string cedula);
+        public string GenerarToken(string dni);
         public string GenerarNuevaContrasenna();
         public string Encriptar(string texto);
         public string Desencriptar(string texto);

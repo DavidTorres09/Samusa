@@ -3,12 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using SamusaBackNew.Entities;
+using System.Data;
+using SamusaBackNew.Interfaces;
+using Microsoft.Extensions.Hosting;
 
 namespace SamusaBackNew.Controllers
 {
     [ApiController]
-    [Route("api/samusa/[controller]")]
-    public class ColaboradorController(IConfiguration _configuration) : ControllerBase
+    [Route("api/samusa/colaborador")]
+    public class ColaboradorController(IConfiguration _configuration, IUtilitariosModel _utilitariosModel, IHostEnvironment _hostEnvironment) : ControllerBase
     {
         [AllowAnonymous]
         [HttpPost]
@@ -220,6 +223,110 @@ namespace SamusaBackNew.Controllers
                 respuesta.Codigo = "-1";
                 respuesta.Mensaje = "Error al eliminar colaborador: " + ex.Message;
                 return StatusCode(500, respuesta);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("autenticar")]
+        public async Task<IActionResult> AutenticarCliente(string usuario, string contrasenna)
+        {
+
+
+            using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                ClienteRespuesta respuesta = new ClienteRespuesta();
+                await db.OpenAsync();
+
+
+                var resultado = await Task.Run(() =>
+                       db.Query<Cliente>("AutenticaUsuario_colaborador",
+                    new
+                    {
+                        P_Usuario = usuario,
+                        P_Clave = contrasenna
+                    }
+                    , commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault());
+
+
+                if (resultado != null)
+                {
+                    respuesta.Dato = resultado;
+                    respuesta.Dato.Token = _utilitariosModel.GenerarToken(resultado.Dni ?? string.Empty);
+                    respuesta.Codigo = "0";
+                    respuesta.Mensaje = "Inicio de sesion exitoso";
+                    return Ok(respuesta);
+                }
+                else
+                {
+                    respuesta.Codigo = "-1";
+                    respuesta.Mensaje = "Usuario o contrasena incorrectos";
+                    return Unauthorized(respuesta);
+                }
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("RecuperarAccesoClienteColaborador")]
+        public IActionResult RecuperarAcceso(Colaborador entidad)
+        {
+            using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                ColaboradorRespuesta respuesta = new ColaboradorRespuesta();
+                string NuevaContrasenna = _utilitariosModel.GenerarNuevaContrasenna();
+                string Contrasenna = _utilitariosModel.Encriptar(NuevaContrasenna);
+                bool EsTemporal = true;
+
+                var resultado = db.Query<Colaborador>("RecuperarAccesoClienteColaborador",
+                    new { entidad.Email, Contrasenna, EsTemporal },
+                    commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                if (resultado == null)
+                {
+                    respuesta.Codigo = "-1";
+                    respuesta.Mensaje = "Verfique su correo y vuelva a intentar";
+                }
+                else
+                {
+                    string ruta = Path.Combine(_hostEnvironment.ContentRootPath, "RecuperarAcceso.html");
+                    string htmlBody = System.IO.File.ReadAllText(ruta);
+                    htmlBody = htmlBody.Replace("@Usuario@", resultado.Usuario);
+                    htmlBody = htmlBody.Replace("@Contrasenna@", NuevaContrasenna);
+
+                    _utilitariosModel.EnviarCorreo(resultado.Email!, "SAMUSA - Restablecimiento de contraseña   ", htmlBody);
+                    respuesta.Dato = resultado;
+                }
+
+                return Ok(respuesta);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut]
+        [Route("CambiarContrasennaColaborador")]
+        public IActionResult CambiarContrasenna(Colaborador cliente)
+        {
+            using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                ColaboradorRespuesta respuesta = new ColaboradorRespuesta();
+                bool EsTemporal = false;
+
+                var resultado = db.Query<Colaborador>("CambiarContrasennaColaborador",
+                    new { cliente.Email, cliente.Contrasenna, cliente.ContrasennaTemporal, EsTemporal },
+                    commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                if (resultado == null)
+                {
+                    respuesta.Codigo = "-1";
+                    respuesta.Mensaje = "Sus datos no son correctos";
+                }
+                else
+                {
+                    respuesta.Dato = resultado;
+                }
+
+                return Ok(respuesta);
             }
         }
     }

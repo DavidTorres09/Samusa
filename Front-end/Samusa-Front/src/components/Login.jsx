@@ -1,39 +1,42 @@
 import React, { useState } from 'react';
 import { Link, Navigate, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [IsLoged, setIsLogged] = useState(false);
   const navigate = useNavigate();
+  const Login = () => {
 
-  const handleLogin = async () => {
-   try{
-    const response = await fetch('https://localhost:7293/api/samusa/cliente/Login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          username, 
-          password, 
-        }),
-    });
-    console.log(username);
-    console.log(password);
-    if(response.ok){
-        console.log('Usuario Logueado');
-        setIsLogged(true); 
+    const [usuario, setusuario] = useState('');
 
-    } else {
-        const errorMsg = await response.text();
-        console.error('Error al intentar loguarse: ${errorMsg}');
-    }
-   }
-   catch(error){
-     console.error(error)
-   }
-  };
+    const [contrasenna, setContrasenna] = useState('');
+
+    const [respuesta, setRespuesta] = useState(null);
+
+
+    const handleLogin = async () => {
+
+        try {
+
+            const usuario = {
+
+                Correo: correo,
+
+                Contrasenna: contrasenna
+
+            };
+
+            const baseUrl = 'https://localhost:7189/'; // Reemplaza con tu URL base
+            const endpoint = '/api/samusa/cliente/autenticar';
+            const response = await axios.post(baseUrl + endpoint, usuario);
+
+            setRespuesta(response.data);
+
+        } catch (error) {
+
+            console.error('Error al iniciar sesión:', error.response.data);
+
+        }
+
+    };
 
   if(IsLoged){
     navigate('/Admin');
@@ -48,30 +51,30 @@ const Login = () => {
 
         <form>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-semibold text-gray-600 mb-1">
+            <label htmlFor="usuario" className="block text-sm font-semibold text-gray-600 mb-1">
               Nombre de usuario
             </label>
             <input
               type="text"
-              id="username"
+              id="usuario"
               className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500"
               placeholder="Ingrese su nombre de usuario"
-              value={username}
+              value={usuario}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
 
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-semibold text-gray-600 mb-1">
+            <label htmlFor="contrasenna" className="block text-sm font-semibold text-gray-600 mb-1">
               Contraseña
             </label>
             <input
               type="password"
-              id="password"
+              id="contrasenna"
               className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-500"
               placeholder="Ingrese su contraseña"
-              value={password}
+              value={contrasenna}
               onChange={(e) => setPassword(e.target.value)}
               required
             />

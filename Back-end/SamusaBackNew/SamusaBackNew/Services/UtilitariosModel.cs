@@ -12,10 +12,10 @@ namespace SamusaBackNew.Models
     {
         string secretKey = _configuration.GetSection("settings:SecretKey").Value ?? string.Empty;
 
-        public string GenerarToken(string cedula)
+        public string GenerarToken(string dni)
         {
             List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim("Cedula", cedula));
+            claims.Add(new Claim("Dni", dni));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
