@@ -11,6 +11,7 @@
         public bool EsNacional { get; set; } = true;
         public string? Usuario { get; set; } = string.Empty;
         public string? Contrasenna { get; set; } = string.Empty;
+        public string? ContrasennaTemporal { get; set; } = string.Empty;
         public int RolId { get; set; }
         public string? NombreRol { get; set; } = string.Empty;
         public string? Foto { get; set; } = string.Empty;

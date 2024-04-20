@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-const TicketModal = ({ user, onClose, isEditing  }) => {
-  const [editedTicket, seteditedTicket] = useState(user || {
+const TicketClientModal = ({ user, onClose,}) => {
+  const [NewTicket, setNewTicket] = useState(user || {
     id: 0,
     colaboradorId: 0,
     clienteId: 0,
@@ -14,7 +14,7 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
     const newValue = type === 'checkbox' ? checked : value;
-    seteditedTicket({ ...editedTicket, [name]: newValue });
+    setNewTicket({ ...NewTicket, [name]: newValue });
   };
 
   const handleCancel = () => {
@@ -23,45 +23,21 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
 
   const handleSave = async () => {
     try {
-      if (isEditing===false) {
-        
-
-      // Lógica para agregar una nueva cotización directamente sin verificar su existencia
       const response = await fetch('https://localhost:7189/api/samusa/Ticket/agregar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editedTicket),
+        body: JSON.stringify(NewTicket),
       });
-      console.log(editedTicket);
+      console.log(NewTicket);
 
       if (response.ok) {
         alert("Cotización guardada exitosamente");
-        window.location.reload(); // O actualizar el estado para reflejar los cambios sin recargar la página
+        window.location.reload();
       } else {
         const errorData = await response.json();
         throw new Error(`Error al agregar la cotización: ${errorData.message}`);
-      }
-      }
-      else {
-        const updateCotiza = await fetch(
-          `https://localhost:7189/api/samusa/Ticket/actualizar`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(editedTicket),
-          }
-        );
-
-        if (updateCotiza.ok) {
-          alert("Usuario actualizado exitosamente");
-          window.location.reload();
-        } else {
-          throw new Error("No se pudo actualizar el usuario");
-        }
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -84,22 +60,22 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">  
               <div className='bg-blue-600 px-4 py-2 sm:px-6 rounded'>
-          {isEditing ? <h3 className="titleform">Editar Ticket</h3> : <h3 className="titleform">Agregar Ticket</h3>}
+                <h3 className="titleform">Agregar Consulta</h3>
           </div>
           <br />
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div className="mb-4">
                   <label htmlFor="colaboradorId" className="block text-sm font-medium text-gray-700">Id Colaborador</label>
-                  <input type="text" name="colaboradorId" id="colaboradorId" value={editedTicket.colaboradorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <input type="text" name="colaboradorId" id="colaboradorId" value={NewTicket.colaboradorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Cliente Id</label>
-                  <input type="text" name="clienteId" id="clienteId" value={editedTicket.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <input type="text" name="clienteId" id="clienteId" value={NewTicket.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
 
                 <div className="mb-4">
                     <label htmlFor="estado" className="block text-sm font-medium text-gray-700"> Estado </label>
-                    <select name="estado" id="estado" value={editedTicket.estado} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                    <select name="estado" id="estado" value={NewTicket.estado} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
                       <option value="Sin revisar">Sin revisar</option>
                       <option value="En revision">En revision</option>
                       <option value="En espera de cliente">En espera de cliente</option>
@@ -109,7 +85,7 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
 
                   <div className="mb-4">
                     <label htmlFor="prioridad" className="block text-sm font-medium text-gray-700"> Prioridad </label>
-                    <select name="prioridad" id="prioridad" value={editedTicket.prioridad} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                    <select name="prioridad" id="prioridad" value={NewTicket.prioridad} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
                       <option value="Baja">Baja</option>
                       <option value="Media">Media</option>
                       <option value="Alta">Alta</option>
@@ -119,7 +95,7 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
 
                 <div className="mb-4">
                   <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Detalle</label>
-                  <input type="text" name="descripcion" id="descripcion" value={editedTicket.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <input type="text" name="descripcion" id="descripcion" value={NewTicket.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
               </div>
             </div>
@@ -139,4 +115,4 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
   );
 };
 
-export default TicketModal;
+export default TicketClientModal;

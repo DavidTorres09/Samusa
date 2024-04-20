@@ -12,7 +12,7 @@ const AdminIndexCharts = () => {
   const [totalRevisionesRevC, setTotalRevisionesRevC] = useState(0);
 
   useEffect(() => {
-    fetch("https://localhost:7293/api/samusa/revisionAlmacen/listar")
+    fetch("https://localhost:7189/api/samusa/RevisionVehiculo/listar")
       .then((response) => response.json())
       .then((data) => {
         setRevisionesVEh(data);
@@ -28,7 +28,7 @@ const AdminIndexCharts = () => {
   };
 
   useEffect(() => {
-    fetch("https://localhost:7293/api/samusa/revisionContenedor/listar")
+    fetch("https://localhost:7189/api/samusa/revisionContenedor/listar")
       .then((response) => response.json())
       .then((data) => {
         setRevisionesRevC(data);
@@ -51,18 +51,18 @@ const AdminIndexCharts = () => {
   useEffect(() => {
     const fetchData = async () => {
       const revVehiculosRes = await fetch(
-        "https://localhost:7293/api/samusa/revisionAlmacen/listar"
+        "https://localhost:7189/api/samusa/RevisionVehiculo/listar"
       ); //Se emñista vehiculos
       const revVehiculosData = await revVehiculosRes.json();
 
       const revContenedoresRes = await fetch(
-        "https://localhost:7293/api/samusa/revisionContenedor/listar"
+        "https://localhost:7189/api/samusa/revisionContenedor/listar"
       ); //Se enlista contenedores
       const revContenedoresData = await revContenedoresRes.json();
 
       const vehiculosCounts = revVehiculosData.reduce((acc, item) => {
         //Se cuentan los vehiculos
-        acc[item.estadoOp] = (acc[item.estadoOp] || 0) + 1; //Se verifican los estados y se cuentan
+        acc[item.estadoOP] = (acc[item.estadoOP] || 0) + 1; //Se verifican los estados y se cuentan
         return acc;
       }, {});
 
@@ -158,11 +158,11 @@ const AdminIndexCharts = () => {
   //////////////////ACA SE HACE LA LOGICA DE LA CHART 2
   const [chartData2, setChartData2] = useState([]); //Se debe de crear una constante para que almacene la data
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/revisionAlmacen/listar') //Esto es basicamente igual que el de barrras dentro del espacio de rev vehiculos, solo se ajusto luego el char
+    fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar') //Esto es basicamente igual que el de barrras dentro del espacio de rev vehiculos, solo se ajusto luego el char
       .then((response) => response.json())
       .then((data) => {
         const counts = data.reduce((acc, item) => {
-          acc[item.estadoOp] = (acc[item.estadoOp] || 0) + 1;
+          acc[item.estadoOP] = (acc[item.estadoOP] || 0) + 1;
           return acc;
         }, {});
         const transformedData = Object.entries(counts).map(([name, y]) => ({ name, y }));

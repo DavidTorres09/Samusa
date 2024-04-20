@@ -31,7 +31,7 @@ const RevCTable = () => {
   const [query, SetQuery] = useState("");
 
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/revisionContenedor/listar')
+    fetch('https://localhost:7189/api/samusa/revisionContenedor/listar')
       .then(response => response.json())
       .then(data => {
         setTableData(data);
@@ -57,8 +57,8 @@ const RevCTable = () => {
     };
 }, []);
 
-  const handleDelete = (idrevCont) => {
-    fetch(`https://localhost:7293/api/samusa/revisionContenedor/eliminar?idrevCont=${idrevCont}`, {
+  const handleDelete = (id) => {
+    fetch(`https://localhost:7189/api/samusa/revisionContenedor/eliminar/${id}`, {
       method: 'DELETE'
     })
     .then(response => {
@@ -132,15 +132,15 @@ const RevCTable = () => {
             <tbody>
               {tableData.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
-                  <td className="py-4 px-6">{item.idrevCont}</td>
+                  <td className="py-4 px-6">{item.id}</td>
                   <td className="py-4 px-6">{item.puertoOrigen}</td>
                   <td className="py-4 px-6">{item.puertoDestino}</td>
                   <td className="py-4 px-6">{item.naviera}</td>
                   <td className="py-4 px-6">{item.transportista}</td>
-                  <td className="py-4 px-6">{item.dniDueno}</td>
+                  <td className="py-4 px-6">{item.dniDuenno}</td>
                   <td className="py-4 px-6">{item.estado}</td>
                   <td className="py-4 px-6">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.IdrevCont)}>Eliminar</button>
+                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.id)}>Eliminar</button>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(item)}>Editar</button> {/* Pasar el objeto completo del pruducto */}
                   </td>
                 </tr>

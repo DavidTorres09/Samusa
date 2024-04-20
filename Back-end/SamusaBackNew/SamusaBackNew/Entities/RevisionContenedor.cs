@@ -2,14 +2,28 @@
 {
     public class RevisionContenedor
     {
-        public int IDExpSeguimiento { get; set; }
-        public int ID_DNI { get; set; }
-        public int? IDRevVehiculo { get; set; }
-        public int? IDRevContenedor { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public DateTime FechaFinalizacion { get; set; }
-        public DateTime? FechaEsperada { get; set; }
-        public string? Prioridad { get; set; }
-        public string? Descripcion { get; set; }
+        public int Id { get; set; }
+        public string? PuertoOrigen { get; set; }
+        public string? PuertoDestino { get; set; }
+        public string? Naviera { get; set; }
+        public string? Transportista { get; set; }
+        public string? DniDuenno { get; set; }
+        public string? Estado { get; set; }
+    }
+
+    public class RevisionContenedorRespuesta
+    {
+        public RevisionContenedorRespuesta()
+        {
+            Codigo = "0";
+            Mensaje = string.Empty;
+        }
+        public string? Codigo { get; set; }
+        public string? Mensaje { get; set; }
+
+        public RevisionContenedor? Dato { get; set; }
+
+        public List<RevisionContenedor>? Datos { get; set; }
+
     }
 }

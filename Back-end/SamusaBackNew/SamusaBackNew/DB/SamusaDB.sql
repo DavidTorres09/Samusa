@@ -99,7 +99,7 @@ CREATE TABLE Exportacion (
     RevVehiculoId			INT NULL,
     RevContenedorId			INT NULL,
 	FechaInicio				DATETIME NOT NULL,
-	FechaFinalizacion		DATETIME NOT NULL,
+	FechaFinalizacion		DATETIME NULL,
 	FechaEsperada			DATETIME NULL,
 	Prioridad				VARCHAR (80) NOT NULL,
     Descripcion				VARCHAR (250) NULL
@@ -122,8 +122,6 @@ GO
 CREATE TABLE Cotizacion (
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	ColaboradorId		INT NOT NULL,
-	ClienteId			INT,
-	DniCliente			VARCHAR(200) NOT NULL,
 	TipoProducto		VARCHAR(50) NOT NULL,
 	Producto			VARCHAR(80) NOT NULL,
 	PorcentajeIMP		INT NOT NULL,
@@ -137,8 +135,8 @@ CREATE TABLE Ticket (
     Estado			VARCHAR(50),
     Prioridad		VARCHAR(50),
     Descripcion		VARCHAR(500),
-    ClienteId		INT,
-    ColaboradorId	INT,
+    ClienteId		INT NOT NULL,
+    ColaboradorId	INT NOT NULL,
 )
 GO
 
@@ -152,7 +150,7 @@ CREATE TABLE Documento(
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	ImportacionId		INT NULL,
 	ExportacionId		INT NULL,
-	Url					VARCHAR(500)
+	Url					VARCHAR(500) NULL,
 )
 GO
 
@@ -181,8 +179,7 @@ ADD CONSTRAINT FK_Exportaciones_Persona FOREIGN KEY (ClienteId) REFERENCES Clien
 GO
 
 ALTER TABLE Cotizacion
-ADD	CONSTRAINT FK_Cotizacion_Cliente FOREIGN KEY (ClienteId) REFERENCES Cliente(Id),
-	CONSTRAINT FK_Cotizacion_Colaborador FOREIGN KEY (ColaboradorId) REFERENCES Colaborador(Id);
+ADD CONSTRAINT FK_Cotizacion_Colaborador FOREIGN KEY (ColaboradorId) REFERENCES Colaborador(Id);
 GO
 
 ALTER TABLE Ticket
@@ -485,7 +482,6 @@ CREATE PROCEDURE ModificarExportacion (
 	@ClienteId			INT,
 	@RevVehiculoId		INT,
 	@RevContenedorId	INT,
-	@FechaInicio		DATETIME,
 	@FechaFinalizacion	DATETIME,
 	@FechaEsperada		DATETIME,
 	@Prioridad			VARCHAR(80),
@@ -499,7 +495,6 @@ BEGIN
 		ClienteId = @ClienteId,
 		RevVehiculoId = @RevVehiculoId,
 		RevContenedorId = @RevContenedorId,
-		FechaInicio = @FechaInicio,
 		FechaFinalizacion = @FechaFinalizacion,
 		FechaEsperada = @FechaEsperada,
 		Prioridad = @Prioridad,
@@ -559,7 +554,7 @@ BEGIN
 END
 GO
 
-ALTER PROCEDURE AgregarImportacion (
+CREATE PROCEDURE AgregarImportacion (
 	@ImpSeguimientoId	INT,
 	@ClienteId			INT,
 	@RevVehiculoId		INT,
@@ -584,7 +579,6 @@ CREATE PROCEDURE ModificarImportacion (
 	@ClienteId			INT,
 	@RevVehiculoId		INT,
 	@RevContenedorId	INT,
-	@FechaInicio		DATETIME,
 	@FechaFinalizacion	DATETIME,
 	@FechaEsperada		DATETIME,
 	@Prioridad			VARCHAR(80),
@@ -597,7 +591,6 @@ BEGIN
 	SET ImpSeguimientoId = @ImpSeguimientoId,
 		RevVehiculoId = @RevVehiculoId,
 		RevContenedorId = @RevContenedorId,
-		FechaInicio = @FechaInicio,
 		FechaFinalizacion = @FechaFinalizacion,
 		FechaEsperada = @FechaEsperada,
 		Prioridad = @Prioridad,
@@ -606,7 +599,7 @@ BEGIN
 END
 GO
 
-ALTER PROCEDURE ObtenerImportaciones
+CREATE PROCEDURE ObtenerImportaciones
 AS
 BEGIN
 	SELECT
@@ -625,7 +618,7 @@ BEGIN
 END
 GO
 
-ALTER PROCEDURE ObtenerImportacion (
+CREATE PROCEDURE ObtenerImportacion (
 	@Id INT
 )
 AS
@@ -680,7 +673,6 @@ CREATE PROCEDURE ModificarPaqueteria (
 		@TipoProducto	VARCHAR(80),
 		@DirectOrigen	VARCHAR(200),
 		@DirectDestino	VARCHAR(200),
-		@FechaRegistro	DATETIME,
 		@FechaEsperada	DATETIME
 	)
 AS
@@ -693,7 +685,6 @@ BEGIN
 		TipoProducto = @TipoProducto,
 		DirectOrigen = @DirectOrigen,
 		DirectDestino = @DirectDestino,
-		FechaRegistro = @FechaRegistro,
 		FechaEsperada = @FechaEsperada
 	WHERE Id = @Id;
 END
@@ -714,8 +705,6 @@ BEGIN
 		P.FechaEsperada
 	FROM
 		Paqueteria P
-	JOIN
-		Cliente Pe ON P.ClienteId = P.Id
 END
 GO
 
@@ -753,8 +742,6 @@ GO
 
 CREATE PROCEDURE AgregarCotizacion (
 	@ColaboradorId	INT,
-	@ClienteId		INT,
-	@DniCliente		VARCHAR(25),
 	@TipoProducto	VARCHAR(50),
 	@Producto		VARCHAR(20),
 	@PorcentajeIMP	INT,
@@ -762,31 +749,25 @@ CREATE PROCEDURE AgregarCotizacion (
 	@FechaCreacion	DATETIME
 )
 AS
-	INSERT INTO Cotizacion (ColaboradorId, ClienteId, DniCliente, TipoProducto, Producto, PorcentajeIMP, EnlaceRef, FechaCreacion)
-	VALUES ( @ColaboradorId, @ClienteId,@DniCliente, @TipoProducto, @Producto, @PorcentajeIMP, @EnlaceRef, @FechaCreacion);
+	INSERT INTO Cotizacion (ColaboradorId,TipoProducto, Producto, PorcentajeIMP, EnlaceRef, FechaCreacion)
+	VALUES ( @ColaboradorId, @TipoProducto, @Producto, @PorcentajeIMP, @EnlaceRef, @FechaCreacion);
 GO
 
 CREATE PROCEDURE ModificarCotizacion (
 		@Id				INT,
 		@ColaboradorId	INT,
-		@ClienteId		INT,
-		@DniCliente		VARCHAR(25),
 		@TipoProducto	VARCHAR(50),
 		@Producto		VARCHAR(20),
 		@PorcentajeIMP	INT,
-		@EnlaceRef		VARCHAR(500),
-		@FechaCreacion	DATETIME
+		@EnlaceRef		VARCHAR(500)
 	)
 AS
 	UPDATE Cotizacion
 	SET ColaboradorId = @ColaboradorId,
-		ClienteId = @ClienteId,
-		DniCliente = @DniCliente,
 		TipoProducto = @TipoProducto,
 		Producto = @Producto,
 		PorcentajeIMP = @PorcentajeIMP,
-		EnlaceRef = @EnlaceRef,
-		FechaCreacion = @FechaCreacion
+		EnlaceRef = @EnlaceRef
 	WHERE Id = @Id;
 GO
 
@@ -796,8 +777,6 @@ BEGIN
 	SELECT
 		C.Id,
 		C.ColaboradorId,
-		C.ClienteId,
-		C.DniCliente,
 		C.TipoProducto,
 		C.Producto,
 		C.PorcentajeIMP,
@@ -805,8 +784,6 @@ BEGIN
 		C.FechaCreacion
 	FROM
 		Cotizacion C
-	JOIN
-		Cliente Ce ON C.ClienteId = Ce.Id
 END
 GO
 
@@ -818,8 +795,6 @@ BEGIN
 	SELECT
 		C.Id,
 		C.ColaboradorId,
-		C.ClienteId,
-		C.DniCliente,
 		C.TipoProducto,
 		C.Producto,
 		C.PorcentajeIMP,
@@ -827,8 +802,6 @@ BEGIN
 		C.FechaCreacion
 	FROM
 		Cotizacion C
-	JOIN
-		Cliente Ce ON C.ClienteId = CE.Id
 	WHERE
 		C.Id = @Id;
 END
@@ -934,10 +907,10 @@ CREATE PROCEDURE AgregarRevisionVehiculo (
 	@Extras			VARCHAR(250),
 	@Color			VARCHAR(50),
 	@CostoVehiculo	DECIMAL(10,2),
-	@AnnoVehiculo	INT,
-	@DniDuenno		INT,
-	@Placa			INT,
-	@EstadoOP		VARCHAR(20)
+	@AnnoVehiculo	VARCHAR(25),
+	@DniDuenno		VARCHAR(250),
+	@Placa			VARCHAR(25),
+	@EstadoOP		VARCHAR(25)
 )
 AS
 BEGIN
@@ -954,10 +927,10 @@ CREATE PROCEDURE ModificarRevisionVehiculo (
 	@Extras			VARCHAR(250),
 	@Color			VARCHAR(50),
 	@CostoVehiculo	DECIMAL(10,2),
-	@AnnoVehiculo	INT,
-	@DniDuenno		INT,
-	@Placa			INT,
-	@EstadoOP		VARCHAR(20)
+	@AnnoVehiculo	VARCHAR(25),
+	@DniDuenno		VARCHAR(250),
+	@Placa			VARCHAR(25),
+	@EstadoOP		VARCHAR(25)
 )
 AS
 IF EXISTS (SELECT 1 FROM RevisionVehiculo WHERE Id = @Id)
@@ -1030,6 +1003,8 @@ BEGIN
 	WHERE Id = @Id;
 END
 GO
+
+
 
 CREATE PROCEDURE AgregarRol (
 	@Rol VARCHAR(50)
@@ -1170,3 +1145,178 @@ BEGIN
 	WHERE Id = @Id;
 END
 GO
+
+CREATE PROCEDURE AgregarAlarma(
+	@Descripcion VARCHAR(500)
+)
+AS
+IF NOT EXISTS (SELECT 1 FROM Alarma WHERE Descripcion = @Descripcion)
+BEGIN
+	INSERT INTO Alarma (Descripcion)
+	VALUES (@Descripcion);
+END
+GO
+
+CREATE PROCEDURE ObtenerAlarmas
+AS
+BEGIN
+	SELECT
+		*
+	FROM
+		Alarma
+END
+GO
+
+CREATE PROCEDURE EliminarAlarma(
+	@Id INT
+)
+AS
+BEGIN
+	DELETE FROM Alarma WHERE Id = @Id
+END
+GO
+
+
+CREATE procedure [dbo].[AutenticaUsuario_cliente](
+@P_Usuario VARCHAR(50),
+@P_Clave VARCHAR(50)
+)
+AS
+BEGIN
+SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+FROM dbo.cliente u
+INNER JOIN Rol r ON u.RolId = r.id
+WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
+END
+GO
+
+CREATE procedure [dbo].[AutenticaUsuario_colaborador](
+@P_Usuario VARCHAR(50),
+@P_Clave VARCHAR(50)
+)
+AS
+BEGIN
+SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+FROM dbo.colaborador u
+INNER JOIN Rol r ON u.RolId = r.id
+WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
+END
+GO
+
+CREATE PROCEDURE RecuperarAccesoCliente
+	@Email			VARCHAR(250),
+	@Contrasenna	VARCHAR(500),
+	@EsTemporal		BIT
+AS
+BEGIN
+	DECLARE @Consecutivo BIGINT
+
+	SELECT  @Consecutivo = Id
+	FROM	Cliente
+	WHERE	Email = @Email
+		AND Estado = 1
+
+	IF @Consecutivo IS NOT NULL
+		BEGIN
+			UPDATE Cliente
+			SET Contrasenna = @Contrasenna,
+				EsTemporal = 1
+			WHERE Email = @Email
+		END
+	SELECT	U.Id, U.Email, U.Nombre, U.Email, U.Usuario, U.RolId, R.Rol 'NombreRol',Estado,EsTemporal
+	  FROM	Cliente U
+	  INNER JOIN Rol R ON U.RolId = R.Id
+	  WHERE	Email = @Email
+		AND Estado = 1
+END
+GO
+
+CREATE PROCEDURE RecuperarAccesoColaborador
+	@Email			VARCHAR(250),
+	@Contrasenna	VARCHAR(500),
+	@EsTemporal		BIT
+AS
+BEGIN
+	DECLARE @Consecutivo BIGINT
+
+	SELECT  @Consecutivo = Id
+	FROM	Colaborador
+	WHERE	Email = @Email
+		AND Estado = 1
+
+	IF @Consecutivo IS NOT NULL
+		BEGIN
+			UPDATE Colaborador
+			SET Contrasenna = @Contrasenna,
+				EsTemporal = 1
+			WHERE Email = @Email
+		END
+	SELECT	U.Id, U.Email, U.Nombre, U.Email, U.Usuario, U.RolId, R.Rol 'NombreRol',Estado,EsTemporal
+	  FROM	Colaborador U
+	  INNER JOIN Rol R ON U.RolId = R.Id
+	  WHERE	Email = @Email
+		AND Estado = 1
+END
+GO
+
+
+CREATE PROCEDURE CambiarContrasennaCliente
+	@Email					VARCHAR(200),
+	@Contrasenna			VARCHAR(200),
+	@ContrasennaTemporal	VARCHAR(200),
+	@EsTemporal				BIT
+AS
+BEGIN
+	DECLARE @Consecutivo BIGINT
+	
+	SELECT  @Consecutivo = Id
+	FROM	Cliente
+	WHERE	Email = @Email
+		AND Contrasenna = @ContrasennaTemporal
+		AND Estado = 1
+
+	IF @Consecutivo IS NOT NULL
+	BEGIN
+		UPDATE Cliente
+		SET Contrasenna = @Contrasenna,
+			EsTemporal = @EsTemporal
+		WHERE Email = @Email
+	END
+
+	SELECT	U.Id,Email,U.Nombre,U.RolId,R.Rol 'NombreRol',Estado,EsTemporal
+	  FROM	Cliente U
+	  INNER JOIN Rol R ON U.RolId = R.Id
+	  WHERE	Email = @Email
+		AND Estado = 1
+END
+GO
+
+CREATE PROCEDURE CambiarContrasennaColaborador
+	@Email					VARCHAR(200),
+	@Contrasenna			VARCHAR(200),
+	@ContrasennaTemporal	VARCHAR(200),
+	@EsTemporal				BIT
+AS
+BEGIN
+	DECLARE @Consecutivo BIGINT
+	
+	SELECT  @Consecutivo = Id
+	FROM	Colaborador
+	WHERE	Email = @Email
+		AND Contrasenna = @ContrasennaTemporal
+		AND Estado = 1
+
+	IF @Consecutivo IS NOT NULL
+	BEGIN
+		UPDATE Colaborador
+		SET Contrasenna = @Contrasenna,
+			EsTemporal = @EsTemporal
+		WHERE Email = @Email
+	END
+
+	SELECT	U.Id,Email,U.Nombre,U.RolId,R.Rol 'NombreRol',Estado,EsTemporal
+	  FROM	Colaborador U
+	  INNER JOIN Rol R ON U.RolId = R.Id
+	  WHERE	Email = @Email
+		AND Estado = 1
+END

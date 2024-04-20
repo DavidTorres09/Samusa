@@ -3,6 +3,7 @@ import LayoutAdmin from "../../components/LayoutAdmin";
 import "../../Css/Template.css"
 import "../../Css/datatables.min.css"
 import "../../Css/datatables.css"
+import PaqueteriaTable from "../../components/PaqueteriaTable";
 
 import $ from 'jquery';
 import jszip from 'jszip';
@@ -27,14 +28,14 @@ import React, { useEffect } from 'react';
 const AdminPAqueteria = () => {
   return (
     <>
-    <body className="skin-dark">
-    <LayoutAdmin/>
-      <div className="content-body">
-      <h1>AdminPaqueteria</h1>
-      </div>
-      <Footer/>
-    </body>
-    </>
+        <body className="skin-dark">
+        <LayoutAdmin/>
+            <div className="content-body">
+            <PaqueteriaTable/>
+            </div>
+            <Footer/>
+        </body>
+        </>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CotizaModal from './CotizaModal'; // Importa el componente del modal
+import PaqueteriaModal from './PaqueteriaModal';
 import "../css/Tables.css";
 import "../Css/datatables.min.css"
 import "../Css/datatables.css"
@@ -21,24 +21,32 @@ import 'datatables.net-rowgroup-dt';
 import 'datatables.net-rowreorder-dt';
 import 'datatables.net-scroller-dt';
 import 'datatables.net-select-dt';
-window.JSZip = jszip;
+window.JSZip = jszip;     
 
 
-const CotizaTable = () => {
+const PaqueteriaTable = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [SelectedCotiza, setSelectedCotiza] = useState(null);
+  const [SelectedPaqueteria, setSelectedPaqueteria] = useState(null);
   const [query, SetQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   console.log(query);
-  console.log(tableData.filter(item => item.producto.toLowerCase().includes("a")));
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/cotizacion/listar')
+    fetch('https://localhost:7189/api/samusa/paqueteria/listar')
       .then(response => response.json())
       .then(data => {
-        setTableData(data);
-        // Asegúra de que la tabla se inicialice
+        if (data.codigo && data.codigo === "-1") {
+          setErrorMessage(data.mensaje);
+          setTableData([]); //limpia datos existentes
+        } else if (data.length === 0) {
+          setErrorMessage("No se encontraron paqueterias en la Base de datos.");
+        } else {
+          setTableData(data);
+          setErrorMessage(""); // Limpia mensaje de error 
+        }
+
         setTimeout(() => {
           $(document).ready(function() {
             $('#example').DataTable({
@@ -61,7 +69,7 @@ const CotizaTable = () => {
 }, []);
 
   const handleDelete = (id) => {
-    fetch(`https://localhost:7189/api/samusa/cotizacion/eliminar/${id}`, {
+    fetch(`https://localhost:7189/api/samusa/paqueteria/eliminar/${id}`, {
       method: 'DELETE'
     })
     .then(response => {
@@ -73,27 +81,27 @@ const CotizaTable = () => {
         }
       } else {
         return response.json().then(error => {
-          throw new Error(error.message || 'Error al eliminar la cotizacion');
+          throw new Error(error.message || 'Error al eliminar la paqueteria');
         });
       }
     })
     .then(() => {
-      console.log('Cotizacion eliminada exitosamente');
+      console.log('paqueteria eliminada exitosamente');
       window.location.reload();
     })
     .catch(error => {
-      console.error('Error al eliminar la cotizacion:', error.message);
+      console.error('Error al eliminar la paqueteria:', error.message);
     });
   };
 
   const handleSave = () => {
-    setSelectedCotiza(null);
+    setSelectedPaqueteria(null);
     setIsEditing(false);
     setShowEditModal(true);
   };
 
-  const handleEdit = (Cotiza) => {
-    setSelectedCotiza(Cotiza);
+  const handleEdit = (Paqueteria) => {
+    setSelectedPaqueteria(Paqueteria);
     setIsEditing(true);
     setShowEditModal(true);
   };
@@ -106,29 +114,35 @@ const CotizaTable = () => {
     <>
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
-        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Cotización</h1>
-
+        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de paqueteria</h1>
+        {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
         <div class="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar Cotización
+            Agregar paqueteria
           </button>
           </div>
-          
-          <div className="">
+
+        <div className="">
           <div className="box-body">
           <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
-                <th className="py-4 px-6">Id Cotización</th>
-                <th className="py-4 px-6">Dni Colaborador</th>
-                <th className="py-4 px-6">tipoProducto</th>
-                <th className="py-4 px-6">producto</th>
-                <th className="py-4 px-6">porcentajeImp</th>
-                <th className="py-4 px-6">Enlace</th>
-                <th className="py-4 px-6">fechaCreacion</th>
+                <th className="py-4 px-6">Id de paquete</th>
+                <th className="py-4 px-6">Id cliente</th>
+                <th className="py-4 px-6">Casillero</th>
+                <th className="py-4 px-6">Numero de tracking</th>
+                <th className="py-4 px-6">Tipo de producto</th>
+                <th className="py-4 px-6">Origen</th>
+                <th className="py-4 px-6">Destino</th>
+                <th className="py-4 px-6">Fecha de registro</th>
+                <th className="py-4 px-6">Fecha esperada</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>
             </thead>
@@ -136,12 +150,31 @@ const CotizaTable = () => {
               {tableData.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
                   <td className="py-4 px-6">{item.id}</td>
-                  <td className="py-4 px-6">{item.colaboradorId}</td>
+                  <td className="py-4 px-6">{item.clienteId}</td>
+
+                  <td className="py-4 px-6">{ item.numCasillero ?
+                  item.numCasillero
+                :
+                "Aun sin determinar"}</td>
+                
+                <td className="py-4 px-6">{ item.numTracking ?
+                  item.numTracking
+                :
+                "Aun sin determinar"}</td>          
                   <td className="py-4 px-6">{item.tipoProducto}</td>
-                  <td className="py-4 px-6">{item.producto}</td>
-                  <td className="py-4 px-6">{item.porcentajeIMP}</td>
-                  <td className="py-4 px-6">{item.enlaceRef}</td>
-                  <td className="py-4 px-6">{item.fechaCreacion}</td>
+                  <td className="py-4 px-6">{ item.directOrigen ?
+                  item.directOrigen
+                :
+                "Aun sin determinar"}</td>
+                  <td className="py-4 px-6">{ item.directDestino ?
+                  item.directDestino
+                :
+                "Aun sin determinar"}</td>
+                  <td className="py-4 px-6">{item.fechaRegistro}</td>
+                  <td className="py-4 px-6">{ item.fechaEsperada ?
+                  item.fechaEsperada
+                :
+                "Aun sin determinar"}</td>
                   <td className="py-4 px-6">
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.id)}>Eliminar</button>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(item)}>Editar</button> {/* Pasar el objeto completo del pruducto */}
@@ -150,14 +183,14 @@ const CotizaTable = () => {
               ))}
             </tbody>
           </table>
-        </div>
           </div>
+        </div>
       </div>
       </section>
-      {showEditModal && (<CotizaModal user={SelectedCotiza} onClose={handleCloseModal} isEditing={isEditing}/>      )}
+      {showEditModal && (<PaqueteriaModal user={SelectedPaqueteria} onClose={handleCloseModal} isEditing={isEditing}/>      )}
 
     </>
   );
 };
 
-export default CotizaTable;
+export default PaqueteriaTable;

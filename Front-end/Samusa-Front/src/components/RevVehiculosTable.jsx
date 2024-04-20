@@ -31,7 +31,7 @@ const RevVehiculosTable = () => {
   const [query, SetQuery] = useState("");
 
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/revisionAlmacen/listar')
+    fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar')
       .then(response => response.json())
       .then(data => {
         setTableData(data);
@@ -57,8 +57,8 @@ const RevVehiculosTable = () => {
     };
 }, []);
 
-  const handleDelete = (idformAlmacen) => {
-    fetch(`https://localhost:7293/api/samusa/revisionAlmacen/eliminar?idformAlmacen=${idformAlmacen}`, {
+  const handleDelete = (id) => {
+    fetch(`https://localhost:7189/api/samusa/RevisionVehiculo/eliminar/${id}`, {
       method: 'DELETE'
     })
     .then(response => {
@@ -136,19 +136,19 @@ const RevVehiculosTable = () => {
             <tbody>
               {tableData.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
-                  <td className="py-4 px-6">{item.idformAlmacen}</td>
+                  <td className="py-4 px-6">{item.id}</td>
                   <td className="py-4 px-6">{item.vin}</td>
                   <td className="py-4 px-6">{item.marca}</td>
                   <td className="py-4 px-6">{item.modelo}</td>
                   <td className="py-4 px-6">{item.extras}</td>
                   <td className="py-4 px-6">{item.color}</td>
                   <td className="py-4 px-6">{item.costoVehiculo}</td>
-                  <td className="py-4 px-6">{item.anioVehiculo}</td>
-                  <td className="py-4 px-6">{item.dniDueno}</td>
+                  <td className="py-4 px-6">{item.annoVehiculo}</td>
+                  <td className="py-4 px-6">{item.dniDuenno}</td>
                   <td className="py-4 px-6">{item.placa}</td>
-                  <td className="py-4 px-6">{item.estadoOp}</td>
+                  <td className="py-4 px-6">{item.estadoOP}</td>
                   <td className="py-4 px-6">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.idformAlmacen)}>Eliminar</button>
+                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.id)}>Eliminar</button>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(item)}>Editar</button> {/* Pasar el objeto completo del pruducto */}
                   </td>
                 </tr>

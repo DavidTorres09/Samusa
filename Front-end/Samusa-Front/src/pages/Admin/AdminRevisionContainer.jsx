@@ -35,6 +35,8 @@ const AdminRevisionContainer = () => {
             <RevCTable/>
             <RevCChart/>
             </div>
+            <br />
+            <br />
             <Footer/>
         </body>
         </>

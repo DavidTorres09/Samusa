@@ -9,7 +9,7 @@ function CotizacionesUser() {
 
     //carga datos igual que en la tabla
     useEffect(() => {
-        fetch('https://localhost:7293/api/samusa/cotizacion/listar')
+        fetch('https://localhost:7189/api/samusa/cotizacion/listar')
             .then(response => response.json())
             .then(data => setTableData(data))
             .catch(error => console.error('Error fetching data:', error));
@@ -24,7 +24,7 @@ function CotizacionesUser() {
     //Asigna de acuerdo a lo que se seleciono el impuesto correspondiente con el valor de la tabla porcentajeImp
     const calculateTax = () => {
         const product = tableData.find(item => item.producto === selectedProduct);
-        const tax = product ? product.porcentajeImp : 0;
+        const tax = product ? product.porcentajeIMP : 0;
         document.getElementById('result').innerHTML = `Impuesto Total: ${tax}%`;
     };
 
