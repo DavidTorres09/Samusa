@@ -136,6 +136,19 @@
     .chartjs-market-trends-chart{
       height: auto;
     }
+    .box .box-head {
+      padding: 10px 1px;
+      border-bottom: 1px solid #f1f1f1;
+    }
+    .box .box-head .title {
+      font-weight: 600;
+      margin: 0;
+      margin-left: 15px;
+    }
+    .box .box-body {
+      padding: 10px;
+    }
+    
   }
 
 

@@ -12,7 +12,7 @@ const AdminAlertsandbuttons = () => {
                     <AdminAlarmas/>
                     </div>
             
-                    
+                    <br />
                     <div class="col-md-4 mb-30">
                         <div class="box">
                             <div class="box-head">
@@ -30,6 +30,7 @@ const AdminAlertsandbuttons = () => {
                     </div>
                     
                     </div>
+                    <br />
         </div>
     );
 }

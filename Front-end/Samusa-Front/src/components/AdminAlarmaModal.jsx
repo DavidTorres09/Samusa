@@ -28,11 +28,11 @@ const AdminAlarmaModal = ({ user, onClose,}) => {
       console.log(NewAlarma);
 
       if (response.ok) {
-        alert("Cotización guardada exitosamente");
+        alert("Alarma guardada exitosamente");
         window.location.reload();
       } else {
         const errorData = await response.json();
-        throw new Error(`Error al agregar la cotización: ${errorData.message}`);
+        throw new Error(`Error al agregar la alarma: ${errorData.message}`);
       }
     } catch (error) {
       console.error("Error:", error.message);
