@@ -118,7 +118,7 @@ console.log(tableData);
       <section className="data-table-section">
         <div className="table-container col-12 mb-30">
           <h1 className="text-3xl font-bold my-4 text-gray-800">
-            Tabla de Usuarios
+            Tabla de Clientes
           </h1>
           {errorMessage && (
           <div className="alert alert-danger" role="alert">
@@ -139,6 +139,7 @@ console.log(tableData);
             <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
               <thead>
                 <tr className="">
+                <th className="py-4 px-6">ID de cliente</th>
                   <th className="py-4 px-6">DNI</th>
                   <th className="py-4 px-6">Nombre</th>
                   <th className="py-4 px-6">Teléfono</th>
@@ -154,6 +155,7 @@ console.log(tableData);
               <tbody>
                 {tableData.map((cliente, index) => (
                   <tr key={index} className="border-b border-gray-200">
+                    <td className="py-4 px-6">{cliente.id}</td>
                     <td className="py-4 px-6">{cliente.dni}</td>
                     <td className="py-4 px-6">{cliente.nombre}</td>
                     <td className="py-4 px-6">{cliente.telefono}</td>

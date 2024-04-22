@@ -10,7 +10,7 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-  { name: 'Inicio', to: '/', current: true },
+  { name: 'Inicio', to: '/Admin', current: true },
   { name: 'Tickets', to: '/Admin/Tickets', current: false },
   { name: 'Paqueteria', to: '/Admin/Paqueteria', current: false },
   { name: 'Imps.', to: '/Admin/Importaciones', current: false },

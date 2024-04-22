@@ -133,7 +133,7 @@ const TicketsTable = () => {
           <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
-                <th className="py-4 px-6">Id</th>
+                <th className="py-4 px-6">Numero de caso</th>
                 <th className="py-4 px-6">Colaborador</th>
                 <th className="py-4 px-6">Cliente</th>
                 <th className="py-4 px-6">Estado</th>
