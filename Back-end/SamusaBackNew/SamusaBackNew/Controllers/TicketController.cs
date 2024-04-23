@@ -28,6 +28,7 @@ namespace SamusaBackNew.Controllers
                             ticket.Estado,
                             ticket.Prioridad,
                             ticket.Descripcion,
+                            ticket.Respuesta,
                             ticket.ClienteId,
                             ticket.ColaboradorId
                         },
@@ -145,6 +146,7 @@ namespace SamusaBackNew.Controllers
                             ticket.Estado,
                             ticket.Prioridad,
                             ticket.Descripcion,
+                            ticket.Respuesta,
                             ticket.ClienteId,
                             ticket.ColaboradorId
                         },

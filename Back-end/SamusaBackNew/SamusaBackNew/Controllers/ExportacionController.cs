@@ -34,7 +34,8 @@ namespace SamusaBackNew.Controllers
                             exportacion.FechaFinalizacion,
                             exportacion.FechaEsperada,
                             exportacion.Prioridad,
-                            exportacion.Descripcion
+                            exportacion.Descripcion,
+                            exportacion.DocumentoUrl
                         },
                         commandType: System.Data.CommandType.StoredProcedure);
 
@@ -154,7 +155,8 @@ namespace SamusaBackNew.Controllers
                             exportacion.FechaFinalizacion,
                             exportacion.FechaEsperada,
                             exportacion.Prioridad,
-                            exportacion.Descripcion
+                            exportacion.Descripcion,
+                            exportacion.DocumentoUrl
                         },
                     commandType: System.Data.CommandType.StoredProcedure);
 

@@ -6,6 +6,8 @@
         public string? Estado { get; set; }
         public string? Prioridad { get; set; }
         public string? Descripcion { get; set; }
+
+        public string? Respuesta { get; set; }
         public int ClienteId { get; set; }
         public int ColaboradorId { get; set; }
     }

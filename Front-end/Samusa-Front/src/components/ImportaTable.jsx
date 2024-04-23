@@ -173,6 +173,7 @@ const ImportaTable = () => {
                   <td className="py-4 px-6">{item.prioridad}</td>
                   <td className="py-4 px-6">{item.descripcion}</td>
                   <td className="py-4 px-6">
+                    <a href={item.documentoUrl} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded ml-2" target="_blank" rel="noopener noreferrer">Ver documentos</a> <a></a>
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.id)}>Eliminar</button>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(item)}>Editar</button> {/* Pasar el objeto completo del pruducto */}
                   </td>

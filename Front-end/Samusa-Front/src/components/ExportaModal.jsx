@@ -13,6 +13,7 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
     fechaEsperada: null,
     prioridad: "",
     descripcion: "",
+    documentoUrl: "",
   });
 
   const handleInputChange = (event) => {
@@ -175,6 +176,10 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
                 <div className="mb-4">
                   <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripcion</label>
                   <input type="text" name="descripcion" id="descripcion" value={editedExporta.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="documentoUrl" className="block text-sm font-medium text-gray-700">Link de documentos</label>
+                  <input type="text" name="documentoUrl" id="documentoUrl" value={editedExporta.documentoUrl} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
               </div>
               </div>

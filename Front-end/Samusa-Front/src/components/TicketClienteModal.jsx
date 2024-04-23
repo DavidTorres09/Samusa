@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 const TicketClientModal = ({ user, onClose,}) => {
   const [NewTicket, setNewTicket] = useState(user || {
     id: 0,
-    colaboradorId: 0,
+    colaboradorId: 1,
     clienteId: 0,
     dniCliente: "",
-    estado: "",
+    estado: "Sin revisar",
     prioridad: "",
     descripcion: "",
   });
@@ -65,23 +65,9 @@ const TicketClientModal = ({ user, onClose,}) => {
           <br />
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div className="mb-4">
-                  <label htmlFor="colaboradorId" className="block text-sm font-medium text-gray-700">Id Colaborador</label>
-                  <input type="text" name="colaboradorId" id="colaboradorId" value={NewTicket.colaboradorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
                   <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Cliente Id</label>
                   <input type="text" name="clienteId" id="clienteId" value={NewTicket.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
-
-                <div className="mb-4">
-                    <label htmlFor="estado" className="block text-sm font-medium text-gray-700"> Estado </label>
-                    <select name="estado" id="estado" value={NewTicket.estado} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
-                      <option value="Sin revisar">Sin revisar</option>
-                      <option value="En revision">En revision</option>
-                      <option value="En espera de cliente">En espera de cliente</option>
-                      <option value="Completado">Completado</option>
-                    </select>
-                  </div>
 
                   <div className="mb-4">
                     <label htmlFor="prioridad" className="block text-sm font-medium text-gray-700"> Prioridad </label>
@@ -94,7 +80,7 @@ const TicketClientModal = ({ user, onClose,}) => {
                   </div>
 
                 <div className="mb-4">
-                  <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Detalle</label>
+                  <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Consulta</label>
                   <input type="text" name="descripcion" id="descripcion" value={NewTicket.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
               </div>

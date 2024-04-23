@@ -139,6 +139,7 @@ const TicketsTable = () => {
                 <th className="py-4 px-6">Estado</th>
                 <th className="py-4 px-6">Prioridad</th>
                 <th className="py-4 px-6">Descripcion</th>
+                <th className="py-4 px-6">Respuestas</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>
             </thead>
@@ -151,6 +152,7 @@ const TicketsTable = () => {
                   <td className="py-4 px-6">{item.estado}</td>
                   <td className="py-4 px-6">{item.prioridad}</td>
                   <td className="py-4 px-6">{item.descripcion}</td>
+                  <td className="py-4 px-6">{item.respuesta}</td>
                   <td className="py-4 px-6">
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.id)}>Eliminar</button>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(item)}>Editar</button> {/* Pasar el objeto completo del pruducto */}
