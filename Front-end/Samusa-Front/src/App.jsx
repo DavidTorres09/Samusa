@@ -22,6 +22,7 @@ import USerPreguntasFrecuentes from './pages/User/UserPReguntasFrecuentes.jsx'
 import UserTickets from './pages/User/UserTickets.jsx'
 import UserTracking from './pages/User/UserTracking.jsx'
 import AdminIndex from './pages/Admin/AdminIndex.jsx';
+import LoginAdmin from './components/LoginAdmin.jsx';
 
 
 function App() {
@@ -31,8 +32,8 @@ function App() {
       //TODO: fix the routes
       
       <Route exact path="/" element={<Login />}> </Route> //OK
+      <Route exact path="/AdminLogin" element={<LoginAdmin  />}> </Route> //OK
       <Route exact path="/Recuperar" element={<RecuperarPass />}></Route> //TODO: finish the action
-
       
       <Route exact path="/Admin" element={<AdminIndex />}> </Route> //OK
       <Route exact path="/Admin/Clientes" element={<AdminClientes/>}> </Route> //OK

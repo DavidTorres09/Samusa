@@ -36,7 +36,7 @@ const Login = () => {
   };
 
   if(IsLoged){
-    navigate('/Admin');
+    navigate('/User');
   }
 
   return (
