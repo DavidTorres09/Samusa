@@ -24,6 +24,7 @@ const navigation = [
 
 const userNavigation = [
   { name: 'Mi perfil', to: '/Admin/Perfil' },
+  { name: 'Calendario', to: '/Admin/Calendar' },
   { name: 'Salir', to: '/' },
 ]
 

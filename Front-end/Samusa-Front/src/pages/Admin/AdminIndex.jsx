@@ -37,11 +37,9 @@ const AdminIndex = () => {
         <div>
         <AdminAlertsandbuttons/>
         </div>
-
-        <div>
-        <Calendar/>
-        </div>
-
+        <br />
+        <br />
+        
         </div>
         <Footer/>
         </body>
