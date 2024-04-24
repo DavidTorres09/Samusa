@@ -200,6 +200,16 @@ INSERT INTO RevisionContenedor (PuertoOrigen, PuertoDestino, Naviera, Transporti
 VALUES  ('S/D', 'S/D', 'S/D', 'S/D', 'S/D', 'S/D')
 GO
 
+INSERT INTO Cliente (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal) 
+VALUES 
+('Calle Principal 123', '12345678A', 'Juan Pérez', '+123456789', 'juan@example.com', 1, 'juanperez', 'contrasenna123', 1, 'url_foto_juan.jpg', 1, 0)
+GO
+
+INSERT INTO Colaborador (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal) 
+VALUES 
+('Calle Mayor 456', '01234567E', 'Carlos Rodríguez', '+012345678', 'carlos@example.com', 1, 'carlosr', 'contrasenna456', 3, 'url_foto_carlos.jpg', 1, 0)
+GO
+
 CREATE PROCEDURE AgregarCliente (
 	@Direccion		VARCHAR(250),
     @Dni			VARCHAR(50),
@@ -1329,3 +1339,5 @@ BEGIN
 	  WHERE	Email = @Email
 		AND Estado = 1
 END
+
+Select * From Colaborador
