@@ -26,6 +26,7 @@ import LoginAdmin from './components/LoginAdmin.jsx';
 import UserProfile from './pages/User/UserProfile.jsx';
 import CalendarPage from './pages/Admin/Calendar.jsx';
 import IndexNonAuntenticate from './pages/User/NoUserIndex.jsx';
+import TrackingSearchPage from './pages/User/TrackingSearch.jsx';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
       <Route exact path="/User/Services" element={<UserServices/>}> </Route> //OK
       <Route exact path="/User/Tickets" element={<UserTickets/>}> </Route> //OK
       <Route exact path="/User/Tracking" element={<UserTracking/>}> </Route> //OK
+      <Route exact path="/User/TrackingSearch" element={<TrackingSearchPage/>}> </Route> //OK
 
       
 
