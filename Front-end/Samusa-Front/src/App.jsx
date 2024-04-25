@@ -24,6 +24,7 @@ import UserTracking from './pages/User/UserTracking.jsx'
 import AdminIndex from './pages/Admin/AdminIndex.jsx';
 import LoginAdmin from './components/LoginAdmin.jsx';
 import UserProfile from './pages/User/UserProfile.jsx';
+import CalendarPage from './pages/Admin/Calendar.jsx';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
       <Route exact path="/Admin/Importaciones" element={<AdminImportaciones/>}> </Route> //OK
       <Route exact path="/Admin/Paqueteria" element={<AdminPAqueteria/>}> </Route> //OK
       <Route exact path="/Admin/Perfil" element={<PerfilForm/>}> </Route> //TODO: finish the action
+      <Route exact path="/Admin/Calendar" element={<CalendarPage/>}> </Route> //OK
       <Route exact path="/Admin/RevisionContainer" element={<AdminRevisionContainer/>}> </Route> // OK
       <Route exact path="/Admin/RevisionVehiculo" element={<AdminRevisionVehiculo/>}> </Route> //OK
       <Route exact path="/Admin/Tickets" element={<AdminTickets/>}> </Route> //OK
