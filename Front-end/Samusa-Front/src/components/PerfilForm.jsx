@@ -40,7 +40,7 @@ const [pview, setpview] = useState(false);
 
 const profileFinal = imgProfile.map((item)=> item.pview);
 
-const profile = sessionStorage.getItem('imagenPerfil');
+const profile = sessionStorage.getItem('foto');
 
 const onClose = ()=>{
   setpview(null);
@@ -54,9 +54,7 @@ const saveCropImage= async () =>{
   setImgProfile([...imgProfile, {pview}]);
   console.log(src)
   const value = pview;
-  var array = [];
-  array = value.split(',')
-  perfil.foto = array[1];
+  perfil.foto = pview;
   console.log(value)
   console.log(perfil)
  
@@ -179,7 +177,7 @@ const editar = () =>{
                                         objectFit: "cover",
                                         border: "4px solid white",
                                       }}
-                                      src = {img}
+                                      src = {profile}
                                       alt= ""
                                       onClick={()=>setimgCrop(true)}
                                       />

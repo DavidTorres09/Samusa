@@ -23,6 +23,7 @@ import UserTickets from './pages/User/UserTickets.jsx'
 import UserTracking from './pages/User/UserTracking.jsx'
 import AdminIndex from './pages/Admin/AdminIndex.jsx';
 import AdminPerfil from './pages/Admin/AdminPerfil.jsx';
+import UserPerfil from './pages/User/UserPerfil.jsx';
 
 
 function App() {
@@ -51,7 +52,7 @@ function App() {
       <Route exact path="/User/AboutUs" element={<AboutUs/>}> </Route> //OK
       <Route exact path="/User/Cotizaciones" element={<UserCotizaciones/>}> </Route> //OK
       <Route exact path="/User/PreguntasFrecuentes" element={<USerPreguntasFrecuentes/>}> </Route> //OK
-      <Route exact path="/User/Perfil" element={<PerfilForm/>}> </Route> //OK
+      <Route exact path="/User/Perfil" element={<UserPerfil/>}> </Route> //OK
       <Route exact path="/User/Services" element={<UserServices/>}> </Route> //OK
       <Route exact path="/User/Tickets" element={<UserTickets/>}> </Route> //OK
       <Route exact path="/User/Tracking" element={<UserTracking/>}> </Route> //OK

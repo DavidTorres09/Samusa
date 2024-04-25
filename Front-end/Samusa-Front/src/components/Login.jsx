@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link, Navigate, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
 
- // const Login = () => {
+ const Login = () => {
 
   // const handleLogin = async () => {
   //  try{
@@ -93,9 +93,9 @@ import axios from 'axios';
 
     };
 
-  if(IsLoged){
-    navigate('/Admin');
-  }
+  // if(IsLoged){
+  //   navigate('/Admin');
+  // }
 
   return (
     <div className="bg-gradient-to-r from-indigo-800 to-teal-600 min-h-screen flex flex-col items-center justify-center"> 
@@ -154,5 +154,5 @@ import axios from 'axios';
       </div>
     </div>
   );
-
+ }
 export default Login;
