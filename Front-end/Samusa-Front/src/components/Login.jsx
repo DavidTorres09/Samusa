@@ -9,7 +9,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('https://localhost:7189/api/samusa/colaborador/autenticar', {
+            const response = await fetch('https://localhost:7189/api/samusa/cliente/autenticar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const Login = () => {
 
     return (
         <div className="bg-gradient-to-r from-purple-300 to-cyan-400 min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-white text-6xl font-bold mb-8">Samusa - Admin</h1>
+        <h1 className="text-white text-6xl font-bold mb-8">Samusa</h1>
 
         <div className="bg-white p-8 rounded shadow-md w-96">
             <h2 className="text-2xl font-bold mb-6 text-blue-600">Iniciar Sesión</h2>

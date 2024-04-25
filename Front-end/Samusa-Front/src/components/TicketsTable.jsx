@@ -161,6 +161,9 @@ const TicketsTable = () => {
               ))}
             </tbody>
           </table>
+          <br />
+          <br />
+          
         </div>
           </div>
       </div>
