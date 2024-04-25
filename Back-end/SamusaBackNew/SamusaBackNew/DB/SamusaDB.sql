@@ -1339,5 +1339,111 @@ BEGIN
 	  WHERE	Email = @Email
 		AND Estado = 1
 END
+GO
 
-Select * From Colaborador
+
+CREATE PROCEDURE ConsultarTracking
+	@NumSeguimiento INT
+AS
+BEGIN
+	IF EXISTS(SELECT 1 FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento) 
+		BEGIN
+			SELECT * FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento
+		END
+	ELSE IF EXISTS(SELECT 1 FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento)	
+		BEGIN
+			SELECT * FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento
+		END
+END
+GO
+
+CREATE PROCEDURE ConsultarTrackingDetallado
+	@NumSeguimiento INT
+AS
+BEGIN
+	DECLARE @RevVehiculoId INT
+	DECLARE @RevContenedorId INT
+	
+	IF EXISTS(SELECT 1 FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento) 
+		BEGIN
+			SELECT @RevVehiculoId = RevVehiculoId FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento
+			SELECT @RevContenedorId = RevContenedorId FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento
+			IF @RevVehiculoId IS NOT NULL
+				BEGIN
+					SELECT 
+						I.Id,
+						I.ImpSeguimientoId,
+						I.FechaInicio,
+						I.FechaFinalizacion,
+						I.Prioridad AS Estado,
+						R.VIN,
+						R.Marca,
+						R.Modelo,
+						R.Color,
+						R.Extras,
+						R.EstadoOP
+					FROM Importacion I
+					JOIN RevisionVehiculo R ON I.RevVehiculoId = R.Id
+					WHERE I.ImpSeguimientoId = @NumSeguimiento
+				END
+			ELSE IF @RevContenedorId IS NOT NULL
+				BEGIN
+					SELECT 
+						I.Id,
+						I.ImpSeguimientoId,
+						I.FechaInicio,
+						I.FechaFinalizacion,
+						I.Prioridad AS Estado,
+						R.Naviera,
+						R.PuertoOrigen,
+						R.PuertoDestino,
+						R.Transportista,
+						R.Estado
+					FROM Importacion I
+					JOIN RevisionContenedor R ON I.RevContenedorId = R.Id
+					WHERE I.ImpSeguimientoId = @NumSeguimiento
+				END
+			END
+	ELSE IF EXISTS(SELECT 1 FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento)	
+		BEGIN
+			SELECT @RevVehiculoId = RevVehiculoId FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento
+			SELECT @RevContenedorId = RevContenedorId FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento
+
+			IF @RevVehiculoId IS NOT NULL
+				BEGIN
+					SELECT 
+						E.Id,
+						E.ExpSeguimientoId,
+						E.FechaInicio,
+						E.FechaFinalizacion,
+						E.Prioridad AS Estado,
+						R.VIN,
+						R.Marca,
+						R.Modelo,
+						R.Color,
+						R.Extras,
+						R.EstadoOP
+					FROM Exportacion E
+					JOIN RevisionVehiculo R ON E.RevVehiculoId = R.Id
+					WHERE E.ExpSeguimientoId = @NumSeguimiento
+				END
+			ELSE IF @RevContenedorId IS NOT NULL
+				BEGIN
+					SELECT 
+						E.Id,
+						E.ExpSeguimientoId,
+						E.FechaInicio,
+						E.FechaFinalizacion,
+						E.Prioridad AS Estado,
+						R.Naviera,
+						R.PuertoOrigen,
+						R.PuertoDestino,
+						R.Transportista,
+						R.Estado
+					FROM Exportacion E
+					JOIN RevisionContenedor R ON E.RevContenedorId = R.Id
+					WHERE E.ExpSeguimientoId = @NumSeguimiento
+				END
+			END
+		END
+GO
