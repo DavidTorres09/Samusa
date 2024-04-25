@@ -4,7 +4,7 @@ const TicketClientModal = ({ user, onClose,}) => {
   const [NewTicket, setNewTicket] = useState(user || {
     id: 0,
     colaboradorId: 1,
-    clienteId: 0,
+    clienteId: sessionStorage.getItem('id'),
     dniCliente: "",
     estado: "Sin revisar",
     prioridad: "",
