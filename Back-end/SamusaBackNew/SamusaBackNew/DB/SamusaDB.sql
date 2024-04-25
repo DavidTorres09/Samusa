@@ -209,7 +209,7 @@ INSERT INTO Colaborador (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Us
 VALUES 
 ('Calle Mayor 456', '01234567E', 'Carlos Rodríguez', '+012345678', 'carlos@example.com', 1, 'carlosr', 'contrasenna456', 3, 'url_foto_carlos.jpg', 1, 0)
 GO
-
+select * from Cliente
 CREATE PROCEDURE AgregarCliente (
 	@Direccion		VARCHAR(250),
     @Dni			VARCHAR(50),
@@ -1196,29 +1196,29 @@ END
 GO
 
 
-CREATE procedure [dbo].[AutenticaUsuario_cliente](
-@P_Usuario VARCHAR(50),
-@P_Clave VARCHAR(50)
+CREATE PROCEDURE IniciarSesionCliente(
+	@Usuario VARCHAR(150),
+	@Contrasenna VARCHAR(150)
 )
 AS
 BEGIN
-SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
-FROM dbo.cliente u
-INNER JOIN Rol r ON u.RolId = r.id
-WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
+	SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+	FROM Cliente u
+	INNER JOIN Rol r ON u.RolId = r.id
+	WHERE u.USUARIO = @Usuario and u.Contrasenna = @Contrasenna
 END
 GO
 
-CREATE procedure [dbo].[AutenticaUsuario_colaborador](
-@P_Usuario VARCHAR(50),
-@P_Clave VARCHAR(50)
+CREATE PROCEDURE IniciarSesionColaborador(
+	@Usuario VARCHAR(150),
+	@Contrasenna VARCHAR(150)
 )
 AS
 BEGIN
-SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
-FROM dbo.colaborador u
-INNER JOIN Rol r ON u.RolId = r.id
-WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
+	SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+	FROM Colaborador u
+	INNER JOIN Rol r ON u.RolId = r.id
+	WHERE u.USUARIO = @Usuario and u.Contrasenna = @Contrasenna
 END
 GO
 
