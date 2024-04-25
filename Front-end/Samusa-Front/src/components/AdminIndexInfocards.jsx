@@ -112,7 +112,7 @@ const AdminInfoCards = () => {
             <div className='col-xlg-3 col-md-6 col-12 mb-30'>
                 <div className='top-report'>
 
-                    <div class="head">
+                    <div className="head">
                         <h4>Numero de Exportaciones</h4>
                         <a className='view'><i className='zmdi zmdi-eye'></i></a>
                         </div>

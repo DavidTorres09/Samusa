@@ -28,13 +28,13 @@ import React, { useEffect } from 'react';
 const AdminPAqueteria = () => {
   return (
     <>
-        <body className="skin-dark">
+        <div className="skin-dark">
         <LayoutAdmin/>
             <div className="content-body">
             <PaqueteriaTable/>
             </div>
             <Footer/>
-        </body>
+        </div>
         </>
   );
 }

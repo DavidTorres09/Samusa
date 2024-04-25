@@ -29,7 +29,7 @@ import React, { useEffect } from 'react';
 const AdminRevisionContainer = () => {
     return (
         <>
-        <body className="skin-dark">
+        <div className="skin-dark">
         <LayoutAdmin/>
             <div className="content-body">
             <RevCTable/>
@@ -38,7 +38,7 @@ const AdminRevisionContainer = () => {
             <br />
             <br />
             <Footer/>
-        </body>
+        </div>
         </>
     );
 }

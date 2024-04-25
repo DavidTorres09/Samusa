@@ -9,7 +9,7 @@ function AboutUs () {
 
     return (
         <>
-        <body className="fondo">
+        <div className="fondo">
         <Layout/>
         <div>
         <GeneralAlert/>
@@ -18,7 +18,7 @@ function AboutUs () {
             <AboutUsUser/>
             </div>
             <Footer/>
-        </body>
+        </div>
         </>
     );
 }

@@ -1,8 +1,8 @@
 const AboutUsInformation = () => {
     return (
         <>
-        <section id="inicio" class="split-screen">
-        <div class="left-half" id="image-side">
+        <section id="inicio" className="split-screen">
+        <div className="left-half" id="image-side">
             
         </div>
         <div className="right-half" id="text-side">

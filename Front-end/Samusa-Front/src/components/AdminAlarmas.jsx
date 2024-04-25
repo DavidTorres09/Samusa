@@ -38,22 +38,22 @@ const AdminAlarmas = () => {
 
     return (
         <>
-                <div class="box boxa">
-                            <div class="box-head">
-                                <h4 class="title">Alertas</h4>
+                <div className="box boxa">
+                            <div className="box-head">
+                                <h4 className="title">Alertas</h4>
                             </div>
                             <button className="mb-1  text-white font-bold py-1 px-2 rounded button-sm add-btn"
                             onClick={handleNewAlarma}>Añadir Alerta
                             </button>
-                            <div class="box-body">
+                            <div className="box-body">
                                 {errorMessage && (
                                 <div className="alert alert-danger" role="alert">
                                     {errorMessage}
                                     </div>
                                 )}
-                                <div class="news-update-inner">
+                                <div className="news-update-inner">
                                                     
-                                    <div class="news-item">
+                                    <div className="news-item">
                                         {Alarmas.map(Alarma => ( 
                                         <AlarmaList key={Alarma.id} Alarma={Alarma} />
                                         ))}

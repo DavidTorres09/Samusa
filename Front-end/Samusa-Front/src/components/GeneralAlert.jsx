@@ -28,12 +28,12 @@ const GeneralAlert = () => {
 
   return (
     <>
-      <div class="">
+      <div className="">
         {Alarmas.map((Alarma) => (
-          <div class="content text-center">
-            <div class="alert alert-info text-warning" role="alert"><i class="zmdi zmdi-info"></i>
+          <div className="content text-center">
+            <div className="alert alert-info text-warning" role="alert"><i className="zmdi zmdi-info"></i>
               Alarma:{" "}
-              <a class="alert-link" href="#">
+              <a className="alert-link" href="#">
                 -
               </a>{" "}
               {Alarma.descripcion}

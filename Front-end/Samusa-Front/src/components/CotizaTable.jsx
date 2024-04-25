@@ -121,7 +121,7 @@ const CotizaTable = () => {
             {errorMessage}
           </div>
         )}
-        <div class="table-controls">
+        <div className="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}

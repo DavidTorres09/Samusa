@@ -9,7 +9,7 @@ import GeneralAlert from "../../components/GeneralAlert";
 function IndexUser () {
 
     return (
-        <body  className="fondo">
+        <div  className="fondo">
             <div style={{ marginBottom: '1%' }}>
                 <Layout></Layout>
                 <div>
@@ -20,7 +20,7 @@ function IndexUser () {
                 <FrequentlyQuestions/>
                 <Footer/>
             </div>
-        </body>
+        </div>
     );
 }
 

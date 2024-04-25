@@ -11,7 +11,7 @@ import "../../Css/Template.css"
 const AdminIndex = () => {
     return (
         <>
-        <body className="skin-dark">
+        <div className="skin-dark">
         <LayoutAdmin/>
         <div>
         <GeneralAlert/>
@@ -44,7 +44,7 @@ const AdminIndex = () => {
 
         </div>
         <Footer/>
-        </body>
+        </div>
         </>
     );
     }

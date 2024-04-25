@@ -5,12 +5,12 @@ import PerfilForm from "../../components/PerfilForm";
 const UserProfile = () => {
     return (
         <>
-            <body className="skin-dark">
+            <div className="skin-dark">
                 <Layout/>
                     <div className="content-body">
                     <PerfilForm/>
                     </div>
-            </body>
+            </div>
         </>
     )
 }

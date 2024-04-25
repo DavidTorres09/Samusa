@@ -13,7 +13,7 @@ const AboutUsUser = () => {
                     Con mas de 13 años de experiencia tanto en la logistica tras las importaciones a territorio nacional como en las exportaciones hacia fuera de nuestras fornteras. Samusa ofrece el conocimiento y asesoria que necesitas para que tus tramites sean efectuados de manera exitosa y sin contratiempos.
                     </p>
                 </div>
-                <div class="col-md-6 images">
+                <div className="col-md-6 images">
                 <img src="https://i.postimg.cc/15Ww09G6/Banner.png" alt="Banner" className="img-fluid animate__animated animate__fadeInRight" />
             </div>
             </div>

@@ -8,7 +8,7 @@ function UserCotizaciones () {
 
     return (
         <>
-        <body className="fondo">
+        <div className="fondo">
         <Layout/>
         <div>
         <GeneralAlert/>
@@ -17,7 +17,7 @@ function UserCotizaciones () {
             <CotizacionesUser/>
             </div>
             <Footer/>
-        </body>
+        </div>
         </>   
     );
 }

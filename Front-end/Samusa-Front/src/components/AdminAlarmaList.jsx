@@ -26,13 +26,13 @@ const AlarmaList = ({ Alarma }) => {
         });
       };
     return (
-    <div class="content">
-        <div class="categories">
-            <a href="#" class="new">Detalle de la alerta #{Alarma.id}</a>
+    <div className="content">
+        <div className="categories">
+            <a href="#" className="new">Detalle de la alerta #{Alarma.id}</a>
             </div>
-            <h4 class="title"><a href="#">{Alarma.descripcion}</a></h4>
-            <ul class="meta">
-                <li><i class="zmdi zmdi-time"></i></li>
+            <h4 clasclassNames="title"><a href="#">{Alarma.descripcion}</a></h4>
+            <ul className="meta">
+                <li><i className="zmdi zmdi-time"></i></li>
                 <li>Status: <a href="#">Activa</a></li>
                 </ul>
                 <br />

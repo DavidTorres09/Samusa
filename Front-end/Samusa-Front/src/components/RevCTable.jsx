@@ -105,7 +105,7 @@ const RevCTable = () => {
       <div className="table-container col-12 mb-30">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de revisiones de contenedores</h1>
 
-        <div class="table-controls">
+        <div className="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}

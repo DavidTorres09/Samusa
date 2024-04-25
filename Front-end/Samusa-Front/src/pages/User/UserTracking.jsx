@@ -11,7 +11,7 @@ function UserTracking () {
 
     return (
         <>
-        <body  className="fondo">
+        <div  className="fondo">
         <Layout></Layout>
         <div>
         <GeneralAlert/>
@@ -20,7 +20,7 @@ function UserTracking () {
         <TrackPage/>
         </div>
         <Footer></Footer>
-        </body>
+        </div>
         </>
         
     );

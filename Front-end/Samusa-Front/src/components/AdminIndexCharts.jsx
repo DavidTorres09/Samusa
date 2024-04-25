@@ -223,29 +223,29 @@ const AdminIndexCharts = () => {
 
   return (
     <div>
-      <div class="row mbn-30">
-        <div class="col-md-8 mb-30">
-          <div class="box">
-            <div class="box-head">
-              <h4 class="title">Comparacion de contenedores y vehiculos</h4>
+      <div className="row mbn-30">
+        <div className="col-md-8 mb-30">
+          <div className="box">
+            <div className="box-head">
+              <h4 className="title">Comparacion de contenedores y vehiculos</h4>
             </div>
 
-            <div class="box-body">
-              <div class="chart-legends-1 row">
-                <div class="chart-legend-1 col-12 col-sm-4">
-                  <h5 class="title">Total</h5>
-                  <h3 class="value text-secondary">{totalrevisiones}</h3>
+            <div className="box-body">
+              <div className="chart-legends-1 row">
+                <div className="chart-legend-1 col-12 col-sm-4">
+                  <h5 className="title">Total</h5>
+                  <h3 className="value text-secondary">{totalrevisiones}</h3>
                 </div>
-                <div class="chart-legend-1 col-12 col-sm-4">
-                  <h5 class="title">Total Vehiculos</h5>
-                  <h3 class="value text-primary">{totalRevisionesVEh}</h3>
+                <div className="chart-legend-1 col-12 col-sm-4">
+                  <h5 className="title">Total Vehiculos</h5>
+                  <h3 className="value text-primary">{totalRevisionesVEh}</h3>
                 </div>
-                <div class="chart-legend-1 col-12 col-sm-4">
-                  <h5 class="title">Total Contenedores</h5>
-                  <h3 class="value text-warning">{totalRevisionesRevC}</h3>
+                <div className="chart-legend-1 col-12 col-sm-4">
+                  <h5 className="title">Total Contenedores</h5>
+                  <h3 className="value text-warning">{totalRevisionesRevC}</h3>
                 </div>
               </div>
-              <div class="chartjs-revenue-statistics-chart">
+              <div className="chartjs-revenue-statistics-chart">
 
                   <div className="chartcontainer">
                     <HighchartsReact
@@ -259,13 +259,13 @@ const AdminIndexCharts = () => {
           </div>
         </div>
 
-        <div class="col-md-4 mb-30">
-          <div class="box">
-            <div class="box-head">
-              <h4 class="title">Estados de vehiculos</h4>
+        <div className="col-md-4 mb-30">
+          <div className="box">
+            <div className="box-head">
+              <h4 className="title">Estados de vehiculos</h4>
             </div>
-            <div class="box-body">
-              <div class="chartjs-market-trends-chart">
+            <div className="box-body">
+              <div className="chartjs-market-trends-chart">
               <div className="">
                     <HighchartsReact
                       highcharts={Highcharts}

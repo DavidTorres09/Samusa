@@ -28,13 +28,13 @@ import React, { useEffect } from 'react';
 const AdminImportaciones = () => {
     return (
         <>
-        <body className="skin-dark">
+        <div className="skin-dark">
         <LayoutAdmin/>
             <div className="content-body">
             <ExportaTable/>
             </div>
             <Footer/>
-        </body>
+        </div>
         </>
     );
 }
