@@ -29,7 +29,7 @@ import React, { useEffect } from 'react';
 const AdminImportaciones = () => {
     return (
         <>
-        <div className="skin-dark">
+        <body className="skin-dark">
         <LayoutAdmin/>
             <div className="content-body">
             <ImportaTable/>
@@ -38,7 +38,7 @@ const AdminImportaciones = () => {
             <br />
             <br />
             <Footer/>
-        </div>
+        </body>
         </>
     );
 }

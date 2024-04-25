@@ -25,6 +25,7 @@ import AdminIndex from './pages/Admin/AdminIndex.jsx';
 import LoginAdmin from './components/LoginAdmin.jsx';
 import UserProfile from './pages/User/UserProfile.jsx';
 import CalendarPage from './pages/Admin/Calendar.jsx';
+import IndexNonAuntenticate from './pages/User/NoUserIndex.jsx';
 
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
      <Routes>
       //TODO: fix the routes
       
-      <Route exact path="/" element={<Login />}> </Route> //OK
+      <Route exact path="/" element={<IndexNonAuntenticate />}> </Route> //OK
       <Route exact path="/AdminLogin" element={<LoginAdmin  />}> </Route> //OK
       <Route exact path="/Recuperar" element={<RecuperarPass />}></Route> //TODO: finish the action
       
@@ -51,6 +52,7 @@ function App() {
       <Route exact path="/Admin/Tickets" element={<AdminTickets/>}> </Route> //OK
 
       <Route exact path="/User" element={<IndexUser />}>  </Route> //OK
+      <Route exact path="/User/Login" element={<Login />}>  </Route> //OK
       <Route exact path="/User/AboutUs" element={<AboutUs/>}> </Route> //OK
       <Route exact path="/User/Cotizaciones" element={<UserCotizaciones/>}> </Route> //OK
       <Route exact path="/User/PreguntasFrecuentes" element={<USerPreguntasFrecuentes/>}> </Route> //OK

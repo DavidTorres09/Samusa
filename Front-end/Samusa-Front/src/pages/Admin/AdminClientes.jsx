@@ -26,13 +26,13 @@ import 'datatables.net-select-dt';
 const AdminClientes = () => {
   return (
     <>
-    <div className="skin-dark">
+    <body className="skin-dark">
     <LayoutAdmin/>
       <div className="content-body">
       <ClientsTable/>
       </div>
       <Footer/>
-    </div>
+    </body>
     </>
   );
 };

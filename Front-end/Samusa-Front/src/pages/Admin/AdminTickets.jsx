@@ -29,13 +29,13 @@ const AdminTickets = () => {
 
   return (
     <>
-        <div className="skin-dark">
+        <body className="skin-dark">
         <LayoutAdmin/>
             <div className="content-body">
             <TicketsTable/>
             </div>
             <Footer/>
-        </div>
+        </body>
         </>
   );
 };

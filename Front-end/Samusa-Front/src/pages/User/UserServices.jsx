@@ -8,7 +8,7 @@ function UserServices () {
 
     return (
         <>
-        <div className="fondo">
+        <body className="fondo">
         <Layout/>
         <div>
         <GeneralAlert/>
@@ -17,7 +17,7 @@ function UserServices () {
                 <p className="text-white">ACA VAN LOS SERVICIOS HAY QUE HACER OTRO COMPONENTE</p>
             </div>
             <Footer/>
-        </div>
+        </body>
         </>
     );
 }

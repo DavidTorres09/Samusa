@@ -10,7 +10,7 @@ const AboutUsInformation = () => {
                 <h1>Expertos en Servicios Logísticos Aduaneros</h1>
                 <p>Exportaciones e importaciones de mercancía y vehículos.</p>
                 <div className="buttons">
-                    <a href="Services" className="btn">Nuestros Servicios</a>
+                    <a href="http://localhost:5173/User/Services" className="btn">Nuestros Servicios</a>
                     <a href="FrequentlyQuestion" className="btn">Preguntas Frecuentes</a>
                 </div>
             </div>

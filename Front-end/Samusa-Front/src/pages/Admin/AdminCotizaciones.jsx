@@ -31,7 +31,7 @@ const AdminCotizaciones = () => {
     
     return (
         <>
-        <div className="skin-dark">
+        <body className="skin-dark">
         <LayoutAdmin/>
         <div className="content-body">
         <CotizaTable/>
@@ -40,7 +40,7 @@ const AdminCotizaciones = () => {
 
         </div>
         <Footer/>
-        </div>
+        </body>
         </>
     )
 }

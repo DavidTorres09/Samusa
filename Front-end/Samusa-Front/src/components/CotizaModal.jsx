@@ -46,6 +46,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
       }
       }
       else {
+        editedCotiza.fechaCreacion = new Date().toISOString();
         const updateCotiza = await fetch(
           `https://localhost:7189/api/samusa/cotizacion/actualizar`,
           {
@@ -66,6 +67,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
       }
     } catch (error) {
       console.error("Error:", error.message);
+      console.log(editedCotiza);
     }
   };
 

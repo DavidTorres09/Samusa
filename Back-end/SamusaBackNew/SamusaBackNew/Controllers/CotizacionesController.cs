@@ -149,7 +149,6 @@ namespace SamusaBackNew.Controllers
                             cotizacion.Producto,
                             cotizacion.PorcentajeIMP,
                             cotizacion.EnlaceRef,
-                            cotizacion.FechaCreacion,
 
                         },
                     commandType: System.Data.CommandType.StoredProcedure);

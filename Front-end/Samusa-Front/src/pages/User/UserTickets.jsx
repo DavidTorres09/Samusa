@@ -6,7 +6,7 @@ import GeneralAlert from "../../components/GeneralAlert";
 const UserTickets = () => {
     return (
         <>
-        <div className="fondo">
+        <body className="fondo">
         <Layout/>
         <div>
         <GeneralAlert/>
@@ -15,7 +15,7 @@ const UserTickets = () => {
             <TicketCliente/>
             </div>
             <Footer/>
-        </div>
+        </body>
         </>       
     );
 }
