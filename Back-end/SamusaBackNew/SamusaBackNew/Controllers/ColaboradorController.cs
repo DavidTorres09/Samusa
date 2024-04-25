@@ -229,22 +229,22 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("autenticar")]
-        public async Task<IActionResult> AutenticarCliente(string usuario, string contrasenna)
+        public async Task<IActionResult> IniciarSesionColaborador([FromBody] Colaborador colaborador)
         {
 
 
             using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
-                ClienteRespuesta respuesta = new ClienteRespuesta();
+                ColaboradorRespuesta respuesta = new ColaboradorRespuesta();
                 await db.OpenAsync();
 
 
                 var resultado = await Task.Run(() =>
-                       db.Query<Cliente>("AutenticaUsuario_colaborador",
+                       db.Query<Colaborador>("IniciarSesionColaborador",
                     new
                     {
-                        P_Usuario = usuario,
-                        P_Clave = contrasenna
+                        usuario = colaborador.Usuario,
+                        contrasenna = colaborador.Contrasenna
                     }
                     , commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault());
 
