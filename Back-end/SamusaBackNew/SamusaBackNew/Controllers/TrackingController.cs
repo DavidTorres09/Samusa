@@ -12,8 +12,8 @@ namespace SamusaBackNew.Controllers
     {
         [AllowAnonymous]
         [HttpGet]
-        [Route("listar/{id}")]
-        public async Task<IActionResult> ConsultarTrackingDetallado(int id)
+        [Route("listar/{trackingNumber}")]
+        public async Task<IActionResult> ConsultarTrackingDetallado(int trackingNumber)
         {
             TrackingRespuesta respuesta = new TrackingRespuesta();
             try
@@ -23,7 +23,7 @@ namespace SamusaBackNew.Controllers
                     await db.OpenAsync();
 
                     var tracking = await db.QueryFirstOrDefaultAsync<Tracking>("ConsultarTrackingDetallado",
-                        new { NumSeguimiento = id },
+                        new { NumSeguimiento = trackingNumber },
                         commandType: System.Data.CommandType.StoredProcedure);
 
                     if (tracking != null)
