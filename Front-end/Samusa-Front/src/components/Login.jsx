@@ -9,9 +9,7 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-          console.log('usuario:', usuario);
-          console.log('contrasenna:', contrasenna);
-            const response = await fetch('https://localhost:7189/api/samusa/cliente/autenticar', {
+            const response = await fetch('https://localhost:7189/api/samusa/colaborador/autenticar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -26,18 +24,32 @@ const Login = () => {
                 const data = await response.json();
                 console.log(data.codigo)
                 if (data.codigo === "0") {
-                  setIsLogged(true);
-              } else {
-                  console.error('Usuario o contraseña incorrectos');
-              }
+                    const { id, dni, nombre, telefono, email, esNacional, usuario, rolId, nombreRol, foto, estado, esTemporal, token } = data.dato;
+                    sessionStorage.setItem('id', id);
+                    sessionStorage.setItem('dni', dni);
+                    sessionStorage.setItem('nombre', nombre);
+                    sessionStorage.setItem('telefono', telefono);
+                    sessionStorage.setItem('email', email);
+                    sessionStorage.setItem('esNacional', esNacional);
+                    sessionStorage.setItem('usuario', usuario);
+                    sessionStorage.setItem('rolId', rolId);
+                    sessionStorage.setItem('nombreRol', nombreRol);
+                    sessionStorage.setItem('foto', foto);
+                    sessionStorage.setItem('estado', estado);
+                    sessionStorage.setItem('esTemporal', esTemporal);
+                    sessionStorage.setItem('token', token);
+    
+                    setIsLogged(true);
+                } else {
+                    console.error('Usuario o contraseña incorrectos');
+                }
             } else {
                 const errorMsg = await response.text();
                 console.error(`Error al intentar loguearse: ${errorMsg}`);
             }
         } catch (error) {
             console.error(error);
-        }
-    };
+        }};
 
     useEffect(() => {
       if (isLogged) {
