@@ -30,6 +30,7 @@ const CotizaTable = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedCotiza, setSelectedCotiza] = useState(null);
   const [query, SetQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   console.log(query);
   console.log(tableData.filter(item => item.producto.toLowerCase().includes("a")));
 
@@ -37,7 +38,15 @@ const CotizaTable = () => {
     fetch('https://localhost:7189/api/samusa/cotizacion/listar')
       .then(response => response.json())
       .then(data => {
-        setTableData(data);
+        if (data.codigo && data.codigo === "-1") {
+          setErrorMessage(data.mensaje);
+          setTableData([]); //limpia datos existentes
+        } else if (data.length === 0) {
+          setErrorMessage("No se encontraron cotizaciones en la Base de datos.");
+        } else {
+          setTableData(data);
+          setErrorMessage(""); // Limpia mensaje de error 
+        }
         // Asegúra de que la tabla se inicialice
         setTimeout(() => {
           $(document).ready(function() {
@@ -107,8 +116,12 @@ const CotizaTable = () => {
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Cotización</h1>
-
-        <div class="table-controls">
+        {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
+        <div className="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}

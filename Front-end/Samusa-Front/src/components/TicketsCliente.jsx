@@ -10,8 +10,22 @@ const TicketCliente = () => {
     useEffect(() => {
         fetch('https://localhost:7189/api/samusa/Ticket/listar')
             .then(response => response.json())
-            .then(data => setTickets(data))
-            .catch(error => console.error('Error fetching tickets:', error));
+            .then(data => {
+                // Verificar si la respuesta incluye un código de error
+                if (data.codigo && data.codigo === "-1") {
+                    setErrorMessage(data.mensaje);
+                    setTickets([]); // Limpia los datos existentes
+                } else if (data.length === 0) {
+                    setErrorMessage("No se encontraron TKKS en la base de datos.");
+                } else {
+                    setTickets(data);
+                    setErrorMessage(""); // Limpia el mensaje de error
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching alarmas:', error);
+                setErrorMessage("Error al cargar las alarmas.");
+            });
     }, []);
 
     const handleNewTicket = () => {

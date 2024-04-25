@@ -6,13 +6,14 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
     expSeguimientoId: 0,
     clienteId: 0,
     dni: "",
-    idRevVehiculo: null,
-    idRevContenedor: null,
+    revVehiculoId: null,
+    revContenedorId: null,
     fechaInicio: new Date().toISOString(),
     fechaFinalizacion: null,
     fechaEsperada: null,
     prioridad: "",
     descripcion: "",
+    documentoUrl: "",
   });
 
   const handleInputChange = (event) => {
@@ -126,12 +127,12 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
                   <input type="text" name="dni" id="dni" value={editedExporta.dni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="idRevVehiculo" className="block text-sm font-medium text-gray-700">Revision de vehiculo asociada</label>
-                  <input type="text" name="idRevVehiculo" id="idRevVehiculo" value={editedExporta.idRevVehiculo} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="revVehiculoId" className="block text-sm font-medium text-gray-700">Revision de vehiculo asociada</label>
+                  <input type="text" name="revVehiculoId" id="revVehiculoId" value={editedExporta.revVehiculoId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="idRevContenedor" className="block text-sm font-medium text-gray-700">Revision de contenedor asociada</label>
-                  <input type="text" name="idRevContenedor" id="idRevContenedor" value={editedExporta.idRevContenedor} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="revContenedorId" className="block text-sm font-medium text-gray-700">Revision de contenedor asociada</label>
+                  <input type="text" name="revContenedorId" id="revContenedorId" value={editedExporta.revContenedorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
 
                 {isEditing ? 
@@ -175,6 +176,10 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
                 <div className="mb-4">
                   <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripcion</label>
                   <input type="text" name="descripcion" id="descripcion" value={editedExporta.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="documentoUrl" className="block text-sm font-medium text-gray-700">Link de documentos</label>
+                  <input type="text" name="documentoUrl" id="documentoUrl" value={editedExporta.documentoUrl} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
               </div>
               </div>

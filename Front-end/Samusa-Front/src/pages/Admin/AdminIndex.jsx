@@ -4,6 +4,7 @@ import ImportaChart from "../../components/ImportaChart";
 import AdminInfoCards from "../../components/AdminIndexInfocards";
 import AdminIndexCharts from "../../components/AdminIndexCharts";
 import AdminAlertsandbuttons from "../../components/AdminIndexAlarmasybotones";
+import GeneralAlert from "../../components/GeneralAlert";
 import Calendar from "../../components/Calendar";
 import "../../Css/Template.css"
 
@@ -12,10 +13,13 @@ const AdminIndex = () => {
         <>
         <body className="skin-dark">
         <LayoutAdmin/>
+        <div>
+        <GeneralAlert/>
+        </div>
         <div className="content-body">
 
         <div className="row justify-content-between align-items-center mb-10">
-            <div className="col-12 col-lg-auto mb-20">
+            <div className="col-12 col-lg-auto mb-10">
                 <div className="page-heading">
                     <h3>Samusa <span>/ Menú de Admin</span></h3>
                 </div>
@@ -33,11 +37,9 @@ const AdminIndex = () => {
         <div>
         <AdminAlertsandbuttons/>
         </div>
-
-        <div>
-        <Calendar/>
-        </div>
-
+        <br />
+        <br />
+        
         </div>
         <Footer/>
         </body>

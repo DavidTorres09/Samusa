@@ -89,6 +89,7 @@ CREATE TABLE Importacion (
 	FechaEsperada			DATETIME NULL,
 	Prioridad				VARCHAR (80) NOT NULL,
     Descripcion				VARCHAR (250) NULL,
+	DocumentoUrl				    VARCHAR (250) NULL
 )
 GO
 
@@ -102,7 +103,8 @@ CREATE TABLE Exportacion (
 	FechaFinalizacion		DATETIME NULL,
 	FechaEsperada			DATETIME NULL,
 	Prioridad				VARCHAR (80) NOT NULL,
-    Descripcion				VARCHAR (250) NULL
+    Descripcion				VARCHAR (250) NULL,
+	DocumentoUrl			VARCHAR (250) NULL
 )
 GO
 
@@ -135,6 +137,7 @@ CREATE TABLE Ticket (
     Estado			VARCHAR(50),
     Prioridad		VARCHAR(50),
     Descripcion		VARCHAR(500),
+	Respuesta		VARCHAR(500) NULL,
     ClienteId		INT NOT NULL,
     ColaboradorId	INT NOT NULL,
 )
@@ -205,6 +208,16 @@ INSERT INTO RevisionContenedor (PuertoOrigen, PuertoDestino, Naviera, Transporti
 VALUES  ('S/D', 'S/D', 'S/D', 'S/D', 'S/D', 'S/D')
 GO
 
+INSERT INTO Cliente (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal) 
+VALUES 
+('Calle Principal 123', '12345678A', 'Juan Pérez', '+123456789', 'juan@example.com', 1, 'juanperez', 'contrasenna123', 1, 'url_foto_juan.jpg', 1, 0)
+GO
+
+INSERT INTO Colaborador (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal) 
+VALUES 
+('Calle Mayor 456', '01234567E', 'Carlos Rodríguez', '+012345678', 'carlos@example.com', 1, 'carlosr', 'contrasenna456', 3, 'url_foto_carlos.jpg', 1, 0)
+GO
+select * from Cliente
 CREATE PROCEDURE AgregarCliente (
 	@Direccion		VARCHAR(250),
     @Dni			VARCHAR(50),
@@ -466,13 +479,14 @@ CREATE PROCEDURE AgregarExportacion (
 	@FechaFinalizacion	DATETIME,
 	@FechaEsperada		DATETIME,
 	@Prioridad			VARCHAR(80),
-	@Descripcion		VARCHAR(250)
+	@Descripcion		VARCHAR(250),
+	@DocumentoUrl		VARCHAR(250)
 )
 AS
 IF NOT EXISTS (SELECT 1 FROM Exportacion WHERE ExpSeguimientoId = @ExpSeguimientoId)
 BEGIN
-	INSERT INTO Exportacion (ExpSeguimientoId, ClienteId, RevVehiculoId, RevContenedorId, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion)
-	VALUES (@ExpSeguimientoId, @ClienteId, @RevVehiculoId, @RevContenedorId, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion);
+	INSERT INTO Exportacion (ExpSeguimientoId, ClienteId, RevVehiculoId, RevContenedorId, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion,DocumentoUrl)
+	VALUES (@ExpSeguimientoId, @ClienteId, @RevVehiculoId, @RevContenedorId, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion,@DocumentoUrl);
 END
 GO
 
@@ -485,7 +499,8 @@ CREATE PROCEDURE ModificarExportacion (
 	@FechaFinalizacion	DATETIME,
 	@FechaEsperada		DATETIME,
 	@Prioridad			VARCHAR(80),
-	@Descripcion		VARCHAR(250)
+	@Descripcion		VARCHAR(250),
+	@DocumentoUrl		VARCHAR(250)
 )
 AS
 IF EXISTS (SELECT 1 FROM Exportacion WHERE ExpSeguimientoId = @ExpSeguimientoId)
@@ -498,7 +513,8 @@ BEGIN
 		FechaFinalizacion = @FechaFinalizacion,
 		FechaEsperada = @FechaEsperada,
 		Prioridad = @Prioridad,
-		Descripcion = @Descripcion
+		Descripcion = @Descripcion,
+		DocumentoUrl = @DocumentoUrl
 	WHERE ExpSeguimientoId = @ExpSeguimientoId;
 END
 GO
@@ -516,7 +532,8 @@ BEGIN
 		E.FechaFinalizacion,
 		E.FechaEsperada,
 		E.Prioridad,
-		E.Descripcion
+		E.Descripcion,
+		E.DocumentoUrl
 	FROM
 		Exportacion E
 END
@@ -537,7 +554,8 @@ BEGIN
 		E.FechaFinalizacion,
 		E.FechaEsperada,
 		E.Prioridad,
-		E.Descripcion
+		E.Descripcion,
+		E.DocumentoUrl
 	FROM
 		Exportacion E
 	WHERE E.Id = @Id
@@ -563,13 +581,14 @@ CREATE PROCEDURE AgregarImportacion (
 	@FechaFinalizacion	DATETIME,
 	@FechaEsperada		DATETIME,
 	@Prioridad			VARCHAR(80),
-	@Descripcion		VARCHAR(250)
+	@Descripcion		VARCHAR(250),
+	@DocumentoUrl		VARCHAR(250)
 )
 AS
 IF NOT EXISTS (SELECT 1 FROM Importacion WHERE ImpSeguimientoId = @ImpSeguimientoId)
 BEGIN
-	INSERT INTO Importacion (ImpSeguimientoId, ClienteId ,RevVehiculoId ,RevContenedorId, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion)
-	VALUES (@ImpSeguimientoId, @ClienteId, @RevVehiculoId, @RevContenedorId, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion);
+	INSERT INTO Importacion (ImpSeguimientoId, ClienteId ,RevVehiculoId ,RevContenedorId, FechaInicio, FechaFinalizacion, FechaEsperada, Prioridad, Descripcion,DocumentoUrl)
+	VALUES (@ImpSeguimientoId, @ClienteId, @RevVehiculoId, @RevContenedorId, @FechaInicio, @FechaFinalizacion, @FechaEsperada, @Prioridad, @Descripcion,@DocumentoUrl);
 END
 GO
 
@@ -582,7 +601,8 @@ CREATE PROCEDURE ModificarImportacion (
 	@FechaFinalizacion	DATETIME,
 	@FechaEsperada		DATETIME,
 	@Prioridad			VARCHAR(80),
-	@Descripcion		VARCHAR(250)
+	@Descripcion		VARCHAR(250),
+	@DocumentoUrl		VARCHAR(250)
 )
 AS
 IF EXISTS (SELECT 1 FROM Importacion WHERE ImpSeguimientoId = @ImpSeguimientoId)
@@ -594,7 +614,8 @@ BEGIN
 		FechaFinalizacion = @FechaFinalizacion,
 		FechaEsperada = @FechaEsperada,
 		Prioridad = @Prioridad,
-		Descripcion = @Descripcion
+		Descripcion = @Descripcion,
+		DocumentoUrl = @DocumentoUrl
 	WHERE Id = @Id
 END
 GO
@@ -612,7 +633,8 @@ BEGIN
 		FechaFinalizacion,
 		FechaEsperada,
 		Prioridad,
-		Descripcion
+		Descripcion,
+		DocumentoUrl
 	FROM
 		Importacion 
 END
@@ -633,7 +655,8 @@ BEGIN
 		FechaFinalizacion,
 		FechaEsperada,
 		Prioridad,
-		Descripcion
+		Descripcion,
+		DocumentoUrl
 	FROM
 		Importacion 
 	WHERE Id = @Id
@@ -1070,14 +1093,15 @@ CREATE PROCEDURE AgregarTicket (
 	@Estado			VARCHAR(50),
 	@Prioridad		VARCHAR(50),
 	@Descripcion	VARCHAR(500),
+	@Respuesta	    VARCHAR(500),
 	@ClienteId		INT,
 	@ColaboradorId	INT
 )
 AS
 IF NOT EXISTS (SELECT 1 FROM Ticket WHERE Estado = @Estado AND Prioridad = @Prioridad AND Descripcion = @Descripcion AND ClienteId = @ClienteId AND ColaboradorId = @ColaboradorId)
 BEGIN
-	INSERT INTO Ticket (Estado, Prioridad, Descripcion, ClienteId, ColaboradorId)
-	VALUES (@Estado, @Prioridad, @Descripcion, @ClienteId, @ColaboradorId);
+	INSERT INTO Ticket (Estado, Prioridad, Descripcion,Respuesta, ClienteId, ColaboradorId)
+	VALUES (@Estado, @Prioridad, @Descripcion,@Respuesta, @ClienteId, @ColaboradorId);
 END
 GO
 
@@ -1086,6 +1110,7 @@ CREATE PROCEDURE ModificarTicket (
 	@Estado			VARCHAR(50),
 	@Prioridad		VARCHAR(50),
 	@Descripcion	VARCHAR(500),
+	@Respuesta	    VARCHAR(500),
 	@ClienteId		INT,
 	@ColaboradorId	INT
 )
@@ -1096,6 +1121,7 @@ BEGIN
 	SET Estado = @Estado,
 		Prioridad = @Prioridad,
 		Descripcion = @Descripcion,
+		Respuesta = @Respuesta,
 		ClienteId = @ClienteId,
 		ColaboradorId = @ColaboradorId
 	WHERE Id = @Id;
@@ -1110,6 +1136,7 @@ BEGIN
 		Estado,
 		Prioridad,
 		Descripcion,
+		Respuesta,
 		ClienteId,
 		ColaboradorId
 	FROM
@@ -1127,6 +1154,7 @@ BEGIN
 		Estado,
 		Prioridad,
 		Descripcion,
+		Respuesta,
 		ClienteId,
 		ColaboradorId
 	FROM
@@ -1177,29 +1205,29 @@ END
 GO
 
 
-CREATE procedure [dbo].[AutenticaUsuario_cliente](
-@P_Usuario VARCHAR(50),
-@P_Clave VARCHAR(50)
+CREATE PROCEDURE IniciarSesionCliente(
+	@Usuario VARCHAR(150),
+	@Contrasenna VARCHAR(150)
 )
 AS
 BEGIN
-SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
-FROM dbo.cliente u
-INNER JOIN Rol r ON u.RolId = r.id
-WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
+	SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+	FROM Cliente u
+	INNER JOIN Rol r ON u.RolId = r.id
+	WHERE u.USUARIO = @Usuario and u.Contrasenna = @Contrasenna
 END
 GO
 
-CREATE procedure [dbo].[AutenticaUsuario_colaborador](
-@P_Usuario VARCHAR(50),
-@P_Clave VARCHAR(50)
+CREATE PROCEDURE IniciarSesionColaborador(
+	@Usuario VARCHAR(150),
+	@Contrasenna VARCHAR(150)
 )
 AS
 BEGIN
-SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
-FROM dbo.colaborador u
-INNER JOIN Rol r ON u.RolId = r.id
-WHERE u.USUARIO = @P_Usuario and u.Contrasenna = @P_Clave
+	SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+	FROM Colaborador u
+	INNER JOIN Rol r ON u.RolId = r.id
+	WHERE u.USUARIO = @Usuario and u.Contrasenna = @Contrasenna
 END
 GO
 
@@ -1320,3 +1348,111 @@ BEGIN
 	  WHERE	Email = @Email
 		AND Estado = 1
 END
+GO
+
+
+CREATE PROCEDURE ConsultarTracking
+	@NumSeguimiento INT
+AS
+BEGIN
+	IF EXISTS(SELECT 1 FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento) 
+		BEGIN
+			SELECT * FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento
+		END
+	ELSE IF EXISTS(SELECT 1 FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento)	
+		BEGIN
+			SELECT * FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento
+		END
+END
+GO
+
+CREATE PROCEDURE ConsultarTrackingDetallado
+	@NumSeguimiento INT
+AS
+BEGIN
+	DECLARE @RevVehiculoId INT
+	DECLARE @RevContenedorId INT
+	
+	IF EXISTS(SELECT 1 FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento) 
+		BEGIN
+			SELECT @RevVehiculoId = RevVehiculoId FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento
+			SELECT @RevContenedorId = RevContenedorId FROM Importacion WHERE ImpSeguimientoId = @NumSeguimiento
+			IF @RevVehiculoId IS NOT NULL
+				BEGIN
+					SELECT 
+						I.Id,
+						I.ImpSeguimientoId,
+						I.FechaInicio,
+						I.FechaFinalizacion,
+						I.Prioridad AS Estado,
+						R.VIN,
+						R.Marca,
+						R.Modelo,
+						R.Color,
+						R.Extras,
+						R.EstadoOP
+					FROM Importacion I
+					JOIN RevisionVehiculo R ON I.RevVehiculoId = R.Id
+					WHERE I.ImpSeguimientoId = @NumSeguimiento
+				END
+			ELSE IF @RevContenedorId IS NOT NULL
+				BEGIN
+					SELECT 
+						I.Id,
+						I.ImpSeguimientoId,
+						I.FechaInicio,
+						I.FechaFinalizacion,
+						I.Prioridad AS Estado,
+						R.Naviera,
+						R.PuertoOrigen,
+						R.PuertoDestino,
+						R.Transportista,
+						R.Estado
+					FROM Importacion I
+					JOIN RevisionContenedor R ON I.RevContenedorId = R.Id
+					WHERE I.ImpSeguimientoId = @NumSeguimiento
+				END
+			END
+	ELSE IF EXISTS(SELECT 1 FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento)	
+		BEGIN
+			SELECT @RevVehiculoId = RevVehiculoId FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento
+			SELECT @RevContenedorId = RevContenedorId FROM Exportacion WHERE ExpSeguimientoId = @NumSeguimiento
+
+			IF @RevVehiculoId IS NOT NULL
+				BEGIN
+					SELECT 
+						E.Id,
+						E.ExpSeguimientoId,
+						E.FechaInicio,
+						E.FechaFinalizacion,
+						E.Prioridad AS Estado,
+						R.VIN,
+						R.Marca,
+						R.Modelo,
+						R.Color,
+						R.Extras,
+						R.EstadoOP
+					FROM Exportacion E
+					JOIN RevisionVehiculo R ON E.RevVehiculoId = R.Id
+					WHERE E.ExpSeguimientoId = @NumSeguimiento
+				END
+			ELSE IF @RevContenedorId IS NOT NULL
+				BEGIN
+					SELECT 
+						E.Id,
+						E.ExpSeguimientoId,
+						E.FechaInicio,
+						E.FechaFinalizacion,
+						E.Prioridad AS Estado,
+						R.Naviera,
+						R.PuertoOrigen,
+						R.PuertoDestino,
+						R.Transportista,
+						R.Estado
+					FROM Exportacion E
+					JOIN RevisionContenedor R ON E.RevContenedorId = R.Id
+					WHERE E.ExpSeguimientoId = @NumSeguimiento
+				END
+			END
+		END
+GO

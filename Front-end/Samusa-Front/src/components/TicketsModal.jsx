@@ -9,6 +9,7 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
     estado: "",
     prioridad: "",
     descripcion: "",
+    respuesta: "",
   });
 
   const handleInputChange = (event) => {
@@ -88,7 +89,12 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
           </div>
           <br />
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                <div className="mb-4">
+          {isEditing ? 
+                 <div>
+                 </div>
+                 : 
+                 <div>
+                  <div className="mb-4">
                   <label htmlFor="colaboradorId" className="block text-sm font-medium text-gray-700">Id Colaborador</label>
                   <input type="text" name="colaboradorId" id="colaboradorId" value={editedTicket.colaboradorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
@@ -96,6 +102,8 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
                   <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Cliente Id</label>
                   <input type="text" name="clienteId" id="clienteId" value={editedTicket.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
+                 </div>
+                 }
 
                 <div className="mb-4">
                     <label htmlFor="estado" className="block text-sm font-medium text-gray-700"> Estado </label>
@@ -116,10 +124,9 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
                       <option value="Critica">Critica</option>
                     </select>
                   </div>
-
                 <div className="mb-4">
-                  <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Detalle</label>
-                  <input type="text" name="descripcion" id="descripcion" value={editedTicket.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="respuesta" className="block text-sm font-medium text-gray-700">Respuesta</label>
+                  <input type="text" name="respuesta" id="respuesta" value={editedTicket.respuesta} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
               </div>
             </div>

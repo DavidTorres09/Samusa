@@ -122,7 +122,7 @@ const ColaboTable = () => {
             {errorMessage}
           </div>
         )}
-        <div class="table-controls">
+        <div className="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
@@ -136,6 +136,7 @@ const ColaboTable = () => {
           <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
+                  <th className="py-4 px-6">ID de colaborador</th>
                   <th className="py-4 px-6">DNI</th>
                   <th className="py-4 px-6">Nombre</th>
                   <th className="py-4 px-6">Teléfono</th>
@@ -151,7 +152,8 @@ const ColaboTable = () => {
             <tbody>
               {tableData.filter(item => item.nombre.toLowerCase().includes(query)).map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
-                  <td className="py-4 px-6">{item.dni}</td>
+                    <td className="py-4 px-6">{item.id}</td>
+                    <td className="py-4 px-6">{item.dni}</td>
                     <td className="py-4 px-6">{item.nombre}</td>
                     <td className="py-4 px-6">{item.telefono}</td>
                     <td className="py-4 px-6">{item.email}</td>

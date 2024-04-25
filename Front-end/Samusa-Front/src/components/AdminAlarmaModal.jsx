@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
 
-const TicketClientModal = ({ user, onClose,}) => {
-  const [NewTicket, setNewTicket] = useState(user || {
+const AdminAlarmaModal = ({ user, onClose,}) => {
+  const [NewAlarma, setNewAlarma] = useState(user || {
     id: 0,
-    colaboradorId: 1,
-    clienteId: 0,
-    dniCliente: "",
-    estado: "Sin revisar",
-    prioridad: "",
     descripcion: "",
   });
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
     const newValue = type === 'checkbox' ? checked : value;
-    setNewTicket({ ...NewTicket, [name]: newValue });
+    setNewAlarma({ ...NewAlarma, [name]: newValue });
   };
 
   const handleCancel = () => {
@@ -23,21 +18,21 @@ const TicketClientModal = ({ user, onClose,}) => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch('https://localhost:7189/api/samusa/Ticket/agregar', {
+      const response = await fetch('https://localhost:7189/api/samusa/Alarma/agregar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(NewTicket),
+        body: JSON.stringify(NewAlarma),
       });
-      console.log(NewTicket);
+      console.log(NewAlarma);
 
       if (response.ok) {
-        alert("Cotización guardada exitosamente");
+        alert("Alarma guardada exitosamente");
         window.location.reload();
       } else {
         const errorData = await response.json();
-        throw new Error(`Error al agregar la cotización: ${errorData.message}`);
+        throw new Error(`Error al agregar la alarma: ${errorData.message}`);
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -60,29 +55,16 @@ const TicketClientModal = ({ user, onClose,}) => {
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">  
               <div className='bg-blue-600 px-4 py-2 sm:px-6 rounded'>
-                <h3 className="titleform">Agregar Consulta</h3>
+                <h3 className="titleform">Agregar Alarma</h3>
           </div>
           <br />
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                <div className="mb-4">
-                  <label htmlFor="clienteId" className="hidden block text-sm font-medium text-gray-700">Cliente Id</label>
-                  <input type="text" name="clienteId" id="clienteId" value={NewTicket.clienteId} onChange={handleInputChange} className="hidden mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-
-                  <div className="mb-4">
-                    <label htmlFor="prioridad" className="block text-sm font-medium text-gray-700"> Prioridad </label>
-                    <select name="prioridad" id="prioridad" value={NewTicket.prioridad} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full">
-                      <option value="Baja">Baja</option>
-                      <option value="Media">Media</option>
-                      <option value="Alta">Alta</option>
-                      <option value="Critica">Critica</option>
-                    </select>
-                  </div>
 
                 <div className="mb-4">
-                  <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Consulta</label>
-                  <input type="text" name="descripcion" id="descripcion" value={NewTicket.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Detalle</label>
+                  <input type="text" name="descripcion" id="descripcion" value={NewAlarma.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
+                
               </div>
             </div>
           </div>
@@ -101,4 +83,4 @@ const TicketClientModal = ({ user, onClose,}) => {
   );
 };
 
-export default TicketClientModal;
+export default AdminAlarmaModal;

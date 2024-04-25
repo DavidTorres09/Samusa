@@ -30,12 +30,21 @@ const TicketsTable = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedTicket, setSelectedTicket] = useState(null);
   const [query, SetQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetch('https://localhost:7189/api/samusa/Ticket/listar')
       .then(response => response.json())
       .then(data => {
-        setTableData(data);
+        if (data.codigo && data.codigo === "-1") {
+          setErrorMessage(data.mensaje);
+          setTableData([]); //limpia datos existentes
+        } else if (data.length === 0) {
+          setErrorMessage("No se encontraron casos en la Base de datos.");
+        } else {
+          setTableData(data);
+          setErrorMessage(""); // Limpia mensaje de error 
+        }
         // Asegúra de que la tabla se inicialice
         setTimeout(() => {
           $(document).ready(function() {
@@ -105,8 +114,12 @@ const TicketsTable = () => {
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Ticket</h1>
-
-        <div class="table-controls">
+        {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
+        <div className="table-controls">
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
@@ -120,12 +133,13 @@ const TicketsTable = () => {
           <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
-                <th className="py-4 px-6">Id</th>
-                <th className="py-4 px-6">Colaborador</th>
-                <th className="py-4 px-6">Cliente</th>
+                <th className="py-4 px-6">Numero de caso</th>
+                <th className="py-4 px-6">ID Colaborador</th>
+                <th className="py-4 px-6">ID Cliente</th>
                 <th className="py-4 px-6">Estado</th>
                 <th className="py-4 px-6">Prioridad</th>
                 <th className="py-4 px-6">Descripcion</th>
+                <th className="py-4 px-6">Respuestas</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>
             </thead>
@@ -138,9 +152,10 @@ const TicketsTable = () => {
                   <td className="py-4 px-6">{item.estado}</td>
                   <td className="py-4 px-6">{item.prioridad}</td>
                   <td className="py-4 px-6">{item.descripcion}</td>
+                  <td className="py-4 px-6">{item.respuesta}</td>
                   <td className="py-4 px-6">
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleDelete(item.id)}>Eliminar</button>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(item)}>Editar</button> {/* Pasar el objeto completo del pruducto */}
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleEdit(item)}>Responder</button> {/* Pasar el objeto completo del pruducto */}
                   </td>
                 </tr>
               ))}

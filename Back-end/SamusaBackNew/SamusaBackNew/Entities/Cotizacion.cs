@@ -4,8 +4,7 @@
     {
         public int Id { get; set; }
         public int ColaboradorId { get; set; }
-        public int ClienteId { get; set; }
-        public string? DniCliente { get; set; }  
+  
         public string? TipoProducto { get; set; }
         public string? Producto { get; set; }
         public float PorcentajeIMP { get; set; }

@@ -234,7 +234,7 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("autenticar")]
-        public async Task<IActionResult> AutenticarCliente(string usuario, string contrasenna)
+        public async Task<IActionResult> IniciarSesionCliente([FromBody] Cliente cliente)
         {
             
            
@@ -245,9 +245,11 @@ namespace SamusaBackNew.Controllers
 
 
                     var resultado = await Task.Run(() =>
-                           db.Query<Cliente>("AutenticaUsuario_cliente",
-                        new { P_Usuario = usuario,
-                            P_Clave = contrasenna
+                           db.Query<Cliente>("IniciarSesionCliente",
+                        new 
+                        { 
+                            usuario = cliente.Usuario,
+                            contrasenna = cliente.Contrasenna
                         }
                         , commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault());
 

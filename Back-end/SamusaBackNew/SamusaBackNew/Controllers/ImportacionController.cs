@@ -34,7 +34,8 @@ namespace SamusaBackNew.Controllers
                             importacion.FechaFinalizacion,
                             importacion.FechaEsperada,
                             importacion.Prioridad,
-                            importacion.Descripcion
+                            importacion.Descripcion,
+                            importacion.DocumentoUrl
                         },
                         commandType: System.Data.CommandType.StoredProcedure);
 
@@ -152,11 +153,11 @@ namespace SamusaBackNew.Controllers
                             importacion.ClienteId,
                             importacion.RevVehiculoId,
                             importacion.RevContenedorId,
-                            importacion.FechaInicio,
                             importacion.FechaFinalizacion,
                             importacion.FechaEsperada,
                             importacion.Prioridad,
-                            importacion.Descripcion
+                            importacion.Descripcion,
+                            importacion.DocumentoUrl
                         },
                     commandType: System.Data.CommandType.StoredProcedure);
 

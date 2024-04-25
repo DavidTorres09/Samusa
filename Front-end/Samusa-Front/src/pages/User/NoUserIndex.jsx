@@ -1,17 +1,17 @@
 import AboutUsInformation from "../../components/AboutUsInformation";
 import FrequentlyQuestions from "../../components/FrequentlyQuestions";
-import Layout from "../../components/Layout";
+import LayaoutNonAuntenticate from "../../components/LayaoutNonAutenticate";
 import Services from "../../components/Services";
 import "../../css/user/Index.css";
 import Footer from "../../components/Footer";
 import GeneralAlert from "../../components/GeneralAlert";
 
-function IndexUser () {
+function IndexNonAuntenticate () {
 
     return (
         <body  className="fondo">
             <div style={{ marginBottom: '1%' }}>
-                <Layout></Layout>
+                <LayaoutNonAuntenticate></LayaoutNonAuntenticate>
                 <div>
         <GeneralAlert/>
         </div>
@@ -24,4 +24,4 @@ function IndexUser () {
     );
 }
 
-export default IndexUser;
+export default IndexNonAuntenticate;

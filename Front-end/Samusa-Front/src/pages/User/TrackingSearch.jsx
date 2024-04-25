@@ -1,13 +1,12 @@
 import Layout from "../../components/Layout";
 import Footer from "../../components/Footer";
-import TrackingPage from "../../components/UserTrackingPage";
-import TrackPage from "../../components/TrackingPage";
+import TrackingSearch from "../../components/TrackingSearchPage";
 import "../../css/user/Index.css";
 import "../../css/user/Tracking.css";
 import GeneralAlert from "../../components/GeneralAlert";
 
 
-function UserTracking () {
+function TrackingSearchPage () {
 
     return (
         <>
@@ -16,8 +15,8 @@ function UserTracking () {
         <div>
         <GeneralAlert/>
         </div>
-        <div className="content-body trackmain">
-        <TrackPage/>
+        <div className="content-body">
+        <TrackingSearch/>
         </div>
         <Footer></Footer>
         </div>
@@ -26,4 +25,4 @@ function UserTracking () {
     );
 }
 
-export default UserTracking;
+export default TrackingSearchPage;

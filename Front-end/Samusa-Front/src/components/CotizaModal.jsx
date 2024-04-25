@@ -4,8 +4,6 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
   const [editedCotiza, seteditedCotiza] = useState(user || {
     id: 0,
     colaboradorId: "",
-    clienteId: "",
-    dniCliente: "",
     tipoProducto: "",
     producto: "",
     porcentajeIMP: 0,
@@ -48,6 +46,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
       }
       }
       else {
+        editedCotiza.fechaCreacion = new Date().toISOString();
         const updateCotiza = await fetch(
           `https://localhost:7189/api/samusa/cotizacion/actualizar`,
           {
@@ -68,6 +67,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
       }
     } catch (error) {
       console.error("Error:", error.message);
+      console.log(editedCotiza);
     }
   };
 
@@ -94,14 +94,6 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
                 <div className="mb-4">
                   <label htmlFor="colaboradorId" className="block text-sm font-medium text-gray-700">Id Colaborador</label>
                   <input type="text" name="colaboradorId" id="colaboradorId" value={editedCotiza.colaboradorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Cliente Id</label>
-                  <input type="text" name="clienteId" id="clienteId" value={editedCotiza.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="dniCliente" className="block text-sm font-medium text-gray-700">Dni Cliente</label>
-                  <input type="text" name="dniCliente" id="dniCliente" value={editedCotiza.dniCliente} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="tipoProducto" className="block text-sm font-medium text-gray-700">Tipo Producto</label>

@@ -6,13 +6,14 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
     impSeguimientoId: 0,
     clienteId: 0,
     dni: "",
-    idRevVehiculo: null,
-    idRevContenedor: null,
+    revVehiculoId: null,
+    revContenedorId: null,
     fechaInicio: new Date().toISOString(),
     fechaFinalizacion: null,
     fechaEsperada: null,
     prioridad: "",
     descripcion: "",
+    documentoUrl: "",
   });
 
   const handleInputChange = (event) => {
@@ -49,21 +50,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
       }
       }
       else {
-        editedImporta.fechaInicio = new Date().toISOString();
-
         console.log(editedImporta);
-
-        if (editedImporta.fechaFinalizacion) {
-          editedImporta.fechaFinalizacion = new Date(editedImporta.fechaFinalizacion).toISOString();
-        }else{
-          editedImporta.fechaFinalizacion = null;
-        }
-      
-        if (editedImporta.fechaEsperada) {
-          editedImporta.fechaEsperada = new Date(editedImporta.fechaEsperada).toISOString();
-        }else{
-          editedImporta.fechaEsperada = null;
-        }
 
         const updateCotiza = await fetch(
           `https://localhost:7189/api/samusa/importacion/actualizar`,
@@ -121,12 +108,12 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                   <input type="text" name="dni" id="dni" value={editedImporta.dni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="idRevVehiculo" className="block text-sm font-medium text-gray-700">Revision de vehiculo asociada</label>
-                  <input type="text" name="idRevVehiculo" id="idRevVehiculo" value={editedImporta.idRevVehiculo} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="revVehiculoId" className="block text-sm font-medium text-gray-700">Revision de vehiculo asociada</label>
+                  <input type="text" name="revVehiculoId" id="revVehiculoId" value={editedImporta.revVehiculoId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="idRevContenedor" className="block text-sm font-medium text-gray-700">Revision de contenedor asociada</label>
-                  <input type="text" name="idRevContenedor" id="idRevContenedor" value={editedImporta.idRevContenedor} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="revContenedorId" className="block text-sm font-medium text-gray-700">Revision de contenedor asociada</label>
+                  <input type="text" name="revContenedorId" id="revContenedorId" value={editedImporta.revContenedorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
 
                 {isEditing ? 
@@ -170,6 +157,11 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                 <div className="mb-4">
                   <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripcion</label>
                   <input type="text" name="descripcion" id="descripcion" value={editedImporta.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                </div>
+
+                <div className="mb-4">
+                  <label htmlFor="documentoUrl" className="block text-sm font-medium text-gray-700">Link de documentos</label>
+                  <input type="text" name="documentoUrl" id="documentoUrl" value={editedImporta.documentoUrl} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
               </div>
               </div>

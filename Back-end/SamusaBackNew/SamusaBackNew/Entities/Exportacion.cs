@@ -13,6 +13,7 @@
         public DateTime? FechaEsperada { get; set; }
         public string? Prioridad { get; set; } = string.Empty;
         public string? Descripcion { get; set; } = string.Empty;
+        public string? DocumentoUrl { get; set; } = string.Empty;
     }
 
     public class ExportacionRespuesta
