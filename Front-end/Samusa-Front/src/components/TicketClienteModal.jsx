@@ -65,8 +65,8 @@ const TicketClientModal = ({ user, onClose,}) => {
           <br />
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div className="mb-4">
-                  <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Cliente Id</label>
-                  <input type="text" name="clienteId" id="clienteId" value={NewTicket.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="clienteId" className="hidden block text-sm font-medium text-gray-700">Cliente Id</label>
+                  <input type="text" name="clienteId" id="clienteId" value={NewTicket.clienteId} onChange={handleInputChange} className="hidden mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
 
                   <div className="mb-4">
