@@ -22,9 +22,9 @@ import USerPreguntasFrecuentes from './pages/User/UserPReguntasFrecuentes.jsx'
 import UserTickets from './pages/User/UserTickets.jsx'
 import UserTracking from './pages/User/UserTracking.jsx'
 import AdminIndex from './pages/Admin/AdminIndex.jsx';
+import AdminPerfil from './pages/Admin/AdminPerfil.jsx';
+import UserPerfil from './pages/User/UserPerfil.jsx';
 import LoginAdmin from './components/LoginAdmin.jsx';
-import UserProfile from './pages/User/UserProfile.jsx';
-import CalendarPage from './pages/Admin/Calendar.jsx';
 import IndexNonAuntenticate from './pages/User/NoUserIndex.jsx';
 import TrackingSearchPage from './pages/User/TrackingSearch.jsx';
 
@@ -46,7 +46,7 @@ function App() {
       <Route exact path="/Admin/Exportaciones" element={<AdminExportaciones/>}> </Route> //OK
       <Route exact path="/Admin/Importaciones" element={<AdminImportaciones/>}> </Route> //OK
       <Route exact path="/Admin/Paqueteria" element={<AdminPAqueteria/>}> </Route> //OK
-      <Route exact path="/Admin/Perfil" element={<PerfilForm/>}> </Route> //TODO: finish the action
+      <Route exact path="/Admin/Perfil" element={<AdminPerfil/>}> </Route> //TODO: finish the action
       <Route exact path="/Admin/Calendar" element={<CalendarPage/>}> </Route> //OK
       <Route exact path="/Admin/RevisionContainer" element={<AdminRevisionContainer/>}> </Route> // OK
       <Route exact path="/Admin/RevisionVehiculo" element={<AdminRevisionVehiculo/>}> </Route> //OK
@@ -57,7 +57,7 @@ function App() {
       <Route exact path="/User/AboutUs" element={<AboutUs/>}> </Route> //OK
       <Route exact path="/User/Cotizaciones" element={<UserCotizaciones/>}> </Route> //OK
       <Route exact path="/User/PreguntasFrecuentes" element={<USerPreguntasFrecuentes/>}> </Route> //OK
-      <Route exact path="/User/Perfil" element={<UserProfile/>}> </Route> //OK
+      <Route exact path="/User/Perfil" element={<UserPerfil/>}> </Route> //OK
       <Route exact path="/User/Services" element={<UserServices/>}> </Route> //OK
       <Route exact path="/User/Tickets" element={<UserTickets/>}> </Route> //OK
       <Route exact path="/User/Tracking" element={<UserTracking/>}> </Route> //OK
