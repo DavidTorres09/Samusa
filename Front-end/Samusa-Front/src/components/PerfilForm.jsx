@@ -1,122 +1,273 @@
 
 import React, { useState } from "react";
-import Layout from './Layout';
-import Footer from './Footer';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import Avatar from 'react-avatar-edit';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import img from "../guppy.jpeg";
 
 const PerfilForm = () => {
 
-//     const modeloPerfil = {
-//   dni: "",
-//   nombre: "",
-//   primerApellido: "",
-//   segundoApellido: "",
-//   telefono: "",
-//   email: "",
-//   esNacional: false,
-//   usuario: "",
-//   password: "",
-//   fechaIngreso: "",
-//   rol: "Colaborador",
+    const modeloPerfil = {
+  dni: sessionStorage.getItem('dni'),
+  nombre: sessionStorage.getItem('nombre'),
+  telefono: sessionStorage.getItem('telefono'),
+  email: sessionStorage.getItem('email'),
+  esNacional: false,
+  id: 1, //para testear update
+  rolId: 1, //para testear update
+  contrasenna: "",
+  usuario: sessionStorage.getItem('usuario'),
+  direccion: sessionStorage.getItem('Direccion'),
+  rol: sessionStorage.getItem('rol'),
+  foto: "",
+  estado: true,
+  esTEmporal: false,
+  token: ""
 
-// }
-// const[perfil, setPerfil]=useState(modeloPerfil) //variable y funcion para almacenar la information y actualizar 
+}
 
 
+const[perfil, setPerfil]= useState(modeloPerfil) //variable y funcion para almacenar la information y actualizar 
+const [imgCrop, setimgCrop] = useState(false);
+const [image,setImage] = useState("");
+const[src, setsrc] = useState(false);
+const [imgProfile, setImgProfile]= useState([]);
+const [pview, setpview] = useState(false);
 
+const profileFinal = imgProfile.map((item)=> item.pview);
 
+const profile = sessionStorage.getItem('foto');
 
-// const editarPerfil = async (perfil) => {
+const onClose = ()=>{
+  setpview(null);
+}
+
+const onCrop = (view) => {
+  setpview(view)
+}
+
+const saveCropImage= async () =>{
+  setImgProfile([...imgProfile, {pview}]);
+  console.log(src)
+  const value = pview;
+  perfil.foto = pview;
+  console.log(value)
+  console.log(perfil)
+ 
+  try{
+
+            
+    const updateClient = await fetch(
+      `https://localhost:7189/api/samusa/cliente/actualizar`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(perfil),
+      }
+    );
+
+    if (updateClient.ok) {
+      
+      sessionStorage.setItem("foto", pview)
+      
+      alert("Usuario actualizado exitosamente");
+      window.location.reload();
+    } else {
+        throw new Error("No se pudo actualizar el usuario");
+    }
+}
+catch (error) {
+  console.error("Error:", error.message);
+}
+
+setimgCrop(false);
+ 
+}
+
+const handleInputChange = (event) => {
+  const { name, value, type, checked } = event.target;
+  const newValue = type === 'checkbox' ? checked : value;
+  setPerfil({ ...modeloPerfil, [name]: newValue });
+};
+
+const actualizarPerfil = (e)=>{
+  console.log(e.target.name + ":"+ e.target.value)
+  setPerfil(
+    {
+      ...perfil,
+      [e.target.name]: e.target.value
+    }
+    
+  )
   
-//   try{
-//           const updateClient = await fetch(
-//             `https://localhost:7293/api/samusa/cliente/modificar`,
-//             {
-//               method: "PUT",
-//               headers: {
-//                 "Content-Type": "application/json",
-//               },
-//               body: JSON.stringify(perfil),
-//             }
-//           );
-
-//           if (updateClient.ok) {
-//             alert("Usuario actualizado exitosamente");
-//             window.location.reload();
-//           } else {
-//               throw new Error("No se pudo actualizar el usuario");
-//           }
-// }
-//     catch (error) {
-//         console.error("Error:", error.message);
-//       }
-// }
+}
 
 
 
+const editarPerfil = async (perfil) => {
+  
+  try{
+
+            
+          const updateClient = await fetch(
+            `https://localhost:7189/api/samusa/cliente/actualizar`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(perfil),
+            }
+          );
+
+          if (updateClient.ok) {
+            
+            sessionStorage.setItem("Direccion", perfil.direccion)
+            sessionStorage.setItem("nombre", perfil.nombre)
+            sessionStorage.setItem("primerApellido", perfil.primerApellido)
+            sessionStorage.setItem("segundoApellido", perfil.segundoApellido)
+            sessionStorage.setItem("telefono", perfil.telefono)
+            sessionStorage.setItem("email", perfil.email)
+            sessionStorage.setItem("esNacional", perfil.esNacional)
+            sessionStorage.setItem("usuario", perfil.usuario)
+            sessionStorage.setItem("rol", perfil.rol)
+            sessionStorage.setItem("dni", perfil.dni)
+            alert("Usuario actualizado exitosamente");
+          } else {
+              throw new Error("No se pudo actualizar el usuario");
+          }
+      }
+    catch (error) {
+        console.error("Error:", error.message);
+      }
+    
+      
 
 
+}
+const editar = () =>{
+
+  if(perfil.dni != 0){
+    editarPerfil(perfil);
+  }
+  
+
+} 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-  <div className="bg-white rounded-lg shadow-md p-6 max-w-md">
-    <h2 className="text-2xl font-semibold text-center text-blue-600 mb-4">Editar Usuario</h2>
-    <form className="space-y-4">
-      <div className="flex flex-col">
-        <label htmlFor="dni" className="block text-sm font-medium text-gray-700 mb-1">DNI</label>
-        <input type="text" name="dni" id="dni" className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500" />
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-        <input type="text" name="nombre" id="nombre" className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500" />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <label htmlFor="primerApellido" className="block text-sm font-medium text-gray-700 mb-1">Primer Apellido</label>
-          <input type="text" name="primerApellido" id="primerApellido" className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500" />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="segundoApellido" className="block text-sm font-medium text-gray-700 mb-1">Segundo Apellido</label>
-          <input type="text" name="segundoApellido" id="segundoApellido" className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500" />
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-        <input type="text" name="telefono" id="telefono" className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500" />
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-        <input type="email" name="email" id="email" className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500" readOnly />
-      </div>
-      <div className="flex items-center mb-4">
-        <input type="checkbox" name="esNacional" id="esNacional" className="mr-2" />
-        <label htmlFor="esNacional" className="text-sm font-medium text-gray-700">Es Nacional</label>
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="usuario" className="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
-        <input type="text" name="usuario" id="usuario" className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500" readOnly />
-      </div>
-      <div className="flex flex-col">
-        <label htmlFo
-        r="direccion" className="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
-        <input type="text" name="direccion" id="direccion" className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500" />
-      </div>
-      <div className="flex justify-between">
-        <button
-          type="button"
-          className="w-1/2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-400"
-        >
-          Guardar Cambios
-        </button>
-        <button
-          type="button"
-          className="w-1/2 bg-gray-200 text-gray-700 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
-        >
-          Cancelar
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+  
+      <div class="row mbn-50">
+                <div class="col-12 mb-50">
+                    <div class="author-top">
+                        <div class="inner">
+                            <div class="author-profile">
+                              <div>
+                               <div  className="profile_img text-center p-4 m-5">
+                                <div className="flex flex-column m-5">
+                                    <img
+                                      style={{
+                                        width: "200px",
+                                        height: "200px",
+                                        borderRadius: "50%",
+                                        objectFit: "cover",
+                                        border: "4px solid white",
+                                      }}
+                                      src = {profile}
+                                      alt= ""
+                                      onClick={()=>setimgCrop(true)}
+                                      />
+                                    <Dialog 
+                                      visible={imgCrop}
+                                              header="Actualizar perfil"
+                                              onHide={()=> setimgCrop(false)}
+                                              breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                                      
+                                      <div class = "d-flex flex-column m-3">
+                                              <Avatar
+                                                width={600}
+                                                height={400}
+                                                onCrop={onCrop}
+                                                onClose={onClose}
+                                                src={src}
+                                                />
+                                                <Button 
+                                                class="btn btn-primary mt-5"
+                                                onClick={saveCropImage}
+                                                label="Save"
+                                                icon="pi pi-check"
+                                                />
+                                      </div>
+                                    </Dialog>
+                                  </div>
+                                </div> 
+                              </div>
 
+                                <div class="info">
+                                    <h5>Madison Howard</h5>
+                                    <a href="#" class="edit"><i class="zmdi zmdi-edit"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-50 ml-4 mr-4">
+                    
+
+                        <div class="row justify-content-between align-items-center mb-10">
+                            <div class="box">
+                                <div class="box-head">
+                                    <h3 class="title">Author Information</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form">
+                                        <form action="#">
+                                            <div class="row row-10 mbn-20">
+                                            <div class="col-sm-6 col-12 mb-20">
+                                                      <label htmlFor="dni" className="block text-sm font-medium text-gray-700">DNI</label>
+                                                        <input type="text"  name="dni" id="dni" onChange={(e) => actualizarPerfil(e)} value={perfil.dni} class="form-control" />
+                                                      </div>
+                                                      <div class="col-sm-6 col-12 mb-20">
+                                                        <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
+                                                        <input type="text" name="nombre" id="nombre" onChange={(e) => actualizarPerfil(e)} value={perfil.nombre}  class="form-control" />
+                                                      </div>
+                                                      <div class="col-sm-6 col-12 mb-20">
+                                                        <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">Teléfono</label>
+                                                        <input type="text" name="telefono" id="telefono"  onChange={(e) => actualizarPerfil(e)} value={perfil.telefono} class="form-control" />
+                                                      </div>
+                                                      <div className="col-sm-6 col-12 mb-20">
+                                                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                                                        <input type="email" name="email" id="email"  onChange={(e) => actualizarPerfil(e)} value={perfil.email} class="form-control" />
+                                                      </div>
+                                                      <div class="col-sm-6 col-12 mb-20">
+                                                        <label htmlFor="usuario" className="block text-sm font-medium text-gray-700">Usuario</label>
+                                                        <input type="text"  name="usuario" id="usuario" onChange={(e) => actualizarPerfil(e)} value={perfil.usuario}  class="form-control"/>
+                                                      </div>
+                                                      <div class="col-sm-6 col-12 mb-20">
+                                                        <label htmlFor="direccion" className="block text-sm font-medium text-gray-700">Dirección</label>
+                                                        <input type="text" name="direccion" id="direccion" onChange={(e) => actualizarPerfil(e)} value={perfil.direccion} class="form-control" />
+                                                      </div>
+
+
+                                                <div class="col-12 mt-10 mb-20">
+                                                    <input type="submit" class="button button-primary button-outline" value="Save Changes" onClick={editar}/>
+                                                    <input type="submit" class="button button-danger button-outline" value="Delete Changes"/>
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                      </div>
+                    </div>                     
   );
 }
 

@@ -1,6 +1,7 @@
 ﻿using Samusa_Back.Models;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Text;
 
 namespace Samusa_Back.Data
 {
@@ -42,6 +43,15 @@ namespace Samusa_Back.Data
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {
+                // tomar le base 64 y almacenar en string
+                string base64String = cliente.imagenPerfil;
+
+                // convertir el base 64 a binario
+                byte[] binaryData = Convert.FromBase64String(base64String);
+
+                // cambiar el valor de 
+
+
                 SqlCommand cmd = new SqlCommand("usp_modifyClient", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -54,8 +64,8 @@ namespace Samusa_Back.Data
                 cmd.Parameters.AddWithValue("@newEmail", cliente.Email);
                 cmd.Parameters.AddWithValue("@newEsNacional", cliente.EsNacional);
                 cmd.Parameters.AddWithValue("@newUsuario", cliente.Usuario);
-                cmd.Parameters.AddWithValue("@newPassword", cliente.Password);
-                cmd.Parameters.AddWithValue("@newRol", cliente.IdRol);
+                cmd.Parameters.AddWithValue("@newRol", cliente.Rol);
+                cmd.Parameters.AddWithValue("@newImage", binaryData);
 
                 try
                 {
@@ -128,21 +138,28 @@ namespace Samusa_Back.Data
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
+                        
+
                         while (dr.Read())
                         {
+                            //byte[] binaryData = dr["ImagenPerfil"];
+                            //byte[] binaryData = (byte[])paramB.Value;
+                            //byte[] binaryData = (byte[])dr["ImagenPerfil"];
+
                             client = new ClientePersona()
                             {
                                 DNI = Convert.ToInt32(dr["DNI"]),
-                                Nombre = dr["Nombre"].ToString() ?? "",
-                                PrimerApellido = dr["PrimerApellido"].ToString() ?? "",
-                                SegundoApellido = dr["SegundoApellido"].ToString() ?? "",
-                                Telefono = dr["Telefono"].ToString() ?? "",
-                                Email = dr["Email"].ToString() ?? "",
+                                Nombre = dr["Nombre"].ToString(),
+                                PrimerApellido = dr["PrimerApellido"].ToString(),
+                                SegundoApellido = dr["SegundoApellido"].ToString(),
+                                Telefono = dr["Telefono"].ToString(),
+                                Email = dr["Email"].ToString(),
                                 EsNacional = Convert.ToBoolean(dr["EsNacional"]),
-                                Usuario = dr["Usuario"].ToString() ?? "",
-                                Password = dr["Password"].ToString() ?? "",
-                                Direccion = dr["Direccion"].ToString() ?? "",
-                                IdRol = Convert.ToInt32(dr["IdRol"])
+                                Usuario = dr["Usuario"].ToString(),
+                                Password = dr["Password"].ToString(),
+                                Direccion = dr["Direccion"].ToString(),
+                                Rol = dr["Rol"].ToString(),
+                                
                             };
                         }
                     }
@@ -155,7 +172,53 @@ namespace Samusa_Back.Data
             return client;
         }
 
-        public static bool Delete(int dni)
+
+        public static async Task<ClientePersona> readTwo(String dato1, String dato2)
+        {
+            ClientePersona client = null; // Inicializamos como null
+            using (SqlConnection connection = new SqlConnection(Connection.connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("usp_getSingleUserForSession", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dato1", dato1);
+                cmd.Parameters.AddWithValue("@dato2", dato2);
+
+                try
+                {
+                    connection.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        //var pre64 = (dr["imagenPerfil"]).ToString();
+                        //var enconde = Encoding.UTF8.GetBytes(pre64);
+                        //var code64 = Convert.ToBase64String(enconde);
+
+                        while (dr.Read())
+                        {
+                            client = new ClientePersona()
+                            {
+                                DNI = Convert.ToInt32(dr["DNI"]),
+                                Nombre = dr["Nombre"].ToString() ?? "",
+                                PrimerApellido = dr["PrimerApellido"].ToString() ?? "",
+                                SegundoApellido = dr["SegundoApellido"].ToString() ?? "",
+                                Telefono = dr["Telefono"].ToString() ?? "",
+                                Email = dr["Email"].ToString() ?? "",
+                                EsNacional = Convert.ToBoolean(dr["EsNacional"]),
+                                Usuario = dr["Usuario"].ToString(),
+                                Direccion = dr["Direccion"].ToString(),
+                                Rol = dr["Rol"].ToString()
+                            };
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error al leer cliente: " + e.Message);
+                }
+            }
+            return client;
+        }
+        public static async Task<bool> Delete(int dni)
         {
             using (SqlConnection connection = new SqlConnection(Connection.connectionString))
             {

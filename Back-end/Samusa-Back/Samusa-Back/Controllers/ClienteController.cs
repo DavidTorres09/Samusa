@@ -186,6 +186,24 @@ namespace Samusa_Back.Controllers
         }
 
 
+        [HttpGet]
+        [Route("Login")]
 
+        public async Task<IActionResult> LoginGet( String user, String password)
+        {
+            var cliente = await ClienteData.readTwo(user, password);
+            if(cliente != null)
+            {
+
+                return Ok(cliente);
+            }
+            else
+            {
+
+                return NotFound(new { Status = 404, message = "Usuario no encontrado" });
+            }
+
+
+        }
     }
 }

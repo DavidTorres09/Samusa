@@ -27,6 +27,14 @@ CREATE TABLE Colaborador (
 )
 GO
 
+use SamusaV2;
+alter table cliente drop column Foto;
+
+alter table cliente add FOTO nvarchar(max) NULL;
+
+
+select * from cliente;
+
 CREATE TABLE Cliente (
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	Direccion			VARCHAR (250) NOT NULL,
@@ -237,6 +245,7 @@ BEGIN
 END
 GO
 
+drop procedure modificarCliente;
 CREATE PROCEDURE ModificarCliente(
 	@Id				INT,
 	@Direccion		VARCHAR(250),
@@ -248,7 +257,7 @@ CREATE PROCEDURE ModificarCliente(
     @Usuario		VARCHAR(250),
     @Contrasenna	VARCHAR(250),
     @RolId			INT,
-    @Foto			VARCHAR(500)
+    @Foto			nvarchar(max)
 	)
 AS
 BEGIN

@@ -29,7 +29,7 @@ const AdminCotizaciones = () => {
 
    
     
-    return (
+    return(
         <>
         <body className="skin-dark">
         <LayoutAdmin/>
