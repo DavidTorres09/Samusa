@@ -50,7 +50,7 @@ const TrackingSearch = () => {
           onChange={(e) => setTrackingNumber(e.target.value)}
           required
         />
-        <button type="submit">Buscar</button>
+        <button className='btn btn-sm' type="submit">Buscar</button>
       </form>
     </div>
 
@@ -92,26 +92,84 @@ const TrackingSearch = () => {
               </tr>
             </thead>
             <tbody>
-                  <td className="py-4 px-6">{tableData.id}</td>
-                  <td className="py-4 px-6">{tableData.impSeguimientoId}</td>
-                  <td className="py-4 px-6">{tableData.expSeguimientoId}</td>
-                  <td className="py-4 px-6">{tableData.fechaInicio}</td>
-                  <td className="py-4 px-6">{tableData.fechaFinalizacion}</td>
-                  <td className="py-4 px-6">{tableData.estado}</td>
+                  <td className="py-4 px-6">{ tableData.id ?
+                  tableData.id
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.impSeguimientoId ?
+                  tableData.impSeguimientoId
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.expSeguimientoId ?
+                  tableData.expSeguimientoId
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.fechaInicio ?
+                  tableData.fechaInicio
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.fechaFinalizacion ?
+                  tableData.fechaFinalizacion
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.estado ?
+                  tableData.estado
+                :
+                "Sin Data"}</td>
                   
                   <td className="py-4 px-6">{ tableData.vin ?
                   tableData.vin
                 :
-                "Campo no aplica"}</td>
-                  <td className="py-4 px-6">{tableData.marca}</td>
-                  <td className="py-4 px-6">{tableData.modelo}</td>
-                  <td className="py-4 px-6">{tableData.color}</td>
-                  <td className="py-4 px-6">{tableData.extras}</td>
-                  <td className="py-4 px-6">{tableData.estadoOp}</td>
-                  <td className="py-4 px-6">{tableData.naviera}</td>
-                  <td className="py-4 px-6">{tableData.puertoOrigen}</td>
-                  <td className="py-4 px-6">{tableData.puertoDestino}</td>
-                  <td className="py-4 px-6">{tableData.transportista}</td>
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.marca ?
+                  tableData.marca
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.modelo ?
+                  tableData.modelo
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.color ?
+                  tableData.color
+                :
+                "Sin Data"}</td>
+                  <td className="py-4 px-6">{ tableData.extras ?
+                  tableData.extras
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.estadoOp ?
+                  tableData.estadoOp
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.naviera ?
+                  tableData.naviera
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.puertoOrigen ?
+                  tableData.puertoOrigen
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.puertoDestino ?
+                  tableData.puertoDestino
+                :
+                "Sin Data"}</td>
+
+                  <td className="py-4 px-6">{ tableData.transportista ?
+                  tableData.transportista
+                :
+                "Sin Data"}</td>
             </tbody>
           </table>
         </div>

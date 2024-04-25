@@ -10,16 +10,16 @@ function TrackingSearchPage () {
 
     return (
         <>
-        <div  className="fondo">
+        <body  className="fondo">
         <Layout></Layout>
         <div>
         <GeneralAlert/>
         </div>
-        <div className="content-body">
+        <div className="content-body tablatracking">
         <TrackingSearch/>
         </div>
         <Footer></Footer>
-        </div>
+        </body>
         </>
         
     );

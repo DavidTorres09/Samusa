@@ -17,13 +17,13 @@ const PerfilForm = () => {
   telefono: sessionStorage.getItem('telefono'),
   email: sessionStorage.getItem('email'),
   esNacional: false,
-  id: 1, //para testear update
-  rolId: 1, //para testear update
+  id: sessionStorage.getItem('id'), //para testear update
+  rolId: sessionStorage.getItem('rolId'), //para testear update
   contrasenna: "",
   usuario: sessionStorage.getItem('usuario'),
   direccion: sessionStorage.getItem('Direccion'),
   rol: sessionStorage.getItem('rol'),
-  foto: "",
+  foto: sessionStorage.getItem('foto'),
   estado: true,
   esTEmporal: false,
   token: ""
@@ -208,7 +208,7 @@ const editar = () =>{
                               </div>
 
                                 <div class="info">
-                                    <h5>Madison Howard</h5>
+                                    <h5>{sessionStorage.getItem('nombre')}</h5>
                                     <a href="#" class="edit"><i class="zmdi zmdi-edit"></i></a>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@ const editar = () =>{
                         <div class="row justify-content-between align-items-center mb-10">
                             <div class="box">
                                 <div class="box-head">
-                                    <h3 class="title">Author Information</h3>
+                                    <h3 class="title">Informacion de perfil</h3>
                                 </div>
                                 <div class="box-body">
                                     <div class="form">

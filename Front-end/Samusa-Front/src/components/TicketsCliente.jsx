@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TicketCard from './TicketCardCliente';
+import CardsTickets from './TicketCardCliente';
 import TicketClientModal from './TicketClienteModal';
 
 
@@ -48,7 +49,7 @@ const TicketCliente = () => {
                 </button>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-6">
                     {tickets.map(ticket => ( 
-                        <TicketCard key={ticket.id} ticket={ticket} />
+                        <CardsTickets key={ticket.id} ticket={ticket} />
                     ))}
                 </div>
             </div>

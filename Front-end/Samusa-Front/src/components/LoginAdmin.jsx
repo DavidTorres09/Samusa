@@ -53,7 +53,7 @@ const LoginAdmin = () => {
 
   useEffect(() => {
     if (isLogged) {
-        navigate('/User');
+        navigate('/Admin');
     }
   }, [isLogged, navigate]);
 

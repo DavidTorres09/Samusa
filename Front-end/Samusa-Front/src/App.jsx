@@ -27,6 +27,7 @@ import UserPerfil from './pages/User/UserPerfil.jsx';
 import LoginAdmin from './components/LoginAdmin.jsx';
 import IndexNonAuntenticate from './pages/User/NoUserIndex.jsx';
 import TrackingSearchPage from './pages/User/TrackingSearch.jsx';
+import CalendarPage from './pages/Admin/Calendar.jsx';
 
 
 function App() {
