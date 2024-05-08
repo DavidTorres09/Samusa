@@ -17,8 +17,8 @@ const PerfilForm = () => {
   telefono: sessionStorage.getItem('telefono'),
   email: sessionStorage.getItem('email'),
   esNacional: false,
-  id: sessionStorage.getItem('id'), //para testear update
-  rolId: sessionStorage.getItem('rolId'), //para testear update
+  id: 1, //para testear update
+  rolId: 1, //para testear update
   contrasenna: "",
   usuario: sessionStorage.getItem('usuario'),
   direccion: sessionStorage.getItem('Direccion'),

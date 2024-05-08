@@ -146,7 +146,6 @@ console.log(tableData);
                   <th className="py-4 px-6">Email</th>
                   <th className="py-4 px-6">Es Nacional</th>
                   <th className="py-4 px-6">Usuario</th>
-                  <th className="py-4 px-6">Password</th>
                   <th className="py-4 px-6">Dirección</th>
                   <th className="py-4 px-6">Rol</th>
                   <th className="py-4 px-6">Acciones</th>
@@ -164,7 +163,6 @@ console.log(tableData);
                       {cliente.esNacional ? "Sí" : "No"}
                     </td>
                     <td className="py-4 px-6">{cliente.usuario}</td>
-                    <td className="py-4 px-6">{cliente.contrasenna}</td>
                     <td className="py-4 px-6">{cliente.direccion}</td>
                     <td className="py-4 px-6">{cliente.nombreRol}</td>
                     <td className="py-4 px-6">

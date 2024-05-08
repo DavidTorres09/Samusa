@@ -7,20 +7,22 @@ import TicketClientModal from './TicketClienteModal';
 const TicketCliente = () => {
     const [tickets, setTickets] = useState([]);
     const [showNewTicketModal, setShowNewTicketModal] = useState(false);
+    const agentId = sessionStorage.getItem('id');
 
     useEffect(() => {
         fetch('https://localhost:7189/api/samusa/Ticket/listar')
             .then(response => response.json())
             .then(data => {
-                // Verificar si la respuesta incluye un código de error
                 if (data.codigo && data.codigo === "-1") {
                     setErrorMessage(data.mensaje);
-                    setTickets([]); // Limpia los datos existentes
+                    setTickets([]);
                 } else if (data.length === 0) {
-                    setErrorMessage("No se encontraron TKKS en la base de datos.");
+                    setErrorMessage("No se encontraron tickets en la base de datos.");
                 } else {
-                    setTickets(data);
-                    setErrorMessage(""); // Limpia el mensaje de error
+                    // Filtra los tickets para que solo incluya aquellos que pertenecen al agente actual
+                    const filteredTickets = data.filter(ticket => ticket.clienteId === parseInt(agentId));
+                    setTickets(filteredTickets);
+                    setErrorMessage("");
                 }
             })
             .catch(error => {

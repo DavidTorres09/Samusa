@@ -143,7 +143,6 @@ const ColaboTable = () => {
                   <th className="py-4 px-6">Email</th>
                   <th className="py-4 px-6">Es Nacional</th>
                   <th className="py-4 px-6">Usuario</th>
-                  <th className="py-4 px-6">Password</th>
                   <th className="py-4 px-6">Dirección</th>
                   <th className="py-4 px-6">Rol</th>
                 <th className="py-4 px-6">Acciones</th>
@@ -161,7 +160,6 @@ const ColaboTable = () => {
                       {item.esNacional ? "Sí" : "No"}
                     </td>
                     <td className="py-4 px-6">{item.usuario}</td>
-                    <td className="py-4 px-6">{item.contrasenna}</td>
                     <td className="py-4 px-6">{item.direccion}</td>
                     <td className="py-4 px-6">{item.nombreRol}</td>
                   <td className="py-4 px-6">

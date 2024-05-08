@@ -45,7 +45,7 @@ const TrackingSearch = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Ingrese su número de seguimiento"
+          placeholder=" # de seguimiento"
           value={trackingNumber}
           onChange={(e) => setTrackingNumber(e.target.value)}
           required

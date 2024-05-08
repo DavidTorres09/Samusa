@@ -15,8 +15,7 @@ const navigation = [
   { name: 'Tickets', to: '/User/Tickets', current: false },
   { name: 'Cotizaciones', to: '/User/Cotizaciones', current: false },
   { name: 'Tracking', to: '/User/TrackingSearch', current: false },
-  { name: 'Nosotros', to: '/User/AboutUs', current: false },
-  { name: 'Servicios', to: '/User/Services', current: false }
+  { name: 'Nosotros', to: '/User/AboutUs', current: false }
   
 ]
 

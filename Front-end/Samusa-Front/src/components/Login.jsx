@@ -108,7 +108,7 @@ const Login = () => {
                 </p>
                 <p className="text-center mt-4">
                     Olvidé mi contraseña
-                    <Link to="/RecuperarPass" className="text-blue-500 hover:underline"> Recuperar</Link>
+                    <Link to="/Recuperar" className="text-blue-500 hover:underline"> Recuperar</Link>
                 </p>
             </form>
         </div>
