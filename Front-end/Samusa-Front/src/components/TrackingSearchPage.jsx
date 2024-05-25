@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import "../css/User/Tracking.css";
 
 const TrackingSearch = () => {
   const [trackingNumber, setTrackingNumber] = useState('');
@@ -53,129 +54,232 @@ const TrackingSearch = () => {
         <button className='btn btn-sm' type="submit">Buscar</button>
       </form>
     </div>
-
-
-    <section className='data-table-section'>
-      <div className="table-container col-12 mb-30">
-        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Tracking</h1>
-        {errorMessage && (
-          <div className="alert alert-danger" role="alert">
-            {errorMessage}
+    <section className='tracklist'>
+        <div className=' menu-container'>{ tableData.impSeguimientoId ?
+                              <div>            
+                                <h1 className='title'>Importacion</h1>
+                                <ul className='item-list'>{ tableData.vin ?
+                  <div>
+                    <h1 className='title'>Vehiculo</h1>
+                    <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>ID</span>
+                              <span className='item-detail'>{tableData.id}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Numero de IMP</span>
+                              <span className='item-detail'>{tableData.impSeguimientoId}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Inicio</span>
+                              <span className='item-detail'>{tableData.fechaInicio}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Finalizado</span>
+                              <span className='item-detail'>{tableData.fechaFinalizacion}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Estado Tramite</span>
+                              <span className='item-detail'>{tableData.estado}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Estado DEKRA</span>
+                              <span className='item-detail'>{tableData.estadoOp}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>VIN</span>
+                              <span className='item-detail'>{tableData.vin}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Marca</span>
+                              <span className='item-detail'>{tableData.marca}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Modelo</span>
+                              <span className='item-detail'>{tableData.modelo}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Color</span>
+                              <span className='item-detail'>{tableData.color}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Extras</span>
+                              <span className='item-detail'>{tableData.extras}</span>
+                              </li>
+                  </div>
+                :
+                <div>{ tableData.naviera ?
+                  <div>
+                    <h1 className='title'>Container</h1>
+                    <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>ID</span>
+                              <span className='item-detail'>{tableData.id}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Numero de IMP</span>
+                              <span className='item-detail'>{tableData.impSeguimientoId}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Estado Tramite</span>
+                              <span className='item-detail'>{tableData.estado}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Naviera</span>
+                              <span className='item-detail'>{tableData.naviera}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Puerto de origen</span>
+                              <span className='item-detail'>{tableData.puertoOrigen}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Puerto de destino</span>
+                              <span className='item-detail'>{tableData.puertoDestino}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Transportista</span>
+                              <span className='item-detail'>{tableData.transportista}</span>
+                              </li>
+                  </div>
+                :
+                ""}
+                  </div>}                              
+                          </ul>
+                              </div>
+                :
+                <div>{ tableData.expSeguimientoId ?
+                  <div>
+                    <h1 className='title'>Exportacion</h1>
+                  <ul className='item-list'>{ tableData.vin ?
+                  <div>
+                    <h1 className='title'>Vehiculo</h1>
+                    <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>ID</span>
+                              <span className='item-detail'>{tableData.id}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Numero de EXP</span>
+                              <span className='item-detail'>{tableData.expSeguimientoId}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Inicio</span>
+                              <span className='item-detail'>{tableData.fechaInicio}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Finalizado</span>
+                              <span className='item-detail'>{tableData.fechaFinalizacion}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Estado Tramite</span>
+                              <span className='item-detail'>{tableData.estado}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Estado DEKRA</span>
+                              <span className='item-detail'>{tableData.estadoOp}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>VIN</span>
+                              <span className='item-detail'>{tableData.vin}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Marca</span>
+                              <span className='item-detail'>{tableData.marca}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Modelo</span>
+                              <span className='item-detail'>{tableData.modelo}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Color</span>
+                              <span className='item-detail'>{tableData.color}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Extras</span>
+                              <span className='item-detail'>{tableData.extras}</span>
+                              </li>
+                  </div>
+                :
+                <div>{ tableData.naviera ?
+                  <div>
+                    <h1 className='title'>Container</h1>
+                    <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>ID</span>
+                              <span className='item-detail'>{tableData.id}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Numero de EXP</span>
+                              <span className='item-detail'>{tableData.expSeguimientoId}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Estado Tramite</span>
+                              <span className='item-detail'>{tableData.estado}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Naviera</span>
+                              <span className='item-detail'>{tableData.naviera}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Puerto de origen</span>
+                              <span className='item-detail'>{tableData.puertoOrigen}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Puerto de destino</span>
+                              <span className='item-detail'>{tableData.puertoDestino}</span>
+                              </li>
+                              <li className='item'>
+                              <div className='item-box white-box'></div>
+                              <span className='item-name'>Transportista</span>
+                              <span className='item-detail'>{tableData.transportista}</span>
+                              </li>
+                  </div>
+                :
+                ""}
+                  </div>}                              
+                          </ul>
+                  </div>
+                :
+                <div><h1 className='title'>Ingresa tu numero de seguimiento</h1></div>}
+                  </div>}
           </div>
-        )}
-        <div className="table-controls">
-          </div>
-          
-          <div className="">
-          <div className="box-body">
-          <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
-            <thead>
-              <tr className="">
-                <th className="py-4 px-6">Id</th>
-                <th className="py-4 px-6">impSeguimientoId</th>
-                <th className="py-4 px-6">expSeguimientoId</th>
-                <th className="py-4 px-6">fechaInicio</th>
-                <th className="py-4 px-6">fechaFinalizacion</th>
-                <th className="py-4 px-6">estado</th>
-                <th className="py-4 px-6">vin</th>
-                <th className="py-4 px-6">marca</th>
+          <br />
+          <br />
+        </section>
 
-                <th className="py-4 px-6">modelo</th>
-                <th className="py-4 px-6">color</th>
-                <th className="py-4 px-6">extras</th>
-                <th className="py-4 px-6">estadoOp</th>
-
-                <th className="py-4 px-6">naviera</th>
-                <th className="py-4 px-6">puertoOrigen</th>
-                <th className="py-4 px-6">puertoDestino</th>
-                <th className="py-4 px-6">transportista</th>
-              </tr>
-            </thead>
-            <tbody>
-                  <td className="py-4 px-6">{ tableData.id ?
-                  tableData.id
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.impSeguimientoId ?
-                  tableData.impSeguimientoId
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.expSeguimientoId ?
-                  tableData.expSeguimientoId
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.fechaInicio ?
-                  tableData.fechaInicio
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.fechaFinalizacion ?
-                  tableData.fechaFinalizacion
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.estado ?
-                  tableData.estado
-                :
-                "Sin Data"}</td>
-                  
-                  <td className="py-4 px-6">{ tableData.vin ?
-                  tableData.vin
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.marca ?
-                  tableData.marca
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.modelo ?
-                  tableData.modelo
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.color ?
-                  tableData.color
-                :
-                "Sin Data"}</td>
-                  <td className="py-4 px-6">{ tableData.extras ?
-                  tableData.extras
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.estadoOp ?
-                  tableData.estadoOp
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.naviera ?
-                  tableData.naviera
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.puertoOrigen ?
-                  tableData.puertoOrigen
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.puertoDestino ?
-                  tableData.puertoDestino
-                :
-                "Sin Data"}</td>
-
-                  <td className="py-4 px-6">{ tableData.transportista ?
-                  tableData.transportista
-                :
-                "Sin Data"}</td>
-            </tbody>
-          </table>
-        </div>
-          </div>
-      </div>
-      </section>
+    <br />
+    <br />
     </div>
   );
 };
