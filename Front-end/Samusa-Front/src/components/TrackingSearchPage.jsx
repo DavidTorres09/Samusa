@@ -54,6 +54,13 @@ const TrackingSearch = () => {
         <button className='btn btn-sm' type="submit">Buscar</button>
       </form>
     </div>
+
+    <div>
+    <Link to="/User/MyTracking">
+        <button className='btn btn-sm'>Mis Tramites</button>
+    </Link>
+    </div>
+
     <section className='tracklist'>
         <div className=' menu-container'>{ tableData.impSeguimientoId ?
                               <div>            

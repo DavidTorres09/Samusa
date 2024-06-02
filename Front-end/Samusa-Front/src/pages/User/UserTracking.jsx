@@ -1,26 +1,23 @@
 import Layout from "../../components/Layout";
 import Footer from "../../components/Footer";
-import TrackingPage from "../../components/UserTrackingPage";
-import TrackPage from "../../components/TrackingPage";
-import "../../css/user/Index.css";
-import "../../css/user/Tracking.css";
+import MyTrackingPage from "../../components/UserTrackingPage";
 import GeneralAlert from "../../components/GeneralAlert";
+import "../../css/user/Index.css";
 
 
 function UserTracking () {
 
     return (
         <>
-        <div  className="fondo">
-        <Layout></Layout>
+        <body className="fondo">
+        <Layout/>
         <div>
         <GeneralAlert/>
         </div>
-        <div className="content-body trackmain">
-        <TrackPage/>
+        <div className="contentbody- tablatracking fondo">
+        <MyTrackingPage/>  
         </div>
-        <Footer></Footer>
-        </div>
+        </body>
         </>
         
     );

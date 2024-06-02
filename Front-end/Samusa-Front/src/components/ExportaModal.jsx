@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ExportaModal = ({ user, onClose, isEditing  }) => {
   const [editedExporta, seteditedExporta] = useState(user || {
@@ -25,6 +25,15 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
   const handleCancel = () => {
     onClose();
   };
+
+  const [clientes, setClientes] = useState([]);
+
+  useEffect(() => {
+    fetch('https://localhost:7189/api/samusa/cliente/listar')
+      .then(response => response.json())
+      .then(data => setClientes(data))
+      .catch(error => console.error('Error al obtener la lista de clientes:', error));
+  }, []);
 
   const handleSave = async () => {
     try {
@@ -119,9 +128,28 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
                </div>
                  }
                 <div className="mb-4">
-                  <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Id de cliente</label>
-                  <input type="text" name="clienteId" id="clienteId" value={editedExporta.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
+                    <label
+                      htmlFor="clienteId"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Nombre del cliente
+                    </label>
+                    <select
+                      name="clienteId"
+                      id="clienteId"
+                      value={editedExporta.clienteId}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                    >
+                      <option value="">Seleccione un cliente</option>
+                      {clientes.map((cliente) => (
+                        <option key={cliente.id} value={cliente.id}>
+                          {cliente.nombre}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                 <div className="mb-4">
                   <label htmlFor="dni" className="block text-sm font-medium text-gray-700">Dni</label>
                   <input type="text" name="dni" id="dni" value={editedExporta.dni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />

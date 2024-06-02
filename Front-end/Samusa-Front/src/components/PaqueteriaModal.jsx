@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
   const [editedPaqueteria, seteditedPaqueteria] = useState(user || {
@@ -22,6 +22,15 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
   const handleCancel = () => {
     onClose();
   };
+
+  const [clientes, setClientes] = useState([]);
+
+  useEffect(() => {
+    fetch('https://localhost:7189/api/samusa/cliente/listar')
+      .then(response => response.json())
+      .then(data => setClientes(data))
+      .catch(error => console.error('Error al obtener la lista de clientes:', error));
+  }, []);
 
   const handleSave = async () => {
     try {
@@ -100,10 +109,29 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
           </div>
           <br />
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                <div className="mb-4">
-                  <label htmlFor="clienteId" className="block text-sm font-medium text-gray-700">Id de clietne</label>
-                  <input type="text" name="clienteId" id="clienteId" value={editedPaqueteria.clienteId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
+          <div className="mb-4">
+                    <label
+                      htmlFor="clienteId"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Nombre del cliente
+                    </label>
+                    <select
+                      name="clienteId"
+                      id="clienteId"
+                      value={editedPaqueteria.clienteId}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                    >
+                      <option value="">Seleccione un cliente</option>
+                      {clientes.map((cliente) => (
+                        <option key={cliente.id} value={cliente.id}>
+                          {cliente.nombre}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                 <div className="mb-4">
                   <label htmlFor="numCasillero" className="block text-sm font-medium text-gray-700">Numero de casillero</label>
                   <input type="text" name="numCasillero" id="numCasillero" value={editedPaqueteria.numCasillero} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />

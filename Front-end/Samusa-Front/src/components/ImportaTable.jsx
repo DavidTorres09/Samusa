@@ -135,7 +135,7 @@ const ImportaTable = () => {
             <thead>
               <tr className="">
                 <th className="py-4 px-6">Id impSeguimiento</th>
-                <th className="py-4 px-6">Id Dni</th>
+                <th className="py-4 px-6">Cliente ID</th>
                 <th className="py-4 px-6">ID Rev Vehiculo</th>
                 <th className="py-4 px-6">ID Rev Contenedor</th>
                 <th className="py-4 px-6">Fecha Inicio</th>

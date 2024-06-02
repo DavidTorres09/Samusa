@@ -61,7 +61,7 @@ function App() {
       <Route exact path="/User/Perfil" element={<UserPerfil/>}> </Route> //OK
       <Route exact path="/User/Services" element={<UserServices/>}> </Route> //OK
       <Route exact path="/User/Tickets" element={<UserTickets/>}> </Route> //OK
-      <Route exact path="/User/Tracking" element={<UserTracking/>}> </Route> //OK
+      <Route exact path="/User/MyTracking" element={<UserTracking/>}> </Route> //OK
       <Route exact path="/User/TrackingSearch" element={<TrackingSearchPage/>}> </Route> //OK
 
       

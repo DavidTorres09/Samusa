@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import ImportaModal from './ImportaModal';
 import "../css/Tables.css";
 import "../Css/datatables.min.css"
 import "../Css/datatables.css"
+import { Link, useNavigate } from 'react-router-dom';
 
 import $ from 'jquery';
 import jszip from 'jszip';
@@ -24,16 +24,28 @@ import 'datatables.net-select-dt';
 window.JSZip = jszip;     
 
 
-const TrackingPage = () => {
+const MyTrackingPage = () => {
   const [tableData, setTableData] = useState([]);
+  const [tableData2, setTableData2] = useState([]);
   const [query, SetQuery] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   console.log(query);
+  const agentId = sessionStorage.getItem('id');
 
   useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/importacion/listar')
+    fetch('https://localhost:7189/api/samusa/importacion/listar')
       .then(response => response.json())
       .then(data => {
-        setTableData(data);
+        if (data.codigo && data.codigo === "-1") {
+          setErrorMessage(data.mensaje);
+          setTableData([]); //limpia datos existentes
+        } else if (data.length === 0) {
+          setErrorMessage("No se encontraron importaciones en la Base de datos.");
+        } else {
+          const filteredImp = data.filter(imp => imp.clienteId === parseInt(agentId));
+          setTableData(filteredImp);
+          setErrorMessage(""); // Limpia mensaje de error 
+        }
 
         setTimeout(() => {
           $(document).ready(function() {
@@ -54,82 +66,100 @@ const TrackingPage = () => {
         $('#example').DataTable().destroy();
       }
     };
-}, []);
+}, [])
 
-const [tableData2, setTableData2] = useState([]);
+useEffect(() => {
+  fetch('https://localhost:7189/api/samusa/exportacion/listar')
+    .then(response => response.json())
+    .then(data => {
+      if (data.codigo && data.codigo === "-1") {
+        setErrorMessage(data.mensaje);
+        setTableData2([]); //limpia datos existentes
+      } else if (data.length === 0) {
+        setErrorMessage("No se encontraron importaciones en la Base de datos.");
+      } else {
+        const filteredexp = data.filter(exp => exp.clienteId === parseInt(agentId));
+        setTableData2(filteredexp);
+        setErrorMessage(""); // Limpia mensaje de error 
+      }
 
-  useEffect(() => {
-    fetch('https://localhost:7293/api/samusa/revisionAlmacen/listar')
-      .then(response => response.json())
-      .then(data => {
-        setTableData2(data);
-
-        setTimeout(() => {
-          $(document).ready(function() {
-            $('#example').DataTable({
-              dom: 'Bfrtip',
+      setTimeout(() => {
+        $(document).ready(function() {
+          $('#example2').DataTable({
+            dom: 'Bfrtip',
               destroy: true,
               buttons: [
                 'copy', 'csv', 'excel', 'print'
               ]
-            });
           });
-        }, 0);
-      })
-      .catch(error => console.error('Error fetching data:', error));
+        });
+      }, 0);
+    })
+    .catch(error => console.error('Error fetching data:', error));
 
-    return () => {
-      if ($.fn.DataTable.isDataTable('#example')) {
-        $('#example2').DataTable().destroy();
-      }
-    };
-}, []);
+  return () => {
+    if ($.fn.DataTable.isDataTable('#example')) {
+      $('#example').DataTable().destroy();
+    }
+  };
+}, [])
 
-console.log(tableData);
-console.log(tableData2);
+;
 
   return (
     <>
+    <div>
+    <br />
+    <Link to="/User/TrackingSearch">
+        <button className='btn button-sm'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+</svg>
+</button>
+    </Link>
+    </div>
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
-        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Importacion</h1>
+        <h1 className="text-3xl font-bold my-4 text-gray-800">Mis Importaciones</h1>
+        {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
 
         <div className="">
           <div className="box-body">
           <table id="example" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
-                <th className="py-4 px-6">Id impSeguimiento</th>
+                <th className="py-4 px-6">Numero de seguimiento</th>
                 <th className="py-4 px-6">Id Dni</th>
-                <th className="py-4 px-6">ID Rev Vehiculo</th>
-                <th className="py-4 px-6">ID Rev Contenedor</th>
+                <th className="py-4 px-6">Tipo de tramite</th>
                 <th className="py-4 px-6">Fecha Inicio</th>
                 <th className="py-4 px-6">Fecha Finalizacion</th>
-                <th className="py-4 px-6">FechaEsperada</th>
                 <th className="py-4 px-6">Estado</th>
-                <th className="py-4 px-6">Descripcion</th>
+                <th className="py-4 px-6">Descargas</th>
               </tr>
             </thead>
             <tbody>
               {tableData.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
-                  <td className="py-4 px-6">{item.idimpSeguimiento}</td>
-                  <td className="py-4 px-6">{item.idDni}</td>
+                  <td className="py-4 px-6">{item.impSeguimientoId}</td>
+                  <td className="py-4 px-6">{item.clienteId}</td>
 
-                  <td className="py-4 px-6">{ item.idRevVehiculo ?
-                  item.idRevVehiculo
+                  <td className="py-4 px-6">{ item.revVehiculoId ?
+                  "Asociado a vehiculo"
                 :
-                "Campo no aplica"}</td>
-                
-                <td className="py-4 px-6">{ item.idRevContenedor ?
-                  item.idRevContenedor
-                :
-                "Campo no aplica"}</td>          
+                "Asociado a contenedor"}</td>
+                       
                   <td className="py-4 px-6">{item.fechaInicio}</td>
-                  <td className="py-4 px-6">{item.fechaFinalizacion}</td>
-                  <td className="py-4 px-6">{item.fechaEsperada}</td>
+                  <td className="py-4 px-6">{ item.fechaFinalizacion ?
+                  item.fechaFinalizacion
+                :
+                "Aun sin determinar"}</td>
                   <td className="py-4 px-6">{item.prioridad}</td>
-                  <td className="py-4 px-6">{item.descripcion}</td>
+                  <td className="py-4 px-6">
+                    <a href={item.documentoUrl} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded ml-2" target="_blank" rel="noopener noreferrer">Ver documentos</a> <a></a>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -139,43 +169,49 @@ console.log(tableData2);
       </div>
       </section>
 
-
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
-        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de revisiones de vehiculos</h1>
+        <h1 className="text-3xl font-bold my-4 text-gray-800">Mis Exportaciones</h1>
+        {errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
+          </div>
+        )}
 
         <div className="">
           <div className="box-body">
           <table id="example2" className="display Cliente-table w-full table-auto border-collapse rounded Tablebg table table-bordered data-table data-table-export">
             <thead>
               <tr className="">
-                <th className="py-4 px-6">Id de formulario</th>
-                <th className="py-4 px-6">VIN</th>
-                <th className="py-4 px-6">Marca</th>
-                <th className="py-4 px-6">Modelo</th>
-                <th className="py-4 px-6">Extras</th>
-                <th className="py-4 px-6">Color</th>
-                <th className="py-4 px-6">Costo de vehiculo</th>
-                <th className="py-4 px-6">Año de vehiculo</th>
-                <th className="py-4 px-6">Dni del dueño</th>
-                <th className="py-4 px-6">Placa</th>
-                <th className="py-4 px-6">Estado de revision con Dekra</th>
+                <th className="py-4 px-6">Numero de seguimiento</th>
+                <th className="py-4 px-6">Id Dni</th>
+                <th className="py-4 px-6">Tipo de tramite</th>
+                <th className="py-4 px-6">Fecha Inicio</th>
+                <th className="py-4 px-6">Fecha Finalizacion</th>
+                <th className="py-4 px-6">Estado</th>
+                <th className="py-4 px-6">Descargas</th>
               </tr>
             </thead>
             <tbody>
               {tableData2.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
-                  <td className="py-4 px-6">{item.idformAlmacen}</td>
-                  <td className="py-4 px-6">{item.vin}</td>
-                  <td className="py-4 px-6">{item.marca}</td>
-                  <td className="py-4 px-6">{item.modelo}</td>
-                  <td className="py-4 px-6">{item.extras}</td>
-                  <td className="py-4 px-6">{item.color}</td>
-                  <td className="py-4 px-6">{item.costoVehiculo}</td>
-                  <td className="py-4 px-6">{item.anioVehiculo}</td>
-                  <td className="py-4 px-6">{item.dniDueno}</td>
-                  <td className="py-4 px-6">{item.placa}</td>
-                  <td className="py-4 px-6">{item.estadoOp}</td>
+                  <td className="py-4 px-6">{item.expSeguimientoId}</td>
+                  <td className="py-4 px-6">{item.clienteId}</td>
+
+                  <td className="py-4 px-6">{ item.revVehiculoId ?
+                  "Asociado a vehiculo"
+                :
+                "Asociado a contenedor"}</td>
+                       
+                  <td className="py-4 px-6">{item.fechaInicio}</td>
+                  <td className="py-4 px-6">{ item.fechaFinalizacion ?
+                  item.fechaFinalizacion
+                :
+                "Aun sin determinar"}</td>
+                  <td className="py-4 px-6">{item.prioridad}</td>
+                  <td className="py-4 px-6">
+                    <a href={item.documentoUrl} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded ml-2" target="_blank" rel="noopener noreferrer">Ver documentos</a> <a></a>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -185,8 +221,9 @@ console.log(tableData2);
       </div>
       </section>
 
+
     </>
   );
 };
 
-export default TrackingPage;
+export default MyTrackingPage;
