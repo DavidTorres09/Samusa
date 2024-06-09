@@ -236,8 +236,6 @@ namespace SamusaBackNew.Controllers
         [Route("autenticar")]
         public async Task<IActionResult> IniciarSesionCliente([FromBody] Cliente cliente)
         {
-            
-           
                 using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
                 {
                     ClienteRespuesta respuesta = new ClienteRespuesta();
@@ -310,14 +308,14 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpPut]
         [Route("CambiarContrasennaCliente")]
-        public IActionResult CambiarContrasenna(Cliente cliente)
+        public IActionResult CambiarContrasennaCliente(Cliente cliente)
         {
             using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 ClienteRespuesta respuesta = new ClienteRespuesta();
                 bool EsTemporal = false;
 
-                var resultado = db.Query<Cliente>("CambiarContrasenna",
+                var resultado = db.Query<Cliente>("CambiarContrasennaCliente",
                     new { cliente.Email, cliente.Contrasenna, cliente.ContrasennaTemporal, EsTemporal },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();
 

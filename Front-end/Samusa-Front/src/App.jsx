@@ -28,6 +28,7 @@ import TrackingSearchPage from './pages/User/TrackingSearch.jsx';
 import CalendarPage from './pages/Admin/Calendar.jsx';
 import NewUser from './pages/User/NewUSer.jsx';
 import RecuperarPassAdmin from './pages/Admin/RecuperarPassAdmin.jsx';
+import ChangePassUser from './pages/User/ChangePassword.jsx';
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
 
       <Route exact path="/User" element={<IndexUser />}>  </Route> //OK
       <Route exact path="/NewUser" element={<NewUser />}>  </Route> //OK
+      <Route exact path="/User/CambiarContrasenna" element={<ChangePassUser/>}>  </Route> //OK
       <Route exact path="/User/Login" element={<Login />}>  </Route> //OK
       <Route exact path="/User/AboutUs" element={<AboutUs/>}> </Route> //OK
       <Route exact path="/User/Cotizaciones" element={<UserCotizaciones/>}> </Route> //OK

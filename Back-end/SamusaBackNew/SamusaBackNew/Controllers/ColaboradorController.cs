@@ -275,7 +275,7 @@ namespace SamusaBackNew.Controllers
                 ColaboradorRespuesta respuesta = new ColaboradorRespuesta();
                 string NuevaContrasenna = _utilitariosModel.GenerarNuevaContrasenna();
                 string Contrasenna = _utilitariosModel.Encriptar(NuevaContrasenna);
-                bool EsTemporal = true;
+                bool EsTemporal = false;
 
                 var resultado = db.Query<Colaborador>("RecuperarAccesoColaborador",
                     new { entidad.Email, Contrasenna, EsTemporal },
