@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import encryptionUtils from '../utilities/encryptionUtils';
 
 const LoginAdmin = () => {
   const [usuario, setUsuario] = useState('');
@@ -7,8 +8,15 @@ const LoginAdmin = () => {
   const [isLogged, setIsLogged] = useState(false);
   const navigate = useNavigate();
 
+  async function handleEncrypt() {
+    const encryptedText = await encryptionUtils.Encriptar(contrasenna);
+    return encryptedText;
+};
+
+
   const handleLogin = async () => {
     try {
+      const textoEncriptado = await handleEncrypt(contrasenna);
         const response = await fetch('https://localhost:7189/api/samusa/colaborador/autenticar', {
             method: 'POST',
             headers: {
@@ -16,7 +24,7 @@ const LoginAdmin = () => {
             },
             body: JSON.stringify({
                 usuario: usuario,
-                contrasenna: contrasenna,
+                contrasenna: textoEncriptado,
             }),
         });
         
@@ -111,10 +119,9 @@ const LoginAdmin = () => {
           <p className="text-center mt-4">
             Olvidé mi contraseña
             <Link
-              to="/RecuperarPass"
+              to="/RecuperarContrasennaAdmin"
               className="text-blue-500 hover:underline"
             >
-              {" "}
               Recuperar
             </Link>
           </p>

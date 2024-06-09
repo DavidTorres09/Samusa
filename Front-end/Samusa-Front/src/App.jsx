@@ -27,6 +27,7 @@ import IndexNonAuntenticate from './pages/User/NoUserIndex.jsx';
 import TrackingSearchPage from './pages/User/TrackingSearch.jsx';
 import CalendarPage from './pages/Admin/Calendar.jsx';
 import NewUser from './pages/User/NewUSer.jsx';
+import RecuperarPassAdmin from './pages/Admin/RecuperarPassAdmin.jsx';
 
 
 function App() {
@@ -35,10 +36,11 @@ function App() {
      <Routes>
       
       <Route exact path="/" element={<IndexNonAuntenticate />}> </Route> //OK
-      <Route exact path="/RecuperarCOntrasenna" element={<RecuperarPass />}></Route> //TODO: finish the action
-      
+      <Route exact path="/RecuperarContrasenna" element={<RecuperarPass />}></Route> //OK
+      <Route exact path="/RecuperarContrasennaAdmin" element={<RecuperarPassAdmin />}></Route> //OK
+
       <Route exact path="/Admin" element={<AdminIndex />}> </Route> //OK
-      <Route exact path="/AdminLogin" element={<LoginAdmin  />}> </Route> //OK
+      <Route exact path="/Admin/Login" element={<LoginAdmin  />}> </Route> //OK
       <Route exact path="/Admin/Clientes" element={<AdminClientes/>}> </Route> //OK
       <Route exact path="/Admin/Colaboradores" element={<AdminColaboradores/>}> </Route> //OK
       <Route exact path="/Admin/Cotizaciones" element={<AdminCotizaciones/>}> </Route> //OK

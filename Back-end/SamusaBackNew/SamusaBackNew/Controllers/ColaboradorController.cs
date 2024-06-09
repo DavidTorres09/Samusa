@@ -267,7 +267,7 @@ namespace SamusaBackNew.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("RecuperarAccesoClienteColaborador")]
+        [Route("RecuperarAccesoColaborador")]
         public IActionResult RecuperarAcceso(Colaborador entidad)
         {
             using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
@@ -277,7 +277,7 @@ namespace SamusaBackNew.Controllers
                 string Contrasenna = _utilitariosModel.Encriptar(NuevaContrasenna);
                 bool EsTemporal = true;
 
-                var resultado = db.Query<Colaborador>("RecuperarAccesoClienteColaborador",
+                var resultado = db.Query<Colaborador>("RecuperarAccesoColaborador",
                     new { entidad.Email, Contrasenna, EsTemporal },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();
 
