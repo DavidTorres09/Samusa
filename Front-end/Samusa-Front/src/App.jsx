@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import AboutUs from './pages/User/UserAboutUs.jsx'
 import AdminClientes from './pages/Admin/AdminClientes'
@@ -12,9 +12,7 @@ import AdminRevisionContainer from './pages/Admin/AdminRevisionContainer.jsx'
 import AdminRevisionVehiculo from './pages/Admin/AdminRevisionVehiculo.jsx'
 import AdminTickets from './pages/Admin/AdminTickets.jsx'
 import IndexUser from './pages/User/IndexUser'
-import LayoutAdmin from './components/LayoutAdmin.jsx'
 import Login from './components/Login.jsx'
-import PerfilForm from './components/PerfilForm.jsx'
 import RecuperarPass from './components/RecuperarPass.jsx'
 import UserCotizaciones from './pages/User/UserCotizaciones.jsx'
 import UserServices from './pages/User/UserServices.jsx'
@@ -28,20 +26,19 @@ import LoginAdmin from './components/LoginAdmin.jsx';
 import IndexNonAuntenticate from './pages/User/NoUserIndex.jsx';
 import TrackingSearchPage from './pages/User/TrackingSearch.jsx';
 import CalendarPage from './pages/Admin/Calendar.jsx';
-import NewUser from './components/NewUSer.jsx';
+import NewUser from './pages/User/NewUSer.jsx';
 
 
 function App() {
   return (
     <Router>
      <Routes>
-      //TODO: fix the routes
       
       <Route exact path="/" element={<IndexNonAuntenticate />}> </Route> //OK
-      <Route exact path="/AdminLogin" element={<LoginAdmin  />}> </Route> //OK
-      <Route exact path="/Recuperar" element={<RecuperarPass />}></Route> //TODO: finish the action
+      <Route exact path="/RecuperarCOntrasenna" element={<RecuperarPass />}></Route> //TODO: finish the action
       
       <Route exact path="/Admin" element={<AdminIndex />}> </Route> //OK
+      <Route exact path="/AdminLogin" element={<LoginAdmin  />}> </Route> //OK
       <Route exact path="/Admin/Clientes" element={<AdminClientes/>}> </Route> //OK
       <Route exact path="/Admin/Colaboradores" element={<AdminColaboradores/>}> </Route> //OK
       <Route exact path="/Admin/Cotizaciones" element={<AdminCotizaciones/>}> </Route> //OK
@@ -66,20 +63,8 @@ function App() {
       <Route exact path="/User/MyTracking" element={<UserTracking/>}> </Route> //OK
       <Route exact path="/User/TrackingSearch" element={<TrackingSearchPage/>}> </Route> //OK
 
-      
-
-      
-      
-
-    </Routes>
-
-
+     </Routes>
     </Router>
-
-
-
-
   )
 }
-//
 export default App

@@ -45,10 +45,9 @@ const NewUser = () => {
             if (response.ok ) {
                 const data = await response.json();
                 if (data.codigo == "0") {
-                    console.log('Usuario registrado exitosamente');
                     navigate('/User/Login');
                 } else {
-                    setError('Su Usario o correo ya se encuentran registrados.');
+                    setError('Su Usuario o correo ya se encuentran registrados.');
                 }
             } else {
                 Seterror(`Error al intentar registarse`);

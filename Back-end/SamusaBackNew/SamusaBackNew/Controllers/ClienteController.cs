@@ -299,7 +299,7 @@ namespace SamusaBackNew.Controllers
                     htmlBody = htmlBody.Replace("@Usuario@", resultado.Usuario);
                     htmlBody = htmlBody.Replace("@Contrasenna@", NuevaContrasenna);
 
-                    _utilitariosModel.EnviarCorreo(resultado.Email!, "crTickets - Restablecimiento de contraseña   ", htmlBody);
+                    _utilitariosModel.EnviarCorreo(resultado.Email!, "SAMUSA - Restablecimiento de contraseña", htmlBody);
                     respuesta.Dato = resultado;
                 }
 
