@@ -10,7 +10,7 @@ namespace SamusaBackNew.Controllers
 {
     [ApiController]
     [Route("api/samusa/[controller]")]
-    public class AlarmaController(IConfiguration _configuration, IUtilitariosModel _utilitariosModel) : Controller
+    public class AlarmaController(IConfiguration _configuration) : Controller
     {
         [AllowAnonymous]
         [HttpPost]

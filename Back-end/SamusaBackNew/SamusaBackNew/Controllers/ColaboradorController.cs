@@ -5,7 +5,6 @@ using Microsoft.Data.SqlClient;
 using SamusaBackNew.Entities;
 using System.Data;
 using SamusaBackNew.Interfaces;
-using Microsoft.Extensions.Hosting;
 
 namespace SamusaBackNew.Controllers
 {
