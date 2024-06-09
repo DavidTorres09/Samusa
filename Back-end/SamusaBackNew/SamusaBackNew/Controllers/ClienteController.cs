@@ -21,7 +21,7 @@ namespace SamusaBackNew.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("agregar")]
-        public async Task<IActionResult> AgregarCliente(Cliente cliente)
+        public async Task<IActionResult> AgregarCliente([FromBody] Cliente cliente)
         {
             ClienteRespuesta respuesta = new ClienteRespuesta();
 

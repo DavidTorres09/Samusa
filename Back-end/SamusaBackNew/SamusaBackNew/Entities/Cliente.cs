@@ -16,7 +16,7 @@
         public string? NombreRol { get; set; } = string.Empty;
         public string? Foto { get; set; } = string.Empty;
         public bool Estado { get; set; } = true;
-        public bool EsTEmporal { get; set; }
+        public bool EsTemporal { get; set; }
         public string Token { get; set; } = string.Empty;
     }
 
