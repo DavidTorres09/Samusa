@@ -28,12 +28,6 @@ CREATE TABLE Colaborador (
 GO
 
 use SamusaV2;
-alter table cliente drop column Foto;
-
-alter table cliente add FOTO nvarchar(max) NULL;
-
-
-select * from cliente;
 
 CREATE TABLE Cliente (
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -210,12 +204,12 @@ GO
 
 INSERT INTO Cliente (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal) 
 VALUES 
-('Calle Principal 123', '12345678A', 'Juan Pérez', '+123456789', 'juan@example.com', 1, 'juanperez', 'contrasenna123', 1, 'url_foto_juan.jpg', 1, 0)
+('Calle Principal 123', '12345678A', 'Juan Pï¿½rez', '+123456789', 'juan@example.com', 1, 'juanperez', 'contrasenna123', 1, 'url_foto_juan.jpg', 1, 0)
 GO
 
 INSERT INTO Colaborador (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Usuario, Contrasenna, RolId, Foto, Estado, EsTemporal) 
 VALUES 
-('Calle Mayor 456', '01234567E', 'Carlos Rodríguez', '+012345678', 'carlos@example.com', 1, 'carlosr', 'contrasenna456', 3, 'url_foto_carlos.jpg', 1, 0)
+('Calle Mayor 456', '01234567E', 'Carlos Rodrï¿½guez', '+012345678', 'carlos@example.com', 1, 'carlosr', 'contrasenna456', 3, 'url_foto_carlos.jpg', 1, 0)
 GO
 select * from Cliente
 CREATE PROCEDURE AgregarCliente (
@@ -1211,7 +1205,7 @@ CREATE PROCEDURE IniciarSesionCliente(
 )
 AS
 BEGIN
-	SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+	SELECT u.*
 	FROM Cliente u
 	INNER JOIN Rol r ON u.RolId = r.id
 	WHERE u.USUARIO = @Usuario and u.Contrasenna = @Contrasenna
@@ -1257,7 +1251,6 @@ BEGIN
 	  WHERE	Email = @Email
 		AND Estado = 1
 END
-GO
 
 CREATE PROCEDURE RecuperarAccesoColaborador
 	@Email			VARCHAR(250),
@@ -1286,7 +1279,6 @@ BEGIN
 		AND Estado = 1
 END
 GO
-
 
 CREATE PROCEDURE CambiarContrasennaCliente
 	@Email					VARCHAR(200),
@@ -1349,7 +1341,7 @@ BEGIN
 		AND Estado = 1
 END
 GO
-
+select * from Cliente
 
 CREATE PROCEDURE ConsultarTracking
 	@NumSeguimiento INT

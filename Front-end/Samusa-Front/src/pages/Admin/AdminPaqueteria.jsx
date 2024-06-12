@@ -5,9 +5,6 @@ import "../../Css/datatables.min.css"
 import "../../Css/datatables.css"
 import PaqueteriaTable from "../../components/PaqueteriaTable";
 
-import $ from 'jquery';
-import jszip from 'jszip';
-import DataTable from 'datatables.net-dt';
 import 'datatables.net-autofill-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-buttons/js/buttons.colVis.mjs';
@@ -23,7 +20,7 @@ import 'datatables.net-rowreorder-dt';
 import 'datatables.net-scroller-dt';
 import 'datatables.net-select-dt';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const AdminPAqueteria = () => {
   return (

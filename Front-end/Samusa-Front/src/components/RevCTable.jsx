@@ -28,10 +28,16 @@ const RevCTable = () => {
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedRevC, setSelectedRevC] = useState(null);
-  const [query, SetQuery] = useState("");
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/revisionContenedor/listar')
+    const token = localStorage.getItem('token');
+    fetch('https://localhost:7189/api/samusa/revisionContenedor/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then(response => response.json())
       .then(data => {
         setTableData(data);

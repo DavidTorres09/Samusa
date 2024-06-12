@@ -7,7 +7,14 @@ function RevVehiculosChart() {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar') //Nos conectamos al api
+    const token = localStorage.getItem('token');
+    fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         const counts = data.reduce((acc, item) => { //Se crea la const counts para contar cuantas veces se repite cada una de las 4 opciones de estado

@@ -33,17 +33,24 @@ const ClientsTable = () => {
   console.log(query);
 
   useEffect(() => {
-    fetch("https://localhost:7189/api/samusa/cliente/listar")
+    const token = localStorage.getItem("token");
+    fetch("https://localhost:7189/api/samusa/cliente/listar", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then(response => response.json())
       .then(data => {
         if (data.codigo && data.codigo === "-1") {
           setErrorMessage(data.mensaje);
-          setTableData([]); //limpia datos existentes
+          setTableData([]);
         } else if (data.length === 0) {
           setErrorMessage("No se encontraron clientes en la Base de datos.");
         } else {
           setTableData(data);
-          setErrorMessage(""); // Limpia mensaje de error 
+          setErrorMessage(""); 
         }
 
         setTimeout(() => {

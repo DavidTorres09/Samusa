@@ -60,13 +60,14 @@ const saveCropImage= async () =>{
  
   try{
 
-            
+    const token = localStorage.getItem("token");       
     const updateClient = await fetch(
       `https://localhost:7189/api/samusa/cliente/actualizar`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(perfil),
       }

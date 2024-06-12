@@ -6,7 +6,6 @@ import "../Css/datatables.css"
 
 import $ from 'jquery';
 import jszip from 'jszip';
-import DataTable from 'datatables.net-dt';
 import 'datatables.net-autofill-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-buttons/js/buttons.colVis.mjs';
@@ -34,7 +33,14 @@ const PaqueteriaTable = () => {
   console.log(query);
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/paqueteria/listar')
+    const token = localStorage.getItem('token');
+    fetch('https://localhost:7189/api/samusa/paqueteria/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then(response => response.json())
       .then(data => {
         if (data.codigo && data.codigo === "-1") {

@@ -35,7 +35,14 @@ const ColaboTable = () => {
   console.log(tableData.filter(item => item.nombre.toLowerCase().includes("a")));
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/colaborador/listar')
+    const token = localStorage.getItem("token");
+    fetch('https://localhost:7189/api/samusa/colaborador/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then(response => response.json())
       .then(data => {
         if (data.codigo && data.codigo === "-1") {

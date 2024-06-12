@@ -1,22 +1,21 @@
 import Footer from "../../components/Footer";
 import LayoutAdmin from "../../components/LayoutAdmin";
-import "../../Css/Template.css"
+import "../../Css/Template.css";
 import Calendar from "../../components/Calendar";
 
-import React, { useEffect } from 'react';
+import React from "react";
 
 const CalendarPage = () => {
-
   return (
     <>
-        <body className="skin-dark">
-        <LayoutAdmin/>
-            <div className="content-body">
-            <Calendar/>
-            </div>
-            <Footer/>
-        </body>
-        </>
+      <body className="skin-dark">
+        <LayoutAdmin />
+        <div className="content-body">
+          <Calendar />
+        </div>
+        <Footer />
+      </body>
+    </>
   );
 };
 
