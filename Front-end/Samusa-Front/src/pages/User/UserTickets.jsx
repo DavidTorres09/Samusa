@@ -4,20 +4,20 @@ import TicketCliente from "../../components/TicketsCliente";
 import GeneralAlert from "../../components/GeneralAlert";
 
 const UserTickets = () => {
-    return (
-        <>
-        <body className="fondo">
-        <Layout/>
+  return (
+    <>
+      <body className="fondo">
+        <Layout />
         <div>
-        <GeneralAlert/>
+          <GeneralAlert />
         </div>
-            <div className="content-body fondo">
-            <TicketCliente/>
-            </div>
-            <Footer/>
-        </body>
-        </>       
-    );
-}
+        <div className="content-body fondo">
+          <TicketCliente />
+        </div>
+        <Footer />
+      </body>
+    </>
+  );
+};
 
 export default UserTickets;

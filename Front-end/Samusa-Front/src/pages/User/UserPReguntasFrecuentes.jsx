@@ -4,19 +4,17 @@ import "../../css/user/Index.css";
 import FrequentlyQuestions from "../../components/FrequentlyQuestions";
 import GeneralAlert from "../../components/GeneralAlert";
 
-
-function USerPreguntasFrecuentes () {
-
-    return (
-        <>
-        <Layout/>
-        <div>
-        <GeneralAlert/>
-        </div>
-        <FrequentlyQuestions/>
-        <Footer/>
-        </>
-    );
+function USerPreguntasFrecuentes() {
+  return (
+    <>
+      <Layout />
+      <div>
+        <GeneralAlert />
+      </div>
+      <FrequentlyQuestions />
+      <Footer />
+    </>
+  );
 }
 
 export default USerPreguntasFrecuentes;

@@ -6,22 +6,21 @@ import "../../css/user/Index.css";
 import Footer from "../../components/Footer";
 import GeneralAlert from "../../components/GeneralAlert";
 
-function IndexUser () {
-
-    return (
-        <body  className="fondo">
-            <div style={{ marginBottom: '1%' }}>
-                <Layout></Layout>
-                <div>
-        <GeneralAlert/>
+function IndexUser() {
+  return (
+    <body className="fondo">
+      <div style={{ marginBottom: "1%" }}>
+        <Layout></Layout>
+        <div>
+          <GeneralAlert />
         </div>
-                <AboutUsInformation/>
-                <Services/>
-                <FrequentlyQuestions/>
-                <Footer/>
-            </div>
-        </body>
-    );
+        <AboutUsInformation />
+        <Services />
+        <FrequentlyQuestions />
+        <Footer />
+      </div>
+    </body>
+  );
 }
 
 export default IndexUser;

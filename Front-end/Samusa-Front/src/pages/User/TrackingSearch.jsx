@@ -5,24 +5,21 @@ import "../../css/user/Index.css";
 import "../../css/user/Tracking.css";
 import GeneralAlert from "../../components/GeneralAlert";
 
-
-function TrackingSearchPage () {
-
-    return (
-        <>
-        <body  className="fondo">
+function TrackingSearchPage() {
+  return (
+    <>
+      <body className="fondo">
         <Layout></Layout>
         <div>
-        <GeneralAlert/>
+          <GeneralAlert />
         </div>
         <div className="content-body tablatracking">
-        <TrackingSearch/>
+          <TrackingSearch />
         </div>
         <Footer></Footer>
-        </body>
-        </>
-        
-    );
+      </body>
+    </>
+  );
 }
 
 export default TrackingSearchPage;
