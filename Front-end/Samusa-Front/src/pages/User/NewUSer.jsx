@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import encryptionUtils from "../utilities/encryptionUtils";
 
 const NewUser = () => {
     const [usuario, setUsuario] = useState('');
@@ -21,9 +22,16 @@ const NewUser = () => {
             return;
         }
 
+        async function handleEncrypt() {
+            const encryptedText = await encryptionUtils.Encriptar(contrasenna);
+            return encryptedText;
+        }
+
+        const constrasennaEncriptada = await handleEncrypt(contrasenna);
+
         const cliente = {
             usuario: usuario,
-            contrasenna: contrasenna,
+            contrasenna: constrasennaEncriptada,
             direccion: direccion,
             nombre: nombre,
             dni: dni,
