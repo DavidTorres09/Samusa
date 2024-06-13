@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import encryptionUtils from "../utilities/encryptionUtils";
+import encryptionUtils from "../../utilities/encryptionUtils";
 
 const NewUser = () => {
     const [usuario, setUsuario] = useState('');
