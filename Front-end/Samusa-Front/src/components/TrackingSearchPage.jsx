@@ -14,7 +14,7 @@ const TrackingSearch = () => {
   };
 
   const handleSearch = (trackingNumber) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const response = fetch(
       `https://localhost:7189/api/samusa/tracking/listar/${trackingNumber}`,
       {

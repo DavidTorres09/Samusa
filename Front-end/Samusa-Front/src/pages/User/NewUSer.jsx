@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import encryptionUtils from "../../utilities/encryptionUtils";
 
 const NewUser = () => {
     const [usuario, setUsuario] = useState('');
@@ -11,8 +12,12 @@ const NewUser = () => {
     const [email, setEmail] = useState('');
     const [esNacional, setEsNacional] = useState(false);
     const [error, setError] = useState('');
-    const [isLogged, setIsLogged] = useState(false);
     const navigate = useNavigate();
+
+    async function handleEncrypt() {
+        const encryptedText = await encryptionUtils.Encriptar(contrasenna);
+        return encryptedText;
+      }
 
     const handleRegister = async () => {
 
@@ -21,9 +26,11 @@ const NewUser = () => {
             return;
         }
 
+        const textoEncriptado = await handleEncrypt(contrasenna);
+
         const cliente = {
             usuario: usuario,
-            contrasenna: contrasenna,
+            contrasenna: textoEncriptado,
             direccion: direccion,
             nombre: nombre,
             dni: dni,
@@ -33,7 +40,6 @@ const NewUser = () => {
         };
 
         try {
-            console.log(JSON.stringify(usuario));
             const response = await fetch('https://localhost:7189/api/samusa/cliente/agregar ', {
                 method: 'POST',
                 headers: {
