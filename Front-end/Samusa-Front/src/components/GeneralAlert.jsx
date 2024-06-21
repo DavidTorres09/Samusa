@@ -5,7 +5,8 @@ const GeneralAlert = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
+    console.log(token);
     fetch("https://localhost:7189/api/samusa/Alarma/listar", {
       method: "GET",
       headers: {
@@ -13,23 +14,32 @@ const GeneralAlert = () => {
         "Authorization": `Bearer ${token}`,
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
+    .then(response => {
+      if (!response.ok) {
+          throw new Error('Error en la solicitud de red');
+      }
+      return response.json();
+    })
+    .then(data => {
         if (data.codigo && data.codigo === "-1") {
-          setErrorMessage(data.mensaje);
-          setAlarmas([]);
+            setErrorMessage(data.mensaje);
+            setAlarmas([]);
         } else if (data.length === 0) {
-          setErrorMessage("No se encontraron alarmas en la base de datos.");
+            setErrorMessage("No se encontraron alarmas en la base de datos.");
+            setAlarmas([]);
         } else {
-          setAlarmas(data);
-          setErrorMessage("");
+            setAlarmas(data);
+            setErrorMessage("");
         }
-      })
-      .catch((error) => {
+    })
+    .catch(error => {
         console.error("Error fetching alarmas:", error);
         setErrorMessage("Error al cargar las alarmas.");
-      });
+    });
+
   }, []);
+
+  
 
   return (
     <>

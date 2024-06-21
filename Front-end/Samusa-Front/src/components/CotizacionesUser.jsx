@@ -9,7 +9,7 @@ function CotizacionesUser() {
 
   //carga datos igual que en la tabla
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     fetch("https://localhost:7189/api/samusa/cotizacion/listar", {
       method: "GET",
       headers: {

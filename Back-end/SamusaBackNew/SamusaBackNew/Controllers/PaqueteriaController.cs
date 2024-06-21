@@ -10,7 +10,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/[controller]")]
     public class PaqueteriaController(IConfiguration _configuration) : Controller
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> AgregarPaqueteria(Paqueteria paqueteria)
@@ -56,7 +56,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerPaqueterias()
@@ -90,7 +90,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerPaqueteria(int id)
@@ -128,7 +128,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("actualizar")]
         public async Task<IActionResult> ModificarPaqueteria(Paqueteria paqueteria)
@@ -174,7 +174,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarPaqueteria(int id)

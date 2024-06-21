@@ -31,7 +31,7 @@ const RevVehiculosTable = () => {
   const [query, SetQuery] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar', {
       method: "GET",
       headers: {

@@ -8,14 +8,13 @@ using System.Text;
 using SamusaBackNew.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var config = builder.Configuration;
-
 string SecretKey = config["settings:SecretKey"] ?? string.Empty.ToString();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddSingleton<IUtilitariosModel, UtilitariosModel>();
 
@@ -41,36 +40,41 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateAudience = false,
-        ValidateIssuer = false,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey)),
-        ValidateLifetime = true,
-        LifetimeValidator = (DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters) =>
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            if (expires != null)
+            ValidateAudience = false,
+            ValidateIssuer = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey)),
+            ValidateLifetime = true,
+            LifetimeValidator = (DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters) =>
             {
-                return expires > DateTime.Now;
+                if (expires != null)
+                {
+                    return expires > DateTime.UtcNow;
+                }
+                return false;
             }
-            return false;
-        }
-    };
-});
+        };
+    });
 
 
 var app = builder.Build();
 
+app.UseExceptionHandler("/api/error/error");
+
 app.UseSwagger();
+
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
 
-app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader()); 
+app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader());
+
+app.UseAuthorization();
 
 app.MapControllers();
 

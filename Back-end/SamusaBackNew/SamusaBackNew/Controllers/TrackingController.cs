@@ -10,7 +10,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/[controller]")]
     public class trackingController(IConfiguration _configuration) : Controller
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{trackingNumber}")]
         public async Task<IActionResult> ConsultarTrackingDetallado(int trackingNumber)

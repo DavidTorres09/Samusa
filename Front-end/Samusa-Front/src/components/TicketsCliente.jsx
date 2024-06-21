@@ -8,7 +8,7 @@ const TicketCliente = () => {
   const agentId = sessionStorage.getItem("id");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     fetch("https://localhost:7189/api/samusa/Ticket/listar", {
       method: "GET",
       headers: {

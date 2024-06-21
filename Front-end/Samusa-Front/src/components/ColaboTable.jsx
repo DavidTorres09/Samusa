@@ -35,7 +35,7 @@ const ColaboTable = () => {
   console.log(tableData.filter(item => item.nombre.toLowerCase().includes("a")));
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     fetch('https://localhost:7189/api/samusa/colaborador/listar', {
       method: "GET",
       headers: {

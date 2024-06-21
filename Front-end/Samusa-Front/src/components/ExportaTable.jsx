@@ -32,7 +32,7 @@ const ExportaTable = () => {
   console.log(query);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     fetch("https://localhost:7189/api/samusa/exportacion/listar", {
       method: "GET",
       headers: {

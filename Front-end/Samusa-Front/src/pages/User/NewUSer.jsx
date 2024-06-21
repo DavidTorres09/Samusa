@@ -12,8 +12,12 @@ const NewUser = () => {
     const [email, setEmail] = useState('');
     const [esNacional, setEsNacional] = useState(false);
     const [error, setError] = useState('');
-    const [isLogged, setIsLogged] = useState(false);
     const navigate = useNavigate();
+
+    async function handleEncrypt() {
+        const encryptedText = await encryptionUtils.Encriptar(contrasenna);
+        return encryptedText;
+      }
 
     const handleRegister = async () => {
 
@@ -41,7 +45,6 @@ const NewUser = () => {
         };
 
         try {
-            console.log(JSON.stringify(usuario));
             const response = await fetch('https://localhost:7189/api/samusa/cliente/agregar ', {
                 method: 'POST',
                 headers: {

@@ -10,7 +10,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/[controller]")]
     public class RevisionContenedorController(IConfiguration _configuration) : Controller
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> AgregarRevisionContenedor(RevisionContenedor revisionContenedor)
@@ -54,7 +54,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerRevisionContenedores()
@@ -88,7 +88,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerRevisionContenedor(int id)
@@ -126,7 +126,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("actualizar")]
         public async Task<IActionResult> ModificarRevisionContenedor(RevisionContenedor revisionContenedor)
@@ -171,7 +171,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarRevisionContenedor(int id)

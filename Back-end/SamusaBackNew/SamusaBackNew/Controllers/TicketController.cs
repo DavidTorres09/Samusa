@@ -10,7 +10,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/[controller]")]
     public class TicketController(IConfiguration _configuration) : Controller
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> AgregarTicket(Ticket ticket)
@@ -54,7 +54,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerTickets()
@@ -89,7 +89,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerTicket(int id)
@@ -127,7 +127,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("actualizar")]
         public async Task<IActionResult> ModificarTicket(Ticket ticket)
@@ -172,7 +172,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarTicket(int id)

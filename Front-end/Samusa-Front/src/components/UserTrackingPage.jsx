@@ -31,7 +31,7 @@ const MyTrackingPage = () => {
   const agentId = sessionStorage.getItem("id");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     fetch("https://localhost:7189/api/samusa/importacion/listar", {
       method: "GET",
       headers: {

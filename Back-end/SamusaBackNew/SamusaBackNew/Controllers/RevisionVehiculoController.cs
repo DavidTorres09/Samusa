@@ -11,7 +11,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/[controller]")]
     public class RevisionVehiculoController(IConfiguration _configuration) : Controller
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> AgregarRevisionVehiculo(RevisionVehiculo revisionVehiculo)
@@ -59,7 +59,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerRevisionVehiculos()
@@ -94,7 +94,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerRevisionVehiculo(int id)
@@ -132,7 +132,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("actualizar")]
         public async Task<IActionResult> ModificarRevisionVehiculo(RevisionVehiculo revisionVehiculo)
@@ -181,7 +181,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarRevisionVehiculo(int id)

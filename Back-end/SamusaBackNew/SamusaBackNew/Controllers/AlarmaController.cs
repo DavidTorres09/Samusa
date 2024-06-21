@@ -12,7 +12,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/[controller]")]
     public class AlarmaController(IConfiguration _configuration) : Controller
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> AgregarAlarma(Alarma alarma)
@@ -52,7 +52,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerAlarmas()
@@ -86,7 +86,7 @@ namespace SamusaBackNew.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarAlarma(int id)

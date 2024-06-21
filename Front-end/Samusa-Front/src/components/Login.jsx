@@ -15,7 +15,6 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const token = sessionStorage.getItem("token");
       const textoEncriptado = await handleEncrypt(contrasenna);
       const response = await fetch(
         "https://localhost:7189/api/samusa/cliente/autenticar",

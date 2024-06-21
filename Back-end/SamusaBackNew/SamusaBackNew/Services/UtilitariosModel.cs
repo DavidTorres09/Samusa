@@ -22,7 +22,7 @@ namespace SamusaBackNew.Models
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.UtcNow.AddMinutes(25),
                 signingCredentials: signIn);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
