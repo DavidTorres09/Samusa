@@ -12,7 +12,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/colaborador")]
     public class ColaboradorController(IConfiguration _configuration, IUtilitariosModel _utilitariosModel, IHostEnvironment _hostEnvironment) : ControllerBase
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> AgregarColaborador(Colaborador colaborador)
@@ -64,7 +64,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerColaboradores()
@@ -99,7 +99,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerColaborador(int id)
@@ -136,7 +136,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("actualizar")]
         public async Task<IActionResult> ModificarColaborador(Colaborador colaborador)
@@ -189,7 +189,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarColaborador(int id)

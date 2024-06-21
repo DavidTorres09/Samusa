@@ -11,7 +11,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/[controller]")]
     public class ImportacionController(IConfiguration _configuration) : ControllerBase
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> AgregarImportacion(Importacion importacion)
@@ -60,7 +60,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerImportaciones()
@@ -95,7 +95,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerImportacion(int id)
@@ -132,7 +132,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("actualizar")]
         public async Task<IActionResult> ModificarImportacion(Importacion importacion)
@@ -182,7 +182,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarImportacion(int id)

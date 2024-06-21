@@ -11,7 +11,7 @@ namespace SamusaBackNew.Controllers
     [Route("api/samusa/[controller]")]
     public class CotizacionController(IConfiguration _configuration) : ControllerBase
     {
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         [Route("agregar")]
         public async Task<IActionResult> AgregarCotizacion(Cotizacion cotizacion)
@@ -56,7 +56,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerCotizaciones()
@@ -91,7 +91,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerCotizacion(int id)
@@ -128,7 +128,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("actualizar")]
         public async Task<IActionResult> ModificarCotizacion(Cotizacion cotizacion)
@@ -174,7 +174,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarCotizacion(int id)

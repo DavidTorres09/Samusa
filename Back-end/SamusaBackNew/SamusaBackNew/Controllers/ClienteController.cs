@@ -3,14 +3,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using System.Data.SqlClient;
-
 using SamusaBackNew.Entities;
 using System.Data;
 using SamusaBackNew.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using SamusaBackNew.Models;
 
 namespace SamusaBackNew.Controllers
 {
@@ -68,7 +63,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ObtenerClientes()
@@ -103,7 +98,7 @@ namespace SamusaBackNew.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [Route("listar/{id}")]
         public async Task<IActionResult> ObtenerCliente(int id)
@@ -140,7 +135,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPut]
         [Route("actualizar")]
         public async Task<IActionResult> ModificarCliente(Cliente cliente)
@@ -194,7 +189,7 @@ namespace SamusaBackNew.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarCliente(int id)
@@ -249,13 +244,13 @@ namespace SamusaBackNew.Controllers
                             usuario = cliente.Usuario,
                             contrasenna = cliente.Contrasenna
                         }
-                        , commandType: System.Data.CommandType.StoredProcedure).FirstOrDefault());
+                        , commandType: CommandType.StoredProcedure).FirstOrDefault());
 
                    
                     if (resultado != null)
                     {
                         respuesta.Dato = resultado;
-                        respuesta.Dato.Token = _utilitariosModel.GenerarToken(resultado.Dni ?? string.Empty);
+                        respuesta.Dato.Token = _utilitariosModel.GenerarToken(resultado.Dni);
                         respuesta.Codigo = "0";
                         respuesta.Mensaje = "Inicio de sesion exitoso";
                         return Ok(respuesta);
