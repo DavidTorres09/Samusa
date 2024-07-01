@@ -29,10 +29,10 @@ const ExportaTable = () => {
   const [SelectedExporta, setSelectedExporta] = useState(null);
   const [query, SetQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(query);
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+  
     fetch("https://localhost:7189/api/samusa/exportacion/listar", {
       method: "GET",
       headers: {
@@ -59,6 +59,9 @@ const ExportaTable = () => {
             $("#example").DataTable({
               dom: "Bfrtip",
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+              },
               buttons: ["copy", "csv", "excel", "print"],
             });
           });
@@ -76,6 +79,10 @@ const ExportaTable = () => {
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/exportacion/eliminar/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
     })
       .then((response) => {
         if (response.ok) {
@@ -93,10 +100,12 @@ const ExportaTable = () => {
         }
       })
       .then(() => {
+        alert("Exportación eliminada exitosamente");
         console.log("Exportacion eliminada exitosamente");
         window.location.reload();
       })
       .catch((error) => {
+        alert("Error al eliminar la Exportacion:", error.message);
         console.error("Error al eliminar la Exportacion:", error.message);
       });
   };
@@ -122,7 +131,7 @@ const ExportaTable = () => {
       <section className="data-table-section">
         <div className="table-container col-12 mb-30">
           <h1 className="text-3xl font-bold my-4 text-gray-800">
-            Tabla de Exportacion
+            Tabla de Exportaciónes
           </h1>
           {errorMessage && (
             <div className="alert alert-danger" role="alert">
@@ -134,7 +143,7 @@ const ExportaTable = () => {
               className="text-white font-bold py-2 px-4 rounded add-btn"
               onClick={handleSave}
             >
-              Agregar Exportacion
+              Agregar Exportación
             </button>
           </div>
 

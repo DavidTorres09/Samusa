@@ -40,22 +40,17 @@ function CotizacionesUser() {
   };
 
   return (
-    <div className="body">
+    <div className="CotizacionesTax">
+      <div className="body">
       <section id="Tax-calculator">
-        <div className="animate__animated animate__flipInX">
-          <br></br>
-          <br></br>
-          <br></br>
-          <h1 className="title text-3xl font-bold my-4">
-            Porcentajes de impuestos
-          </h1>
-          <br />
-
+        <div className="animate__animated animate__flipInX container">
+          <h1 className="title">Porcentajes de impuestos</h1>
           <div className="form-group">
-            <label htmlFor="tipoProducto">Tipo de producto</label>
+            <label htmlFor="tipoProducto" className="label">Tipo de producto</label>
             <select
               id="tipoProducto"
               onChange={(e) => setSelectedType(e.target.value)}
+              className="select"
             >
               <option value="">Seleccione Un Tipo</option>
               {uniqueTypes.map((type, index) => (
@@ -66,11 +61,12 @@ function CotizacionesUser() {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="producto">Producto</label>
+            <label htmlFor="producto" className="label">Producto</label>
             <select
               id="producto"
               onChange={(e) => setSelectedProduct(e.target.value)}
               disabled={!selectedType}
+              className="select"
             >
               <option value="">Seleccione Un Producto</option>
               {filteredProducts.map((product, index) => (
@@ -83,15 +79,10 @@ function CotizacionesUser() {
           <button className="btn-form" type="button" onClick={calculateTax}>
             Impuesto total
           </button>
-          <div id="result"></div>
+          <div id="result" className="result"></div>
         </div>
       </section>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+    </div>
     </div>
   );
 }

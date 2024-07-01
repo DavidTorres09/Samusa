@@ -6,19 +6,19 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const user = {
-  name: 'Tom Cook', 
-  email: 'tom@example.com',
+  name: 'Non User', 
+  email: 'Example@example.com',
   imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_640.png',
 }
 const navigation = [
   { name: 'Inicio', to: '/', current: true },
-  { name: 'Iniciar Sesion', to: '/User/Login' },
+  { name: 'Iniciar Sesión', to: '/User/Login' },
   
 ]
 
 const userNavigation = [
-  { name: 'Iniciar Sesion', to: '/User/Login' },
+  { name: 'Iniciar Sesión', to: '/User/Login' },
   
 ]
 

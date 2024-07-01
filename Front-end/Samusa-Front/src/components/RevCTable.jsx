@@ -28,9 +28,9 @@ const RevCTable = () => {
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedRevC, setSelectedRevC] = useState(null);
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
     fetch('https://localhost:7189/api/samusa/revisionContenedor/listar', {
       method: "GET",
       headers: {
@@ -47,6 +47,9 @@ const RevCTable = () => {
             $('#example').DataTable({
               dom: 'Bfrtip',
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+            },
               buttons: [
                 'copy', 'csv', 'excel', 'print'
               ]
@@ -65,7 +68,11 @@ const RevCTable = () => {
 
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/revisionContenedor/eliminar/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
     })
     .then(response => {
       if (response.ok) {
@@ -81,10 +88,12 @@ const RevCTable = () => {
       }
     })
     .then(() => {
+      alert("Contenedor eliminado con exito");
       console.log('revision de Contenedor eliminada exitosamente');
       window.location.reload();
     })
     .catch(error => {
+      alert("Error al eliminar el contenedor" + error.message);
       console.error('Error al eliminar la revision de Contenedor:', error.message);
     });
   };

@@ -1,20 +1,5 @@
-.body{
-    background-color: #161824;
-}
-.title{
-    font-size: 1.2rem;
-    color: #00BCD4;
-}
-
-#Tax-calculator {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
 #result {
+    background-color: #161824;
     font-size: 1.2rem;
     font-weight: bold;
     margin: 0 auto;
@@ -22,15 +7,12 @@
     border-radius: 5px;
     color: #e7ae11;
     transform: skew(-10deg);
-    background-color: #fff;
     padding: 5px 10px;
-    max-width: 155px;
 }
 
 .form-group label {
     font-size: 1.5rem;
     font-weight: bold;
-    transform: skew(-10deg); /* Inclinación */
     background-color: #e7ae11;
     padding: 5px 10px;
     border-radius: 5px;
@@ -49,7 +31,7 @@
     box-shadow: 0 0 10px #fdd835;
 }
 .form-group select option{
-    background-color: #e7ae11;
+    background-color: #1a1a1a;
 }
 
 /* Aplica estilos específicos para los items dentro de los select */
@@ -58,7 +40,6 @@
 }
 
 .btn-form{
-    color: #00BCD4;
     font-size: 1.5rem;
     font-weight: bold;
     transform: skew(-10deg);
@@ -73,4 +54,116 @@
     background-color: #e7ae11;
 }
 
+.CotizacionesTax{
+    color: #fff;
+}
 
+.CotizacionesTax body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+.CotizacionesTax #Tax-calculator {
+    background: #161824;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.075);
+    width: auto;
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+.CotizacionesTax .title {
+    color: #00BCD4;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+.CotizacionesTax .form-group {
+    margin-bottom: 20px;
+  }
+  
+.CotizacionesTax .label {
+    color: #161824;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+.CotizacionesTax .select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #161824;
+    color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+  }
+  
+.CotizacionesTax .select:focus {
+    outline: none;
+    transform: scale(1.05);
+  }
+  
+.CotizacionesTax .btn-form {
+    background-color: #0055ff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+.CotizacionesTax  .btn-form:hover {
+    background-color: #003bb3;
+    transform: scale(1.05);
+  }
+  
+.CotizacionesTax .result {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #ff0;
+    background: #2c2c2c;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+  }
+  
+.CotizacionesTax .result:focus {
+    transform: scale(1.05);
+  }
+  
+.CotizacionesTax .container {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fondo{
+    background-color: #161824;
+   }
+   .centrar{
+    align-content: center;
+    text-align: center;
+    background-color: #161824;
+   }

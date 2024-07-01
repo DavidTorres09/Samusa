@@ -144,7 +144,7 @@ const TrackingSearch = () => {
                   <div>
                     {tableData.naviera ? (
                       <div>
-                        <h1 className="title">Container</h1>
+                        <h1 className="title">Contenedor</h1>
                         <li className="item">
                           <div className="item-box white-box"></div>
                           <span className="item-name">ID</span>
@@ -283,7 +283,7 @@ const TrackingSearch = () => {
                       <div>
                         {tableData.naviera ? (
                           <div>
-                            <h1 className="title">Container</h1>
+                            <h1 className="title">Contenedor</h1>
                             <li className="item">
                               <div className="item-box white-box"></div>
                               <span className="item-name">ID</span>

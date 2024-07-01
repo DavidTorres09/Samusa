@@ -14,8 +14,16 @@ const AdminInfoCards = () => {
   const [totalenPendienteCitaExp, setTotalenPendienteCitaExp] = useState(0);
   const [totalenFinalizadoExp, setTotalenFinalizadoExp] = useState(0);
 
+  const token = sessionStorage.getItem('token');
+
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/importacion/listar')
+    fetch('https://localhost:7189/api/samusa/importacion/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setImportaciones(data);
@@ -27,7 +35,13 @@ const AdminInfoCards = () => {
   }, []);
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/exportacion/listar')
+    fetch('https://localhost:7189/api/samusa/exportacion/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setExportaciones(data);
@@ -89,7 +103,7 @@ const AdminInfoCards = () => {
                 <div className='top-report'>
 
                     <div className='head'>
-                        <h4>Numero de Importaciones</h4>
+                        <h4>Número de Importaciónes</h4>
                         <a className='view'><i className='zmdi zmdi-eye'></i></a>
                         </div>
 
@@ -102,7 +116,7 @@ const AdminInfoCards = () => {
                             <div className='progess'>
                                 <div className='progess-bar'></div>
                                 <div className='content'>
-                                <h5>En documentacion: {totalenDocumentacion} | Finalizados: {totalenFinalizado} </h5>
+                                <h5>En documentación: {totalenDocumentacion} | Finalizados: {totalenFinalizado} </h5>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +127,7 @@ const AdminInfoCards = () => {
                 <div className='top-report'>
 
                     <div className="head">
-                        <h4>Numero de Exportaciones</h4>
+                        <h4>Número de Exportaciones</h4>
                         <a className='view'><i className='zmdi zmdi-eye'></i></a>
                         </div>
 

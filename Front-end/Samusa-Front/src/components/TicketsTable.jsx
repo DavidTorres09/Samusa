@@ -29,9 +29,9 @@ const TicketsTable = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedTicket, setSelectedTicket] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
     fetch("https://localhost:7189/api/samusa/Ticket/listar", {
       method: "GET",
       headers: {
@@ -56,6 +56,9 @@ const TicketsTable = () => {
             $("#example").DataTable({
               dom: "Bfrtip",
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+            },
               buttons: ["copy", "csv", "excel", "print"],
             });
           });
@@ -73,6 +76,10 @@ const TicketsTable = () => {
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/Ticket/eliminar/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => {
         if (response.ok) {
@@ -88,11 +95,13 @@ const TicketsTable = () => {
         }
       })
       .then(() => {
-        console.log("Ticket eliminada exitosamente");
+        alert("Ticket eliminado exitosamente");
+        console.log("Ticket eliminado exitosamente");
         window.location.reload();
       })
       .catch((error) => {
-        console.error("Error al eliminar la Ticket:", error.message);
+        alert("Error al eliminar el Ticket:", error.message);
+        console.error("Error al eliminar el Ticket:", error.message);
       });
   };
 

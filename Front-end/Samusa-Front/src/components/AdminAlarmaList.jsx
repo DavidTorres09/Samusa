@@ -1,8 +1,15 @@
 import React from "react";
+
+const token = sessionStorage.getItem('token');
+
 const AlarmaList = ({ Alarma }) => {
     const handleDelete = (id) => {
         fetch(`https://localhost:7189/api/samusa/Alarma/eliminar/${id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, 
+          },
         })
         .then(response => {
           if (response.ok) {

@@ -61,6 +61,9 @@ const MyTrackingPage = () => {
             $("#example").DataTable({
               dom: "Bfrtip",
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+            },
               buttons: ["copy", "csv", "excel", "print"],
             });
           });
@@ -99,6 +102,9 @@ const MyTrackingPage = () => {
             $("#example2").DataTable({
               dom: "Bfrtip",
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+            },
               buttons: ["copy", "csv", "excel", "print"],
             });
           });

@@ -21,7 +21,7 @@ const RecuperarPassAdmin = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.codigo === "0") {
-          navigate('/Admin/Login');
+          navigate('/pckX9Ten2iJEClmZPmeFL5nm9ed5mJOH8n5');
         } else {
           setError(data.mensaje);
         }
@@ -74,7 +74,7 @@ const RecuperarPassAdmin = () => {
           </div>
         </form>
       </div>
-      <Link to="/Admin/Login" className="text-white hover:underline mt-4">
+      <Link to="/pckX9Ten2iJEClmZPmeFL5nm9ed5mJOH8n5" className="text-white hover:underline mt-4">
         Regresar al login
       </Link>
     </div>

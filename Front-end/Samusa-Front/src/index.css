@@ -37,6 +37,15 @@ Principal #e7ae11;
   h1, h2, h3, h4, h5, h6 {
     font-size: 100%;
   }
+
+  .CotizacionesTax{
+    color: #fff;
+
+    
+  position: relative;
+  top: auto;
+  bottom: auto;
+}
   }
   
   html {
@@ -53,4 +62,11 @@ Principal #e7ae11;
 
  .fondo{
   background-color: #161824;
+ }
+ .centrar{
+  align-content: center;
+  text-align: center;
+ }
+ .TitulosUser{
+  color: #00BCD4;
  }

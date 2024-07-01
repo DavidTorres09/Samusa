@@ -6,8 +6,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
+  name: 'User',
+  email: 'Ex@example.com',
   imageUrl: sessionStorage.getItem('foto'),
 }
 const navigation = [

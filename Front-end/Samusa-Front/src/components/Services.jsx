@@ -7,7 +7,7 @@ const Services = () => {
             <div className="servicios-grid">
                 <div className="servicio" id="importaciones">
                     <h3>Importaciones</h3>
-                    <p>Facilitamos el proceso de importaciónes de mercancia y vehiculos</p>
+                    <p>Facilitamos el proceso de importaciónes de mercancia y vehiculos.</p>
                 </div>
                 <div className="servicio" id="exportaciones">
                     <h3>Exportaciones</h3>
@@ -15,7 +15,7 @@ const Services = () => {
                 </div>
                 <div className="servicio" id="logistica">
                     <h3>Logística</h3>
-                    <p>Optimizamos y generamos la documentacion necesaria para el respectivo pago de impuestos</p>
+                    <p>Optimizamos y generamos la documentacion necesaria para el respectivo pago de impuestos.</p>
                 </div>
                 <div className="servicio" id="paqueteria">
                     <h3>Paquetería</h3>

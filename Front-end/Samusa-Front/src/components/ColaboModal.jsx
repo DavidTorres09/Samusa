@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import "../Css/Admin/Modals.css";
+
+const token = sessionStorage.getItem('token');
 
 const ColaboModal = ({ user, onClose, isEditing }) => {
   const [editedColabo, setEditedColabo] = useState(
@@ -26,6 +29,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
     setEditedColabo({ ...editedColabo, [name]: newValue });
   };
 
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
 
   const handleCancel = () => {
     onClose();
@@ -43,6 +47,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
             },
           }
         );
@@ -52,6 +57,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`, 
               },
               body: JSON.stringify(editedColabo),
             }
@@ -60,7 +66,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
             alert("Usuario guardado exitosamente");
             window.location.reload();
           } else {
-            throw new Error("No se pudo agregar el usuario");
+            alert("No se pudo agregar el colaborador, Es posible ya este registrado");
           }
       }
       else {
@@ -72,6 +78,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`, 
             },
             body: JSON.stringify(editedColabo),
           }
@@ -81,7 +88,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
           alert("Usuario actualizado exitosamente");
           window.location.reload();
         } else {
-          throw new Error("No se pudo actualizar el usuario");
+          alert("No se pudo actualizar el usuario");
         }
       }
     } catch (error) {
@@ -90,65 +97,30 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
   };
 
   return (
-    <div className="fixed z-10 inset-0 overflow-y-auto">
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+    <div className='Modals'>
+      <div className="fixed z-10 inset-0 overflow-y-auto">
+      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="fixed inset-0 transition-opacity">
+          <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
         </div>
+        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+          &#8203;
+        </span>
+        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full animate__animated animate__fadeInUp">
+          <div className="bg-blue-800 px-4 py-2 sm:px-6 rounded">
+            {isEditing ? <h3 className="titleModal text-white">Editar usuario</h3> : <h3 className="titleModal text-white">Agregar usuario</h3>}
+          </div>
 
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-white px-4 py-5 sm:p-6">
+          {isEditing ? 
+                <div>
+            <div className="bg-white px-4 py-5 sm:p-6">
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-              <div className="bg-blue-600 px-4 py-2 sm:px-6 rounded">
-          {isEditing ? <h3 className="titleform">Editar Colaborador</h3> : <h3 className="titleform">Agregar Colaborador</h3>}
-          </div>
-          <br />
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-          <div className="mb-4">
-                    <label
-                      htmlFor="dni"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      DNI
-                    </label>
-                    <input
-                      type="number"
-                      name="dni"
-                      id="dni"
-                      value={editedColabo.dni}
-                      onChange={handleInputChange}
-                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                      required
-                    />
-                  </div>
-                  
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="mb-4">
-                    <label
-                      htmlFor="nombre"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      NOMBRE
-                    </label>
-                    <input
-                      type="text"
-                      name="nombre"
-                      id="nombre"
-                      value={editedColabo.nombre}
-                      onChange={handleInputChange}
-                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                      required
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="telefono"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      TELEFONO
+                    <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">
+                      TELÉFONO 
                     </label>
                     <input
                       type="text"
@@ -161,10 +133,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                     />
                   </div>
                   <div className="mb-4">
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                       EMAIL
                     </label>
                     <input
@@ -178,10 +147,137 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                     />
                   </div>
                   <div className="mb-4">
-                    <label
-                      htmlFor="contrasenna"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor="usuario" className="block text-sm font-medium text-gray-700">
+                      USUARIO
+                    </label>
+                    <input
+                      type="text"
+                      name="usuario"
+                      id="usuario"
+                      value={editedColabo.usuario}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="esNacional" className="block text-sm font-medium text-gray-700">
+                      Es Nacional
+                    </label>
+                    <label className="inline-flex items-center mt-1">
+                      <input
+                        type="checkbox"
+                        name="esNacional"
+                        id="esNacional"
+                        checked={editedColabo.esNacional}
+                        onChange={handleInputChange}
+                        className="form-checkbox h-5 w-5 text-indigo-600"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">ESTADO</span>
+                    </label>
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="estado" className="block text-sm font-medium text-gray-700">
+                      Estado
+                    </label>
+                    <label className="inline-flex items-center mt-1">
+                      <input
+                        type="checkbox"
+                        name="estado"
+                        id="estado"
+                        checked={editedColabo.estado}
+                        onChange={handleInputChange}
+                        className="form-checkbox h-5 w-5 text-indigo-600"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">Es nacional</span>
+                    </label>
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="direccion" className="block text-md font-medium text-gray-700">
+                      Dirección
+                    </label>
+                    <input
+                      type="text"
+                      name="direccion"
+                      id="direccion"
+                      value={editedColabo.direccion}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border rounded-md w-full"
+                      required
+                    />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+                </div> 
+                
+                : 
+
+                <div>
+                            <div className="bg-white px-4 py-5 sm:p-6">
+            <div className="sm:flex sm:items-start">
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="mb-4">
+                    <label htmlFor="dni" className="block text-sm font-medium text-gray-700">
+                      DNI
+                    </label>
+                    <input
+                      type="number"
+                      name="dni"
+                      id="dni"
+                      value={editedColabo.dni}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
+                      NOMBRE
+                    </label>
+                    <input
+                      type="text"
+                      name="nombre"
+                      id="nombre"
+                      value={editedColabo.nombre}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">
+                      TELÉFONO 
+                    </label>
+                    <input
+                      type="text"
+                      name="telefono"
+                      id="telefono"
+                      value={editedColabo.telefono}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                      EMAIL
+                    </label>
+                    <input
+                      type="text"
+                      name="email"
+                      id="email"
+                      value={editedColabo.email}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="contrasenna" className="block text-sm font-medium text-gray-700">
                       CONTRASEÑA
                     </label>
                     <input
@@ -195,14 +291,11 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                     />
                   </div>
                   <div className="mb-4">
-                    <label
-                      htmlFor="usuario"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor="usuario" className="block text-sm font-medium text-gray-700">
                       USUARIO
                     </label>
                     <input
-                      type="usuario"
+                      type="text"
                       name="usuario"
                       id="usuario"
                       value={editedColabo.usuario}
@@ -212,10 +305,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                     />
                   </div>
                   <div className="mb-4">
-                    <label
-                      htmlFor="esNacional"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor="esNacional" className="block text-sm font-medium text-gray-700">
                       Es Nacional
                     </label>
                     <label className="inline-flex items-center mt-1">
@@ -223,43 +313,31 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                         type="checkbox"
                         name="esNacional"
                         id="esNacional"
-                        defaultChecked={editedColabo.esNacional}
+                        checked={editedColabo.esNacional}
                         onChange={handleInputChange}
                         className="form-checkbox h-5 w-5 text-indigo-600"
                       />
-                      <span className="ml-2 text-sm text-gray-700">
-                        ESTADO
-                      </span>
+                      <span className="ml-2 text-sm text-gray-700">ESTADO</span>
                     </label>
                   </div>
-
                   <div className="mb-4">
-                    <label
-                      htmlFor="estado"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      estado
+                    <label htmlFor="estado" className="block text-sm font-medium text-gray-700">
+                      Estado
                     </label>
                     <label className="inline-flex items-center mt-1">
                       <input
                         type="checkbox"
                         name="estado"
                         id="estado"
-                        defaultChecked={editedColabo.estado}
+                        checked={editedColabo.estado}
                         onChange={handleInputChange}
                         className="form-checkbox h-5 w-5 text-indigo-600"
                       />
-                      <span className="ml-2 text-sm text-gray-700">
-                        Es nacional
-                      </span>
+                      <span className="ml-2 text-sm text-gray-700">Es nacional</span>
                     </label>
                   </div>
-
                   <div className="mb-4">
-                    <label
-                      htmlFor="direccion"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor="direccion" className="block text-md font-medium text-gray-700">
                       Dirección
                     </label>
                     <input
@@ -268,24 +346,36 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                       id="direccion"
                       value={editedColabo.direccion}
                       onChange={handleInputChange}
-                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      className="mt-1 p-2 border rounded-md w-full"
                       required
                     />
                   </div>
-              </div>
+                </div>
+
               </div>
             </div>
           </div>
-          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button onClick={handleSave} type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+                </div>}
+
+          <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button
+              onClick={handleSave}
+              type="button"
+              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm animate__animated animate__pulse"
+            >
               Guardar Cambios
             </button>
-            <button onClick={handleCancel} type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            <button
+              onClick={handleCancel}
+              type="button"
+              className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm animate__animated animate__pulse"
+            >
               Cancelar
             </button>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

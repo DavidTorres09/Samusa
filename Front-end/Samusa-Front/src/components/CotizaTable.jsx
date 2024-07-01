@@ -33,9 +33,9 @@ const CotizaTable = () => {
   console.log(
     tableData.filter((item) => item.producto.toLowerCase().includes("a"))
   );
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
     fetch("https://localhost:7189/api/samusa/cotizacion/listar", {
       method: "GET",
       headers: {
@@ -62,6 +62,9 @@ const CotizaTable = () => {
             $("#example").DataTable({
               dom: "Bfrtip",
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+            },
               buttons: ["copy", "csv", "excel", "print"],
             });
           });
@@ -79,6 +82,10 @@ const CotizaTable = () => {
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/cotizacion/eliminar/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
     })
       .then((response) => {
         if (response.ok) {
@@ -94,10 +101,12 @@ const CotizaTable = () => {
         }
       })
       .then(() => {
+        alert('Cotizacion eliminada exitosamente');
         console.log("Cotizacion eliminada exitosamente");
         window.location.reload();
       })
       .catch((error) => {
+        alert('Error al eliminar cotizacion ' + error.message);
         console.error("Error al eliminar la cotizacion:", error.message);
       });
   };
