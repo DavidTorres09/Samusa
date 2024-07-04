@@ -5,10 +5,15 @@ import App from '../App'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
+let fotoperfil = sessionStorage.getItem('foto');
+if (!fotoperfil || fotoperfil.length < 5) {
+  fotoperfil = 'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_640.png';
+}
+
 const user = {
-  name: 'User',
-  email: 'Ex@example.com',
-  imageUrl: sessionStorage.getItem('foto'),
+  name: sessionStorage.getItem('usuario'),
+  email: sessionStorage.getItem('email'),
+  imageUrl: fotoperfil,
 }
 const navigation = [
   { name: 'Inicio', to: '/User', current: true },

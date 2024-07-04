@@ -102,10 +102,12 @@ const ColaboTable = () => {
       }
     })
     .then(() => {
+      alert("Colaborador eliminado exitosamente");
       console.log('Colaborador eliminado exitosamente');
       window.location.reload();
     })
     .catch(error => {
+      alert('Error al eliminar el colaborador:', error.message);
       console.error('Error al eliminar el colaborador:', error.message);
     });
   };

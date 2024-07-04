@@ -30,10 +30,10 @@ const ClientsTable = () => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [query, SetQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(query);
+  
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
     fetch("https://localhost:7189/api/samusa/cliente/listar", {
       method: "GET",
       headers: {
@@ -58,6 +58,8 @@ const ClientsTable = () => {
             $('#example').DataTable({
               dom: 'Bfrtip',
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',},
               buttons: [
                 'copy', 'csv', 'excel', 'print'
               ]
@@ -79,6 +81,10 @@ console.log(tableData);
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/cliente/eliminar/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
     })
       .then((response) => {
         console.log(id);

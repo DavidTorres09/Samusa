@@ -108,7 +108,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
         </span>
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full animate__animated animate__fadeInUp">
           <div className="bg-blue-800 px-4 py-2 sm:px-6 rounded">
-            {isEditing ? <h3 className="titleModal text-white">Editar usuario</h3> : <h3 className="titleModal text-white">Agregar usuario</h3>}
+            {isEditing ? <h3 className="titleModal text-white">Editar Colaborador</h3> : <h3 className="titleModal text-white">Agregar Colaborador</h3>}
           </div>
 
           {isEditing ? 
@@ -173,12 +173,12 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                         onChange={handleInputChange}
                         className="form-checkbox h-5 w-5 text-indigo-600"
                       />
-                      <span className="ml-2 text-sm text-gray-700">ESTADO</span>
+                      <span className="ml-2 text-sm text-gray-700">Es Nacional</span>
                     </label>
                   </div>
                   <div className="mb-4">
                     <label htmlFor="estado" className="block text-sm font-medium text-gray-700">
-                      Estado
+                      ESTADO
                     </label>
                     <label className="inline-flex items-center mt-1">
                       <input
@@ -189,12 +189,12 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                         onChange={handleInputChange}
                         className="form-checkbox h-5 w-5 text-indigo-600"
                       />
-                      <span className="ml-2 text-sm text-gray-700">Es nacional</span>
+                      <span className="ml-2 text-sm text-gray-700">ESTADO</span>
                     </label>
                   </div>
                   <div className="mb-4">
                     <label htmlFor="direccion" className="block text-md font-medium text-gray-700">
-                      Dirección
+                      DIRECCIÓN
                     </label>
                     <input
                       type="text"
@@ -222,7 +222,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="mb-4">
                     <label htmlFor="dni" className="block text-sm font-medium text-gray-700">
-                      DNI
+                      DNI *
                     </label>
                     <input
                       type="number"
@@ -236,7 +236,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                   </div>
                   <div className="mb-4">
                     <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
-                      NOMBRE
+                      NOMBRE *
                     </label>
                     <input
                       type="text"
@@ -264,7 +264,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                   </div>
                   <div className="mb-4">
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                      EMAIL
+                      EMAIL *
                     </label>
                     <input
                       type="text"
@@ -278,7 +278,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                   </div>
                   <div className="mb-4">
                     <label htmlFor="contrasenna" className="block text-sm font-medium text-gray-700">
-                      CONTRASEÑA
+                      CONTRASEÑA *
                     </label>
                     <input
                       type="text"
@@ -292,7 +292,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                   </div>
                   <div className="mb-4">
                     <label htmlFor="usuario" className="block text-sm font-medium text-gray-700">
-                      USUARIO
+                      USUARIO *
                     </label>
                     <input
                       type="text"
@@ -306,7 +306,7 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                   </div>
                   <div className="mb-4">
                     <label htmlFor="esNacional" className="block text-sm font-medium text-gray-700">
-                      Es Nacional
+                      Es Nacional *
                     </label>
                     <label className="inline-flex items-center mt-1">
                       <input
@@ -317,12 +317,12 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                         onChange={handleInputChange}
                         className="form-checkbox h-5 w-5 text-indigo-600"
                       />
-                      <span className="ml-2 text-sm text-gray-700">ESTADO</span>
+                      <span className="ml-2 text-sm text-gray-700">Es Nacional</span>
                     </label>
                   </div>
                   <div className="mb-4">
                     <label htmlFor="estado" className="block text-sm font-medium text-gray-700">
-                      Estado
+                      ESTADO *
                     </label>
                     <label className="inline-flex items-center mt-1">
                       <input
@@ -333,12 +333,12 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
                         onChange={handleInputChange}
                         className="form-checkbox h-5 w-5 text-indigo-600"
                       />
-                      <span className="ml-2 text-sm text-gray-700">Es nacional</span>
+                      <span className="ml-2 text-sm text-gray-700">ESTADO</span>
                     </label>
                   </div>
                   <div className="mb-4">
                     <label htmlFor="direccion" className="block text-md font-medium text-gray-700">
-                      Dirección
+                      DIRECCIÓN *
                     </label>
                     <input
                       type="text"
