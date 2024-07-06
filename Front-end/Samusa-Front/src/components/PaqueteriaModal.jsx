@@ -44,9 +44,6 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
     try {
       if (isEditing===false) {
         editedPaqueteria.fechaRegistro = new Date().toISOString().split("T")[0] + 'T00:00:00.000Z';
-        console.log(editedPaqueteria);
-        
-
       const response = await fetch('https://localhost:7189/api/samusa/paqueteria/agregar', {
         method: 'POST',
         headers: {
@@ -67,8 +64,6 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
       }
       else {
         editedPaqueteria.fechaRegistro = new Date().toISOString();
-
-        console.log(editedPaqueteria);
       
         if (editedPaqueteria.fechaEsperada) {
           editedPaqueteria.fechaEsperada = new Date(editedPaqueteria.fechaEsperada).toISOString();

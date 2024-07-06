@@ -89,7 +89,6 @@ const RevCTable = () => {
     })
     .then(() => {
       alert("Contenedor eliminado con exito");
-      console.log('revision de Contenedor eliminada exitosamente');
       window.location.reload();
     })
     .catch(error => {

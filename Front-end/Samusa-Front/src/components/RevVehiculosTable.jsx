@@ -90,7 +90,6 @@ const RevVehiculosTable = () => {
     })
     .then(() => {
       alert('revision eliminada exitosamente');
-      console.log('revision de Almacen eliminada exitosamente');
       window.location.reload();
     })
     .catch(error => {

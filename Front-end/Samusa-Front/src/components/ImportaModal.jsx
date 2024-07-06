@@ -47,9 +47,6 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
     try {
       if (isEditing===false) {
         editedImporta.fechaInicio = new Date().toISOString().split("T")[0] + 'T00:00:00.000Z';
-        console.log(editedImporta);
-        
-
       const response = await fetch('https://localhost:7189/api/samusa/importacion/agregar', {
         method: 'POST',
         headers: {
@@ -69,8 +66,6 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
       }
       }
       else {
-        console.log(editedImporta);
-
         const updateImporta = await fetch(
           `https://localhost:7189/api/samusa/importacion/actualizar`,
           {

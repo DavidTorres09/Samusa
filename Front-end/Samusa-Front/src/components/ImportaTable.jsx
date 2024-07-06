@@ -100,7 +100,6 @@ const ImportaTable = () => {
     })
     .then(() => {
       alert("Importacion eliminada exitosamente");
-      console.log('Importacion eliminada exitosamente');
       window.location.reload();
     })
     .catch(error => {

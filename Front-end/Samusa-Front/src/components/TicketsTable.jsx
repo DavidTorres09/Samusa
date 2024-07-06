@@ -96,7 +96,6 @@ const TicketsTable = () => {
       })
       .then(() => {
         alert("Ticket eliminado exitosamente");
-        console.log("Ticket eliminado exitosamente");
         window.location.reload();
       })
       .catch((error) => {

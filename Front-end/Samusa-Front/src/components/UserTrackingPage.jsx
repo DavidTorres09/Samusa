@@ -27,7 +27,6 @@ const MyTrackingPage = () => {
   const [tableData2, setTableData2] = useState([]);
   const [query, SetQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(query);
   const agentId = sessionStorage.getItem("id");
 
   useEffect(() => {

@@ -37,8 +37,6 @@ const TicketClientModal = ({ user, onClose,}) => {
           },
           body: JSON.stringify(NewTicket),
         });
-        console.log(NewTicket);
-  
         if (response.ok) {
           alert("Cobnsulta guardada exitosamente");
           window.location.reload();

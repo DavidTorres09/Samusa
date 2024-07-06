@@ -30,7 +30,6 @@ const AdminAlarmas = () => {
             }
         })
         .catch(error => {
-            console.error('Error fetching alarmas:', error);
             setErrorMessage("Error al cargar las alarmas.");
         });
 }, []);

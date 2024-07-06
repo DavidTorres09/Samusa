@@ -41,8 +41,6 @@ const AdminAlarmaModal = ({ user, onClose,}) => {
         },
         body: JSON.stringify(NewAlarma),
       });
-      console.log(NewAlarma);
-
       if (response.ok) {
         alert("Alarma guardada exitosamente");
         window.location.reload();
@@ -51,7 +49,6 @@ const AdminAlarmaModal = ({ user, onClose,}) => {
         throw new Error(`Error al agregar la alarma: ${errorData.message}`);
       }
     } catch (error) {
-      console.error("Error:", error.message);
     }
   };
 

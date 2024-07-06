@@ -30,7 +30,6 @@ const PaqueteriaTable = () => {
   const [SelectedPaqueteria, setSelectedPaqueteria] = useState(null);
   const [query, SetQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(query);
   const token = sessionStorage.getItem('token');
 
   useEffect(() => {
@@ -101,7 +100,6 @@ const PaqueteriaTable = () => {
       }
     })
     .then(() => {
-      console.log('paqueteria eliminada exitosamente');
       window.location.reload();
     })
     .catch(error => {

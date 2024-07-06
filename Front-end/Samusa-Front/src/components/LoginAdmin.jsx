@@ -47,9 +47,6 @@ const LoginAdmin = () => {
                 sessionStorage.setItem('token', token);
                 sessionStorage.setItem('direccion', direccion);
                 setIsLogged(true);
-                console.log('telefono', telefono);
-                console.log('foto', foto);
-                console.log('direccion', direccion);
             } else {
                 console.error('Usuario o contraseña incorrectos');
             }

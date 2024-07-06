@@ -63,9 +63,6 @@ const Login = () => {
           sessionStorage.setItem("esTemporal", esTemporal);
           sessionStorage.setItem("token", token);
           sessionStorage.setItem("direccion", direccion);
-          console.log('telefono', telefono);
-                console.log('foto', foto);
-                console.log('direccion', direccion);
           if (sessionStorage.getItem("esTemporal") === "true") {
             navigate("/User/CambiarContrasenna");
           } else {

@@ -69,7 +69,6 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
         },
         body: JSON.stringify(editedTicket),
       });
-      console.log(editedTicket);
 
       if (response.ok) {
         alert("Ticket guardado exitosamente");

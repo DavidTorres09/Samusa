@@ -27,7 +27,6 @@ const RevCModal = ({ user, onClose, isEditing  }) => {
     try {
       if (isEditing===false) {   
         editedRevVeh.id = 0;
-        console.log(editedRevVeh)   
       const response = await fetch('https://localhost:7189/api/samusa/revisionContenedor/agregar', {
         method: 'POST',
         headers: {

@@ -125,7 +125,6 @@ const PerfilForm = () => {
     try {
       const token = sessionStorage.getItem("token");
       const profileType = sessionStorage.getItem("rolId");
-      console.log("profileType", profileType);
       let endpoint = '';
 
       if (profileType == 1) {
@@ -133,7 +132,6 @@ const PerfilForm = () => {
       } else {
         endpoint = `https://localhost:7189/api/samusa/colaborador/actualizarPerfil`;
       }
-      console.log("endpoint", endpoint);
       const response = await fetch(endpoint,
         {
           method: "PUT",

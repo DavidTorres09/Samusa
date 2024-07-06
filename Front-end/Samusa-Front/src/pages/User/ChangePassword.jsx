@@ -20,7 +20,6 @@ const ChangePassUser = () => {
 
       const contrasenna = await handleEncrypt(newPassword);
       const contrasennaTemporal = await handleEncrypt(currentPassword);
-      console.log(contrasenna);
       if (newPassword !== confirmNewPassword) {
         setError("Las contraseñas nuevas no coinciden.");
         return;
