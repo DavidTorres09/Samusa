@@ -5,6 +5,28 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+import { initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import "../Css/PerfilForm.css"
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD-A26WJZEK_YzbKHOnqM33ECmyxeEs0fU",
+  authDomain: "samusa-8eb97.firebaseapp.com",
+  projectId: "samusa-8eb97",
+  storageBucket: "samusa-8eb97.appspot.com",
+  messagingSenderId: "637903625054",
+  appId: "1:637903625054:web:591b6c1bd249349908cdcf"
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+const uploadImage = async (foto) => {
+  const storageRef = ref(storage, `fotosPerfil/${foto.name}`);
+  await uploadBytes(storageRef, foto);
+  return getDownloadURL(storageRef);
+};
 
 const PerfilForm = () => {
   const [perfil, setPerfil] = useState({
@@ -16,33 +38,35 @@ const PerfilForm = () => {
     usuario: sessionStorage.getItem("usuario") || "",
     direccion: sessionStorage.getItem("direccion") || "",
     foto: sessionStorage.getItem("foto") || "",
-    esNacional: sessionStorage.getItem("esNacional") === "true" ? true : false,
+    esNacional: sessionStorage.getItem("esNacional") === "true",
   });
 
   const [imgProfile, setImgProfile] = useState(perfil.foto);
   const [showCropDialog, setShowCropDialog] = useState(false);
 
   useEffect(() => {
-    // Cargar la foto de perfil desde LocalStorage al iniciar
-    const storedFoto = localStorage.getItem("fotoPerfil");
+    const storedFoto = sessionStorage.getItem("fotoPerfil");
     if (storedFoto) {
       setImgProfile(storedFoto);
     }
   }, []);
 
-  // Actualizar LocalStorage cuando se actualice perfil
   useEffect(() => {
-    localStorage.setItem("fotoPerfil", perfil.foto);
-  }, [perfil.foto]);
+    sessionStorage.setItem("fotoPerfil", imgProfile);
+    setPerfil((prevPerfil) => ({
+      ...prevPerfil,
+      foto: imgProfile,
+    }));
+  }, [imgProfile]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         const image = new Image();
         image.src = reader.result;
-        image.onload = () => {
+        image.onload = async () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
 
@@ -68,28 +92,18 @@ const PerfilForm = () => {
           ctx.drawImage(image, 0, 0, width, height);
 
           const base64 = canvas.toDataURL("image/jpeg", 0.8);
-          setImgProfile(base64);
-          setShowCropDialog(true);
+
+          try {
+            const url = await uploadImage(file);
+            setImgProfile(url);
+            setShowCropDialog(true);
+          } catch (error) {
+            console.error("Error uploading image:", error);
+            alert("Error al subir la imagen. Inténtalo nuevamente.");
+          }
         };
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const saveCropImage = () => {
-    try {
-      localStorage.setItem("fotoPerfil", imgProfile);
-      setPerfil({
-        ...perfil,
-        foto: imgProfile,
-      });
-
-      alert("Foto de perfil actualizada localmente.");
-
-      setShowCropDialog(false); // Ocultar el diálogo de recorte
-    } catch (error) {
-      console.error("Error al guardar la foto de perfil:", error);
-      alert("Error al guardar la foto de perfil. Inténtalo nuevamente.");
     }
   };
 
@@ -101,12 +115,13 @@ const PerfilForm = () => {
         : name === "esNacional"
         ? value === "true"
         : value;
-    setPerfil({ ...perfil, [name]: newValue });
+    setPerfil({
+      ...perfil,
+      [name]: newValue,
+    });
   };
 
-  const editarPerfil = async (e) => {
-    e.preventDefault();
-
+  const editarPerfil = async () => {
     try {
       const token = sessionStorage.getItem("token");
 
@@ -120,6 +135,7 @@ const PerfilForm = () => {
           },
           body: JSON.stringify({
             ...perfil,
+            foto: imgProfile,
             esNacional: Boolean(perfil.esNacional),
           }),
         }
@@ -130,11 +146,13 @@ const PerfilForm = () => {
           sessionStorage.setItem(key, value);
         });
         alert("Perfil actualizado exitosamente");
+        window.location.reload();
       } else {
         throw new Error("No se pudo actualizar el perfil");
       }
     } catch (error) {
       console.error("Error:", error.message);
+      alert("Error al actualizar el perfil. Inténtalo nuevamente.");
     }
   };
 
@@ -152,9 +170,16 @@ const PerfilForm = () => {
                 Foto de Perfil
               </label>
               <p>(.jpg, .jpeg, .png)</p>
+              <div className="profile-picture">
+                <img
+                  src={imgProfile || "/default-profile.png"}
+                  alt="Foto de perfil"
+                  className="img-fluid rounded-circle profile-image"
+                />
+              </div>
               <input
                 type="file"
-                className="form-control"
+                className="form-control mt-2"
                 id="inputFoto"
                 accept="image/*"
                 onChange={handleImageChange}
@@ -166,7 +191,7 @@ const PerfilForm = () => {
           <div className="card">
             <div className="card-body">
               <h3 className="card-title mb-4">Información de perfil</h3>
-              <form onSubmit={editarPerfil}>
+              <form onSubmit={(e) => e.preventDefault()}>
                 <div className="mb-3">
                   <label htmlFor="dni" className="form-label">
                     DNI
@@ -177,8 +202,7 @@ const PerfilForm = () => {
                     id="dni"
                     name="dni"
                     value={perfil.dni}
-                    onChange={handleInputChange}
-                    disabled
+                    readOnly // Cambiado a readOnly en lugar de disabled
                   />
                 </div>
                 <div className="mb-3">
@@ -191,8 +215,7 @@ const PerfilForm = () => {
                     id="email"
                     name="email"
                     value={perfil.email}
-                    onChange={handleInputChange}
-                    disabled
+                    readOnly // Cambiado a readOnly en lugar de disabled
                   />
                 </div>
                 <div className="mb-3">
@@ -205,8 +228,7 @@ const PerfilForm = () => {
                     id="usuario"
                     name="usuario"
                     value={perfil.usuario}
-                    onChange={handleInputChange}
-                    disabled
+                    readOnly // Cambiado a readOnly en lugar de disabled
                   />
                 </div>
                 <div className="mb-3">
@@ -265,7 +287,11 @@ const PerfilForm = () => {
                   </select>
                 </div>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button type="submit" className="btn btn-primary me-md-2">
+                  <button
+                    type="submit"
+                    className="btn btn-primary me-md-2"
+                    onClick={editarPerfil}
+                  >
                     Guardar Cambios
                   </button>
                   <button type="button" className="btn btn-danger">
@@ -301,7 +327,7 @@ const PerfilForm = () => {
           <div className="text-center">
             <Button
               className="btn btn-primary"
-              onClick={saveCropImage}
+              onClick={editarPerfil}
               label="Guardar"
               icon="pi pi-check"
             />

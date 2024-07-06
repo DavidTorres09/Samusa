@@ -1,0 +1,17 @@
+.profile-picture {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5%;
+    border: 4px solid #e2e505;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .profile-picture:hover {
+    border-color: #b9bc06;
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }

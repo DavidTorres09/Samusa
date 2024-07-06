@@ -35,6 +35,7 @@
     "datatables.net-rowreorder-dt": "^1.5.0",
     "datatables.net-scroller-dt": "^2.4.1",
     "datatables.net-select-dt": "^2.0.0",
+    "firebase": "^10.12.3",
     "highcharts": "^11.3.0",
     "highcharts-react-official": "^3.2.1",
     "jquery": "^3.7.1",
