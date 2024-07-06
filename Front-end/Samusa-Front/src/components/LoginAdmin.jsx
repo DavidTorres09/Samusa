@@ -118,6 +118,7 @@ const LoginAdmin = () => {
           </button>
           <p className="text-center mt-4">
             Olvidé mi contraseña
+            <br />
             <Link
               to="/RecuperarContrasennaAdmin"
               className="text-blue-500 hover:underline"

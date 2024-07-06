@@ -1,0 +1,47 @@
+.Alarma{
+    color: #fff;
+}
+.Alarma body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #d33333;
+    color: #fff;
+  }
+  
+.Alarma .titlealarm {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+.Alarma input {
+    background-color: #000000;
+    color: white;
+    border: none;
+  }
+  
+.Alarma input::placeholder {
+    color: #ffffff;
+  }
+  
+.Alarma button {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+.Alarma button:hover {
+    transform: scale(1.05);
+  }
+  
+.Alarma .fixed {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  

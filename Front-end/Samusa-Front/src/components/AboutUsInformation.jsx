@@ -18,7 +18,7 @@ const AboutUsInformation = () => {
         </section> 
         <section id="quienes-somos">
         <div className="container">
-            <h2>Quiénes Somos</h2>
+            <h2>¿Quiénes Somos?</h2>
             <p>
                 Una empresa centrada en colaborar con nuestros clientes en las labores de logistica de la más alta calidad ante aduanas, navieras, transportistas y demas tramites asi como la documentacion necesaria para el correcto trato de una carga.</p>
         </div>

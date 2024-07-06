@@ -33,9 +33,9 @@ const ColaboTable = () => {
   const [errorMessage, setErrorMessage] = useState("");
   console.log(query);
   console.log(tableData.filter(item => item.nombre.toLowerCase().includes("a")));
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
     fetch('https://localhost:7189/api/samusa/colaborador/listar', {
       method: "GET",
       headers: {
@@ -60,6 +60,8 @@ const ColaboTable = () => {
             $('#example').DataTable({
               dom: 'Bfrtip',
               destroy: true,
+              language: {
+              url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',},
               buttons: [
                 'copy', 'csv', 'excel', 'print'
               ]
@@ -78,10 +80,15 @@ const ColaboTable = () => {
 
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/colaborador/eliminar/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
     })
     .then(response => {
       if (response.ok) {
+        alert("Eliminado con exito");
         if (response.status === 204) {
           return;
         } else {
@@ -89,15 +96,18 @@ const ColaboTable = () => {
         }
       } else {
         return response.json().then(error => {
+          alert("No se pudo eliminar " + error.message);
           throw new Error(error.message || 'Error al eliminar el colaborador');
         });
       }
     })
     .then(() => {
+      alert("Colaborador eliminado exitosamente");
       console.log('Colaborador eliminado exitosamente');
       window.location.reload();
     })
     .catch(error => {
+      alert('Error al eliminar el colaborador:', error.message);
       console.error('Error al eliminar el colaborador:', error.message);
     });
   };

@@ -49,7 +49,7 @@ const TicketCliente = () => {
   return (
     <>
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl text-white font-bold my-4 text-center">
+        <h1 className="text-3xl TitulosUser font-bold my-4 text-center">
           Mis Consultas
         </h1>
         <button

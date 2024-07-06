@@ -41,7 +41,7 @@ function App() {
       <Route exact path="/RecuperarContrasennaAdmin" element={<RecuperarPassAdmin />}></Route> //OK
 
       <Route exact path="/Admin" element={<AdminIndex />}> </Route> //OK
-      <Route exact path="/Admin/Login" element={<LoginAdmin  />}> </Route> //OK
+      <Route exact path="/pckX9Ten2iJEClmZPmeFL5nm9ed5mJOH8n5" element={<LoginAdmin  />}> </Route> //OK
       <Route exact path="/Admin/Clientes" element={<AdminClientes/>}> </Route> //OK
       <Route exact path="/Admin/Colaboradores" element={<AdminColaboradores/>}> </Route> //OK
       <Route exact path="/Admin/Cotizaciones" element={<AdminCotizaciones/>}> </Route> //OK

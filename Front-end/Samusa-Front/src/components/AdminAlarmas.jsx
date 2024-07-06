@@ -6,9 +6,16 @@ const AdminAlarmas = () => {
     const [Alarmas, setAlarmas] = useState([]);
     const [showNewAlarmaModal, setShowNewAlarmaModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const token = sessionStorage.getItem('token');
 
     useEffect(() => {
-        fetch('https://localhost:7189/api/samusa/Alarma/listar')
+        fetch('https://localhost:7189/api/samusa/Alarma/listar', {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`, 
+            },
+          })
         .then(response => response.json())
         .then(data => {
             // Verificar si la respuesta incluye un código de error

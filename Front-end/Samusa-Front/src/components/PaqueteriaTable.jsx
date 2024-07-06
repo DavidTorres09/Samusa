@@ -31,9 +31,9 @@ const PaqueteriaTable = () => {
   const [query, SetQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   console.log(query);
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
     fetch('https://localhost:7189/api/samusa/paqueteria/listar', {
       method: "GET",
       headers: {
@@ -58,6 +58,9 @@ const PaqueteriaTable = () => {
             $('#example').DataTable({
               dom: 'Bfrtip',
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+            },
               buttons: [
                 'copy', 'csv', 'excel', 'print'
               ]
@@ -76,9 +79,14 @@ const PaqueteriaTable = () => {
 
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/paqueteria/eliminar/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
     })
     .then(response => {
+      alert("Paquete eliminado");
       if (response.ok) {
         if (response.status === 204) {
           return;
@@ -87,6 +95,7 @@ const PaqueteriaTable = () => {
         }
       } else {
         return response.json().then(error => {
+          alert("No se puede eliminar " + error.message);
           throw new Error(error.message || 'Error al eliminar la paqueteria');
         });
       }
@@ -120,7 +129,7 @@ const PaqueteriaTable = () => {
     <>
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
-        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de paqueteria</h1>
+        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de paquetería</h1>
         {errorMessage && (
           <div className="alert alert-danger" role="alert">
             {errorMessage}
@@ -131,7 +140,7 @@ const PaqueteriaTable = () => {
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar paqueteria
+            Agregar paquetería
           </button>
           </div>
 

@@ -31,10 +31,16 @@ const ImportaTable = () => {
   const [SelectedImporta, setSelectedImporta] = useState(null);
   const [query, SetQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(query);
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/importacion/listar')
+    fetch('https://localhost:7189/api/samusa/importacion/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then(response => response.json())
       .then(data => {
         if (data.codigo && data.codigo === "-1") {
@@ -52,6 +58,9 @@ const ImportaTable = () => {
             $('#example').DataTable({
               dom: 'Bfrtip',
               destroy: true,
+              language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+            },
               buttons: [
                 'copy', 'csv', 'excel', 'print'
               ]
@@ -70,7 +79,11 @@ const ImportaTable = () => {
 
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/importacion/eliminar/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
     })
     .then(response => {
       if (response.ok) {
@@ -86,10 +99,12 @@ const ImportaTable = () => {
       }
     })
     .then(() => {
+      alert("Importacion eliminada exitosamente");
       console.log('Importacion eliminada exitosamente');
       window.location.reload();
     })
     .catch(error => {
+      alert('Error al eliminar la Importacion:', error.message);
       console.error('Error al eliminar la Importacion:', error.message);
     });
   };
@@ -114,7 +129,7 @@ const ImportaTable = () => {
     <>
       <section className='data-table-section'>
       <div className="table-container col-12 mb-30">
-        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Importacion</h1>
+        <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de Importación</h1>
         {errorMessage && (
           <div className="alert alert-danger" role="alert">
             {errorMessage}
@@ -125,7 +140,7 @@ const ImportaTable = () => {
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar Importacion
+            Agregar importación
           </button>
           </div>
 

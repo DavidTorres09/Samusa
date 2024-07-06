@@ -11,8 +11,16 @@ const AdminIndexCharts = () => {
   const [RevisionesRevC, setRevisionesRevC] = useState([]);
   const [totalRevisionesRevC, setTotalRevisionesRevC] = useState(0);
 
+  const token = sessionStorage.getItem('token');
+
   useEffect(() => {
-    fetch("https://localhost:7189/api/samusa/RevisionVehiculo/listar")
+    fetch("https://localhost:7189/api/samusa/RevisionVehiculo/listar", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setRevisionesVEh(data);
@@ -28,7 +36,13 @@ const AdminIndexCharts = () => {
   };
 
   useEffect(() => {
-    fetch("https://localhost:7189/api/samusa/revisionContenedor/listar")
+    fetch("https://localhost:7189/api/samusa/revisionContenedor/listar", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setRevisionesRevC(data);
@@ -51,12 +65,24 @@ const AdminIndexCharts = () => {
   useEffect(() => {
     const fetchData = async () => {
       const revVehiculosRes = await fetch(
-        "https://localhost:7189/api/samusa/RevisionVehiculo/listar"
+        "https://localhost:7189/api/samusa/RevisionVehiculo/listar", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, 
+          },
+        }
       ); //Se emñista vehiculos
       const revVehiculosData = await revVehiculosRes.json();
 
       const revContenedoresRes = await fetch(
-        "https://localhost:7189/api/samusa/revisionContenedor/listar"
+        "https://localhost:7189/api/samusa/revisionContenedor/listar", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, 
+          },
+        }
       ); //Se enlista contenedores
       const revContenedoresData = await revContenedoresRes.json();
 
@@ -158,7 +184,13 @@ const AdminIndexCharts = () => {
   //////////////////ACA SE HACE LA LOGICA DE LA CHART 2
   const [chartData2, setChartData2] = useState([]); //Se debe de crear una constante para que almacene la data
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar') //Esto es basicamente igual que el de barrras dentro del espacio de rev vehiculos, solo se ajusto luego el char
+    fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`, 
+      },
+    }) //Esto es basicamente igual que el de barrras dentro del espacio de rev vehiculos, solo se ajusto luego el char
       .then((response) => response.json())
       .then((data) => {
         const counts = data.reduce((acc, item) => {
@@ -227,7 +259,7 @@ const AdminIndexCharts = () => {
         <div className="col-md-8 mb-30">
           <div className="box">
             <div className="box-head">
-              <h4 className="title">Comparacion de contenedores y vehiculos</h4>
+              <h4 className="title">Comparación de contenedores y vehículos</h4>
             </div>
 
             <div className="box-body">
@@ -237,7 +269,7 @@ const AdminIndexCharts = () => {
                   <h3 className="value text-secondary">{totalrevisiones}</h3>
                 </div>
                 <div className="chart-legend-1 col-12 col-sm-4">
-                  <h5 className="title">Total Vehiculos</h5>
+                  <h5 className="title">Total vehículos</h5>
                   <h3 className="value text-primary">{totalRevisionesVEh}</h3>
                 </div>
                 <div className="chart-legend-1 col-12 col-sm-4">
@@ -262,7 +294,7 @@ const AdminIndexCharts = () => {
         <div className="col-md-4 mb-30">
           <div className="box">
             <div className="box-head">
-              <h4 className="title">Estados de vehiculos</h4>
+              <h4 className="title">Estados de vehículos</h4>
             </div>
             <div className="box-body">
               <div className="chartjs-market-trends-chart">

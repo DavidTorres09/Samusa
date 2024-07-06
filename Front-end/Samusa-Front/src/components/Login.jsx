@@ -134,13 +134,15 @@ const Login = () => {
           </button>
           <p className="text-center mt-4">
             ¿Aún no estás registrado?
+            <br />
             <Link to="/NewUser" className="text-blue-500 hover:underline">
               {" "}
-              Haz clic aquí
+               Haz click aquí
             </Link>
           </p>
           <p className="text-center mt-4">
-            Olvidé mi contraseña
+            ¿Olvidó su contraseña?
+            <br />
             <Link
               to="/RecuperarContrasenna"
               className="text-blue-500 hover:underline"
