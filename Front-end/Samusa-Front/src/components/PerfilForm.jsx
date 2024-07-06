@@ -1,275 +1,315 @@
-
-import React, { useState } from "react";
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import Avatar from 'react-avatar-edit';
+import React, { useState, useEffect } from "react";
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
-import 'primeicons/primeicons.css';
-import 'primereact/resources/primereact.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import img from "../guppy.jpeg";
+import "primeicons/primeicons.css";
+import "primereact/resources/primereact.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 
 const PerfilForm = () => {
+  const [perfil, setPerfil] = useState({
+    id: sessionStorage.getItem("id") || "",
+    dni: sessionStorage.getItem("dni") || "",
+    nombre: sessionStorage.getItem("nombre") || "",
+    telefono: sessionStorage.getItem("telefono") || "",
+    email: sessionStorage.getItem("email") || "",
+    usuario: sessionStorage.getItem("usuario") || "",
+    direccion: sessionStorage.getItem("direccion") || "",
+    foto: sessionStorage.getItem("foto") || "",
+    esNacional: sessionStorage.getItem("esNacional") === "true" ? true : false,
+  });
 
-    const modeloPerfil = {
-  dni: sessionStorage.getItem('dni'),
-  nombre: sessionStorage.getItem('nombre'),
-  telefono: sessionStorage.getItem('telefono'),
-  email: sessionStorage.getItem('email'),
-  esNacional: false,
-  id: 1, //para testear update
-  rolId: 1, //para testear update
-  contrasenna: "",
-  usuario: sessionStorage.getItem('usuario'),
-  direccion: sessionStorage.getItem('Direccion'),
-  rol: sessionStorage.getItem('rol'),
-  foto: sessionStorage.getItem('foto'),
-  estado: true,
-  esTEmporal: false,
-  token: ""
+  const [imgProfile, setImgProfile] = useState(perfil.foto);
+  const [showCropDialog, setShowCropDialog] = useState(false);
 
-}
-
-
-const[perfil, setPerfil]= useState(modeloPerfil) //variable y funcion para almacenar la information y actualizar 
-const [imgCrop, setimgCrop] = useState(false);
-const [image,setImage] = useState("");
-const[src, setsrc] = useState(false);
-const [imgProfile, setImgProfile]= useState([]);
-const [pview, setpview] = useState(false);
-
-const profileFinal = imgProfile.map((item)=> item.pview);
-
-const profile = sessionStorage.getItem('foto');
-
-const onClose = ()=>{
-  setpview(null);
-}
-
-const onCrop = (view) => {
-  setpview(view)
-}
-
-const saveCropImage= async () =>{
-  setImgProfile([...imgProfile, {pview}]);
-  console.log(src)
-  const value = pview;
-  perfil.foto = pview;
-  console.log(value)
-  console.log(perfil)
- 
-  try{
-
-    const token = sessionStorage.getItem("token");       
-    const updateClient = await fetch(
-      `https://localhost:7189/api/samusa/cliente/actualizar`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify(perfil),
-      }
-    );
-
-    if (updateClient.ok) {
-      
-      sessionStorage.setItem("foto", pview)
-      
-      alert("Usuario actualizado exitosamente");
-      window.location.reload();
-    } else {
-        throw new Error("No se pudo actualizar el usuario");
+  useEffect(() => {
+    // Cargar la foto de perfil desde LocalStorage al iniciar
+    const storedFoto = localStorage.getItem("fotoPerfil");
+    if (storedFoto) {
+      setImgProfile(storedFoto);
     }
-}
-catch (error) {
-  console.error("Error:", error.message);
-}
+  }, []);
 
-setimgCrop(false);
- 
-}
+  // Actualizar LocalStorage cuando se actualice perfil
+  useEffect(() => {
+    localStorage.setItem("fotoPerfil", perfil.foto);
+  }, [perfil.foto]);
 
-const handleInputChange = (event) => {
-  const { name, value, type, checked } = event.target;
-  const newValue = type === 'checkbox' ? checked : value;
-  setPerfil({ ...modeloPerfil, [name]: newValue });
-};
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const image = new Image();
+        image.src = reader.result;
+        image.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
 
-const actualizarPerfil = (e)=>{
-  console.log(e.target.name + ":"+ e.target.value)
-  setPerfil(
-    {
-      ...perfil,
-      [e.target.name]: e.target.value
-    }
-    
-  )
-  
-}
+          const maxWidth = 800;
+          const maxHeight = 600;
+          let width = image.width;
+          let height = image.height;
 
-
-
-const editarPerfil = async (perfil) => {
-  
-  try{
-
-            
-          const updateClient = await fetch(
-            `https://localhost:7189/api/samusa/cliente/actualizar`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(perfil),
+          if (width > height) {
+            if (width > maxWidth) {
+              height *= maxWidth / width;
+              width = maxWidth;
             }
-          );
-
-          if (updateClient.ok) {
-            
-            sessionStorage.setItem("Direccion", perfil.direccion)
-            sessionStorage.setItem("nombre", perfil.nombre)
-            sessionStorage.setItem("primerApellido", perfil.primerApellido)
-            sessionStorage.setItem("segundoApellido", perfil.segundoApellido)
-            sessionStorage.setItem("telefono", perfil.telefono)
-            sessionStorage.setItem("email", perfil.email)
-            sessionStorage.setItem("esNacional", perfil.esNacional)
-            sessionStorage.setItem("usuario", perfil.usuario)
-            sessionStorage.setItem("rol", perfil.rol)
-            sessionStorage.setItem("dni", perfil.dni)
-            alert("Usuario actualizado exitosamente");
           } else {
-              throw new Error("No se pudo actualizar el usuario");
+            if (height > maxHeight) {
+              width *= maxHeight / height;
+              height = maxHeight;
+            }
           }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(image, 0, 0, width, height);
+
+          const base64 = canvas.toDataURL("image/jpeg", 0.8);
+          setImgProfile(base64);
+          setShowCropDialog(true);
+        };
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const saveCropImage = () => {
+    try {
+      localStorage.setItem("fotoPerfil", imgProfile);
+      setPerfil({
+        ...perfil,
+        foto: imgProfile,
+      });
+
+      alert("Foto de perfil actualizada localmente.");
+
+      setShowCropDialog(false); // Ocultar el diálogo de recorte
+    } catch (error) {
+      console.error("Error al guardar la foto de perfil:", error);
+      alert("Error al guardar la foto de perfil. Inténtalo nuevamente.");
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const newValue =
+      type === "checkbox"
+        ? checked
+        : name === "esNacional"
+        ? value === "true"
+        : value;
+    setPerfil({ ...perfil, [name]: newValue });
+  };
+
+  const editarPerfil = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const response = await fetch(
+        `https://localhost:7189/api/samusa/cliente/actualizar`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            ...perfil,
+            esNacional: Boolean(perfil.esNacional),
+          }),
+        }
+      );
+
+      if (response.ok) {
+        Object.entries(perfil).forEach(([key, value]) => {
+          sessionStorage.setItem(key, value);
+        });
+        alert("Perfil actualizado exitosamente");
+      } else {
+        throw new Error("No se pudo actualizar el perfil");
       }
-    catch (error) {
-        console.error("Error:", error.message);
-      }
-    
-      
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
+  const onCloseCropDialog = () => {
+    setShowCropDialog(false);
+  };
 
-}
-const editar = () =>{
-
-  if(perfil.dni != 0){
-    editarPerfil(perfil);
-  }
-  
-
-} 
   return (
-  
-      <div class="row mbn-50">
-                <div class="col-12 mb-50">
-                    <div class="author-top">
-                        <div class="inner">
-                            <div class="author-profile">
-                              <div>
-                               <div  className="profile_img text-center p-4 m-5">
-                                <div className="flex flex-column m-5">
-                                    <img
-                                      style={{
-                                        width: "200px",
-                                        height: "200px",
-                                        borderRadius: "50%",
-                                        objectFit: "cover",
-                                        border: "4px solid white",
-                                      }}
-                                      src = {profile}
-                                      alt= ""
-                                      onClick={()=>setimgCrop(true)}
-                                      />
-                                    <Dialog 
-                                      visible={imgCrop}
-                                              header="Actualizar perfil"
-                                              onHide={()=> setimgCrop(false)}
-                                              breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                                      
-                                      <div class = "d-flex flex-column m-3">
-                                              <Avatar
-                                                width={600}
-                                                height={400}
-                                                onCrop={onCrop}
-                                                onClose={onClose}
-                                                src={src}
-                                                />
-                                                <Button 
-                                                class="btn btn-primary mt-5"
-                                                onClick={saveCropImage}
-                                                label="Save"
-                                                icon="pi pi-check"
-                                                />
-                                      </div>
-                                    </Dialog>
-                                  </div>
-                                </div> 
-                              </div>
-
-                                <div class="info">
-                                    <h5>{sessionStorage.getItem('nombre')}</h5>
-                                    <a href="#" class="edit"><i class="zmdi zmdi-edit"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div className="container mt-4">
+      <div className="row justify-content-center">
+        <div className="col-md-4 mb-4">
+          <div className="card text-center">
+            <div className="card-body">
+              <label htmlFor="inputFoto" className="form-label">
+                Foto de Perfil
+              </label>
+              <p>(.jpg, .jpeg, .png)</p>
+              <input
+                type="file"
+                className="form-control"
+                id="inputFoto"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="col-md-8 mb-12">
+          <div className="card">
+            <div className="card-body">
+              <h3 className="card-title mb-4">Información de perfil</h3>
+              <form onSubmit={editarPerfil}>
+                <div className="mb-3">
+                  <label htmlFor="dni" className="form-label">
+                    DNI
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="dni"
+                    name="dni"
+                    value={perfil.dni}
+                    onChange={handleInputChange}
+                    disabled
+                  />
                 </div>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    value={perfil.email}
+                    onChange={handleInputChange}
+                    disabled
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="usuario" className="form-label">
+                    Usuario
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="usuario"
+                    name="usuario"
+                    value={perfil.usuario}
+                    onChange={handleInputChange}
+                    disabled
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="nombre" className="form-label">
+                    Nombre
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="nombre"
+                    name="nombre"
+                    value={perfil.nombre}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="telefono" className="form-label">
+                    Teléfono
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="telefono"
+                    name="telefono"
+                    value={perfil.telefono}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="direccion" className="form-label">
+                    Dirección
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="direccion"
+                    name="direccion"
+                    value={perfil.direccion}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="esNacional" className="form-label">
+                    ¿Es Nacional?
+                  </label>
+                  <select
+                    className="form-select"
+                    id="esNacional"
+                    name="esNacional"
+                    value={perfil.esNacional}
+                    onChange={handleInputChange}
+                    style={{ borderRadius: "5px", padding: "8px" }}
+                  >
+                    <option value={true}> Sí </option>
+                    <option value={false}> No </option>
+                  </select>
+                </div>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button type="submit" className="btn btn-primary me-md-2">
+                    Guardar Cambios
+                  </button>
+                  <button type="button" className="btn btn-danger">
+                    Descartar Cambios
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                <div class="col-12 mb-50 ml-4 mr-4">
-                    
-
-                        <div class="row justify-content-between align-items-center mb-10">
-                            <div class="box">
-                                <div class="box-head">
-                                    <h3 class="title">Informacion de perfil</h3>
-                                </div>
-                                <div class="box-body">
-                                    <div class="form">
-                                        <form action="#">
-                                            <div class="row row-10 mbn-20">
-                                            <div class="col-sm-6 col-12 mb-20">
-                                                      <label htmlFor="dni" className="block text-sm font-medium text-gray-700">DNI</label>
-                                                        <input type="text"  name="dni" id="dni" onChange={(e) => actualizarPerfil(e)} value={perfil.dni} class="form-control" />
-                                                      </div>
-                                                      <div class="col-sm-6 col-12 mb-20">
-                                                        <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre</label>
-                                                        <input type="text" name="nombre" id="nombre" onChange={(e) => actualizarPerfil(e)} value={perfil.nombre}  class="form-control" />
-                                                      </div>
-                                                      <div class="col-sm-6 col-12 mb-20">
-                                                        <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">Teléfono</label>
-                                                        <input type="text" name="telefono" id="telefono"  onChange={(e) => actualizarPerfil(e)} value={perfil.telefono} class="form-control" />
-                                                      </div>
-                                                      <div className="col-sm-6 col-12 mb-20">
-                                                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                                                        <input type="email" name="email" id="email"  onChange={(e) => actualizarPerfil(e)} value={perfil.email} class="form-control" />
-                                                      </div>
-                                                      <div class="col-sm-6 col-12 mb-20">
-                                                        <label htmlFor="usuario" className="block text-sm font-medium text-gray-700">Usuario</label>
-                                                        <input type="text"  name="usuario" id="usuario" onChange={(e) => actualizarPerfil(e)} value={perfil.usuario}  class="form-control"/>
-                                                      </div>
-                                                      <div class="col-sm-6 col-12 mb-20">
-                                                        <label htmlFor="direccion" className="block text-sm font-medium text-gray-700">Dirección</label>
-                                                        <input type="text" name="direccion" id="direccion" onChange={(e) => actualizarPerfil(e)} value={perfil.direccion} class="form-control" />
-                                                      </div>
-
-
-                                                <div class="col-12 mt-10 mb-20">
-                                                    <input type="submit" class="button button-primary button-outline" value="Save Changes" onClick={editar}/>
-                                                    <input type="submit" class="button button-danger button-outline" value="Delete Changes"/>
-
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                      </div>
-                    </div>                     
+      <Dialog
+        visible={showCropDialog}
+        header="Editar Foto de Perfil"
+        onHide={onCloseCropDialog}
+        breakpoints={{ "960px": "75vw", "641px": "100vw" }}
+        className="p-dialog"
+      >
+        <div
+          className="d-flex flex-column align-items-center justify-content-center"
+          style={{ minHeight: "100%" }}
+        >
+          <img
+            src={imgProfile}
+            alt="Preview"
+            style={{
+              maxWidth: "100%",
+              maxHeight: "400px",
+              marginBottom: "20px",
+            }}
+          />
+          <div className="text-center">
+            <Button
+              className="btn btn-primary"
+              onClick={saveCropImage}
+              label="Guardar"
+              icon="pi pi-check"
+            />
+          </div>
+        </div>
+      </Dialog>
+    </div>
   );
-}
+};
 
 export default PerfilForm;

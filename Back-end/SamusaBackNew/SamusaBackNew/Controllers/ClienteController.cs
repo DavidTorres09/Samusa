@@ -137,7 +137,7 @@ namespace SamusaBackNew.Controllers
 
         [Authorize]
         [HttpPut]
-        [Route("actualizar")]
+        [Route("modificar")]
         public async Task<IActionResult> ModificarCliente(Cliente cliente)
         {
             ClienteRespuesta respuesta = new ClienteRespuesta();
@@ -154,19 +154,63 @@ namespace SamusaBackNew.Controllers
                         {
                             cliente.Id,
                             cliente.Direccion,
+                            cliente.Nombre,
+                            cliente.Telefono,
+                            cliente.EsNacional,
+                            cliente.Usuario,
+                            cliente.Foto
+
+
+                        },
+                    commandType: System.Data.CommandType.StoredProcedure);
+
+                    if (resultado > 0)
+                    {
+                        return Ok(new { Codigo = "0", Mensaje = "Cliente modificado correctamente" });
+                    }
+                    else
+                    {
+                        respuesta.Codigo = "-1";
+                        respuesta.Mensaje = "No se pudo modificar el cliente.";
+                        return BadRequest(respuesta);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                respuesta.Codigo = "-1";
+                respuesta.Mensaje = "Error al modificar cliente: " + ex.Message;
+                return StatusCode(500, respuesta);
+            }
+
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("actualizar")]
+        public async Task<IActionResult> ActualizarCliente([FromBody] Cliente cliente)
+        {
+            ClienteRespuesta respuesta = new ClienteRespuesta();
+            try
+            {
+                using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+                {
+                    await db.OpenAsync();
+
+                    var resultado = await db.ExecuteAsync("ActualizarCliente",
+                        new
+                        {
+                            cliente.Id,
+                            cliente.Direccion,
                             cliente.Dni,
                             cliente.Nombre,
                             cliente.Telefono,
                             cliente.Email,
                             cliente.EsNacional,
                             cliente.Usuario,
-                            cliente.Contrasenna,
-                            cliente.RolId,
                             cliente.Foto
-
-
                         },
-                    commandType: System.Data.CommandType.StoredProcedure);
+                    commandType: CommandType.StoredProcedure);
 
                     if (resultado > 0)
                     {

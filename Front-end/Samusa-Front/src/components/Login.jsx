@@ -47,6 +47,7 @@ const Login = () => {
             estado,
             esTemporal,
             token,
+            direccion,
           } = data.dato;
           sessionStorage.setItem("id", id);
           sessionStorage.setItem("dni", dni);
@@ -61,7 +62,7 @@ const Login = () => {
           sessionStorage.setItem("estado", estado);
           sessionStorage.setItem("esTemporal", esTemporal);
           sessionStorage.setItem("token", token);
-
+          sessionStorage.setItem("direccion", direccion);
           if (sessionStorage.getItem("esTemporal") === "true") {
             navigate("/User/CambiarContrasenna");
           } else {

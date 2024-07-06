@@ -27,8 +27,6 @@ CREATE TABLE Colaborador (
 )
 GO
 
-use SamusaV2;
-
 CREATE TABLE Cliente (
 	Id					INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	Direccion			VARCHAR (250) NOT NULL,
@@ -211,7 +209,7 @@ INSERT INTO Colaborador (Direccion, Dni, Nombre, Telefono, Email, EsNacional, Us
 VALUES 
 ('Calle Mayor 456', '01234567E', 'Carlos Rodr�guez', '+012345678', 'carlos@example.com', 1, 'carlosr', 'contrasenna456', 3, 'url_foto_carlos.jpg', 1, 0)
 GO
-select * from Cliente
+
 CREATE PROCEDURE AgregarCliente (
 	@Direccion		VARCHAR(250),
     @Dni			VARCHAR(50),
@@ -239,7 +237,6 @@ BEGIN
 END
 GO
 
-drop procedure modificarCliente;
 CREATE PROCEDURE ModificarCliente(
 	@Id				INT,
 	@Direccion		VARCHAR(250),
@@ -251,7 +248,7 @@ CREATE PROCEDURE ModificarCliente(
     @Usuario		VARCHAR(250),
     @Contrasenna	VARCHAR(250),
     @RolId			INT,
-    @Foto			nvarchar(max)
+    @Foto			VARCHAR(500)
 	)
 AS
 BEGIN
@@ -271,6 +268,41 @@ BEGIN
                     Usuario = @Usuario,
                     Contrasenna = @Contrasenna,
                     RolId = @RolId,
+                    Foto = @Foto
+                WHERE id = @Id;
+            END
+        END
+    END
+END
+GO
+
+CREATE PROCEDURE ActualizarCliente(
+	@Id				INT,
+	@Direccion		VARCHAR(250),
+    @Dni			VARCHAR(50),
+    @Nombre			VARCHAR(250),
+    @Telefono		VARCHAR(25),
+    @Email			VARCHAR(40),
+    @EsNacional		BIT,
+    @Usuario		VARCHAR(250),
+    @Foto			VARCHAR(500)
+	)
+AS
+BEGIN
+     IF EXISTS (SELECT 1 FROM Cliente WHERE id = @Id)
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Email = @Email  AND Dni <> @Dni)
+        BEGIN
+            IF NOT EXISTS (SELECT 1 FROM Cliente WHERE Usuario = @Usuario AND Dni <> @Dni)
+            BEGIN
+                UPDATE Cliente
+                SET Direccion = @direccion,
+					Dni = @Dni,
+					Nombre = @Nombre,
+                    Telefono = @Telefono,
+                    Email = @Email,
+                    EsNacional = @EsNacional,
+                    Usuario = @Usuario,
                     Foto = @Foto
                 WHERE id = @Id;
             END
@@ -1205,7 +1237,7 @@ CREATE PROCEDURE IniciarSesionCliente(
 )
 AS
 BEGIN
-	SELECT u.*
+	SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
 	FROM Cliente u
 	INNER JOIN Rol r ON u.RolId = r.id
 	WHERE u.USUARIO = @Usuario and u.Contrasenna = @Contrasenna
@@ -1251,6 +1283,7 @@ BEGIN
 	  WHERE	Email = @Email
 		AND Estado = 1
 END
+GO
 
 CREATE PROCEDURE RecuperarAccesoColaborador
 	@Email			VARCHAR(250),
@@ -1341,7 +1374,7 @@ BEGIN
 		AND Estado = 1
 END
 GO
-select * from Cliente
+
 
 CREATE PROCEDURE ConsultarTracking
 	@NumSeguimiento INT
