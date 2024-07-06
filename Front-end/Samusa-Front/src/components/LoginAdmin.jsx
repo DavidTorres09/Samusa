@@ -30,9 +30,8 @@ const LoginAdmin = () => {
         
         if (response.ok ) {
             const data = await response.json();
-            console.log(data.codigo)
             if (data.codigo === "0") {
-                const { id, dni, nombre, telefono, email, esNacional, usuario, rolId, nombreRol, foto, estado, esTemporal, token } = data.dato;
+                const { id, dni, nombre, telefono, email, esNacional, usuario, rolId, nombreRol, foto, estado, esTemporal, token, direccion } = data.dato;
                 sessionStorage.setItem('id', id);
                 sessionStorage.setItem('dni', dni);
                 sessionStorage.setItem('nombre', nombre);
@@ -42,12 +41,15 @@ const LoginAdmin = () => {
                 sessionStorage.setItem('usuario', usuario);
                 sessionStorage.setItem('rolId', rolId);
                 sessionStorage.setItem('nombreRol', nombreRol);
-                sessionStorage.setItem('foto', foto);
+                sessionStorage.setItem('foto', (foto === null || foto === "") ? 'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_640.png' : foto);
                 sessionStorage.setItem('estado', estado);
                 sessionStorage.setItem('esTemporal', esTemporal);
                 sessionStorage.setItem('token', token);
-
+                sessionStorage.setItem('direccion', direccion);
                 setIsLogged(true);
+                console.log('telefono', telefono);
+                console.log('foto', foto);
+                console.log('direccion', direccion);
             } else {
                 console.error('Usuario o contraseña incorrectos');
             }

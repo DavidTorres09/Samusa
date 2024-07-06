@@ -190,6 +190,54 @@ namespace SamusaBackNew.Controllers
         }
 
         [Authorize]
+        [HttpPut]
+        [Route("actualizarPerfil")]
+        public async Task<IActionResult> ActualizarColaborador([FromBody] Colaborador colaborador)
+        {
+            ColaboradorRespuesta respuesta = new ColaboradorRespuesta();
+            try
+            {
+                using (var db = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+                {
+                    await db.OpenAsync();
+
+                    var resultado = await db.ExecuteAsync("ActualizarColaborador",
+                        new
+                        {
+                            colaborador.Id,
+                            colaborador.Direccion,
+                            colaborador.Dni,
+                            colaborador.Nombre,
+                            colaborador.Telefono,
+                            colaborador.Email,
+                            colaborador.EsNacional,
+                            colaborador.Usuario,
+                            colaborador.Foto
+                        },
+                    commandType: CommandType.StoredProcedure);
+
+                    if (resultado > 0)
+                    {
+                        return Ok(new { Codigo = "0", Mensaje = "Colaborador modificado correctamente" });
+                    }
+                    else
+                    {
+                        respuesta.Codigo = "-1";
+                        respuesta.Mensaje = "No se pudo modificar el colaborador.";
+                        return BadRequest(respuesta);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                respuesta.Codigo = "-1";
+                respuesta.Mensaje = "Error al modificar colaborador: " + ex.Message;
+                return StatusCode(500, respuesta);
+            }
+
+        }
+
+        [Authorize]
         [HttpDelete]
         [Route("eliminar/{id}")]
         public async Task<IActionResult> EliminarColaborador(int id)

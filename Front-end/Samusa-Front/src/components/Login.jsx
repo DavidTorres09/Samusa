@@ -58,11 +58,14 @@ const Login = () => {
           sessionStorage.setItem("usuario", usuario);
           sessionStorage.setItem("rolId", rolId);
           sessionStorage.setItem("nombreRol", nombreRol);
-          sessionStorage.setItem("foto", foto);
+          sessionStorage.setItem('foto', (foto === null || foto === "") ? 'https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_640.png' : foto);
           sessionStorage.setItem("estado", estado);
           sessionStorage.setItem("esTemporal", esTemporal);
           sessionStorage.setItem("token", token);
           sessionStorage.setItem("direccion", direccion);
+          console.log('telefono', telefono);
+                console.log('foto', foto);
+                console.log('direccion', direccion);
           if (sessionStorage.getItem("esTemporal") === "true") {
             navigate("/User/CambiarContrasenna");
           } else {

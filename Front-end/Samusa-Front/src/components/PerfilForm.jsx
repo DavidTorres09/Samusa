@@ -37,7 +37,7 @@ const PerfilForm = () => {
     email: sessionStorage.getItem("email") || "",
     usuario: sessionStorage.getItem("usuario") || "",
     direccion: sessionStorage.getItem("direccion") || "",
-    foto: sessionStorage.getItem("foto") || "",
+    foto: sessionStorage.getItem("foto") || "https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_640.png",
     esNacional: sessionStorage.getItem("esNacional") === "true",
   });
 
@@ -45,14 +45,14 @@ const PerfilForm = () => {
   const [showCropDialog, setShowCropDialog] = useState(false);
 
   useEffect(() => {
-    const storedFoto = sessionStorage.getItem("fotoPerfil");
+    const storedFoto = sessionStorage.getItem("foto");
     if (storedFoto) {
       setImgProfile(storedFoto);
     }
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem("fotoPerfil", imgProfile);
+    sessionStorage.setItem("foto", imgProfile);
     setPerfil((prevPerfil) => ({
       ...prevPerfil,
       foto: imgProfile,
@@ -124,9 +124,17 @@ const PerfilForm = () => {
   const editarPerfil = async () => {
     try {
       const token = sessionStorage.getItem("token");
+      const profileType = sessionStorage.getItem("rolId");
+      console.log("profileType", profileType);
+      let endpoint = '';
 
-      const response = await fetch(
-        `https://localhost:7189/api/samusa/cliente/actualizar`,
+      if (profileType == 1) {
+        endpoint = `https://localhost:7189/api/samusa/cliente/actualizar`;
+      } else {
+        endpoint = `https://localhost:7189/api/samusa/colaborador/actualizarPerfil`;
+      }
+      console.log("endpoint", endpoint);
+      const response = await fetch(endpoint,
         {
           method: "PUT",
           headers: {

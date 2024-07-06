@@ -437,6 +437,41 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE ActualizarColaborador(
+	@Id				INT,
+	@Direccion		VARCHAR(250),
+    @Dni			VARCHAR(50),
+    @Nombre			VARCHAR(250),
+    @Telefono		VARCHAR(25),
+    @Email			VARCHAR(40),
+    @EsNacional		BIT,
+    @Usuario		VARCHAR(250),
+    @Foto			VARCHAR(500)
+	)
+AS
+BEGIN
+     IF EXISTS (SELECT 1 FROM Colaborador WHERE id = @Id)
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Email = @Email  AND Dni <> @Dni)
+        BEGIN
+            IF NOT EXISTS (SELECT 1 FROM Colaborador WHERE Usuario = @Usuario AND Dni <> @Dni)
+            BEGIN
+                UPDATE Colaborador
+                SET Direccion = @direccion,
+					Dni = @Dni,
+					Nombre = @Nombre,
+                    Telefono = @Telefono,
+                    Email = @Email,
+                    EsNacional = @EsNacional,
+                    Usuario = @Usuario,
+                    Foto = @Foto
+                WHERE id = @Id;
+            END
+        END
+    END
+END
+GO
+
 CREATE PROCEDURE ObtenerColaboradores
 AS
 BEGIN
@@ -1230,14 +1265,13 @@ BEGIN
 END
 GO
 
-
 CREATE PROCEDURE IniciarSesionCliente(
 	@Usuario VARCHAR(150),
 	@Contrasenna VARCHAR(150)
 )
 AS
 BEGIN
-	SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+	SELECT u.*
 	FROM Cliente u
 	INNER JOIN Rol r ON u.RolId = r.id
 	WHERE u.USUARIO = @Usuario and u.Contrasenna = @Contrasenna
@@ -1250,7 +1284,7 @@ CREATE PROCEDURE IniciarSesionColaborador(
 )
 AS
 BEGIN
-	SELECT u.Id, u.Dni, u.Nombre, u.Usuario, u.email, r.Rol AS NombreRol, u.Foto
+	SELECT u.*
 	FROM Colaborador u
 	INNER JOIN Rol r ON u.RolId = r.id
 	WHERE u.USUARIO = @Usuario and u.Contrasenna = @Contrasenna
