@@ -13,6 +13,7 @@ const AlarmaList = ({ Alarma }) => {
         })
         .then(response => {
           if (response.ok) {
+            alert("Alarma eliminada con exito");
             if (response.status === 204) {
               return;
             } else {

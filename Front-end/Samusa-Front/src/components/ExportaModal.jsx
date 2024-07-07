@@ -29,6 +29,8 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
   };
 
   const [clientes, setClientes] = useState([]);
+  const [contenedores, setcontenedores] = useState([]);
+  const [vehiculos, setvehiculos] = useState([]);
 
   useEffect(() => {
     fetch('https://localhost:7189/api/samusa/cliente/listar', {
@@ -41,6 +43,32 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
       .then(response => response.json())
       .then(data => setClientes(data))
       .catch(error => console.error('Error al obtener la lista de clientes:', error));
+  }, []);
+
+  useEffect(() => {
+    fetch('https://localhost:7189/api/samusa/revisionContenedor/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => setcontenedores(data))
+      .catch(error => console.error('Error al obtener la lista de contenedores:', error));
+  }, []);
+
+  useEffect(() => {
+    fetch('https://localhost:7189/api/samusa/RevisionVehiculo/listar', {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => setvehiculos(data))
+      .catch(error => console.error('Error al obtener la lista de vehiculos:', error));
   }, []);
 
   const handleSave = async () => {
@@ -165,14 +193,52 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
                   <label htmlFor="dni" className="block text-sm font-medium text-gray-700">Dni</label>
                   <input type="text" name="dni" id="dni" value={editedExporta.dni} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
+
                 <div className="mb-4">
-                  <label htmlFor="revVehiculoId" className="block text-sm font-medium text-gray-700">Revision de vehiculo asociada</label>
-                  <input type="text" name="revVehiculoId" id="revVehiculoId" value={editedExporta.revVehiculoId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
+                    <label
+                      htmlFor="revVehiculoId"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Revision de vehículo asociada
+                    </label>
+                    <select
+                      name="revVehiculoId"
+                      id="revVehiculoId"
+                      value={editedExporta.revVehiculoId}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                    >
+                      <option value="">Seleccione un vehículo</option>
+                      {vehiculos.map((vehiculo) => (
+                        <option key={vehiculo.id} value={vehiculo.id}>
+                          {vehiculo.id}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                 <div className="mb-4">
-                  <label htmlFor="revContenedorId" className="block text-sm font-medium text-gray-700">Revision de contenedor asociada</label>
-                  <input type="text" name="revContenedorId" id="revContenedorId" value={editedExporta.revContenedorId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
+                    <label
+                      htmlFor="revContenedorId"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Revision de contenedor asociada
+                    </label>
+                    <select
+                      name="revContenedorId"
+                      id="revContenedorId"
+                      value={editedExporta.revContenedorId}
+                      onChange={handleInputChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                    >
+                      <option value="">Seleccione un contenedor</option>
+                      {contenedores.map((contenedor) => (
+                        <option key={contenedor.id} value={contenedor.id}>
+                          {contenedor.id}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                 {isEditing ? 
                 

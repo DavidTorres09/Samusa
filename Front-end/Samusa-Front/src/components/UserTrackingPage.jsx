@@ -28,9 +28,9 @@ const MyTrackingPage = () => {
   const [query, SetQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const agentId = sessionStorage.getItem("id");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
     fetch("https://localhost:7189/api/samusa/importacion/listar", {
       method: "GET",
       headers: {
@@ -78,7 +78,13 @@ const MyTrackingPage = () => {
   }, []);
 
   useEffect(() => {
-    fetch("https://localhost:7189/api/samusa/exportacion/listar")
+    fetch("https://localhost:7189/api/samusa/exportacion/listar", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.codigo && data.codigo === "-1") {

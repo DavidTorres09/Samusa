@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const token = sessionStorage.getItem('token');
+const token = sessionStorage.getItem("token");
 
 const CotizaModal = ({ user, onClose, isEditing  }) => {
   const [editedCotiza, seteditedCotiza] = useState(user || {
     id: 0,
-    colaboradorId: sessionStorage.getItem('id'),
+    colaboradorId: sessionStorage.getItem("id"),
     tipoProducto: null,
     producto: null,
     porcentajeIMP: 0,
@@ -15,7 +15,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-    const newValue = type === 'checkbox' ? checked : value;
+    const newValue = type === "checkbox" ? checked : value;
     seteditedCotiza({ ...editedCotiza, [name]: newValue });
   };
 
@@ -30,11 +30,11 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
         
 
       // Lógica para agregar una nueva cotización directamente sin verificar su existencia
-      const response = await fetch('https://localhost:7189/api/samusa/cotizacion/agregar', {
-        method: 'POST',
+      const response = await fetch("https://localhost:7189/api/samusa/cotizacion/agregar", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(editedCotiza),
       });
@@ -57,7 +57,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(editedCotiza),
           }
@@ -80,7 +80,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
 
 
   return (
-    <div className='Modals'>
+    <div className="Modals">
       <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity">
@@ -101,7 +101,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
 
           {isEditing ? 
                 <div>
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
   
                 <div className="mb-4">
                   <label htmlFor="porcentajeIMP" className="block text-sm font-medium text-gray-700">Porcentaje Imp *</label>
@@ -117,7 +117,7 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
                 : 
 
                 <div>
-                            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="mb-4">
                   <label htmlFor="tipoProducto" className="block text-sm font-medium text-gray-700">Tipo Producto *</label>
                   <input type="text" name="tipoProducto" id="tipoProducto" value={editedCotiza.tipoProducto} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />

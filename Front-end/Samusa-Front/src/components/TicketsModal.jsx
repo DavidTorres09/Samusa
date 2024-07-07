@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const token = sessionStorage.getItem("token");
 
@@ -16,7 +16,7 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-    const newValue = type === 'checkbox' ? checked : value;
+    const newValue = type === "checkbox" ? checked : value;
     seteditedTicket({ ...editedTicket, [name]: newValue });
   };
 
@@ -28,31 +28,31 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
   const [clientes, setClientes] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/cliente/listar', {
+    fetch("https://localhost:7189/api/samusa/cliente/listar", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then(response => response.json())
       .then(data => setClientes(data))
-      .catch(error => console.error('Error al obtener la lista de clientes:', error));
+      .catch(error => console.error("Error al obtener la lista de clientes:", error));
   }, []);
 
   const [Colaboradores, setColaborador] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/colaborador/listar', {
+    fetch("https://localhost:7189/api/samusa/colaborador/listar", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then(response => response.json())
       .then(data => setColaborador(data))
-      .catch(error => console.error('Error al obtener la lista de clientes:', error));
+      .catch(error => console.error("Error al obtener la lista de clientes:", error));
   }, []);
 
   const handleSave = async () => {
@@ -61,10 +61,10 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
         
 
       // Lógica para agregar una nueva cotización directamente sin verificar su existencia
-      const response = await fetch('https://localhost:7189/api/samusa/Ticket/agregar', {
-        method: 'POST',
+      const response = await fetch("https://localhost:7189/api/samusa/Ticket/agregar", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(editedTicket),
@@ -107,7 +107,7 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
 
 
   return (
-    <div className='Modals'>
+    <div className="Modals">
       <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity">
@@ -128,7 +128,7 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
           
           {isEditing ? 
                  <div>
-                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <div className="mb-4 hidden">
                  <label htmlFor="colaboradorId" className="block text-sm font-medium text-gray-700">Colaborador *</label>
                  <select
@@ -201,7 +201,7 @@ const TicketModal = ({ user, onClose, isEditing  }) => {
                 </div>
                  : 
                  <div>
-                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="mb-4">
                   <label htmlFor="colaboradorId" className="block text-sm font-medium text-gray-700">Colaborador *</label>
                   <select

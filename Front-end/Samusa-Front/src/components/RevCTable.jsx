@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import RevCModal from './RevCModal';
+import React, { useState, useEffect } from "react";
+import RevCModal from "./RevCModal";
 import "../css/Tables.css";
 import "../Css/datatables.min.css"
 import "../Css/datatables.css"
 
-import $ from 'jquery';
-import jszip from 'jszip';
-import DataTable from 'datatables.net-dt';
-import 'datatables.net-autofill-dt';
-import 'datatables.net-buttons-dt';
-import 'datatables.net-buttons/js/buttons.colVis.mjs';
-import 'datatables.net-buttons/js/buttons.html5.mjs';
-import 'datatables.net-buttons/js/buttons.print.mjs';
-import 'datatables.net-colreorder-dt';
-import 'datatables.net-fixedcolumns-dt';
-import 'datatables.net-fixedheader-dt';
-import 'datatables.net-keytable-dt';
-import 'datatables.net-responsive-dt';
-import 'datatables.net-rowgroup-dt';
-import 'datatables.net-rowreorder-dt';
-import 'datatables.net-scroller-dt';
-import 'datatables.net-select-dt';
+import $ from "jquery";
+import jszip from "jszip";
+import DataTable from "datatables.net-dt";
+import "datatables.net-autofill-dt";
+import "datatables.net-buttons-dt";
+import "datatables.net-buttons/js/buttons.colVis.mjs";
+import "datatables.net-buttons/js/buttons.html5.mjs";
+import "datatables.net-buttons/js/buttons.print.mjs";
+import "datatables.net-colreorder-dt";
+import "datatables.net-fixedcolumns-dt";
+import "datatables.net-fixedheader-dt";
+import "datatables.net-keytable-dt";
+import "datatables.net-responsive-dt";
+import "datatables.net-rowgroup-dt";
+import "datatables.net-rowreorder-dt";
+import "datatables.net-scroller-dt";
+import "datatables.net-select-dt";
 window.JSZip = jszip; 
 
 const RevCTable = () => {
@@ -28,10 +28,10 @@ const RevCTable = () => {
   const [tableData, setTableData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [SelectedRevC, setSelectedRevC] = useState(null);
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/revisionContenedor/listar', {
+    fetch("https://localhost:7189/api/samusa/revisionContenedor/listar", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -44,34 +44,34 @@ const RevCTable = () => {
 
         setTimeout(() => {
           $(document).ready(function() {
-            $('#example').DataTable({
-              dom: 'Bfrtip',
+            $("#example").DataTable({
+              dom: "Bfrtip",
               destroy: true,
               language: {
-                url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json',
+                url: "https://cdn.datatables.net/plug-ins/2.0.8/i18n/es-MX.json",
             },
               buttons: [
-                'copy', 'csv', 'excel', 'print'
+                "copy", "csv", "excel", "print"
               ]
             });
           });
         }, 0);
       })
-      .catch(error => console.error('Error fetching data:', error));
+      .catch(error => console.error("Error fetching data:", error));
 
     return () => {
-      if ($.fn.DataTable.isDataTable('#example')) {
-        $('#example').DataTable().destroy();
+      if ($.fn.DataTable.isDataTable("#example")) {
+        $("#example").DataTable().destroy();
       }
     };
 }, []);
 
   const handleDelete = (id) => {
     fetch(`https://localhost:7189/api/samusa/revisionContenedor/eliminar/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
     .then(response => {
@@ -83,7 +83,7 @@ const RevCTable = () => {
         }
       } else {
         return response.json().then(error => {
-          throw new Error(error.message || 'Error al eliminar la revision de Contenedor');
+          throw new Error(error.message || "Error al eliminar la revision de Contenedor");
         });
       }
     })
@@ -93,7 +93,7 @@ const RevCTable = () => {
     })
     .catch(error => {
       alert("Error al eliminar el contenedor" + error.message);
-      console.error('Error al eliminar la revision de Contenedor:', error.message);
+      console.error("Error al eliminar la revision de Contenedor:", error.message);
     });
   };
 
@@ -115,7 +115,7 @@ const RevCTable = () => {
 
   return (
     <>
-      <section className='data-table-section'>
+      <section className="data-table-section">
       <div className="table-container col-12 mb-30">
         <h1 className="text-3xl font-bold my-4 text-gray-800">Tabla de revisiones de contenedores</h1>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const token = sessionStorage.getItem("token");
 
@@ -6,7 +6,7 @@ const TicketClientModal = ({ user, onClose,}) => {
   const [NewTicket, setNewTicket] = useState(user || {
     id: 0,
     colaboradorId: 1,
-    clienteId: sessionStorage.getItem('id'),
+    clienteId: sessionStorage.getItem("id"),
     dniCliente: "",
     estado: "Sin revisar",
     prioridad: "",
@@ -15,7 +15,7 @@ const TicketClientModal = ({ user, onClose,}) => {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-    const newValue = type === 'checkbox' ? checked : value;
+    const newValue = type === "checkbox" ? checked : value;
     setNewTicket({ ...NewTicket, [name]: newValue });
   };
 
@@ -29,10 +29,10 @@ const TicketClientModal = ({ user, onClose,}) => {
     }
     else{
       try {
-        const response = await fetch('https://localhost:7189/api/samusa/Ticket/agregar', {
-          method: 'POST',
+        const response = await fetch("https://localhost:7189/api/samusa/Ticket/agregar", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(NewTicket),
@@ -53,7 +53,7 @@ const TicketClientModal = ({ user, onClose,}) => {
 
 
   return (
-    <div className='Modals'>
+    <div className="Modals">
       <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity">
@@ -70,7 +70,7 @@ const TicketClientModal = ({ user, onClose,}) => {
           <div className="sm:flex sm:items-start">
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">                
           <br />
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
 
                   <div className="mb-4">

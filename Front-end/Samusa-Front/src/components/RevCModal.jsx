@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const token = sessionStorage.getItem('token');
+const token = sessionStorage.getItem("token");
 
 const RevCModal = ({ user, onClose, isEditing  }) => {
   const [editedRevVeh, seteditedRevVeh] = useState(user || {
@@ -15,7 +15,7 @@ const RevCModal = ({ user, onClose, isEditing  }) => {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-    const newValue = type === 'checkbox' ? checked : value;
+    const newValue = type === "checkbox" ? checked : value;
     seteditedRevVeh({ ...editedRevVeh, [name]: newValue });
   };
 
@@ -27,11 +27,11 @@ const RevCModal = ({ user, onClose, isEditing  }) => {
     try {
       if (isEditing===false) {   
         editedRevVeh.id = 0;
-      const response = await fetch('https://localhost:7189/api/samusa/revisionContenedor/agregar', {
-        method: 'POST',
+      const response = await fetch("https://localhost:7189/api/samusa/revisionContenedor/agregar", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(editedRevVeh),
       });
@@ -52,7 +52,7 @@ const RevCModal = ({ user, onClose, isEditing  }) => {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(editedRevVeh),
           }
@@ -73,7 +73,7 @@ const RevCModal = ({ user, onClose, isEditing  }) => {
 
 
   return (
-    <div className='Modals'>
+    <div className="Modals">
       <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity">
@@ -93,7 +93,7 @@ const RevCModal = ({ user, onClose, isEditing  }) => {
           <br />
           {isEditing ? 
                 <div>
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                 <div className="mb-4">
                   <label htmlFor="puertoDestino" className="block text-sm font-medium text-gray-700">Puerto Destino</label>
@@ -129,7 +129,7 @@ const RevCModal = ({ user, onClose, isEditing  }) => {
                 : 
 
                 <div>
-                                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="mb-4">
                   <label htmlFor="puertoOrigen" className="block text-sm font-medium text-gray-700">Puerto Origen *</label>
                   <input type="text" name="puertoOrigen" id="puertoOrigen" value={editedRevVeh.puertoOrigen} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />

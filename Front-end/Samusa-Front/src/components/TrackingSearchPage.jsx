@@ -30,6 +30,7 @@ const TrackingSearch = () => {
         if (data.codigo && data.codigo === "-1") {
           setErrorMessage(data.mensaje);
           setTableData([]); //limpia datos existentes
+          alert("No se encontraron cotizaciones en la Base de datos.");
         } else if (data.length === 0) {
           setErrorMessage(
             "No se encontraron cotizaciones en la Base de datos."

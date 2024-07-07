@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const token = sessionStorage.getItem('token');
+const token = sessionStorage.getItem("token");
 
 const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
   const [editedPaqueteria, seteditedPaqueteria] = useState(user || {
@@ -17,7 +17,7 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-    const newValue = type === 'checkbox' ? checked : value;
+    const newValue = type === "checkbox" ? checked : value;
     seteditedPaqueteria({ ...editedPaqueteria, [name]: newValue });
   };
 
@@ -28,27 +28,27 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
   const [clientes, setClientes] = useState([]);
 
   useEffect(() => {
-    fetch('https://localhost:7189/api/samusa/cliente/listar', {
+    fetch("https://localhost:7189/api/samusa/cliente/listar", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
       .then(response => response.json())
       .then(data => setClientes(data))
-      .catch(error => console.error('Error al obtener la lista de clientes:', error));
+      .catch(error => console.error("Error al obtener la lista de clientes:", error));
   }, []);
 
   const handleSave = async () => {
     try {
       if (isEditing===false) {
-        editedPaqueteria.fechaRegistro = new Date().toISOString().split("T")[0] + 'T00:00:00.000Z';
-      const response = await fetch('https://localhost:7189/api/samusa/paqueteria/agregar', {
-        method: 'POST',
+        editedPaqueteria.fechaRegistro = new Date().toISOString().split("T")[0] + "T00:00:00.000Z";
+      const response = await fetch("https://localhost:7189/api/samusa/paqueteria/agregar", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(editedPaqueteria),
       });
@@ -77,7 +77,7 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(editedPaqueteria),
           }
@@ -98,7 +98,7 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
 
 
   return (
-    <div className='Modals'>
+    <div className="Modals">
       <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity">
@@ -117,7 +117,7 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">                
           <br />
           
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="mb-4">
                     <label
                       htmlFor="clienteId"

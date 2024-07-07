@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "../Css/User/Modals.css";
 
-const token = sessionStorage.getItem('token');
+const token = sessionStorage.getItem("token");
 
 const AdminAlarmaModal = ({ user, onClose,}) => {
   const [NewAlarma, setNewAlarma] = useState(user || {
@@ -13,9 +13,9 @@ const AdminAlarmaModal = ({ user, onClose,}) => {
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-    const newValue = type === 'checkbox' ? checked : value;
+    const newValue = type === "checkbox" ? checked : value;
 
-    if (name === 'descripcion' && newValue.length > maxDescripcionLength) {
+    if (name === "descripcion" && newValue.length > maxDescripcionLength) {
       alert(`La descripción no puede tener más de ${maxDescripcionLength} caracteres.`);
       return;
   }
@@ -29,15 +29,15 @@ const AdminAlarmaModal = ({ user, onClose,}) => {
 
   const handleSave = async () => {
     if (!NewAlarma.descripcion || NewAlarma.descripcion.length > maxDescripcionLength) {
-      alert('La descripción es obligatoria y no puede tener más de 1500 caracteres.');
+      alert("La descripción es obligatoria y no puede tener más de 1500 caracteres.");
       return;
     }
     try {
-      const response = await fetch('https://localhost:7189/api/samusa/Alarma/agregar', {
-        method: 'POST',
+      const response = await fetch("https://localhost:7189/api/samusa/Alarma/agregar", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`, 
         },
         body: JSON.stringify(NewAlarma),
       });
@@ -54,7 +54,7 @@ const AdminAlarmaModal = ({ user, onClose,}) => {
 
 
   return (
-    <div className='Alarma'>
+    <div className="Alarma">
        <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
