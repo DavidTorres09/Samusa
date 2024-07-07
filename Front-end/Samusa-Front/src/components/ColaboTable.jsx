@@ -31,8 +31,6 @@ const ColaboTable = () => {
   const [selectedColabo, setSelectedColabo] = useState(null);
   const [query, SetQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(query);
-  console.log(tableData.filter(item => item.nombre.toLowerCase().includes("a")));
   const token = sessionStorage.getItem("token");
 
   useEffect(() => {
@@ -103,7 +101,6 @@ const ColaboTable = () => {
     })
     .then(() => {
       alert("Colaborador eliminado exitosamente");
-      console.log('Colaborador eliminado exitosamente');
       window.location.reload();
     })
     .catch(error => {

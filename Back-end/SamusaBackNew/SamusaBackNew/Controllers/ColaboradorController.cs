@@ -376,5 +376,14 @@ namespace SamusaBackNew.Controllers
                 return Ok(respuesta);
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Encriptar")]
+        public IActionResult Encriptar([FromBody] string texto)
+        {
+            string encriptado = _utilitariosModel.Encriptar(texto);
+            return Ok(encriptado);
+        }
     }
 }

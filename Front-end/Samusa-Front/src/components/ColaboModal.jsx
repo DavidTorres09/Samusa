@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import "../Css/Admin/Modals.css";
+import encryptionUtils from "../utilities/encryptionUtils";
+
 
 const token = sessionStorage.getItem('token');
 
@@ -35,12 +37,17 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
     onClose();
   };
 
+  async function handleEncrypt(password) {
+    const encryptedPassword = await encryptionUtils.Encriptar(password);
+    return encryptedPassword;
+  }
+
   const handleSave = async () => {
     try {
+      const encryptedPassword = await handleEncrypt(editedColabo.contrasenna);
+      editedColabo.contrasenna = encryptedPassword;
       if (isEditing===false) {
         editedColabo.fechaIngreso = new Date().toISOString();
-       
-        console.log(editedColabo)
         const responseVerificacion = await fetch(
           `https://localhost:7189/api/samusa/colaborador/listarUnico?dni=${editedColabo.id}`,
           {
@@ -71,7 +78,6 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
       }
       else {
         editedColabo.fechaIngreso = new Date().toISOString();
-        console.log(editedColabo)
         const updateColabo = await fetch(          
           `https://localhost:7189/api/samusa/colaborador/actualizar`,
           {

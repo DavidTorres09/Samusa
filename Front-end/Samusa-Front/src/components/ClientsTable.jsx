@@ -142,6 +142,7 @@ console.log(tableData);
           <button
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
+            hidden
           >
             Agregar Cliente
           </button>
