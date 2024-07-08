@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Css/Admin/Modals.css";
 import encryptionUtils from "../utilities/encryptionUtils";
 
@@ -42,64 +42,76 @@ const ColaboModal = ({ user, onClose, isEditing }) => {
     return encryptedPassword;
   }
 
-  const handleSave = async () => {
-    try {
-      const encryptedPassword = await handleEncrypt(editedColabo.contrasenna);
-      editedColabo.contrasenna = encryptedPassword;
-      if (isEditing === false) {
-        editedColabo.fechaIngreso = new Date().toISOString();
-        const responseVerificacion = await fetch(
-          `https://localhost:7189/api/samusa/colaborador/listarUnico?dni=${editedColabo.id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const addColabo = await fetch(
-          `https://localhost:7189/api/samusa/colaborador/agregar`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(editedColabo),
-          }
-        );
-        if (addColabo.ok) {
-          alert("Usuario guardado exitosamente");
-          window.location.reload();
-        } else {
-          alert(
-            "No se pudo agregar el colaborador, Es posible ya este registrado"
-          );
-        }
-      } else {
-        editedColabo.fechaIngreso = new Date().toISOString();
-        const updateColabo = await fetch(
-          `https://localhost:7189/api/samusa/colaborador/actualizarPerfil`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(editedColabo),
-          }
-        );
+  useEffect(() => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    setIsPasswordValid(passwordRegex.test(editedColabo.contrasenna));
+  }, [editedColabo.contrasenna]);
 
-        if (updateColabo.ok) {
-          alert("Usuario actualizado exitosamente");
-          window.location.reload();
+  const handleSave = async () => {
+    if (!isPasswordValid) {
+      alert(
+        "La contraseña debe tener al menos 6 caracteres, incluyendo mayúsculas, minúsculas y números."
+      );
+    }
+    else{
+      try {
+        const encryptedPassword = await handleEncrypt(editedColabo.contrasenna);
+        editedColabo.contrasenna = encryptedPassword;
+        if (isEditing === false) {
+          editedColabo.fechaIngreso = new Date().toISOString();
+          const responseVerificacion = await fetch(
+            `https://localhost:7189/api/samusa/colaborador/listarUnico?dni=${editedColabo.id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const addColabo = await fetch(
+            `https://localhost:7189/api/samusa/colaborador/agregar`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(editedColabo),
+            }
+          );
+          if (addColabo.ok) {
+            alert("Usuario guardado exitosamente");
+            window.location.reload();
+          } else {
+            alert(
+              "No se pudo agregar el colaborador, Es posible ya este registrado"
+            );
+          }
         } else {
-          alert("No se pudo actualizar el usuario");
+          editedColabo.fechaIngreso = new Date().toISOString();
+          const updateColabo = await fetch(
+            `https://localhost:7189/api/samusa/colaborador/actualizarPerfil`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(editedColabo),
+            }
+          );
+  
+          if (updateColabo.ok) {
+            alert("Usuario actualizado exitosamente");
+            window.location.reload();
+          } else {
+            alert("No se pudo actualizar el usuario");
+          }
         }
+      } catch (error) {
+        console.error("Error:", error.message);
       }
-    } catch (error) {
-      console.error("Error:", error.message);
     }
   };
 

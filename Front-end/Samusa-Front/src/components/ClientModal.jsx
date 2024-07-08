@@ -131,7 +131,43 @@ const ClientModal = ({ user, onClose }) => {
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                   {isEditing ? (
                     <div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">                 
+                        <div className="mb-4">
+                          <label
+                            htmlFor="email"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            EMAIL *
+                          </label>
+                          <input
+                            type="text"
+                            name="email"
+                            id="email"
+                            value={editedUser.email}
+                            onChange={handleInputChange}
+                            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="usuario"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            USUARIO *
+                          </label>
+                          <input
+                            type="usuario"
+                            name="usuario"
+                            id="usuario"
+                            value={editedUser.usuario}
+                            onChange={handleInputChange}
+                            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                            required
+                            disabled
+                          />
+                        </div>
                         <div className="mb-4">
                           <label
                             htmlFor="telefono"
@@ -144,40 +180,6 @@ const ClientModal = ({ user, onClose }) => {
                             name="telefono"
                             id="telefono"
                             value={editedUser.telefono}
-                            onChange={handleInputChange}
-                            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                            required
-                          />
-                        </div>
-                        <div className="mb-4">
-                          <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            EMAIL
-                          </label>
-                          <input
-                            type="text"
-                            name="email"
-                            id="email"
-                            value={editedUser.email}
-                            onChange={handleInputChange}
-                            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                            required
-                          />
-                        </div>
-                        <div className="mb-4">
-                          <label
-                            htmlFor="usuario"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            USUARIO
-                          </label>
-                          <input
-                            type="usuario"
-                            name="usuario"
-                            id="usuario"
-                            value={editedUser.usuario}
                             onChange={handleInputChange}
                             className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                             required

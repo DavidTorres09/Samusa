@@ -15,9 +15,9 @@
   }
   
 .Alarma input {
-    background-color: #000000;
-    color: white;
-    border: none;
+    background-color: #ffffffe1;
+    color: rgb(0, 0, 0);
+    border: solid 2px #161824
   }
   
 .Alarma input::placeholder {

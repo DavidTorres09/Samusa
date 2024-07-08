@@ -125,7 +125,7 @@ const RevVehiculosTable = () => {
             className="text-white font-bold py-2 px-4 rounded add-btn"
             onClick={handleSave}
           >
-            Agregar Vehiculo
+            Agregar Vehículo
           </button>
           </div>
 

@@ -9,12 +9,14 @@ import Layout from "../../components/Layout";
 const UserPerfil = () => {
     return (
       <>
-      <body className="skin-dark">
+      <body className="">
       <Layout/>
+        <div className="fondo textperfiluser">
         <div className="content-body">
         <PerfilForm/>
         </div>
         <Footer/>
+        </div>
       </body>
       </>
     );

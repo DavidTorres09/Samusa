@@ -44,10 +44,8 @@ const AdminAlarmas = () => {
 
     return (
         <>
+        <strong className="title">Alertas</strong>
                 <div className="box boxa">
-                            <div className="box-head">
-                                <h4 className="title">Alertas</h4>
-                            </div>
                             <button className="mb-1  text-white font-bold py-1 px-2 rounded button-sm add-btn"
                             onClick={handleNewAlarma}>Añadir Alerta
                             </button>

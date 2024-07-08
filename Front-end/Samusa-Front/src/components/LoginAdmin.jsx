@@ -61,6 +61,7 @@ const LoginAdmin = () => {
   useEffect(() => {
     if (isLogged) {
         navigate('/Admin');
+        window.location.reload();
     }
   }, [isLogged, navigate]);
 

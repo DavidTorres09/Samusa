@@ -115,7 +115,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
         }
       }
     } catch (error) {
-      alert("Error al actualizar, verifica que haya un numero de segumiento");
+      alert("Error al, verifica que haya un numero de segumiento y que este no este repetido");
       console.error("Error:", error.message);
     }
   };

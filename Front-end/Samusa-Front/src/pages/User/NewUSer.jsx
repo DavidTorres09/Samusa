@@ -91,7 +91,7 @@ const NewUser = () => {
       }
     } catch (error) {
       setError("Error al registrar usuario. Favor contactar con soporte");
-      alert("El DNI ya se encuentra registrado, verifica el dato ingresado.");
+      alert("La informacion ingresada referente a usuario, DNI o correo ya se encuentra registrada. Verifica el dato ingresado.");
     }
     setError("");
   };
@@ -125,26 +125,22 @@ const NewUser = () => {
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="contrasenna"
-                className="block text-sm font-semibold text-gray-600 mb-1"
-              >
-                Contraseña *
-              </label>
-              <input
-                type="password"
-                id="contrasenna"
-                className={`w-full p-2 border rounded-md focus:outline-none ${
-                  isPasswordValid
-                    ? "focus:border-blue-400"
-                    : "focus:border-red-400"
-                }`}
-                placeholder="Ingrese su contraseña"
-                value={contrasenna}
-                onChange={(e) => setContrasenna(e.target.value)}
-                required
-              />
-            </div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-semibold text-gray-600 mb-1"
+            >
+              Email *
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400"
+              placeholder="Ingrese su email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
             <div className="mb-4">
               <label
@@ -204,6 +200,28 @@ const NewUser = () => {
           </div>
 
           <div className="mb-4">
+              <label
+                htmlFor="contrasenna"
+                className="block text-sm font-semibold text-gray-600 mb-1"
+              >
+                Contraseña *
+              </label>
+              <input
+                type="password"
+                id="contrasenna"
+                className={`w-full p-2 border rounded-md focus:outline-none ${
+                  isPasswordValid
+                    ? "focus:border-blue-400"
+                    : "focus:border-red-400"
+                }`}
+                placeholder="Ingrese su contraseña"
+                value={contrasenna}
+                onChange={(e) => setContrasenna(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-4">
             <label
               htmlFor="telefono"
               className="block text-sm font-semibold text-gray-600 mb-1"
@@ -217,24 +235,6 @@ const NewUser = () => {
               placeholder="Ingrese su teléfono"
               value={telefono}
               onChange={(e) => setTelefono(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-semibold text-gray-600 mb-1"
-            >
-              Email *
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full p-2 border rounded-md focus:outline-none focus:border-blue-400"
-              placeholder="Ingrese su email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>

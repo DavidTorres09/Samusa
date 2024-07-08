@@ -196,7 +196,7 @@ const PerfilForm = () => {
         <div className="col-md-8 mb-12">
           <div className="card">
             <div className="card-body">
-              <h3 className="card-title mb-4">Información de perfil</h3>
+              <h3 className="card-title mb-4 text-white">Información de perfil</h3>
               <form onSubmit={(e) => e.preventDefault()}>
                 <div className="mb-3">
                   <label htmlFor="dni" className="form-label">
@@ -212,7 +212,7 @@ const PerfilForm = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
+                  <label htmlFor="email" className="form-label text-white">
                     Email
                   </label>
                   <input
@@ -225,7 +225,7 @@ const PerfilForm = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="usuario" className="form-label">
+                  <label htmlFor="usuario" className="form-label text-white">
                     Usuario
                   </label>
                   <input
@@ -238,7 +238,7 @@ const PerfilForm = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="nombre" className="form-label">
+                  <label htmlFor="nombre" className="form-label text-white">
                     Nombre
                   </label>
                   <input
@@ -251,7 +251,7 @@ const PerfilForm = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="telefono" className="form-label">
+                  <label htmlFor="telefono" className="form-label text-white">
                     Teléfono
                   </label>
                   <input
@@ -264,7 +264,7 @@ const PerfilForm = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="direccion" className="form-label">
+                  <label htmlFor="direccion" className="form-label text-white">
                     Dirección
                   </label>
                   <input
@@ -277,11 +277,11 @@ const PerfilForm = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="esNacional" className="form-label">
+                  <label htmlFor="esNacional" className="form-label text-white">
                     ¿Es Nacional?
                   </label>
                   <select
-                    className="form-select"
+                    className="form-select text-black"
                     id="esNacional"
                     name="esNacional"
                     value={perfil.esNacional}

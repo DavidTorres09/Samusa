@@ -29,7 +29,7 @@ const navigation = [
 const userNavigation = [
   { name: 'Mi perfil', to: '/Admin/Perfil' },
   { name: 'Calendario', to: '/Admin/Calendar' },
-  { name: 'Salir', to: '/' },
+  { name: 'Salir', to: '/pckX9Ten2iJEClmZPmeFL5nm9ed5mJOH8n5' },
 ]
 
 function classNames(...classes) {

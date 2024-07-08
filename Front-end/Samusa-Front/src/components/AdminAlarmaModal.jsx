@@ -29,7 +29,7 @@ const AdminAlarmaModal = ({ user, onClose,}) => {
 
   const handleSave = async () => {
     if (!NewAlarma.descripcion || NewAlarma.descripcion.length > maxDescripcionLength) {
-      alert("La descripción es obligatoria y no puede tener más de 1500 caracteres.");
+      alert("El detalle es obligatorio y no puede tener más de 1500 caracteres.");
       return;
     }
     try {

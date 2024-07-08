@@ -65,7 +65,6 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
 
         if (updateCotiza.ok) {
           alert("Cotización actualziada exitosamente");
-          alert("Usuario actualizado exitosamente");
           window.location.reload();
         } else {
           alert("Fallo al actualizar revisa los campos con *");
