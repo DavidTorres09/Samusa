@@ -25,6 +25,15 @@ const CotizaModal = ({ user, onClose, isEditing  }) => {
 
   const handleSave = async () => {
     try {
+      if (!editedCotiza.producto || editedCotiza.producto.trim() === "") {
+        alert("El campo Producto es obligatorio.");
+        return;
+      }
+      if (!editedCotiza.tipoProducto || editedCotiza.tipoProducto.trim() === "") {
+        alert("El campo Tipo Producto es obligatorio.");
+        return;
+      }
+
       if (isEditing===false) {
         editedCotiza.fechaCreacion = new Date().toISOString();
         

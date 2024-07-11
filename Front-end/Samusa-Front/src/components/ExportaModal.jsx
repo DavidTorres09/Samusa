@@ -160,11 +160,21 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
             
             
- 
-                 <div className="mb-4">
+
+
+               {isEditing ? 
+                <div>
+                  
+                </div> 
+                
+                : 
+
+                <div>
+                <div className="mb-4">
                  <label htmlFor="expSeguimientoId" className="block text-sm font-medium text-gray-700">Numero de registro *</label>
                  <input type="text" name="expSeguimientoId" id="expSeguimientoId" value={editedExporta.expSeguimientoId} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                </div>
+                </div>}
 
                 <div className="mb-4">
                     <label

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const token = sessionStorage.getItem('token');
 
@@ -27,8 +27,32 @@ const RevVehiculosModal = ({ user, onClose, isEditing  }) => {
     onClose();
   };
 
+  const [tableData, setTableData] = useState([]);
+  useEffect(() => {
+    fetch("https://localhost:7189/api/samusa/RevisionVehiculo/listar", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setTableData(data);
+      })
+      .catch(error => console.error("Error fetching data:", error));
+  }, []);
+
   const handleSave = async () => {
     try {
+
+    const vinExists = tableData.some(revVeh => revVeh.vin === editedRevVeh.vin);
+
+    if (vinExists) {
+      alert("El VIN ya esta registrado. Por favor, ingresa un VIN único.");
+      return;
+    }
+
       if (isEditing===false) {   
         editedRevVeh.id = 0;
       const response = await fetch('https://localhost:7189/api/samusa/RevisionVehiculo/agregar', {

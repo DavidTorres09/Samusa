@@ -140,11 +140,11 @@ const RevVehiculosTable = () => {
                 <th className="py-4 px-6">Modelo</th>
                 <th className="py-4 px-6">Extras</th>
                 <th className="py-4 px-6">Color</th>
-                <th className="py-4 px-6">Costo de vehiculo</th>
-                <th className="py-4 px-6">Año de vehiculo</th>
+                <th className="py-4 px-6">Costo de vehículo</th>
+                <th className="py-4 px-6">Año de vehículo</th>
                 <th className="py-4 px-6">Dni del dueño</th>
                 <th className="py-4 px-6">Placa</th>
-                <th className="py-4 px-6">Estado de revision con Dekra</th>
+                <th className="py-4 px-6">Estado de revisión con Dekra</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>
             </thead>

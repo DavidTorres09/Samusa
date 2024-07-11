@@ -142,7 +142,16 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
           <br />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="mb-4">
+
+                {isEditing ? 
+                <div>
+                  
+                </div> 
+                
+                : 
+
+                <div>
+                    <div className="mb-4">
                     <label
                       htmlFor="impSeguimientoId"
                       className="block text-sm font-medium text-gray-700"
@@ -158,6 +167,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                       className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     />
                   </div>
+                </div>}
 
                   <div className="mb-4">
                     <label
