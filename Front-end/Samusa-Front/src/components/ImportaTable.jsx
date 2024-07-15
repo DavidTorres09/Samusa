@@ -23,7 +23,7 @@ import 'datatables.net-scroller-dt';
 import 'datatables.net-select-dt';
 window.JSZip = jszip;     
 
-
+import { format } from 'date-fns';
 const ImportaTable = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [tableData, setTableData] = useState([]);
@@ -124,6 +124,10 @@ const ImportaTable = () => {
     setShowEditModal(false);
   };
 
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), 'dd/MM/yyyy');
+  };
+
   return (
     <>
       <section className='data-table-section'>
@@ -153,10 +157,10 @@ const ImportaTable = () => {
                 <th className="py-4 px-6">ID Rev Vehiculo</th>
                 <th className="py-4 px-6">ID Rev Contenedor</th>
                 <th className="py-4 px-6">Fecha Inicio</th>
-                <th className="py-4 px-6">Fecha Finalizacion</th>
+                <th className="py-4 px-6">Fecha Finalización</th>
                 <th className="py-4 px-6">FechaEsperada</th>
                 <th className="py-4 px-6">Estado</th>
-                <th className="py-4 px-6">Descripcion</th>
+                <th className="py-4 px-6">Descripción</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>
             </thead>
@@ -175,13 +179,13 @@ const ImportaTable = () => {
                   item.revContenedorId
                 :
                 "Campo no aplica"}</td>          
-                  <td className="py-4 px-6">{item.fechaInicio}</td>
+                  <td className="py-4 px-6">{formatDate(item.fechaInicio)}</td>
                   <td className="py-4 px-6">{ item.fechaFinalizacion ?
-                  item.fechaFinalizacion
+                  formatDate(item.fechaFinalizacion)
                 :
                 "Aun sin determinar"}</td>
                   <td className="py-4 px-6">{ item.fechaEsperada ?
-                  item.fechaEsperada
+                  formatDate(item.fechaEsperada)
                 :
                 "Aun sin determinar"}</td>
                   <td className="py-4 px-6">{item.prioridad}</td>

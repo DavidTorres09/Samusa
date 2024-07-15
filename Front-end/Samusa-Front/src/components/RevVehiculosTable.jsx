@@ -93,8 +93,8 @@ const RevVehiculosTable = () => {
       window.location.reload();
     })
     .catch(error => {
-      alert("Error al eliminar la revision:", error.message);
-      console.error("Error al eliminar la revision de Almacen:", error.message);
+      alert("Error al eliminar la revision, el vehículo se encuentra ligado a una IMP o EXP");
+      console.error("Error al eliminar la revision:", error.message);
     });
   };
 
@@ -142,9 +142,9 @@ const RevVehiculosTable = () => {
                 <th className="py-4 px-6">Color</th>
                 <th className="py-4 px-6">Costo de vehículo</th>
                 <th className="py-4 px-6">Año de vehículo</th>
-                <th className="py-4 px-6">Dni del dueño</th>
+                <th className="py-4 px-6">DNI del dueño</th>
                 <th className="py-4 px-6">Placa</th>
-                <th className="py-4 px-6">Estado de revisión con Dekra</th>
+                <th className="py-4 px-6">Estado de revisión con DEKRA</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>
             </thead>

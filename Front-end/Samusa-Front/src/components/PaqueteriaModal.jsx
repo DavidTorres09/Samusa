@@ -96,6 +96,15 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
     }
   };
 
+  const FechaHoy = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+  const Fechaminima = FechaHoy();
 
   return (
     <div className="Modals">
@@ -142,12 +151,12 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
                   </div>
 
                 <div className="mb-4">
-                  <label htmlFor="numTracking" className="block text-sm font-medium text-gray-700">Numero de tracking * </label>
+                  <label htmlFor="numTracking" className="block text-sm font-medium text-gray-700">Número de tracking * </label>
                   <input type="text" name="numTracking" id="numTracking" value={editedPaqueteria.numTracking} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="numCasillero" className="block text-sm font-medium text-gray-700">Numero de casillero</label>
+                  <label htmlFor="numCasillero" className="block text-sm font-medium text-gray-700">Número de casillero</label>
                   <input type="text" name="numCasillero" id="numCasillero" value={editedPaqueteria.numCasillero} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
 
@@ -162,7 +171,7 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
                   <p>Fecha esperada actual: {editedPaqueteria.fechaEsperada}</p>
                   <div className="mb-4">
                   <label htmlFor="fechaEsperada" className="block text-sm font-medium text-gray-700">Fecha esperada</label>
-                  <input type="date" name="fechaEsperada" id="fechaEsperada" value={editedPaqueteria.fechaEsperada} onChange={handleInputChange} className="Datein mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <input type="date" name="fechaEsperada" id="fechaEsperada" value={editedPaqueteria.fechaEsperada} onChange={handleInputChange} className="Datein mt-1 p-2 border border-gray-300 rounded-md w-full" min={Fechaminima} />
                 </div>
                 </div>
                 
@@ -176,7 +185,7 @@ const PaqueteriaModal = ({ user, onClose, isEditing  }) => {
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="directDestino" className="block text-sm font-medium text-gray-700">Direccion de destino</label>
+                  <label htmlFor="directDestino" className="block text-sm font-medium text-gray-700">Dirección de destino</label>
                   <input type="text" name="directDestino" id="directDestino" value={editedPaqueteria.directDestino} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
               </div>

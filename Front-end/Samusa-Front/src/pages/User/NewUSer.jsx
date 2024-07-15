@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import encryptionUtils from "../../utilities/encryptionUtils";
+import "../../Css/Register.css";
 
 const NewUser = () => {
   const [usuario, setUsuario] = useState("");
@@ -106,7 +107,7 @@ const NewUser = () => {
       <div className="bg-white p-8 rounded shadow-md w-96 flex flex-col md:flex-row md:space-x-4">
         <div className="w-full md:w-1/2">
           <form>
-            <div className="mb-4">
+            <div className="mb-4 reginput">
               <label
                 htmlFor="usuario"
                 className="block text-sm font-semibold text-gray-600 mb-1"
@@ -124,7 +125,7 @@ const NewUser = () => {
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4 reginput">
             <label
               htmlFor="email"
               className="block text-sm font-semibold text-gray-600 mb-1"
@@ -142,7 +143,7 @@ const NewUser = () => {
             />
           </div>
 
-            <div className="mb-4">
+            <div className="mb-4 reginput">
               <label
                 htmlFor="direccion"
                 className="block text-sm font-semibold text-gray-600 mb-1"
@@ -160,7 +161,7 @@ const NewUser = () => {
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4 reginput">
               <label
                 htmlFor="nombre"
                 className="block text-sm font-semibold text-gray-600 mb-1"
@@ -181,7 +182,7 @@ const NewUser = () => {
         </div>
 
         <div className="w-full md:w-1/2">
-          <div className="mb-4">
+          <div className="mb-4 reginput">
             <label
               htmlFor="dni"
               className="block text-sm font-semibold text-gray-600 mb-1"
@@ -199,7 +200,7 @@ const NewUser = () => {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 reginput">
               <label
                 htmlFor="contrasenna"
                 className="block text-sm font-semibold text-gray-600 mb-1"
@@ -221,7 +222,7 @@ const NewUser = () => {
               />
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4 reginput">
             <label
               htmlFor="telefono"
               className="block text-sm font-semibold text-gray-600 mb-1"

@@ -22,7 +22,7 @@ const navigation = [
   { name: 'Clientes', to: '/Admin/Clientes', current: false },
   { name: 'Colaboradores', to: '/Admin/Colaboradores', current: false },
   { name: 'Cotizaciones', to: '/Admin/Cotizaciones', current: false },
-  { name: 'Rev. Vehiculo', to: '/Admin/RevisionVehiculo', current: false },
+  { name: 'Rev. Vehículo', to: '/Admin/RevisionVehiculo', current: false },
   { name: 'Rev. Container', to: '/Admin/RevisionContainer', current: false },
 ]
 

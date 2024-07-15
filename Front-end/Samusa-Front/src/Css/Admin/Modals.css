@@ -18,6 +18,11 @@
     background-color: #102ba533;
     color: rgb(0, 0, 0);
   }
+
+  .Modals :disabled{
+    background-color: #910b0625;
+    color: rgba(0, 0, 0, 0.61);
+  }
   
 .Modals input::placeholder {
     color: #000000;

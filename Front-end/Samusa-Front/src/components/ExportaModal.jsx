@@ -134,6 +134,15 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
     }
   };
 
+  const FechaHoy = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+  const Fechaminima = FechaHoy();
 
   return (
     <div className='Modals'>
@@ -256,7 +265,7 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
                   <p>Fecha esperada actual: {editedExporta.fechaEsperada}</p>
                   <div className="mb-4">
                   <label htmlFor="fechaEsperada" className="block text-sm font-medium text-gray-700">Fecha esperada</label>
-                  <input type="date" name="fechaEsperada" id="fechaEsperada" value={editedExporta.fechaEsperada} onChange={handleInputChange} className="Datein mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <input type="date" name="fechaEsperada" id="fechaEsperada" value={editedExporta.fechaEsperada} onChange={handleInputChange} className="Datein mt-1 p-2 border border-gray-300 rounded-md w-full" min={Fechaminima} />
                 </div>
                 </div>
                 
@@ -267,10 +276,10 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
                  
                  {isEditing ? 
                  <div>
-                  <p>Fecha de finalizacion actual: {editedExporta.fechaFinalizacion}</p>
+                  <p>Fecha de finalización actual: {editedExporta.fechaFinalizacion}</p>
                   <div className="mb-4">
-                  <label htmlFor="fechaFinalizacion" className="block text-sm font-medium text-gray-700">Fecha de finalziacion</label>
-                  <input type="date" name="fechaFinalizacion" id="fechaFinalizacion" value={editedExporta.fechaFinalizacion} onChange={handleInputChange} className="Datein mt-1 p-2 border border-gray-300 rounded-md w-full" />
+                  <label htmlFor="fechaFinalizacion" className="block text-sm font-medium text-gray-700">Fecha de finalización</label>
+                  <input type="date" name="fechaFinalizacion" id="fechaFinalizacion" value={editedExporta.fechaFinalizacion} onChange={handleInputChange} className="Datein mt-1 p-2 border border-gray-300 rounded-md w-full" min={Fechaminima} />
                 </div>
                  </div>
                  : 
@@ -289,7 +298,7 @@ const ExportaModal = ({ user, onClose, isEditing  }) => {
                   </div>
 
                 <div className="mb-4">
-                  <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripcion</label>
+                  <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripción</label>
                   <input type="text" name="descripcion" id="descripcion" value={editedExporta.descripcion} onChange={handleInputChange} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
                 </div>
                 <div className="mb-4">

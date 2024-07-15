@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import encryptionUtils from "../utilities/encryptionUtils";
+import "../css/Register.css";
 
 const Login = () => {
   const [usuario, setUsuario] = useState("");
@@ -89,7 +90,7 @@ const Login = () => {
         </h2>
 
         <form>
-          <div className="mb-4">
+          <div className="mb-4 reginput">
             <label
               htmlFor="usuario"
               className="block text-sm font-semibold text-gray-600 mb-1"
@@ -107,7 +108,7 @@ const Login = () => {
             />
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 reginput">
             <label
               htmlFor="contrasenna"
               className="block text-sm font-semibold text-gray-600 mb-1"

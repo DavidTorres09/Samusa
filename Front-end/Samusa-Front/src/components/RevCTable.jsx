@@ -92,7 +92,7 @@ const RevCTable = () => {
       window.location.reload();
     })
     .catch(error => {
-      alert("Error al eliminar el contenedor" + error.message);
+      alert("Error al eliminar el contenedor el contenedor se encuentra ligado a una IMP o EXP");
       console.error("Error al eliminar la revision de Contenedor:", error.message);
     });
   };
@@ -138,7 +138,7 @@ const RevCTable = () => {
                 <th className="py-4 px-6">Puerto Destino</th>
                 <th className="py-4 px-6">Naviera</th>
                 <th className="py-4 px-6">Transportista</th>
-                <th className="py-4 px-6">Dni del dueño</th>
+                <th className="py-4 px-6">DNI del dueño</th>
                 <th className="py-4 px-6">Estado</th>
                 <th className="py-4 px-6">Acciones</th>
               </tr>

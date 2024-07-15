@@ -120,6 +120,15 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
     }
   };
 
+  const FechaHoy = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    return `${year}-${month}-${day}`;
+  };
+
+  const Fechaminima = FechaHoy();
 
   return (
     <div className='Modals'>
@@ -274,6 +283,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                           value={editedImporta.fechaEsperada}
                           onChange={handleInputChange}
                           className="Datein mt-1 p-2 border border-gray-300 rounded-md w-full"
+                          min={Fechaminima}
                         />
                       </div>
                     </div>
@@ -284,7 +294,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                   {isEditing ? (
                     <div>
                       <p>
-                        Fecha de finalizacion actual:{" "}
+                        Fecha de finalización actual:{" "}
                         {editedImporta.fechaFinalizacion}
                       </p>
                       <div className="mb-4">
@@ -292,7 +302,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                           htmlFor="fechaFinalizacion"
                           className="block text-sm font-medium text-gray-700"
                         >
-                          Fecha de finalziacion
+                          Fecha de finalización
                         </label>
                         <input
                           type="date"
@@ -301,6 +311,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                           value={editedImporta.fechaFinalizacion}
                           onChange={handleInputChange}
                           className="Datein mt-1 p-2 border border-gray-300 rounded-md w-full"
+                          min={Fechaminima}
                         />
                       </div>
                     </div>
@@ -340,7 +351,7 @@ const ImportaModal = ({ user, onClose, isEditing  }) => {
                       htmlFor="descripcion"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Descripcion
+                      Descripción
                     </label>
                     <input
                       type="text"

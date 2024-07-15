@@ -295,12 +295,12 @@ const PerfilForm = () => {
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                   <button
                     type="submit"
-                    className="btn btn-primary me-md-2"
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm animate__animated animate__pulse"
                     onClick={editarPerfil}
                   >
                     Guardar Cambios
                   </button>
-                  <button type="button" className="btn btn-danger">
+                  <button type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm animate__animated animate__pulse">
                     Descartar Cambios
                   </button>
                 </div>

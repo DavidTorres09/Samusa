@@ -6,6 +6,7 @@ import "../Css/datatables.css"
 
 import $ from 'jquery';
 import jszip from 'jszip';
+import { format } from 'date-fns';
 import 'datatables.net-autofill-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-buttons/js/buttons.colVis.mjs';
@@ -123,6 +124,10 @@ const PaqueteriaTable = () => {
     setShowEditModal(false);
   };
 
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), 'dd/MM/yyyy');
+  };
+
   return (
     <>
       <section className='data-table-section'>
@@ -150,7 +155,7 @@ const PaqueteriaTable = () => {
                 <th className="py-4 px-6">Id de paquete</th>
                 <th className="py-4 px-6">Id cliente</th>
                 <th className="py-4 px-6">Casillero</th>
-                <th className="py-4 px-6">Numero de tracking</th>
+                <th className="py-4 px-6">Número de tracking</th>
                 <th className="py-4 px-6">Tipo de producto</th>
                 <th className="py-4 px-6">Origen</th>
                 <th className="py-4 px-6">Destino</th>
@@ -183,9 +188,9 @@ const PaqueteriaTable = () => {
                   item.directDestino
                 :
                 "Aun sin determinar"}</td>
-                  <td className="py-4 px-6">{item.fechaRegistro}</td>
+                  <td className="py-4 px-6">{formatDate(item.fechaRegistro)}</td>
                   <td className="py-4 px-6">{ item.fechaEsperada ?
-                  item.fechaEsperada
+                  formatDate(item.fechaEsperada)
                 :
                 "Aun sin determinar"}</td>
                   <td className="py-4 px-6">

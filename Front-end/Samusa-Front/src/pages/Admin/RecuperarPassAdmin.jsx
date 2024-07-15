@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "../../Css/Register.css";
 
 const RecuperarPassAdmin = () => {
   const [Email, setEmail] = useState("");
@@ -43,7 +44,7 @@ const RecuperarPassAdmin = () => {
           Recuperar mi contraseña
         </h2>
         <form>
-          <div className="mb-4">
+          <div className="mb-4 reginput">
             <label
               htmlFor="Email"
               className="block text-sm text-center font-semibold text-gray-600 mb-1"

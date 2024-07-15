@@ -327,7 +327,7 @@ namespace SamusaBackNew.Controllers
                 if (resultado == null)
                 {
                     respuesta.Codigo = "-1";
-                    respuesta.Mensaje = "Verfique su correo y vuelva a intentar";
+                    respuesta.Mensaje = "Verifique su correo y vuelva a intentar";
                 }
                 else
                 {
